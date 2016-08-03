@@ -1,0 +1,10 @@
+GOTO	PRINT	'sobaka'
+	INC	UReg1
+	INC	UReg2
+	INC	UReg3
+	INC	UReg4
+	INC	UReg5
+	INC	UReg6
+	INC	UReg7
+	INC	UReg8
+	JMP	GOTO

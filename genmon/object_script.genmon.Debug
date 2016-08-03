@@ -1,0 +1,15 @@
+INPUT(
+./debug/main.o
+./debug/mainwindow.o
+./debug/dsuregisterfile.o
+./debug/standartregisterformat.o
+./debug/cpuregisterfile.o
+./debug/tracebufferregisterfile.o
+./debug/dsuproto.o
+./debug/initilizerappdata.o
+./debug/logger.o
+./debug/ftdimodule.o
+./debug/moc_mainwindow.o
+./debug/moc_logger.o
+./debug/qrc_icon.o
+);

@@ -1,0 +1,32 @@
+ start calculate square 
+Analyz name: 1/1-Новый анализ
+square: 2150.07
+Analyz name: 1/2-Новый анализ
+square: 2061.3
+Analyz name: 1/3-416
+square: 2010.4
+Analyz name: 1/4-416
+square: 1466.34
+Analyz name: 1/5-318
+square: 1500.39
+Analyz name: 1/6-318
+square: 1559.75
+Analyz name: 1/7-285
+square: 1545.46
+Analyz name: 1/8-285
+square: 1196.13
+Analyz name: 1/9-142
+square: 1200
+Analyz name: 1/10-142
+square: 1023.01
+Analyz name: 1/12-078
+square: 786.395
+Analyz name: 1/13-078
+square: 877.079
+Analyz name: 1/14-0212
+square: 314.744
+Analyz name: 1/15-0212
+square: 318.793
+Analyz name: 1/16-2,08
+square: 1459.4
+Analyz name: 1/17-2,08

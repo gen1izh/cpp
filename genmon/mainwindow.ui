@@ -1,0 +1,2964 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1229</width>
+    <height>850</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>1</horstretch>
+    <verstretch>1</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <widget class="QSplitter" name="splitter_5">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>1</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QSplitter" name="splitter_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <widget class="QSplitter" name="splitter_2">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QSplitter" name="splitter">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="QGroupBox" name="registersBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>50</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>220</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Регистры</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <item>
+            <widget class="QTabWidget" name="tabWidget">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="tab">
+              <attribute name="title">
+               <string>DSU регистры</string>
+              </attribute>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <item>
+                  <widget class="QTabWidget" name="bmaViewTable">
+                   <property name="tabPosition">
+                    <enum>QTabWidget::South</enum>
+                   </property>
+                   <property name="tabShape">
+                    <enum>QTabWidget::Triangular</enum>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <widget class="QWidget" name="tab_5">
+                    <attribute name="title">
+                     <string>DSUC</string>
+                    </attribute>
+                    <layout class="QHBoxLayout" name="horizontalLayout_5">
+                     <item>
+                      <widget class="QTableWidget" name="dsucViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>DSUC</string>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Arial</family>
+                          <pointsize>7</pointsize>
+                         </font>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>dcnt</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>re</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>dr</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>lr</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ss</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>pe</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ee</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>eb</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>dm</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>de</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bz</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bx</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bd</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bn</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bs</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bw</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>be</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ft</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bt</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>dcm</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>te</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_7">
+                    <attribute name="title">
+                     <string>TBCTL</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_5">
+                     <item>
+                      <widget class="QTableWidget" name="tbctlViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>TBCTL</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>af</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ta</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ti</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>bcnt</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>icnt</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_8">
+                    <attribute name="title">
+                     <string>TTC</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_6">
+                     <item>
+                      <widget class="QTableWidget" name="ttcViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>TTC</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>cnt</string>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <pointsize>8</pointsize>
+                         </font>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_9">
+                    <attribute name="title">
+                     <string>BAD1</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_7">
+                     <item>
+                      <widget class="QTableWidget" name="bad1ViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>BAD1</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>addr</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ex</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_10">
+                    <attribute name="title">
+                     <string>BAD2</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_8">
+                     <item>
+                      <widget class="QTableWidget" name="bad2ViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>BAD2</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>addr</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ex</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_11">
+                    <attribute name="title">
+                     <string>BMA1</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_9">
+                     <item>
+                      <widget class="QTableWidget" name="bma1ViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>BMA1</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>msk</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ld</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>st</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab_6">
+                    <attribute name="title">
+                     <string>BMA2</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_10">
+                     <item>
+                      <widget class="QTableWidget" name="bma2ViewTable">
+                       <property name="font">
+                        <font>
+                         <family>Arial</family>
+                         <pointsize>7</pointsize>
+                        </font>
+                       </property>
+                       <property name="frameShape">
+                        <enum>QFrame::Panel</enum>
+                       </property>
+                       <property name="frameShadow">
+                        <enum>QFrame::Plain</enum>
+                       </property>
+                       <property name="lineWidth">
+                        <number>1</number>
+                       </property>
+                       <property name="alternatingRowColors">
+                        <bool>false</bool>
+                       </property>
+                       <property name="textElideMode">
+                        <enum>Qt::ElideRight</enum>
+                       </property>
+                       <property name="showGrid">
+                        <bool>true</bool>
+                       </property>
+                       <property name="gridStyle">
+                        <enum>Qt::CustomDashLine</enum>
+                       </property>
+                       <property name="sortingEnabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="wordWrap">
+                        <bool>true</bool>
+                       </property>
+                       <property name="cornerButtonEnabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="rowCount">
+                        <number>1</number>
+                       </property>
+                       <attribute name="horizontalHeaderCascadingSectionResizes">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderDefaultSectionSize">
+                        <number>50</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderMinimumSectionSize">
+                        <number>10</number>
+                       </attribute>
+                       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="horizontalHeaderStretchLastSection">
+                        <bool>false</bool>
+                       </attribute>
+                       <attribute name="verticalHeaderDefaultSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <attribute name="verticalHeaderMinimumSectionSize">
+                        <number>16</number>
+                       </attribute>
+                       <row>
+                        <property name="text">
+                         <string>BMA2</string>
+                        </property>
+                       </row>
+                       <column>
+                        <property name="text">
+                         <string>msk</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>ld</string>
+                        </property>
+                       </column>
+                       <column>
+                        <property name="text">
+                         <string>st</string>
+                        </property>
+                       </column>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_2">
+              <attribute name="title">
+               <string>CPU регистры</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_12">
+               <item>
+                <widget class="QTabWidget" name="tabWidget_2">
+                 <property name="tabPosition">
+                  <enum>QTabWidget::South</enum>
+                 </property>
+                 <property name="tabShape">
+                  <enum>QTabWidget::Triangular</enum>
+                 </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="tab_3">
+                  <attribute name="title">
+                   <string>Y</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_16">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_2">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_4">
+                  <attribute name="title">
+                   <string>PSR</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_17">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_3">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_12">
+                  <attribute name="title">
+                   <string>WIM</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_18">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_4">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_13">
+                  <attribute name="title">
+                   <string>TBR</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_19">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_5">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_14">
+                  <attribute name="title">
+                   <string>PC</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_20">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_6">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_15">
+                  <attribute name="title">
+                   <string>nPC</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_21">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_7">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="tab_16">
+                  <attribute name="title">
+                   <string>FSR</string>
+                  </attribute>
+                  <layout class="QVBoxLayout" name="verticalLayout_22">
+                   <item>
+                    <widget class="QTableWidget" name="dsucViewTable_8">
+                     <property name="font">
+                      <font>
+                       <family>Arial</family>
+                       <pointsize>7</pointsize>
+                      </font>
+                     </property>
+                     <property name="frameShape">
+                      <enum>QFrame::Panel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Plain</enum>
+                     </property>
+                     <property name="lineWidth">
+                      <number>1</number>
+                     </property>
+                     <property name="alternatingRowColors">
+                      <bool>false</bool>
+                     </property>
+                     <property name="textElideMode">
+                      <enum>Qt::ElideRight</enum>
+                     </property>
+                     <property name="showGrid">
+                      <bool>true</bool>
+                     </property>
+                     <property name="gridStyle">
+                      <enum>Qt::CustomDashLine</enum>
+                     </property>
+                     <property name="sortingEnabled">
+                      <bool>false</bool>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="cornerButtonEnabled">
+                      <bool>true</bool>
+                     </property>
+                     <property name="rowCount">
+                      <number>1</number>
+                     </property>
+                     <attribute name="horizontalHeaderCascadingSectionResizes">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>50</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderMinimumSectionSize">
+                      <number>10</number>
+                     </attribute>
+                     <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="horizontalHeaderStretchLastSection">
+                      <bool>false</bool>
+                     </attribute>
+                     <attribute name="verticalHeaderDefaultSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <attribute name="verticalHeaderMinimumSectionSize">
+                      <number>16</number>
+                     </attribute>
+                     <row>
+                      <property name="text">
+                       <string>DSUC</string>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Arial</family>
+                        <pointsize>7</pointsize>
+                       </font>
+                      </property>
+                     </row>
+                     <column>
+                      <property name="text">
+                       <string>dcnt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>re</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>lr</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ss</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>pe</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ee</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>eb</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>de</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bz</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bx</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bd</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bn</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bs</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bw</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>be</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>ft</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>bt</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>dcm</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>te</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="dsuRegsUpdateButton">
+                <property name="text">
+                 <string>Обновить</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QGroupBox" name="codeBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>1</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="title">
+           <string>Трассировочный  буффер</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_15">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>50</height>
+              </size>
+             </property>
+             <property name="title">
+              <string>GroupBox</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>step</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_4">
+                <property name="text">
+                 <string>run break</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_3">
+                <property name="text">
+                 <string>PushButton</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_2">
+                <property name="text">
+                 <string>PushButton</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTabWidget" name="tabWidget_3">
+             <property name="currentIndex">
+              <number>0</number>
+             </property>
+             <widget class="QWidget" name="tab_17">
+              <attribute name="title">
+               <string>Трассировка команд</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_13">
+               <item>
+                <widget class="QTableWidget" name="traceBufferView"/>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_18">
+              <attribute name="title">
+               <string>Трассировка шины</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_14">
+               <item>
+                <widget class="QTableWidget" name="traceBufferView_2"/>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QToolBox" name="controlBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>300</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Plain</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="interfacesBrowser">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>300</width>
+            <height>466</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Обзор интерфейсов</string>
+          </attribute>
+          <widget class="QComboBox" name="deviceListBox">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>141</width>
+             <height>21</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+          </widget>
+          <widget class="QLabel" name="deviceInfoLabel">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>241</width>
+             <height>141</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>&lt;table&gt; 
+&lt;tr&gt;
+&lt;td&gt;Device number&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Flags&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Type&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;ID&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;LocId&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;SerialNumber&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;Description&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;ftHandle&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;/table&gt;
+
+</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="deviceBrowserButton">
+           <property name="geometry">
+            <rect>
+             <x>150</x>
+             <y>0</y>
+             <width>41</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Обзор</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="DSUenabled">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>300</width>
+            <height>466</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Включение DSU</string>
+          </attribute>
+          <widget class="QCheckBox" name="dsuEnableBox">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>111</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Включить DSU</string>
+           </property>
+           <property name="tristate">
+            <bool>false</bool>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="dsuBreakBox">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>111</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Break  DSU</string>
+           </property>
+          </widget>
+          <widget class="QCheckBox" name="dsuActiveBox">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>50</y>
+             <width>111</width>
+             <height>17</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Active dsu</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="cmdInterfaceSetting">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>300</width>
+            <height>466</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Настройка командного интерфейса</string>
+          </attribute>
+          <widget class="QPushButton" name="startPortAButton">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>10</y>
+             <width>121</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Запустить порт А</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="stopPortAButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>40</y>
+             <width>121</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Остановить порт А</string>
+           </property>
+          </widget>
+         </widget>
+         <widget class="QWidget" name="mainCmd">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>300</width>
+            <height>466</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Основные команды</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QToolBox" name="mainCmdBox">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="currentIndex">
+              <number>1</number>
+             </property>
+             <widget class="QWidget" name="wmemCmd">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>100</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <attribute name="label">
+               <string>Запись данных в память</string>
+              </attribute>
+              <widget class="QPushButton" name="wmemButton">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>10</y>
+                 <width>61</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Записать</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="fileBrowserButton">
+               <property name="geometry">
+                <rect>
+                 <x>210</x>
+                 <y>70</y>
+                 <width>51</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Обзор</string>
+               </property>
+              </widget>
+              <widget class="QWidget" name="layoutWidget">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>10</y>
+                 <width>181</width>
+                 <height>48</height>
+                </rect>
+               </property>
+               <layout class="QFormLayout" name="formLayout">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label">
+                  <property name="text">
+                   <string>Адрес</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="addrWmemCmdEdit">
+                  <property name="text">
+                   <string>0x40000000</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_2">
+                  <property name="text">
+                   <string>Данные</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="dataWmemCmdEdit">
+                  <property name="text">
+                   <string>0x12345678</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+              <widget class="QWidget" name="layoutWidget">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>70</y>
+                 <width>187</width>
+                 <height>22</height>
+                </rect>
+               </property>
+               <layout class="QFormLayout" name="formLayout_2">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_3">
+                  <property name="text">
+                   <string>Фаил</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="fpathWmemEdit"/>
+                </item>
+               </layout>
+              </widget>
+             </widget>
+             <widget class="QWidget" name="memCmd">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>280</width>
+                <height>365</height>
+               </rect>
+              </property>
+              <attribute name="label">
+               <string>Чтение данных из памяти</string>
+              </attribute>
+              <widget class="QLabel" name="label_4">
+               <property name="geometry">
+                <rect>
+                 <x>13</x>
+                 <y>30</y>
+                 <width>41</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Кол-во 
+ байт</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="memButton">
+               <property name="geometry">
+                <rect>
+                 <x>200</x>
+                 <y>0</y>
+                 <width>51</width>
+                 <height>41</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Считать</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_5">
+               <property name="geometry">
+                <rect>
+                 <x>14</x>
+                 <y>4</y>
+                 <width>31</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Адрес</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="addrMemCmdEdit">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>4</y>
+                 <width>133</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>0x40000000</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="dataCountMemCmdEdit">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>30</y>
+                 <width>133</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>4</string>
+               </property>
+              </widget>
+             </widget>
+             <widget class="QWidget" name="eeloadCmd">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>100</width>
+                <height>30</height>
+               </rect>
+              </property>
+              <attribute name="label">
+               <string>Загрузка\запуск образа </string>
+              </attribute>
+              <widget class="QLabel" name="label_6">
+               <property name="geometry">
+                <rect>
+                 <x>11</x>
+                 <y>11</y>
+                 <width>31</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Адрес</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="fileBrowserEELoadButton">
+               <property name="geometry">
+                <rect>
+                 <x>200</x>
+                 <y>40</y>
+                 <width>41</width>
+                 <height>23</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Обзор</string>
+               </property>
+              </widget>
+              <widget class="QLabel" name="label_7">
+               <property name="geometry">
+                <rect>
+                 <x>10</x>
+                 <y>40</y>
+                 <width>26</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Файл</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="addrEEloadCmdEdit">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>10</y>
+                 <width>133</width>
+                 <height>20</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>0x40000000</string>
+               </property>
+              </widget>
+              <widget class="QLineEdit" name="fpathEEloadEdit">
+               <property name="geometry">
+                <rect>
+                 <x>60</x>
+                 <y>40</y>
+                 <width>131</width>
+                 <height>20</height>
+                </rect>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="eeloadButton">
+               <property name="geometry">
+                <rect>
+                 <x>20</x>
+                 <y>80</y>
+                 <width>61</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Записать</string>
+               </property>
+              </widget>
+              <widget class="QPushButton" name="eeloadButton_2">
+               <property name="geometry">
+                <rect>
+                 <x>90</x>
+                 <y>80</y>
+                 <width>61</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="text">
+                <string>Запустить</string>
+               </property>
+              </widget>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </widget>
+       <widget class="QTabWidget" name="logger">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="tabPosition">
+         <enum>QTabWidget::South</enum>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Triangular</enum>
+        </property>
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <widget class="QWidget" name="systemLog">
+         <attribute name="icon">
+          <iconset resource="icon.qrc">
+           <normaloff>:/icon/icon/sys_log.png</normaloff>:/icon/icon/sys_log.png</iconset>
+         </attribute>
+         <attribute name="title">
+          <string>Системный журнал</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <widget class="QTextEdit" name="systemLogView">
+            <property name="html">
+             <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt;&lt;br /&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="dsuLog">
+         <attribute name="icon">
+          <iconset resource="icon.qrc">
+           <normaloff>:/icon/icon/proto_log.png</normaloff>:/icon/icon/proto_log.png</iconset>
+         </attribute>
+         <attribute name="title">
+          <string>Протокол взаимодействия</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QPlainTextEdit" name="protocolLogView">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="plainText">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1229</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="icon.qrc"/>
+ </resources>
+ <connections/>
+</ui>

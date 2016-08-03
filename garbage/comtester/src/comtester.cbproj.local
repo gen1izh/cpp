@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2012.08.07 23:18:06.325.cpp,C:\Users\комп\Documents\RAD Studio\Projects\Unit1.cpp=F:\test_ftdi\test_ftdi.cpp</Transaction>
+    <Transaction>2012.08.07 23:18:06.325.h,C:\Users\комп\Documents\RAD Studio\Projects\Unit1.h=F:\test_ftdi\test_ftdi.h</Transaction>
+    <Transaction>2012.08.07 23:18:06.325.dfm,C:\Users\комп\Documents\RAD Studio\Projects\Unit1.dfm=F:\test_ftdi\test_ftdi.dfm</Transaction>
+    <Transaction>2012.08.07 23:18:35.775.cbproj,C:\Users\комп\Documents\RAD Studio\Projects\Project8.cbproj=F:\test_ftdi\test_ftdi_pro.cbproj</Transaction>
+    <Transaction>2012.08.10 21:20:59.959.cpp,F:\test_ftdi\Unit1.cpp=F:\test_ftdi\thread_adapter.cpp</Transaction>
+    <Transaction>2012.08.10 21:20:59.959.h,F:\test_ftdi\Unit1.h=F:\test_ftdi\thread_adapter.h</Transaction>
+    <Transaction>2012.08.10 21:28:30.750.cpp,F:\test_ftdi\Unit1.cpp=F:\test_ftdi\device_op_adapter.cpp</Transaction>
+    <Transaction>2012.08.10 21:28:30.750.h,F:\test_ftdi\Unit1.h=F:\test_ftdi\device_op_adapter.h</Transaction>
+    <Transaction>2012.08.11 09:48:03.598.cpp,F:\test_ftdi\Unit1.cpp=F:\test_ftdi\command.cpp</Transaction>
+    <Transaction>2012.08.11 09:48:03.615.h,F:\test_ftdi\Unit1.h=F:\test_ftdi\command.h</Transaction>
+    <Transaction>2012.08.11 09:48:14.174.cpp,F:\test_ftdi\command.cpp=F:\test_ftdi\command_proto.cpp</Transaction>
+    <Transaction>2012.08.11 09:48:14.174.h,F:\test_ftdi\command.h=F:\test_ftdi\command_proto.h</Transaction>
+    <Transaction>2012.08.11 20:53:36.926.cpp,F:\test_ftdi\device_op_adapter.cpp=F:\test_ftdi\device_ftdi_ops.cpp</Transaction>
+    <Transaction>2012.08.11 20:53:36.926.h,F:\test_ftdi\device_op_adapter.h=F:\test_ftdi\device_ftdi_ops.h</Transaction>
+    <Transaction>2012.08.11 20:53:54.022.cpp,F:\test_ftdi\command_proto.cpp=F:\test_ftdi\device_ops.cpp</Transaction>
+    <Transaction>2012.08.11 20:53:54.022.h,F:\test_ftdi\command_proto.h=F:\test_ftdi\device_ops.h</Transaction>
+    <Transaction>2012.08.12 20:24:11.942.cpp,F:\test_ftdi\Unit1.cpp=F:\test_ftdi\data_structures.cpp</Transaction>
+    <Transaction>2012.08.12 20:24:11.955.h,F:\test_ftdi\Unit1.h=F:\test_ftdi\data_structures.h</Transaction>
+    <Transaction>2012.08.18 19:51:29.290.LIB,F:\test_ftdi\FTD2XX.LIB=</Transaction>
+    <Transaction>2013.04.06 08:27:39.442.cpp,F:\test_ftdi\Unit1.cpp=</Transaction>
+    <Transaction>2013.04.06 08:33:35.027.cpp,F:\test_ftdi\device_ops.cpp=</Transaction>
+    <Transaction>2013.04.06 09:18:27.910.cpp,F:\test_ftdi\device_ftdi_ops.cpp=F:\test_ftdi\ftdiapiwrapper.cpp</Transaction>
+    <Transaction>2013.04.06 09:18:27.910.h,F:\test_ftdi\device_ftdi_ops.h=F:\test_ftdi\ftdiapiwrapper.h</Transaction>
+    <Transaction>2013.04.06 09:19:39.739.cpp,F:\test_ftdi\test_ftdi.cpp=F:\test_ftdi\testcomport.cpp</Transaction>
+    <Transaction>2013.04.06 09:19:39.739.h,F:\test_ftdi\test_ftdi.h=F:\test_ftdi\testcomport.h</Transaction>
+    <Transaction>2013.04.06 09:19:39.739.dfm,F:\test_ftdi\test_ftdi.dfm=F:\test_ftdi\testcomport.dfm</Transaction>
+    <Transaction>2013.04.06 09:29:30.387.cpp,F:\test_ftdi\data_structures.cpp=F:\test_ftdi\datamodel.cpp</Transaction>
+    <Transaction>2013.04.06 09:29:30.387.h,F:\test_ftdi\data_structures.h=F:\test_ftdi\datamodel.h</Transaction>
+    <Transaction>2013.04.06 09:42:47.070.cpp,F:\test_ftdi\thread_adapter.cpp=F:\test_ftdi\receiverthread.cpp</Transaction>
+    <Transaction>2013.04.06 09:42:47.070.h,F:\test_ftdi\thread_adapter.h=F:\test_ftdi\receiverthread.h</Transaction>
+    <Transaction>2013.04.06 09:43:55.507.cbproj,F:\test_ftdi\test_ftdi_pro.cbproj=F:\test_ftdi\comtester.cbproj</Transaction>
+  </Transactions>
+</BorlandProject>

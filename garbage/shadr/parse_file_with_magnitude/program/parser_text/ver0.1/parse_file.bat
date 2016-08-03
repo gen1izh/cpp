@@ -1,0 +1,1 @@
+parser.exe export_C.txt > result.txt

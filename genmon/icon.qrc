@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>icon/dsu_active.png</file>
+        <file>icon/dsu_no_active.png</file>
+        <file>icon/proto_log.png</file>
+        <file>icon/sys_log.png</file>
+    </qresource>
+</RCC>

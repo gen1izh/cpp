@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/run.png</file>
+        <file>img/run_in_debug_mode.png</file>
+        <file>img/step.png</file>
+    </qresource>
+</RCC>

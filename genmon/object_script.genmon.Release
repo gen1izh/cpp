@@ -1,0 +1,15 @@
+INPUT(
+./release/main.o
+./release/mainwindow.o
+./release/dsuregisterfile.o
+./release/standartregisterformat.o
+./release/cpuregisterfile.o
+./release/tracebufferregisterfile.o
+./release/dsuproto.o
+./release/initilizerappdata.o
+./release/logger.o
+./release/ftdimodule.o
+./release/moc_mainwindow.o
+./release/moc_logger.o
+./release/qrc_icon.o
+);

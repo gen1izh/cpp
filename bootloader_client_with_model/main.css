@@ -1,0 +1,31 @@
+.brd_body {
+ border: 1px solid black; /* Параметры границы */
+ background: white; /* Цвет фона */
+ text-align: center;
+}
+  
+.brd_body_telemetry {
+ border: 1px solid black; /* Параметры границы */
+ background: cyan; /* Цвет фона */
+ text-align: center;
+}
+
+.brd_body_ack {
+ border: 1px solid black; /* Параметры границы */
+ background: yellow; /* Цвет фона */
+ text-align: center;
+}
+
+.brd_body_cmd {
+ border: 1px solid black; /* Параметры границы */
+ background: white; /* Цвет фона */
+ text-align: center;
+}
+
+
+.brd_header {
+ border: 1px solid black; /* Параметры границы */
+ background: #fc3; /* Цвет фона */
+ text-align: center;
+}
+  

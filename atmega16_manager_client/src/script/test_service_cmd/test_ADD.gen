@@ -1,0 +1,7 @@
+GOTO	PRINT	'sobaka'
+	INC	UReg1
+	INC	UReg2
+	ADD	UReg1,UReg2
+	ADD	UReg1,10
+	ADD	UReg1,UReg1
+	JMP	GOTO
