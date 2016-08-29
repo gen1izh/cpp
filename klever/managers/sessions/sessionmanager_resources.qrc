@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/sessionmanager">
+        <file>img/sessionmanager.png</file>
+        <file>img/add.png</file>
+        <file>img/connect.png</file>
+        <file>img/del.png</file>
+        <file>img/settings/sessions.png</file>
+    </qresource>
+</RCC>

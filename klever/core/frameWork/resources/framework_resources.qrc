@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/cascade.png</file>
+        <file>images/help.png</file>
+        <file>images/logo.png</file>
+        <file>images/modules_info.png</file>
+        <file>images/tile_vertical.png</file>
+        <file>images/scriptapi.png</file>
+        <file>images/mdi_logo.png</file>
+    </qresource>
+</RCC>

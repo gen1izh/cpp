@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/qled">
+        <file>img/circle_black.svg</file>
+        <file>img/circle_blue.svg</file>
+        <file>img/circle_green.svg</file>
+        <file>img/circle_grey.svg</file>
+        <file>img/circle_orange.svg</file>
+        <file>img/circle_purple.svg</file>
+        <file>img/circle_red.svg</file>
+        <file>img/circle_yellow.svg</file>
+        <file>img/led_triangular_1_green.svg</file>
+        <file>img/led_triangular_1_grey.svg</file>
+        <file>img/led_triangular_1_red.svg</file>
+        <file>img/molumen_multicolor_power_buttons.svg</file>
+        <file>img/rect_green.svg</file>
+        <file>img/rect_grey.svg</file>
+        <file>img/round_blue.svg</file>
+        <file>img/round_green.svg</file>
+        <file>img/round_grey.svg</file>
+        <file>img/round_orange.svg</file>
+        <file>img/round_purple.svg</file>
+        <file>img/round_red.svg</file>
+        <file>img/round_yellow.svg</file>
+        <file>img/square_blue.svg</file>
+        <file>img/square_green.svg</file>
+        <file>img/square_grey.svg</file>
+        <file>img/square_orange.svg</file>
+        <file>img/square_purple.svg</file>
+        <file>img/square_red.svg</file>
+        <file>img/square_yellow.svg</file>
+        <file>img/triang_blue.svg</file>
+        <file>img/triang_green.svg</file>
+        <file>img/triang_grey.svg</file>
+        <file>img/triang_orange.svg</file>
+        <file>img/triang_purple.svg</file>
+        <file>img/triang_red.svg</file>
+        <file>img/triang_yellow.svg</file>
+    </qresource>
+</RCC>

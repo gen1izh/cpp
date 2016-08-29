@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestsequenceExecutorWidget</class>
+ <widget class="QWidget" name="TestsequenceExecutorWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>998</width>
+    <height>602</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QToolBar" name="startPanel"/>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="testTab">
+      <attribute name="title">
+       <string>Тестовая последовательность</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QTreeView" name="testView">
+         <property name="font">
+          <font>
+           <family>Times New Roman</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="reportTab">
+      <attribute name="title">
+       <string>Отчет</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QToolBox" name="reportToolBox">
+         <property name="currentIndex">
+          <number>1</number>
+         </property>
+         <widget class="QWidget" name="page">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>479</width>
+            <height>279</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Выбор отчета</string>
+          </attribute>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string/>
+             </property>
+             <layout class="QGridLayout" name="gridLayout">
+              <item row="0" column="0">
+               <widget class="QLabel" name="startTimeLabel">
+                <property name="text">
+                 <string>Начало исполнения</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3" rowspan="12">
+               <widget class="QCalendarWidget" name="calendarWidget">
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="gridVisible">
+                 <bool>true</bool>
+                </property>
+                <property name="verticalHeaderFormat">
+                 <enum>QCalendarWidget::ISOWeekNumbers</enum>
+                </property>
+                <property name="navigationBarVisible">
+                 <bool>true</bool>
+                </property>
+                <property name="dateEditEnabled">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
+               <widget class="QLabel" name="updateTimeLabel">
+                <property name="text">
+                 <string>Время обновления (сек.)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="0">
+               <spacer name="verticalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="6" column="0">
+               <widget class="QSpinBox" name="updateTimeBox">
+                <property name="minimum">
+                 <number>2</number>
+                </property>
+                <property name="value">
+                 <number>4</number>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QComboBox" name="testListBox"/>
+              </item>
+              <item row="8" column="0">
+               <widget class="QPushButton" name="createFullReportButton">
+                <property name="text">
+                 <string>Сохранить в html (полный отчет)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QPushButton" name="deleteReportButton">
+                <property name="text">
+                 <string>Удалить</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QPushButton" name="openReportButton">
+                <property name="text">
+                 <string>Открыть</string>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="0">
+               <widget class="QPushButton" name="createSmallReportButton">
+                <property name="text">
+                 <string>Сохранить в html (короткий отчет)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QCheckBox" name="updateReportOnTimer">
+                <property name="text">
+                 <string>Таймер включен</string>
+                </property>
+                <property name="checkable">
+                 <bool>true</bool>
+                </property>
+                <property name="checked">
+                 <bool>false</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="page_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>956</width>
+            <height>475</height>
+           </rect>
+          </property>
+          <attribute name="label">
+           <string>Результат</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QTreeView" name="reportView">
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="htmlReportTab">
+      <attribute name="title">
+       <string>Html отчет </string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QWebView" name="htmlReportWebView">
+         <property name="url">
+          <url>
+           <string>about:blank</string>
+          </url>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="htmlReportControlsBox">
+         <property name="maximumSize">
+          <size>
+           <width>137</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QPushButton" name="openHtmlReportInDefaultBrowserButton">
+            <property name="text">
+             <string>Открыть в браузере</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="printReportButton">
+            <property name="text">
+             <string>Печать</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveButton">
+            <property name="text">
+             <string>Сохранить</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header>QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

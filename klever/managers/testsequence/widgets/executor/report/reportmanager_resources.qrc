@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/htmlrep">
+        <file>htmlrep/resources/jquery-2.1.4.js</file>
+        <file>htmlrep/resources/jquery-ui.css</file>
+        <file>htmlrep/resources/jquery-ui.js</file>
+        <file>htmlrep/resources/style.css</file>
+        <file>htmlrep/resources/tree.css</file>
+        <file>htmlrep/resources/tree.js</file>
+        <file>htmlrep/resources/images/expand_leaf.gif</file>
+        <file>htmlrep/resources/images/expand_loading.gif</file>
+        <file>htmlrep/resources/images/expand_minus.gif</file>
+        <file>htmlrep/resources/images/expand_plus.gif</file>
+        <file>htmlrep/resources/images/i.gif</file>
+        <file>htmlrep/resources/images/i_half.gif</file>
+        <file>htmlrep/resources/images/ui-bg_diagonals-thick_18_b81900_40x40.png</file>
+        <file>htmlrep/resources/images/ui-bg_highlight-soft_75_ffe45c_1x100.png</file>
+        <file>htmlrep/resources/images/error.png</file>
+        <file>htmlrep/resources/images/info.png</file>
+        <file>htmlrep/resources/images/logo.png</file>
+        <file>htmlrep/resources/images/warn.png</file>
+    </qresource>
+</RCC>

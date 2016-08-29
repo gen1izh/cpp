@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/template_icons"/>
+    <qresource prefix="/template_info_files">
+        <file>doc/CHANGELOG</file>
+        <file>doc/INFO</file>
+    </qresource>
+</RCC>

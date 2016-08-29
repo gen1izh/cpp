@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/logger">
+        <file>img/error.png</file>
+        <file>img/info.png</file>
+        <file>img/logwatcher.png</file>
+        <file>img/warn.png</file>
+    </qresource>
+</RCC>

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/tubemanager">
+        <file>img/manager.png</file>
+    </qresource>
+</RCC>

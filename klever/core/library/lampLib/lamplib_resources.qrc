@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/lamplib">
+        <file>img/active.png</file>
+        <file>img/disable.png</file>
+        <file>img/fail.png</file>
+        <file>img/no_active.png</file>
+        <file>img/ping.png</file>
+        <file>img/ready.png</file>
+        <file>img/traffic.png</file>
+    </qresource>
+</RCC>
