@@ -150,7 +150,7 @@ void GroupModel::addGroup(QString name, QString parent, QString role, QString de
     group->save();
 }
 
-void GroupModel::deleteGroup(const QModelIndex &index)
+void GroupModel::deleteRecursiveGroup(const QModelIndex &index)
 {
     QStringList groupsList;
     groupsList.clear();
@@ -184,14 +184,29 @@ void GroupModel::deleteGroup(const QModelIndex &index)
            isDeleteProceed = false;
         }
     }
+}
 
+void GroupModel::deleteGroup(const QModelIndex &index)
+{
+    QStringList groupsList;
+    groupsList.clear();
+
+    QString name = data(index, Qt::DisplayRole).toString();
+    // Удаляем группу
+    if (getItem(index)->childCount()>0) {
+        removeRows(0, 1, index);
+    }
+
+    QDjangoQuerySet<Group> groups;
+    QDjangoQuerySet<Group> someGroups;
+    someGroups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    someGroups.remove();
 }
 
 void GroupModel::updateModel()
 {
-
+    // Удаляем все дерево
     if (m_rootItem->childCount()!=0/*TODO: Hack, без него сигфолт*/) {
-        // Удаляем все дерево
         if (!removeRows(0, m_rootItem->childCount())) {
           qDebug() << "Can not delete rows!";
         }

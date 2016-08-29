@@ -41,6 +41,8 @@ public:
 
     void addGroup(QString name, QString parent, QString role, QString description);
 
+    void deleteRecursiveGroup(const QModelIndex &index);
+
     void deleteGroup(const QModelIndex &index);
 
     void updateModel();

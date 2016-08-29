@@ -50,6 +50,9 @@
    </item>
    <item row="0" column="3">
     <widget class="QLineEdit" name="groupEdit">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="maxLength">
       <number>50</number>
      </property>

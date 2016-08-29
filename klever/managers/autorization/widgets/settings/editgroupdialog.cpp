@@ -56,7 +56,7 @@ QString EditGroupDialog::role() const
 
 QString EditGroupDialog::description() const
 {
-    return ui->rolesBox->currentText();
+    return ui->descriptionEdit->toPlainText();
 }
 
 

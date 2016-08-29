@@ -63,8 +63,6 @@ void PersonalData::on_addGroupButton_clicked()
             msgBox.exec();
         }
     }
-    else {
-    }
 
 }
 
@@ -73,20 +71,20 @@ void PersonalData::on_editGroupButton_clicked()
     EditGroupDialog *dial = new EditGroupDialog(NULL,
           m_model->data(ui->groupsView->currentIndex(), Qt::DisplayRole).toString());
 
-      m_model->deleteGroup(ui->groupsView->currentIndex());
+     QModelIndex tmp = ui->groupsView->currentIndex();
 
     if ( dial->exec() == QDialog::Accepted ) {
+      m_model->deleteGroup(tmp);
       m_model->addGroup(dial->name(), dial->parent(), dial->role(), dial->description());
       m_model->updateModel();
       ui->groupsView->expandAll();
     }
-    else {
-    }
+
 }
 
 void PersonalData::on_deleteGroupButton_clicked()
 {
-  m_model->deleteGroup(ui->groupsView->currentIndex());
+  m_model->deleteRecursiveGroup(ui->groupsView->currentIndex());
   m_model->updateModel();
   ui->groupsView->expandAll();
 }
