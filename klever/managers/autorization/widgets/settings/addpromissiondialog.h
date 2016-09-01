@@ -1,5 +1,5 @@
-#ifndef ADDPROMISSIONDIALOG_H
-#define ADDPROMISSIONDIALOG_H
+#ifndef ADD_PROMISSION_DIALOG_H
+#define ADD_PROMISSION_DIALOG_H
 
 #include <QDialog>
 
@@ -15,8 +15,11 @@ public:
   explicit AddPromissionDialog(QWidget *parent = 0);
   ~AddPromissionDialog();
 
+  QString name() const;
+  QString signature() const;
+
 private:
   Ui::AddPromissionDialog *ui;
 };
 
-#endif // ADDPROMISSIONDIALOG_H
+#endif // ADD_PROMISSION_DIALOG_H

@@ -7,10 +7,14 @@
 #include "adduserdialog.h"
 #include "edituserdialog.h"
 
-#include <library/orm/db/QDjangoQuerySet.h>
-#include "models/groupqdjangomodel.h"
+#include "addpromissiondialog.h"
 
+#include <library/orm/db/QDjangoQuerySet.h>
+
+#include "models/groupqdjangomodel.h"
 #include "models/userqdjangomodel.h"
+#include "models/promissionqdjangomodel.h"
+
 
 #include <QMessageBox>
 
@@ -34,10 +38,13 @@ PersonalData::PersonalData(QWidget *parent) :
 
     // Создание модели пользователей
     m_modelUsers = new UserModel();
-
     m_modelUsers->setStringList(m_modelUsers->selectAllUsers());
-
     ui->usersView->setModel(m_modelUsers);
+
+    // Создание модели разрешений
+    m_modelPromissions = new PromissionModel();
+    m_modelPromissions->setStringList(m_modelPromissions->selectAllPromission());
+    ui->promissionsView->setModel(m_modelPromissions);
 
 }
 
@@ -163,4 +170,38 @@ void PersonalData::on_deleteUserButton_clicked()
 {
     m_modelUsers->deleteUser(ui->usersView->currentIndex());
     m_modelUsers->updateModel();
+}
+
+void PersonalData::on_addPromissionButton_clicked()
+{
+    AddPromissionDialog *dial = new AddPromissionDialog();
+
+    if ( dial->exec() == QDialog::Accepted ) {
+
+        QDjangoQuerySet<Promission> proms;
+        bool isFind = false;
+
+        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["signature"].toString() == dial->signature()) {
+                isFind = true;
+            }
+        }
+
+        if (!isFind) {
+            m_modelPromissions->addPromission(dial->name(), dial->signature(), "");
+            m_modelPromissions->updateModel();
+        }
+        else {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Разрешение с таким названием уже существует!"));
+            msgBox.exec();
+        }
+    }
+}
+
+void PersonalData::on_deletePromissionButton_clicked()
+{
+    m_modelPromissions->deletePromission(ui->promissionsView->currentIndex());
+    m_modelPromissions->updateModel();
 }

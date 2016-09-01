@@ -6,6 +6,7 @@
 
 #include "models/usermodel.h"
 #include "models/groupmodel.h"
+#include "models/promissionmodel.h"
 
 namespace Ui {
 class PersonalData;
@@ -15,8 +16,9 @@ class PersonalData : public QWidget
 {
   Q_OBJECT
 
-   GroupModel *m_modelGroups;
-   UserModel  *m_modelUsers;
+   GroupModel       *m_modelGroups;
+   UserModel        *m_modelUsers;
+   PromissionModel  *m_modelPromissions;
 
 public:
   explicit PersonalData(QWidget *parent = 0);
@@ -34,6 +36,10 @@ private slots:
    void on_editUserButton_clicked();
 
    void on_deleteUserButton_clicked();
+
+   void on_addPromissionButton_clicked();
+
+   void on_deletePromissionButton_clicked();
 
 private:
   Ui::PersonalData *ui;

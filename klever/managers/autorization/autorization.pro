@@ -16,7 +16,9 @@ HEADERS += widgets/settings/autorizationsettingswidget.h \
     widgets/settings/models/groupmodel.h \
     widgets/settings/models/groupqdjangomodel.h \
     widgets/settings/models/userqdjangomodel.h \
-    widgets/settings/models/usermodel.h
+    widgets/settings/models/usermodel.h \
+    widgets/settings/models/promissionqdjangomodel.h \
+    widgets/settings/models/promissionmodel.h
 HEADERS += autorizationmanager.h
 
 # Исходные файлы
@@ -33,7 +35,9 @@ SOURCES += widgets/settings/autorizationsettingswidget.cpp \
     widgets/settings/models/groupmodel.cpp \
     widgets/settings/models/groupqdjangomodel.cpp \
     widgets/settings/models/userqdjangomodel.cpp \
-    widgets/settings/models/usermodel.cpp
+    widgets/settings/models/usermodel.cpp \
+    widgets/settings/models/promissionqdjangomodel.cpp \
+    widgets/settings/models/promissionmodel.cpp
 SOURCES += autorizationmanager.cpp
 
 # Ресурсы
