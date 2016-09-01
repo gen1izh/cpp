@@ -31,7 +31,7 @@ AddGroupDialog::AddGroupDialog(QWidget *parent) :
 
 AddGroupDialog::~AddGroupDialog()
 {
-     delete ui;
+    delete ui;
 }
 
 QString AddGroupDialog::name() const

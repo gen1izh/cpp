@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>484</width>
-    <height>177</height>
+    <width>374</width>
+    <height>170</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,14 +15,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="roleLabel">
      <property name="text">
       <string>Роль</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="roleEdit">
      <property name="maxLength">
       <number>50</number>
      </property>
@@ -32,24 +32,24 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="promissionLabel">
      <property name="text">
       <string>Разрешение</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="promissionBox"/>
    </item>
    <item row="1" column="2">
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="addButton">
      <property name="text">
       <string>Добавить</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="promissionEdit">
      <property name="maxLength">
       <number>4000</number>
      </property>

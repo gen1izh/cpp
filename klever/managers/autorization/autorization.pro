@@ -10,12 +10,13 @@ HEADERS += widgets/settings/autorizationsettingswidget.h \
     widgets/settings/adduserdialog.h \
     widgets/settings/edituserdialog.h \
     widgets/settings/addpromissiondialog.h \
-    widgets/settings/editpromissiondialog.h \
     widgets/settings/addroledialog.h \
     widgets/settings/editroledialog.h \
     widgets/settings/models/groupitem.h \
     widgets/settings/models/groupmodel.h \
-    widgets/settings/models/groupqdjangomodel.h
+    widgets/settings/models/groupqdjangomodel.h \
+    widgets/settings/models/userqdjangomodel.h \
+    widgets/settings/models/usermodel.h
 HEADERS += autorizationmanager.h
 
 # Исходные файлы
@@ -26,12 +27,13 @@ SOURCES += widgets/settings/autorizationsettingswidget.cpp \
     widgets/settings/adduserdialog.cpp \
     widgets/settings/edituserdialog.cpp \
     widgets/settings/addpromissiondialog.cpp \
-    widgets/settings/editpromissiondialog.cpp \
     widgets/settings/addroledialog.cpp \
     widgets/settings/editroledialog.cpp \
     widgets/settings/models/groupitem.cpp \
     widgets/settings/models/groupmodel.cpp \
-    widgets/settings/models/groupqdjangomodel.cpp
+    widgets/settings/models/groupqdjangomodel.cpp \
+    widgets/settings/models/userqdjangomodel.cpp \
+    widgets/settings/models/usermodel.cpp
 SOURCES += autorizationmanager.cpp
 
 # Ресурсы
@@ -47,7 +49,6 @@ FORMS += \
     widgets/settings/adduserdialog.ui \
     widgets/settings/edituserdialog.ui \
     widgets/settings/addpromissiondialog.ui \
-    widgets/settings/editpromissiondialog.ui \
     widgets/settings/addroledialog.ui \
     widgets/settings/editroledialog.ui
 

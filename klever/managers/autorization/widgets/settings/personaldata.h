@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QDebug>
 
+#include "models/usermodel.h"
 #include "models/groupmodel.h"
 
 namespace Ui {
@@ -14,7 +15,8 @@ class PersonalData : public QWidget
 {
   Q_OBJECT
 
-   GroupModel *m_model;
+   GroupModel *m_modelGroups;
+   UserModel  *m_modelUsers;
 
 public:
   explicit PersonalData(QWidget *parent = 0);
@@ -28,6 +30,10 @@ private slots:
    void on_editGroupButton_clicked();
 
    void on_deleteGroupButton_clicked();
+
+   void on_editUserButton_clicked();
+
+   void on_deleteUserButton_clicked();
 
 private:
   Ui::PersonalData *ui;

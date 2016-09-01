@@ -35,7 +35,7 @@
       <enum>QTabWidget::Triangular</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="groupsTab">
       <attribute name="title">
@@ -135,7 +135,7 @@
        <string>Разрешения</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0" rowspan="5">
+       <item row="0" column="0" rowspan="4">
         <widget class="QListView" name="promissionsView"/>
        </item>
        <item row="0" column="1">
@@ -149,13 +149,6 @@
         <widget class="QPushButton" name="deletePromissionButton">
          <property name="text">
           <string>Удалить</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QPushButton" name="editPromissionButton">
-         <property name="text">
-          <string>Редактировать</string>
          </property>
         </widget>
        </item>

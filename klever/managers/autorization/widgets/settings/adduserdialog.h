@@ -15,6 +15,13 @@ public:
   explicit AddUserDialog(QWidget *parent = 0);
   ~AddUserDialog();
 
+  QString username() const;
+  QString group() const;
+  QString password() const;
+
+private slots:
+  void on_addButton_clicked();
+
 private:
   Ui::AddUserDialog *ui;
 };
