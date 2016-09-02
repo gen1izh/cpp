@@ -9,16 +9,18 @@
 
 #include "addpromissiondialog.h"
 
+#include "addroledialog.h"
+#include "editroledialog.h"
+
 #include <library/orm/db/QDjangoQuerySet.h>
 
 #include "models/groupqdjangomodel.h"
 #include "models/userqdjangomodel.h"
 #include "models/promissionqdjangomodel.h"
+#include "models/roleqdjangomodel.h"
 
 
 #include <QMessageBox>
-
-
 
 PersonalData::PersonalData(QWidget *parent) :
   QWidget(parent),
@@ -45,6 +47,11 @@ PersonalData::PersonalData(QWidget *parent) :
     m_modelPromissions = new PromissionModel();
     m_modelPromissions->setStringList(m_modelPromissions->selectAllPromission());
     ui->promissionsView->setModel(m_modelPromissions);
+
+    // Создание модели ролей
+    m_modelRoles = new RoleModel();
+    m_modelRoles->setStringList(m_modelRoles->selectAllRoles());
+    ui->rolesView->setModel(m_modelRoles);
 
 }
 
@@ -204,4 +211,69 @@ void PersonalData::on_deletePromissionButton_clicked()
 {
     m_modelPromissions->deletePromission(ui->promissionsView->currentIndex());
     m_modelPromissions->updateModel();
+}
+
+void PersonalData::on_addRoleButton_clicked()
+{
+    AddRoleDialog *dial = new AddRoleDialog();
+
+    if ( dial->exec() == QDialog::Accepted ) {
+        QDjangoQuerySet<Role> proms;
+        bool isFind = false;
+
+        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "promission");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["name"].toString() == dial->name()) {
+                isFind = true;
+            }
+        }
+
+        if (!isFind) {
+            m_modelRoles->addRole(dial->name(), dial->promissions());
+            m_modelRoles->updateModel();
+        }
+        else {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Роль с таким названием уже существует!"));
+            msgBox.exec();
+        }
+    }
+}
+
+void PersonalData::on_editRoleButton_clicked()
+{
+  EditRoleDialog *dial = new EditRoleDialog(NULL,
+        m_modelRoles->data(ui->rolesView->currentIndex(), Qt::DisplayRole).toString());
+
+   QModelIndex tmp = ui->rolesView->currentIndex();
+
+  if ( dial->exec() == QDialog::Accepted ) {
+
+      m_modelRoles->deleteRole(tmp);
+
+      QDjangoQuerySet<Role> roles;
+      bool isFind = false;
+
+      QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name");
+      foreach (const QVariantMap &propertyMap, propertyMaps) {
+          if (propertyMap["name"].toString() == dial->name()) {
+              isFind = true;
+          }
+      }
+
+      if (!isFind) {
+          m_modelRoles->addRole(dial->name(), dial->promission());
+          m_modelRoles->updateModel();
+      } else {
+          QMessageBox msgBox;
+          msgBox.setText(tr("Роль с таким названием уже существует!"));
+          msgBox.exec();
+      }
+  }
+}
+
+void PersonalData::on_deleteRoleButton_clicked()
+{
+    m_modelRoles->deleteRole(ui->rolesView->currentIndex());
+    m_modelRoles->updateModel();
 }

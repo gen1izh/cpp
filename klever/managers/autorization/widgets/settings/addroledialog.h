@@ -15,6 +15,12 @@ public:
   explicit AddRoleDialog(QWidget *parent = 0);
   ~AddRoleDialog();
 
+  QString name() const;
+  QString promissions() const;
+
+private slots:
+  void on_addButton_clicked();
+
 private:
   Ui::AddRoleDialog *ui;
 };

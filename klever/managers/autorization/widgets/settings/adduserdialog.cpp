@@ -12,7 +12,7 @@ AddUserDialog::AddUserDialog(QWidget *parent) :
 {
   ui->setupUi(this);
 
-  QRegExp rx("[A-Za-z0-9]+");
+  QRegExp rx("^(\\w+\\s+)$");
   QValidator *validator = new QRegExpValidator(rx, this);
 
   ui->usernameEdit->setValidator(validator);
