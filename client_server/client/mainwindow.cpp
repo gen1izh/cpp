@@ -29,26 +29,15 @@ MainWindow::~MainWindow()
 
 QByteArray MainWindow::createJsonPacket(QString algo, QString text)
 {
-    QJsonArray   packet;
-    QJsonObject  packetObject;
-
-    packet = packetObject["format"].toArray();
-
-    QJsonObject _algo;
-    _algo["algo"] = algo;
-
-    packet.append(_algo);
-
-    QStringList strList = text.split('\n');
-
+    QStringList Strings = text.split('\n');
     QJsonArray _text;
+    _text = QJsonArray::fromStringList(Strings);
 
-    _text.fromStringList(strList);
-
-    packet.append(_text);
+    QJsonObject packet;
+    packet["algo"] = algo;
+    packet["text"] = _text;
 
     QJsonDocument doc(packet);
-
     return doc.toJson();
 }
 
@@ -62,11 +51,9 @@ void MainWindow::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &
         return;
     }
 
-    QJsonObject _algo  = packet.array().at(0);
+    algo = packet.object()["algo"].toString();
 
-    QJsonArray  _text  = packet.array().at(1);
-
-    algo = _algo["algo"].toString();
+    QJsonArray  _text  = packet.object()["text"].toArray();
 
     text.clear();
 
@@ -107,13 +94,17 @@ void MainWindow::readyRead()
         QTime       time;
         QByteArray  packet;
         QString     algo;
-        QString     text;
+        QStringList text;
 
         in >> time >> packet;
 
         parseJsonPacket(packet, algo, text);
 
-        ui->logEdit->append(time.toString() + " [" + algo + "] - " + text);
+        ui->logEdit->append(time.toString() + " Server has sended answer - [" + algo + "] text: ");
+        for ( int i = 0; i < text.size(); i++ ) {
+            ui->logEdit->append(text.at(i));
+        }
+
         m_blockSize = 0;
     }
 }

@@ -7,20 +7,13 @@ Server::Server(QObject *parent) : QObject(parent)
 
 QByteArray Server::createJsonPacket(QString algo, QString text)
 {
-    QJsonArray packet;
-
-    QJsonObject _algo;
-    _algo["algo"] = algo;
-
-    packet.append(_algo);
-
-    QStringList strList = text.split('\n');
-
+    QStringList Strings = text.split('\n');
     QJsonArray _text;
+    _text = QJsonArray::fromStringList(Strings);
 
-    _text.fromStringList(strList);
-
-    packet.append(_text);
+    QJsonObject packet;
+    packet["algo"] = algo;
+    packet["text"] = _text;
 
     QJsonDocument doc(packet);
 
@@ -37,14 +30,11 @@ void Server::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text
         return;
     }
 
-    QJsonObject _algo  = packet.array().at(0)["algo"];
+    algo = packet.object()["algo"].toString();
 
-    QJsonArray  _text  = packet.array().at(1);
-
-    algo = _algo["algo"].toString();
+    QJsonArray  _text  = packet.object()["text"].toArray();
 
     text.clear();
-
     for (int i = 0; i < _text.size(); i++) {
         text.append(_text.at(i).toString());
     }
@@ -125,20 +115,29 @@ void Server::readClient()
         }
         QTime           time;
         QByteArray      data;
-        QString         algo, text;
+        QString         algo;
+        QStringList     text;
         in >> time >> data;
 
         parseJsonPacket(data, algo, text);
 
         QString strMessage =
-                time.toString() + " " + "Client has sended - algo[" + algo + "] text["+text+"]";
+                time.toString() + " " + "Client has sended data - algo[" + algo + "] text:";
         qDebug() << strMessage;
 
+        for ( int i = 0; i < text.size(); i++ ) {
+             qDebug() << text.at(i);
+        }
+
         text = execAlgorithm(algo, text);
+        QString textWithN="";
+        foreach (const QString &str, text) {
+            textWithN+=str+"\n";
+        }
 
         m_blockSize = 0;
 
-        sendMessage(clientSocket, createJsonPacket(algo,text));
+        sendMessage(clientSocket, createJsonPacket(algo,textWithN));
     }
 }
 
@@ -156,13 +155,14 @@ void Server::sendMessage(QTcpSocket* socket, const QByteArray& str)
     socket->write(arrBlock);
 }
 
-QString Server::execAlgorithm(QString alg, QString text)
+
+QStringList Server::execAlgorithm(QString alg, QStringList text)
 {
     bool ok;
     int algorithmCode = alg.right(1).toInt(&ok,10);
 
-    QString ret;
-    QString tmp;
+    QStringList ret;
+    QStringList tmp;
 
     switch (algorithmCode) {
         case NO_ALGO:
@@ -176,9 +176,13 @@ QString Server::execAlgorithm(QString alg, QString text)
         case REVERSE_TEXT:
 
             tmp.clear();
-
-            for (int i = 0; i < text.size(); i++) {
-                tmp+= text.at(text.size()- i-1);
+            for (int j = 0; j < text.size(); j++) {
+                QString oneString = text.at(j);
+                QString reverseString="";
+                for (int i = 0; i < oneString.size(); i++) {
+                    reverseString+= oneString.at(oneString.size()- i-1);
+                }
+                tmp.append(reverseString);
             }
 
             ret = tmp;
@@ -186,6 +190,8 @@ QString Server::execAlgorithm(QString alg, QString text)
 
         case SORT_LINES_BY_ASCENDING:
             ret = text;
+            qSort(ret.begin(), ret.end());
+
             break;
 
         case CHARS_STATISTICS:

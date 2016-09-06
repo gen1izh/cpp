@@ -10,7 +10,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-
+#include <QtAlgorithms>
 
 class Server : public QObject
 {
@@ -76,8 +76,9 @@ private:
      */
     void sendMessage(QTcpSocket* socket, const QByteArray &str);
 
-    QString execAlgorithm(QString alg, QString text);
+    QStringList execAlgorithm(QString alg, QStringList text);
 
+    bool caseInsensitiveLessThan(const QString &s1, const QString &s2);
 public slots:
 
     /*!
