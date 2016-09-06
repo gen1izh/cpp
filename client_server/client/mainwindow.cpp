@@ -6,6 +6,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_algorithms[NO_ALGO] = "";
+    m_algorithms[SORT_CHARS_BY_DESCENDING] = "Сортировка символов текста по убыванию";
+    m_algorithms[REVERS_TEXT] = "Разворот текста";
+    m_algorithms[SORT_LINES_BY_ASCENDING] = "Сортировка строк текста по возрастанию";
+    m_algorithms[CHARS_STATISTICS] = "Статистика по используемым символам в тексте";
+
+    ui->algoBox->clear();
+
+    ui->algoBox->addItem(m_algorithms[NO_ALGO]);
+    ui->algoBox->addItem(m_algorithms[SORT_CHARS_BY_DESCENDING]);
+    ui->algoBox->addItem(m_algorithms[REVERS_TEXT]);
+    ui->algoBox->addItem(m_algorithms[SORT_LINES_BY_ASCENDING]);
+    ui->algoBox->addItem(m_algorithms[CHARS_STATISTICS]);
 }
 
 MainWindow::~MainWindow()
@@ -13,77 +27,136 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_connectButton_clicked()
+QByteArray MainWindow::createJsonPacket(QString algo, QString text)
 {
-    m_pTcpSocket = new QTcpSocket(this);
-    bool ok;
+    QJsonArray   packet;
+    QJsonObject  packetObject;
 
-    m_pTcpSocket->connectToHost(ui->hostEdit->text(), ui->portEdit->text().toInt(&ok,10));
-    connect(m_pTcpSocket, SIGNAL(connected()), SLOT(slotConnected()));
-    connect(m_pTcpSocket, SIGNAL(readyRead()), SLOT(slotReadyRead()));
-    connect(m_pTcpSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-           this,         SLOT(slotError(QAbstractSocket::SocketError))
-          );
+    packet = packetObject["format"].toArray();
+
+    QJsonObject _algo;
+    _algo["algo"] = algo;
+
+    packet.append(_algo);
+
+    QStringList strList = text.split('\n');
+
+    QJsonArray _text;
+
+    _text.fromStringList(strList);
+
+    packet.append(_text);
+
+    QJsonDocument doc(packet);
+
+    return doc.toJson();
 }
 
-void MainWindow::slotReadyRead()
+void MainWindow::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text)
 {
-    QDataStream in(m_pTcpSocket);
-    in.setVersion(QDataStream::Qt_4_2);
+    QJsonParseError *err = new QJsonParseError;
+    QJsonDocument packet(QJsonDocument::fromJson(bytes, err));
+
+    if(err->error != QJsonParseError::NoError) {
+        qDebug() << "Json data error: " << err->errorString();
+        return;
+    }
+
+    QJsonObject _algo  = packet.array().at(0);
+
+    QJsonArray  _text  = packet.array().at(1);
+
+    algo = _algo["algo"].toString();
+
+    text.clear();
+
+    for (int i = 0; i < _text.size(); i++) {
+        text.append(_text.at(i).toString());
+    }
+
+}
+
+void MainWindow::on_connectButton_clicked()
+{
+    m_tcpSocket = new QTcpSocket(this);
+    bool ok;
+
+    m_tcpSocket->connectToHost(ui->hostEdit->text(), ui->portEdit->text().toInt(&ok,10));
+    connect(m_tcpSocket, SIGNAL(connected()), SLOT(connected()));
+    connect(m_tcpSocket, SIGNAL(readyRead()), SLOT(readyRead()));
+    connect(m_tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(checkError(QAbstractSocket::SocketError))
+            );
+}
+
+// Обработчик данных с сокета
+void MainWindow::readyRead()
+{
+    QDataStream in(m_tcpSocket);
+    in.setVersion(QDataStream::Qt_5_5);
     for (;;) {
-        if (!m_nNextBlockSize) {
-            if (m_pTcpSocket->bytesAvailable() < sizeof(quint16)) {
+        if (!m_blockSize) {
+            if (m_tcpSocket->bytesAvailable() < sizeof(quint16)) {
                 break;
             }
-            in >> m_nNextBlockSize;
+            in >> m_blockSize;
         }
 
-        if (m_pTcpSocket->bytesAvailable() < m_nNextBlockSize) {
+        if (m_tcpSocket->bytesAvailable() < m_blockSize) {
             break;
         }
-        QTime   time;
-        QString str;
-        in >> time >> str;
+        QTime       time;
+        QByteArray  packet;
+        QString     algo;
+        QString     text;
 
-        ui->logEdit->append(time.toString() + " " + str);
-        m_nNextBlockSize = 0;
+        in >> time >> packet;
+
+        parseJsonPacket(packet, algo, text);
+
+        ui->logEdit->append(time.toString() + " [" + algo + "] - " + text);
+        m_blockSize = 0;
     }
 }
 
-void MainWindow::slotError(QAbstractSocket::SocketError err)
+
+// Ошибки соединения
+void MainWindow::checkError(QAbstractSocket::SocketError err)
 {
     QString strError =
-        "Error: " + (err == QAbstractSocket::HostNotFoundError ?
-                     "The host was not found." :
-                     err == QAbstractSocket::RemoteHostClosedError ?
-                     "The remote host is closed." :
-                     err == QAbstractSocket::ConnectionRefusedError ?
-                     "The connection was refused." :
-                     QString(m_pTcpSocket->errorString())
-                    );
+            "Error: " + (err == QAbstractSocket::HostNotFoundError ?
+                             "The host was not found." :
+                             err == QAbstractSocket::RemoteHostClosedError ?
+                                 "The remote host is closed." :
+                                 err == QAbstractSocket::ConnectionRefusedError ?
+                                     "The connection was refused." :
+                                     QString(m_tcpSocket->errorString())
+                                     );
     ui->logEdit->append(strError);
 }
 
-void MainWindow::slotSendToServer()
+// Отправка сообщения серверу
+void MainWindow::sendMessageToServer()
 {
     QByteArray  arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_4_2);
-    out << quint16(0) << QTime::currentTime() << ui->dataEdit->text();
+    out.setVersion(QDataStream::Qt_5_5);
+    out << quint16(0) << QTime::currentTime() << createJsonPacket(QString("ALGO%1").arg(ui->algoBox->currentIndex()),
+                                                                  ui->dataEdit->toPlainText());
 
     out.device()->seek(0);
     out << quint16(arrBlock.size() - sizeof(quint16));
 
-    m_pTcpSocket->write(arrBlock);
+    m_tcpSocket->write(arrBlock);
     ui->dataEdit->setText("");
 }
 
-void MainWindow::slotConnected()
+// Протоколирования факта соединения
+void MainWindow::connected()
 {
-    ui->logEdit->append("Received the connected() signal");
+    ui->logEdit->append("[Server]: Client was succesfully connected!");
 }
 
 void MainWindow::on_sendButton_clicked()
 {
-    slotSendToServer();
+    sendMessageToServer();
 }
