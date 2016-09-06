@@ -78,7 +78,7 @@ private:
 
     QStringList execAlgorithm(QString alg, QStringList text);
 
-    bool caseInsensitiveLessThan(const QString &s1, const QString &s2);
+
 public slots:
 
     /*!
