@@ -1,16 +1,19 @@
 #include "editgroupdialog.h"
 #include "ui_editgroupdialog.h"
 
-#include <library/orm/db/QDjangoQuerySet.h>
-#include "models/groupqdjangomodel.h"
-
 EditGroupDialog::EditGroupDialog(QWidget *parent, QString groupName) :
   QDialog(parent),
   ui(new Ui::EditGroupDialog)
 {
     ui->setupUi(this);
 
+    QRegExp rx("^(\\w+\\s+)$");
+    QValidator *validator = new QRegExpValidator(rx, this);
+
+    ui->groupEdit->setValidator(validator);
+
     if (!groupName.isEmpty()) {
+
         QDjangoQuerySet<Group> groups;
 
         ui->parentBox->clear();
@@ -30,7 +33,19 @@ EditGroupDialog::EditGroupDialog(QWidget *parent, QString groupName) :
         ui->parentBox->setCurrentText(m_parent);
         ui->descriptionEdit->setText(m_description);
         ui->groupEdit->setText(m_name);
+
+
+        // Заполнение раскрывающегося списка ролей всеми возможными ролями
+        ui->rolesBox->clear();
+        QDjangoQuerySet<Role> roles;
+        ui->rolesBox->addItem("");
+        propertyMaps = roles.values(QStringList() << "name");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+          ui->rolesBox->addItem(propertyMap["name"].toString());
+        }
+
         ui->rolesBox->setCurrentText(m_role);
+
     }
 }
 
@@ -51,6 +66,18 @@ QString EditGroupDialog::parent() const
 
 QString EditGroupDialog::role() const
 {
+//  Role *r;
+
+//  QDjangoQuerySet<Role> roles;
+
+//  // Проход по всем совпадениям
+//  foreach (const Role &role, roles) {
+//    if (role.name() == ui->rolesBox->currentText()) {
+//      r = const_cast<Role *>(&role);
+//    }
+//  }
+
+//  return r;
     return ui->rolesBox->currentText();
 }
 

@@ -6,6 +6,8 @@
 #include <QVariant>
 #include <QtSql/QSqlDatabase>
 
+#include "../models/roleqdjangomodel.h"
+
 class GroupItem;
 
 class GroupModel : public QAbstractItemModel
@@ -47,6 +49,7 @@ public:
 
     void updateModel();
 
+    QVariant getName(const QModelIndex &index) const;
 private:
     void setupModelData(GroupItem *parent);
     GroupItem *getItem(const QModelIndex &index) const;

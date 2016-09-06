@@ -49,6 +49,8 @@ private slots:
 
    void on_deleteRoleButton_clicked();
 
+   void on_promissionsView_clicked(const QModelIndex &index);
+
 private:
   Ui::PersonalData *ui;
 };

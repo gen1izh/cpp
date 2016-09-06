@@ -77,6 +77,14 @@ GroupItem *GroupModel::getItem(const QModelIndex &index) const
     return m_rootItem;
 }
 
+QVariant GroupModel::getName(const QModelIndex &index) const
+{
+    if (!index.isValid())
+        return QVariant();
+
+    GroupItem *item = getItem(index);
+    return item->data(0);
+}
 
 QVariant GroupModel::headerData(int section, Qt::Orientation orientation,
                                int role) const

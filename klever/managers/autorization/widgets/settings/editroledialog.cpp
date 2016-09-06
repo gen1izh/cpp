@@ -98,29 +98,24 @@ QString EditRoleDialog::promission() const
 
 void EditRoleDialog::on_deleteButton_clicked()
 {
+    QString txt = ui->promissionEdit->text();
 
-  // TODO: переделать
-//  QString txt = ui->promissionEdit->text();
+    if (!txt.isEmpty()) {
+      QStringList promsList;
+      promsList = txt.split(",");
+      txt = "";
 
-//  if (txt.isEmpty()) {
-//      txt = ui->promissionBox->currentText();
-//  }
-//  else {
-//    QStringList promsList;
-//    promsList = txt.split(",");
+      foreach (QString t, promsList) {
+        if (t != ui->promissionBox->currentText()) {
+            if  (txt.isEmpty()) {
+                txt += QString("%1").arg(t);
+            }
+            else {
+                txt += QString("%1%2").arg(",").arg(t);
+            }
+        }
+      }
+    }
 
-//    bool isFind = false;
-
-//    foreach (QString t, promsList) {
-//      if (t == ui->promissionBox->currentText()) {
-//        isFind = true;
-//        break;
-//      }
-//    }
-//    if (!isFind) {
-//        txt += QString("%1%2").arg(",").arg(ui->promissionBox->currentText());
-//    }
-//  }
-
-//  ui->promissionEdit->setText(txt);
+    ui->promissionEdit->setText(txt);
 }

@@ -3,7 +3,6 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include <library/orm/db/QDjangoQuerySet.h>
-#include "models/groupqdjangomodel.h"
 
 AddGroupDialog::AddGroupDialog(QWidget *parent) :
   QDialog(parent),
@@ -11,20 +10,27 @@ AddGroupDialog::AddGroupDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QRegExp rx("[A-Za-z0-9]+");
+    QRegExp rx("^(\\w+\\s+)$");
     QValidator *validator = new QRegExpValidator(rx, this);
 
     ui->groupEdit->setValidator(validator);
 
+    // Заполнение раскрывающегося списка групп всеми возможными группами
     ui->parentBox->clear();
-
     QDjangoQuerySet<Group> groups;
-
     ui->parentBox->addItem("");
-
     QList<QVariantMap> propertyMaps = groups.values(QStringList() << "name" << "role"<< "description" << "parent");
     foreach (const QVariantMap &propertyMap, propertyMaps) {
       ui->parentBox->addItem(propertyMap["name"].toString());
+    }
+
+    // Заполнение раскрывающегося списка ролей всеми возможными ролями
+    ui->rolesBox->clear();
+    QDjangoQuerySet<Role> roles;
+    ui->rolesBox->addItem("");
+    propertyMaps = roles.values(QStringList() << "name");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+      ui->rolesBox->addItem(propertyMap["name"].toString());
     }
 
 }
@@ -46,7 +52,20 @@ QString AddGroupDialog::parent() const
 
 QString AddGroupDialog::role() const
 {
-    return ui->rolesBox->currentText();
+//    Role *r;
+
+//    QDjangoQuerySet<Role> roles;
+
+//    // Проход по всем совпадениям
+//    foreach (const Role &role, roles) {
+//      if (role.name() == ui->rolesBox->currentText()) {
+//        r = const_cast<Role *>(&role);
+//      }
+//    }
+
+//    return r;
+
+  return ui->rolesBox->currentText();
 }
 
 QString AddGroupDialog::description() const

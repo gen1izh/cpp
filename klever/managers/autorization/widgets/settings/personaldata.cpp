@@ -21,6 +21,8 @@
 
 
 #include <QMessageBox>
+#include <QDebug>
+
 
 PersonalData::PersonalData(QWidget *parent) :
   QWidget(parent),
@@ -36,7 +38,6 @@ PersonalData::PersonalData(QWidget *parent) :
     ui->groupsView->setModel(m_modelGroups);
     ui->groupsView->setColumnWidth(0, 150);
     ui->groupsView->setSelectionMode(QAbstractItemView::SingleSelection);
-
 
     // Создание модели пользователей
     m_modelUsers = new UserModel();
@@ -86,6 +87,8 @@ void PersonalData::on_addUserButton_clicked()
       }
     }
 
+    delete dial;
+
 }
 
 void PersonalData::on_addGroupButton_clicked()
@@ -116,22 +119,33 @@ void PersonalData::on_addGroupButton_clicked()
         }
     }
 
+    delete dial;
+
 }
 
 void PersonalData::on_editGroupButton_clicked()
 {
-    EditGroupDialog *dial = new EditGroupDialog(NULL,
-          m_modelGroups->data(ui->groupsView->currentIndex(), Qt::DisplayRole).toString());
+    QString  name = m_modelGroups->getName(ui->groupsView->currentIndex()).toString();
 
-     QModelIndex tmp = ui->groupsView->currentIndex();
+    EditGroupDialog *dial = new EditGroupDialog(NULL, name);
 
-    if ( dial->exec() == QDialog::Accepted ) {
-      m_modelGroups->deleteGroup(tmp);
-      m_modelGroups->addGroup(dial->name(), dial->parent(), dial->role(), dial->description());
-      m_modelGroups->updateModel();
-      ui->groupsView->expandAll();
+    QModelIndex tmp = ui->groupsView->currentIndex();
+
+    if (!name.isEmpty()) {
+        if ( dial->exec() == QDialog::Accepted ) {
+            m_modelGroups->deleteGroup(tmp);
+            m_modelGroups->addGroup(dial->name(), dial->parent(), dial->role(), dial->description());
+            m_modelGroups->updateModel();
+            ui->groupsView->expandAll();
+        }
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText(QString("Название группы: %1!").arg(name));
+        msgBox.exec();
     }
 
+    delete dial;
 }
 
 void PersonalData::on_deleteGroupButton_clicked()
@@ -171,6 +185,8 @@ void PersonalData::on_editUserButton_clicked()
             msgBox.exec();
         }
     }
+
+    delete dial;
 }
 
 void PersonalData::on_deleteUserButton_clicked()
@@ -205,6 +221,8 @@ void PersonalData::on_addPromissionButton_clicked()
             msgBox.exec();
         }
     }
+
+    delete dial;
 }
 
 void PersonalData::on_deletePromissionButton_clicked()
@@ -238,42 +256,77 @@ void PersonalData::on_addRoleButton_clicked()
             msgBox.exec();
         }
     }
+
+    delete dial;
 }
 
 void PersonalData::on_editRoleButton_clicked()
 {
-  EditRoleDialog *dial = new EditRoleDialog(NULL,
-        m_modelRoles->data(ui->rolesView->currentIndex(), Qt::DisplayRole).toString());
 
-   QModelIndex tmp = ui->rolesView->currentIndex();
+    QString oldRoleName = m_modelRoles->data(ui->rolesView->currentIndex(), Qt::DisplayRole).toString();
 
-  if ( dial->exec() == QDialog::Accepted ) {
+    EditRoleDialog *dial = new EditRoleDialog(NULL, oldRoleName);
 
-      m_modelRoles->deleteRole(tmp);
+    if ( dial->exec() == QDialog::Accepted ) {
 
-      QDjangoQuerySet<Role> roles;
-      bool isFind = false;
+        QDjangoQuerySet<Role> roles;
 
-      QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name");
-      foreach (const QVariantMap &propertyMap, propertyMaps) {
-          if (propertyMap["name"].toString() == dial->name()) {
-              isFind = true;
-          }
-      }
+        roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, dial->name()));
 
-      if (!isFind) {
-          m_modelRoles->addRole(dial->name(), dial->promission());
-          m_modelRoles->updateModel();
-      } else {
-          QMessageBox msgBox;
-          msgBox.setText(tr("Роль с таким названием уже существует!"));
-          msgBox.exec();
-      }
-  }
+        // Если подобных записей нет, то создаем...
+        if (roles.size() == 0) {
+            QDjangoQuerySet<Role> roles;
+            Role role;
+            roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, oldRoleName));
+            roles.at(0, &role);
+            role.setName(dial->name());
+            role.setPromission(dial->promission());
+            role.save();
+
+            QDjangoQuerySet<Group> groups;
+            groups = groups.filter(QDjangoWhere("role", QDjangoWhere::Equals, oldRoleName));
+
+            Group group;
+            for (int i = 0; i < groups.size(); ++i) {
+              if (groups.at(i, &group)) {
+                group.setRole(dial->name());
+                group.save();
+              }
+            }
+
+            m_modelRoles->updateModel();
+        }
+        else {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Роль с таким названием уже существует!"));
+            msgBox.exec();
+        }
+    }
+
+    delete dial;
 }
 
 void PersonalData::on_deleteRoleButton_clicked()
 {
     m_modelRoles->deleteRole(ui->rolesView->currentIndex());
     m_modelRoles->updateModel();
+}
+
+void PersonalData::on_promissionsView_clicked(const QModelIndex &index)
+{
+    QString name = m_modelPromissions->data(index, Qt::DisplayRole).toString();
+
+    QDjangoQuerySet<Promission> proms;
+    proms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    // Если запись такая одна ...
+    if (proms.size() == 1) {
+         Promission prom;
+         proms.at(0, &prom);
+         ui->infoLabel->setText(QString("Сигнатура: %1 тип: %2").arg(prom.signature()).arg(prom.constant()));
+    }
+    else {
+      QMessageBox msgBox;
+      msgBox.setText(tr("Разрешений с подобным именем больше одного!"));
+      msgBox.exec();
+    }
 }

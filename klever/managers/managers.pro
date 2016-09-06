@@ -6,7 +6,7 @@ CONFIG   += ordered
 SUBDIRS += \
     logger \
     sessions \
-    testsequence \
+    #testsequence \
     optime \
     tube \
     autorization

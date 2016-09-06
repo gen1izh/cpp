@@ -2,7 +2,7 @@
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
 
-#include "roleqdjangomodel.h"
+
 
 RoleModel::RoleModel()
 {
@@ -59,9 +59,19 @@ void RoleModel::deleteRole(const QModelIndex &index)
     removeRows(0, 1, index);
 
     QDjangoQuerySet<Role> roles;
-    QDjangoQuerySet<Role> someRoles;
-    someRoles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-    someRoles.remove();
+    roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    roles.remove();
 
-    //TODO: Нужно найти группы у которых роль = name и очистить поле роли у них
+
+    QDjangoQuerySet<Group> groups;
+    groups = groups.filter(QDjangoWhere("role", QDjangoWhere::Equals, name));
+
+    Group group;
+    for (int i = 0; i < groups.size(); ++i) {
+      if (groups.at(i, &group)) {
+        group.setRole(QString(""));
+        group.save();
+      }
+    }
+
 }

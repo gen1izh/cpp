@@ -3,6 +3,8 @@
 
 #include <library/orm/db/QDjangoModel.h>
 
+#include "roleqdjangomodel.h"
+
 class Group : public QDjangoModel
 {
     Q_OBJECT
@@ -13,11 +15,13 @@ class Group : public QDjangoModel
 
     Q_CLASSINFO("name", "max_length=64")
     Q_CLASSINFO("description", "max_length=255")
-    Q_CLASSINFO("parent", "null=true")
+    Q_CLASSINFO("parent", "max_length=64")
     Q_CLASSINFO("role", "max_length=255")
+//      Q_CLASSINFO("role", "on_delete=cascade")
 
 
 public:
+//    Group(QObject *parent=0);
 
     QString name() const;
     void setName(const QString &name);
@@ -30,6 +34,9 @@ public:
 
     QString role() const;
     void setRole(const QString &role);
+
+//    Role *role() const;
+//    void setRole(Role *role);
 
 private:
     QString m_parent;

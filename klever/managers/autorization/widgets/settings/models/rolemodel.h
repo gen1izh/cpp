@@ -3,6 +3,9 @@
 #include <QStringListModel>
 #include <QtSql/QSqlDatabase>
 
+#include "roleqdjangomodel.h"
+#include "groupqdjangomodel.h"
+
 class RoleModel : public QStringListModel
 {
 

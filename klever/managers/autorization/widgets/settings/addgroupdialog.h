@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+#include "models/groupqdjangomodel.h"
+#include "models/roleqdjangomodel.h"
+
 namespace Ui {
 class addGroupDialog;
 }

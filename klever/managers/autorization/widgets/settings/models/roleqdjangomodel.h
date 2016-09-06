@@ -12,6 +12,7 @@ class Role : public QDjangoModel
     Q_CLASSINFO("name", "max_length=255")
     Q_CLASSINFO("promission", "max_length=128")
 
+
 public:
     QString name() const;
     void setName(const QString &name);

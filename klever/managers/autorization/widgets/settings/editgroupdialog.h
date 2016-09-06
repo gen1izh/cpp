@@ -3,6 +3,10 @@
 
 #include <QDialog>
 
+#include <library/orm/db/QDjangoQuerySet.h>
+#include "models/groupqdjangomodel.h"
+#include "models/roleqdjangomodel.h"
+
 namespace Ui {
 class EditGroupDialog;
 }
