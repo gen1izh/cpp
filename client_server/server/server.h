@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QtAlgorithms>
+#include <QRegularExpression>
 
 class Server : public QObject
 {

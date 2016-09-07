@@ -163,14 +163,40 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
 
     QStringList ret;
     QStringList tmp;
+    QHash<QString, int> statistic;
+    QHashIterator<QString, int> statisticIterator(statistic);
 
     switch (algorithmCode) {
         case NO_ALGO:
+
             ret = text;
+
             break;
 
         case SORT_CHARS_BY_DESCENDING:
-            ret = text;
+
+            tmp.clear();
+            for (int j = 0; j < text.size(); j++) {
+                QString oneString = text.at(j);
+                QStringList oneStringList;
+                oneStringList.clear();
+
+                // oneStringList = oneString.split(QRegularExpression("."));
+
+                for (int i=0; i < oneString.size(); i++) {
+                    oneStringList << oneString.at(i);
+                }
+
+                qSort(oneStringList.begin(), oneStringList.end(), qGreater<QString>());
+
+                QString sortedString = "";
+
+                for (int i = 0; i < oneStringList.size(); i++) {
+                    sortedString+= oneStringList.at(i);
+                }
+                tmp.append(sortedString);
+            }
+            ret = tmp;
             break;
 
         case REVERSE_TEXT:
@@ -182,6 +208,7 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
                 for (int i = 0; i < oneString.size(); i++) {
                     reverseString+= oneString.at(oneString.size()- i-1);
                 }
+
                 tmp.append(reverseString);
             }
 
@@ -195,10 +222,33 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
             break;
 
         case CHARS_STATISTICS:
-            ret = text;
+
+            tmp.clear();
+
+            for (int i = 0; i < text.size(); i++) {
+                QString Stroka = text.at(i);
+                for (int j = 0; j < Stroka.size(); j++) {
+
+                    QString _char =  Stroka.at(j);
+                    if (statistic.contains(_char)) {
+                        statistic[_char] = (++statistic[_char]);
+                    }
+                    else {
+                        statistic[_char] = 1;
+                    }
+                }
+            }
+
+            statisticIterator = statistic;
+            while (statisticIterator.hasNext()) {
+                statisticIterator.next();
+                ret.append(QString("Char: %1 count: %2").arg(statisticIterator.key()).arg(statisticIterator.value()));
+            }
+
+
             break;
 
-        default:
+    default:
             break;
     }
 
