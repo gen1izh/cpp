@@ -49,7 +49,7 @@ void ModuleThread::setTerminateState() {
    * до удаления объекта потока из памяти
    */
   if (!wait(1000)) {
-    logWarning(this, QString("Таймаут отключения потока"));
+    Library::LoggerApi::logWarning(this, QString("Таймаут отключения потока"));
   }
 }
 

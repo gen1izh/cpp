@@ -38,19 +38,19 @@ CveGui &CveGui::instance() {
  */
 void CveGui::prepare() {
 
-  logInfo(this,"Создание действий");
+  Library::LoggerApi::logInfo(this,"Создание действий");
   ((MainWindow *)_mainwindow)->createActions();
 
-  logInfo(this,"Создание главного меню приложения");
+  Library::LoggerApi::logInfo(this,"Создание главного меню приложения");
   ((MainWindow *)_mainwindow)->createMenus();
 
-  logInfo(this,"Создание коннекторов");
+  Library::LoggerApi::logInfo(this,"Создание коннекторов");
   ((MainWindow *)_mainwindow)->createConnectors();
 
-  logInfo(this,"Создание меню быстрого запуска");
+  Library::LoggerApi::logInfo(this,"Создание меню быстрого запуска");
   ((MainWindow *)_mainwindow)->createToolBars();
 
-  logInfo(this,"Создание доков");
+  Library::LoggerApi::logInfo(this,"Создание доков");
   ((MainWindow *)_mainwindow)->createDockWindows();
 
   // Коннекторы модуля настроек приложения
@@ -101,12 +101,12 @@ void CveGui::restoreDocksPosition() {
   QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
   bool res = _mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
-    logError(this,"Восстановление геометрии не выполнено!");
+    Library::LoggerApi::logError(this,"Восстановление геометрии не выполнено!");
   }
 
   res = _mainwindow->restoreState(settings.value("windowState").toByteArray());
   if (!res) {
-    logError(this,"Восстановление состояний доков не выполнено!");
+    Library::LoggerApi::logError(this,"Восстановление состояний доков не выполнено!");
   }
 }
 
@@ -134,7 +134,7 @@ bool CveGui::eventFilter(QObject *obj, QEvent *event) {
  */
 void CveGui::showMaximized(){
   _mainwindow->showMaximized();
-  logInfo(this,"Главное окно приложения максимизировано");
+  Library::LoggerApi::logInfo(this,"Главное окно приложения максимизировано");
 }
 
 

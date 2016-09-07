@@ -11,15 +11,6 @@ Information::Information()
 
 }
 
-Information::Information(const Information &)
-{
-
-}
-
-Information &Information::operator=(const Information &)
-{
-
-}
 
 
 Information &Information::instance()

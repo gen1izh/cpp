@@ -2,6 +2,7 @@
 #include <frameWork/cveManager.h>
 #include <frameWork/gui/cvegui.h>
 
+using namespace Core;
 
 /*
  * Инстанцирование объекта Cve

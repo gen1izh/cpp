@@ -36,8 +36,10 @@ public:
 
   QString company();
   void setCompany(const QString &company);
+
   QString softwareNamePrefix();
   void setSoftwareNamePrefix(const QString &softwareNamePrefix);
+
   QString softwareNameSuffix();
   void setSoftwareNameSuffix(const QString &softwareNameSuffix);
   QString version();

@@ -2,6 +2,10 @@
 #include <frameWork/cveManager.h>
 #include <frameWork/gui/cvegui.h>
 
+#include <library/loggerapi/loggerapi.h>
+
+using namespace Library::LoggerApi;
+
 /*
  * Инстанцирование объекта api функций для работы с БД
  */

@@ -1,6 +1,8 @@
 #include "modulessettingswidget.h"
 #include <frameWork/CveManager.h>
 
+using namespace Core;
+
 /*
  * Установка соединений
  */

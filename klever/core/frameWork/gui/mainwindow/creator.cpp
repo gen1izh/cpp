@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 
+using namespace Core;
 
 /*
  * Создание основных коннекторов приложения
@@ -233,7 +234,7 @@ void MainWindow::createDockWindows() {
       }
     }
     else {
-      logWarning(this,"Список модулей пуст!");
+      Library::LoggerApi::logWarning(this,"Список модулей пуст!");
     }
   }
 }

@@ -22,6 +22,8 @@
 #include <frameWork/cveManager.h>
 #include <library/emptypage/emptypage.h>
 
+using namespace Core;
+
 ModulesPage::ModulesPage(QWidget *parent)
     : QWidget(parent) {
 

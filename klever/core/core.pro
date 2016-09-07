@@ -27,7 +27,8 @@ HEADERS += settings/modulespage.h \
     library/orm/db/QDjangoWhere.h \
     library/orm/db/QDjangoWhere_p.h \
     library/orm/models/mainqdjangomodel.h \
-    library/orm/models/pluginslistqdjangomodel.h
+    library/orm/models/pluginslistqdjangomodel.h \
+    frameWork/error.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 HEADERS += settings/modules/modulesmanager.h

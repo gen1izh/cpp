@@ -58,24 +58,34 @@ public:
 
     QString company();
     void setCompany(const QString &company);
+
     QString softwareNamePrefix();
     void setSoftwareNamePrefix(const QString &softwareNamePrefix);
+
     QString softwareNameSuffix();
     void setSoftwareNameSuffix(const QString &softwareNameSuffix);
+
     QString version();
     void setVersion(const QString &version);
+
     QString mainTitleApp();
     void setMainTitleApp(const QString &mainTitleApp);
+
     QString cveMessage();
     void setCveMessage(const QString &cveMessage);
+
     QString otherMessage();
     void setOtherMessage(const QString &otherMessage);
+
     QString aboutMessageTitle();
     void setAboutMessageTitle(const QString &aboutMessageTitle);
+
     QString aboutMessageTop();
     void setAboutMessageTop(const QString &aboutMessageTop);
+
     QString aboutMessageBottom();
     void setAboutMessageBottom(const QString &aboutMessageBottom);
+
     QString specialParameters() const;
     void setSpecialParameters(const QString &specialParameters);
 };

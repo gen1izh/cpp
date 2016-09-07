@@ -7,6 +7,9 @@
 
 #include <frameWork/cveManager.h>
 
+using namespace Core;
+
+
 AppSettings::AppSettings(QWidget *parent) :
     QWidget(parent)
 {

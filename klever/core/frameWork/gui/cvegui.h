@@ -21,7 +21,9 @@
 #include <library/processDialog/processdialog.h>
 
 // FIXME: Зачем засорять глобальное пространство? Вместо директив using следует использовать объявления using.
-using namespace Library::LoggerApi;
+//using namespace Library::LoggerApi;
+
+//using namespace Core;
 
 /*!
  * \brief Класс работы с графическим интерфейсом
@@ -219,7 +221,7 @@ class CveGui : public QObject {
        ( (T2 *)mainwindow() )->statusBar()->showMessage(
              msgPositiveResult, 2000 );
 
-        logInfo(this,msgPositiveResult);
+        Library::LoggerApi::logInfo(this,msgPositiveResult);
 
        ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
        return;
@@ -232,13 +234,13 @@ class CveGui : public QObject {
       ( (T2 *)mainwindow() )->statusBar()->showMessage(
             msgPositiveResult, 2000 );
 
-       logInfo(this,msgPositiveResult);
+       Library::LoggerApi::logInfo(this,msgPositiveResult);
 
        child->setWindowTitle( title );
        child->show();
      }
      else {
-       logWarning(this,msgNegativeResult);
+       Library::LoggerApi::logWarning(this,msgNegativeResult);
      }
      ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
     }
@@ -260,13 +262,13 @@ class CveGui : public QObject {
 
        ((T2 *)mainwindow())->statusBar()->showMessage(
              msgPositiveResult, 2000 );
-        logInfo(this,msgPositiveResult);
+        Library::LoggerApi::logInfo(this,msgPositiveResult);
 
         child->setWindowTitle( title );
         child->show();
       }
       else {
-        logWarning(this,msgNegativeResult);
+        Library::LoggerApi::logWarning(this,msgNegativeResult);
       }
       ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
 

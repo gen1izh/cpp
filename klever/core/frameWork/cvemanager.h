@@ -1,14 +1,13 @@
 #ifndef CVE_MANAGER_H
 #define CVE_MANAGER_H
 
-/* Библиотека утилит */
+// Библиотека утилит
 #include <library/utilsLibrary/utilslibrary.h>
 #include <library/message/messagelibrary.h>
 
-/* Включения для объектов-оберток модуля скриптов */
+// Включения для объектов-оберток модуля скриптов
 #include <managers/logger/logger/logger.h>
 #include <managers/logger/logger/loggerssettingspage.h>
-//#include <managers/testsequence/cveTestSequences.h>
 
 #include <settings/appsettings.h>
 
@@ -20,49 +19,41 @@
 
 #include <QFileInfo>
 
+#include <QScopedPointer>
+
+#include "frameWork/managers/mock/bootmock.h"
+#include "frameWork/managers/mock/loggermock.h"
+
+
+#include "error.h"
+
+namespace Core {
+
 /*!
  * \brief Класс главного менеджера над менеджерами компонентов ядра
  */
 class CveManager : public QObject {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  CveManager() {
-    setObjectName(tr("Главный менеджер"));
-  }
-
-
-  CveManager(const CveManager& root);
-  CveManager& operator=(const CveManager&);
-
-  /*!
-   * \brief  Указатель на объект менеджера журнала
-   */
-  ILoggerManager    *_iloggermanager;
-
-  /*!
-   * \brief Указатель на загрузочный менеджер
-   */
-  IBootManager      *_ibootmanager;
-
-  /*!
-   * \brief Хеш менеджеров
-   */
-  QHash<QString, ManagerInterface *> _managers;
+    CveManager() {
+        setObjectName(tr("Главный менеджер"));
+    }
 
 
-  public:
+    CveManager(const CveManager& root);
+    CveManager& operator=(const CveManager&);
 
-   // Чтобы иметь доступ через пространство имен извне класса
-   // состояния  в public секции
-   enum States {
-     SUCCESSFUL,
-     BOOT_LOADING_ERROR,
-     LOGGER_LOADING_ERROR,
-     MANAGERS_LOADING_ERROR,
-     NO_MANAGERS_ERROR,
-     NO_MAIN_INI_ERROR
-   };
+    QScopedPointer<IBootManager>    _ibootmanager;
+    QScopedPointer<ILoggerManager>  _iloggermanager;
+
+    /*!
+     * \brief Хеш менеджеров
+     */
+    QHash<QString, ManagerInterface *> _managers;
+
+
+public:
 
     static CveManager& instance();
 
@@ -71,11 +62,11 @@ class CveManager : public QObject {
      * \return
      */
     ILoggerManager  *logger() const {
-      if (_iloggermanager==NULL) {
-        //TODO: добавить QMessage сообщение отсутствия журнала
-       // Создали системный журнал
-      }
-      return _iloggermanager;
+        if (_iloggermanager.data()==NULL) {
+            //TODO: добавить QMessage сообщение отсутствия журнала
+            // Создали системный журнал
+        }
+        return _iloggermanager.data();
     }
 
     /*!
@@ -83,11 +74,11 @@ class CveManager : public QObject {
      * \return
      */
     IBootManager  *boot() const {
-      if (_ibootmanager==NULL) {
-        //TODO: добавить QMessage сообщение отсутствия загрузчика
-       qDebug().noquote() << "Загрузчик не был корректно подключен!";
-      }
-      return _ibootmanager;
+        if (_ibootmanager.data()==NULL) {
+            //TODO: добавить QMessage сообщение отсутствия загрузчика
+            qDebug().noquote() << "Загрузчик не был корректно подключен!";
+        }
+        return _ibootmanager.data();
     }
 
     /*!
@@ -101,10 +92,10 @@ class CveManager : public QObject {
      * \return
      */
     QHash<QString, ManagerInterface *> managers() const {
-      if (_managers.isEmpty()) {
-        //TODO: добавить QMessage сообщение отсутствия менеджеров
-      }
-      return _managers;
+        if (_managers.isEmpty()) {
+            //TODO: добавить QMessage сообщение отсутствия менеджеров
+        }
+        return _managers;
     }
 
     /*!
@@ -118,16 +109,16 @@ class CveManager : public QObject {
      * \return
      */
     bool isMainIniExist() {
-      QString path = QString("%1\\%2").arg(QDir::currentPath()).arg("main.ini");
-      QFileInfo fil(path);
-      if (!fil.exists()) {
-        messageLibrary msg;
-        msg.createErrorMessage(tr("Главный менеджер"),
-                               tr("Конфигурационный файл main.ini не найден! "
-                                  "Попробуйте запустить конфигуратор и создать main.ini."));
-        return false;
-      }
-      return true;
+        QString path = QString("%1\\%2").arg(QDir::currentPath()).arg("main.ini");
+        QFileInfo fil(path);
+        if (!fil.exists()) {
+            messageLibrary msg;
+            msg.createErrorMessage(tr("Главный менеджер"),
+                                   tr("Конфигурационный файл main.ini не найден! "
+                                      "Попробуйте запустить конфигуратор и создать main.ini."));
+            return false;
+        }
+        return true;
     }
 
     /*!
@@ -136,14 +127,14 @@ class CveManager : public QObject {
      * \return
      */
     bool isManagerExist(QString name) {
-      QHashIterator<QString, ManagerInterface *>  i(_managers);
-      while (i.hasNext()) {
-        i.next();
-        if ( name == i.key() ) {
-          return true;
+        QHashIterator<QString, ManagerInterface *>  i(_managers);
+        while (i.hasNext()) {
+            i.next();
+            if ( name == i.key() ) {
+                return true;
+            }
         }
-      }
-      return false;
+        return false;
     }
 
     /*!
@@ -161,5 +152,7 @@ class CveManager : public QObject {
      */
     void createConnectors();
 };
+
+}
 
 #endif // CVE_MANAGER_H

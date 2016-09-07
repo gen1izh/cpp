@@ -1,10 +1,10 @@
 #include "autorizationmanager.h"
 
-autorizationManager::autorizationManager() {
-  setName("autorization");         // Установка имени модуля (внутреннее)
-  setTextName("Авторизация");  // Установка имени модуля (внешнее)
-  setOnOrOff(true);
-  createWidgets();
+AutorizationManager::AutorizationManager() {
+    setName("autorization");     // Установка имени модуля (внутреннее)
+    setTextName("Авторизация");  // Установка имени модуля (внешнее)
+    setOnOrOff(true);
+    createWidgets();
 
 
 }
@@ -12,21 +12,21 @@ autorizationManager::autorizationManager() {
 /*
  * Создание виджетов модуля
  */
-void autorizationManager::createWidgets() {
+void AutorizationManager::createWidgets() {
 
-  // Необходимо добавить остальные виджеты
+    // Необходимо добавить остальные виджеты
 
-  // Создание виджета настроек
-  if (_settings==NULL) {
-    _settings = new autorizationSettings(NULL);
-  }
+    // Создание виджета настроек
+    if (_settings==NULL) {
+        _settings = new autorizationSettings(NULL);
+    }
 
 }
 
 /*
  * Деинициализация элементов менеджера
  */
-void autorizationManager::finalize() {
+void AutorizationManager::finalize() {
 
 }
 
@@ -34,16 +34,16 @@ void autorizationManager::finalize() {
 /*
  * Возвращает виджет настроек менеджера
  */
-QWidget *autorizationManager::getSettingPage() {
-  QWidget* wgt=static_cast<QWidget *>(_settings);
-  return wgt;
+QWidget *AutorizationManager::getSettingPage() {
+    QWidget* wgt=static_cast<QWidget *>(_settings);
+    return wgt;
 }
 
 /*
  *  Возвращает иконку для настроек
  */
-QIcon autorizationManager::settingIcon() {
-  return QIcon(":/autorizationmanager/img/manager.png");
+QIcon AutorizationManager::settingIcon() {
+    return QIcon(":/autorizationmanager/img/manager.png");
 }
 
 

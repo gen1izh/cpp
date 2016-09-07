@@ -1,5 +1,5 @@
-#ifndef BOOTMOCK_H
-#define BOOTMOCK_H
+#ifndef BOOT_MOCK_H
+#define BOOT_MOCK_H
 #include <QDebug>
 #include <QString>
 
@@ -8,52 +8,56 @@
 
 class BootMock : public IBootManager
 {
-  QWidget *_wgt;
+    /*!
+     * \brief Пустой виджет настроек
+     */
+    QWidget *_wgt;
 
-  public:
+
+public:
+
     BootMock();
     ~BootMock();
 
-    bool hasRightUser(int r) {
-      Q_UNUSED(r)
-      return true;
-    }
+    /*!
+     * \brief Запустить загрузчик
+     * \return
+     */
+    bool execute();
 
-    bool execute() {
-      qDebug() << "bootloader executed";
+    /*!
+     * \brief Возвращает результат ответа имеет ли пользователь права
+     * \param[in] r - право
+     * \return
+     */
+    bool hasRightUser(int r);
 
-      Cve::instance().setParameterValue(QString("/sessionPath"), QDir::currentPath() );
-      qDebug() << "current path = " << QDir::currentPath();
+    /*!
+     * \brief Возвращает иконку
+     * \return
+     */
+    QIcon settingIcon();
 
-      Cve::instance().setParameterValue(QString("/rights"), QString("ALL"));
-      qDebug() << "rights = " << QString("ALL");
+    /*!
+     * \brief Возвращает указатель на виджет настроек
+     * \return
+     */
+    QWidget *getSettingPage();
 
-      Cve::instance().setParameterValue(QString("/sessionName"), QString("NO_SESSION"));
-      qDebug() << "sessionName = " << QString("NO_SESSION");
+    /*!
+     * \brief Создание виджетов
+     */
+    void createWidgets();
 
-      Cve::instance().setParameterValue(QString("/productType"), QString("NONE"));
-      qDebug() << "productType = " << QString("NONE");
+    /*!
+     * \brief Создание действий
+     */
+    void createActions();
 
-      Cve::instance().setParameterValue(QString("/serialNumber"), QString("1234"));
-      qDebug() << "serialNumber = " << QString("1234");
-
-      return true;
-    }
-
-    QIcon settingIcon() {
-      return QIcon();
-    }
-
-    QWidget *getSettingPage() {
-      _wgt = new QWidget();
-      return _wgt;
-    }
-
-    void createWidgets() {}
-
-    void createActions() {}
-
-    void createConnectors() {}
+    /*!
+     * \brief Создание коннекторов
+     */
+    void createConnectors();
 };
 
-#endif // BOOTMOCK_H
+#endif // BOOT_MOCK_H

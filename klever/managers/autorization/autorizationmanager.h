@@ -1,73 +1,76 @@
-#ifndef autorization_MANAGER_H
-#define autorization_MANAGER_H
+#ifndef AUTORIZATION_MANAGER_H
+#define AUTORIZATION_MANAGER_H
 
 #include "widgets/settings/autorizationsettingswidget.h"
 
 /*!
- * brief   %{ModuleName} * details %{ModuleDescription} * author  %{ModuleAuthor}, gen.izh@yandex.ru
+ * brief    Менеджер авторизации
+ * details  Менеджер определеяет группы, роли, пользователей,
+ *          разрешения.
+ * author  gen1izh
  * date
  */
-class autorizationManager;
+class AutorizationManager;
 
 #include <frameWork/cve.h>
 
-class autorizationManager : public QObject, public ManagerInterface {
+class AutorizationManager : public QObject, public ManagerInterface {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PLUGIN_METADATA(IID ManagerInterface_iid FILE "autorization.json")
-  Q_INTERFACES(ManagerInterface)
+    Q_PLUGIN_METADATA(IID ManagerInterface_iid FILE "autorization.json")
+    Q_INTERFACES(ManagerInterface)
 
-  /*!
+    /*!
    * brief Виджет настроек
    */
-  autorizationSettings *_settings = NULL;
+    autorizationSettings *_settings = NULL;
 
 public:
 
-  autorizationManager();
+    AutorizationManager();
 
-  ~autorizationManager() {
-    finalize();
-  }
+    ~AutorizationManager() {
+        finalize();
+    }
 
-  /*!
+    /*!
    * brief Создание виджетов модуля
    */
-  void createWidgets();
+    void createWidgets();
 
-  /*!
+    /*!
    * brief Возвращает виджет настроек менеджера
    * return
    */
-  QWidget *getSettingPage();
+    QWidget *getSettingPage();
 
-  /*!
+    /*!
    * brief Возвращает иконку для настроек
    * return
    */
-  QIcon settingIcon();
+    QIcon settingIcon();
 
-  /*!
+    /*!
    * \brief Создание действий
    */
-  virtual void createActions() {}
+    virtual void createActions() {}
 
-  /*!
+    /*!
    * \brief Созданией коннекторов
    */
-  virtual void createConnectors() {}
+    virtual void createConnectors() {}
 
 
-  /*!
+    /*!
    * brief Деинициализация элементов менеджера
    */
-  void finalize();
+    void finalize();
 
 public slots:
 
 };
 
 
-#endif // autorization_MANAGER_H
+#endif // AUTORIZATION_MANAGER_H
 
