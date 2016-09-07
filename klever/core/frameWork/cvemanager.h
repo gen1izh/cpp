@@ -24,134 +24,110 @@
 #include "frameWork/managers/mock/bootmock.h"
 #include "frameWork/managers/mock/loggermock.h"
 
+#include <frameWork/cve.h>
+#include <QTimer>
 
-#include "error.h"
+#include "status_codes.h"
+
+#include <library/message/messagelibrary.h>
 
 namespace Core {
 
-/*!
- * \brief Класс главного менеджера над менеджерами компонентов ядра
- */
-class CveManager : public QObject {
-
-    Q_OBJECT
-
-    CveManager() {
-        setObjectName(tr("Главный менеджер"));
-    }
-
-
-    CveManager(const CveManager& root);
-    CveManager& operator=(const CveManager&);
-
-    QScopedPointer<IBootManager>    _ibootmanager;
-    QScopedPointer<ILoggerManager>  _iloggermanager;
-
     /*!
-     * \brief Хеш менеджеров
+     * \brief Класс главного менеджера
      */
-    QHash<QString, ManagerInterface *> _managers;
+    class CveManager : public QObject {
 
+        Q_OBJECT
 
-public:
+        CveManager();
 
-    static CveManager& instance();
+        // Не переопределять!
+        CveManager(const CveManager& root);
+        CveManager& operator=(const CveManager&);
 
-    /*!
-     * \brief Возвращает указатель на объект журнала
-     * \return
-     */
-    ILoggerManager  *logger() const {
-        if (_iloggermanager.data()==NULL) {
-            //TODO: добавить QMessage сообщение отсутствия журнала
-            // Создали системный журнал
-        }
-        return _iloggermanager.data();
-    }
+        // Интерфейс на загрузчик и журнал
+        QScopedPointer<IBootManager>    _ibootmanager;
+        QScopedPointer<ILoggerManager>  _iloggermanager;
 
-    /*!
-     * \brief Возвращает указатель на объект загрузочного менеджера
-     * \return
-     */
-    IBootManager  *boot() const {
-        if (_ibootmanager.data()==NULL) {
-            //TODO: добавить QMessage сообщение отсутствия загрузчика
-            qDebug().noquote() << "Загрузчик не был корректно подключен!";
-        }
-        return _ibootmanager.data();
-    }
+        /*!
+         * \brief Хеш менеджеров
+         */
+        QHash<QString, ManagerInterface *> m_managers;
 
-    /*!
-     * \brief Инициализация менеджеров
-     * \return Возвращает код ошибки, если 0 - то успешно.
-     */
-    int loadManagers();
+    public:
 
-    /*!
-     * \brief Возвращает хеш менеджеров
-     * \return
-     */
-    QHash<QString, ManagerInterface *> managers() const {
-        if (_managers.isEmpty()) {
-            //TODO: добавить QMessage сообщение отсутствия менеджеров
-        }
-        return _managers;
-    }
+        static CveManager& instance();
 
-    /*!
-     * \brief Финализация работы главного менеджера
-     * \details Удаляет все менеджеры
-     */
-    void finalize();
+        /*!
+         * \brief Возвращает указатель на объект журнала
+         * \return
+         */
+        ILoggerManager  *logger() const;
 
-    /*!
-     * \brief Возвращает признак существования файла main.ini
-     * \return
-     */
-    bool isMainIniExist() {
-        QString path = QString("%1\\%2").arg(QDir::currentPath()).arg("main.ini");
-        QFileInfo fil(path);
-        if (!fil.exists()) {
-            messageLibrary msg;
-            msg.createErrorMessage(tr("Главный менеджер"),
-                                   tr("Конфигурационный файл main.ini не найден! "
-                                      "Попробуйте запустить конфигуратор и создать main.ini."));
-            return false;
-        }
-        return true;
-    }
+        /*!
+         * \brief Возвращает указатель на объект загрузочного менеджера
+         * \return
+         */
+        IBootManager  *boot() const;
 
-    /*!
-     * \brief isManagerExist
-     * \param name
-     * \return
-     */
-    bool isManagerExist(QString name) {
-        QHashIterator<QString, ManagerInterface *>  i(_managers);
-        while (i.hasNext()) {
-            i.next();
-            if ( name == i.key() ) {
-                return true;
+        /*!
+         * \brief Инициализация менеджеров
+         * \return Возвращает код ошибки, если 0 - то успешно.
+         */
+        int loadManagers();
+
+        /*!
+         * \brief Возвращает хеш менеджеров
+         * \return
+         */
+        QHash<QString, ManagerInterface *> managers() const;
+
+        /*!
+         * \brief Финализация работы главного менеджера
+         * \details Удаляет все менеджеры
+         */
+        void finalize();
+
+        /*!
+         * \brief Возвращает признак существования файла main.ini
+         * \return
+         */
+        bool isMainIniExist() {
+            QString path = QString("%1\\%2").arg(QDir::currentPath()).arg("main.ini");
+            QFileInfo fil(path);
+            if (!fil.exists()) {
+                messageLibrary msg;
+                msg.createErrorMessage(tr("Главный менеджер"),
+                                       tr("Конфигурационный файл main.ini не найден! "
+                                          "Попробуйте запустить конфигуратор и создать main.ini."));
+                return false;
             }
+            return true;
         }
-        return false;
-    }
 
-    /*!
-     * \brief Создание виджетов менеджеров
-     */
-    void createWidgets();
+        /*!
+         * \brief Проверка наличия менеджера
+         * \param[in] name - название менеджера
+         * \return
+         */
+        bool isManagerExist(QString name);
 
-    /*!
-     * \brief Подготовка всех менеджеров
-     */
-    void createActions();
+        /*!
+         * \brief Создание виджетов менеджеров
+         */
+        void createWidgets();
 
-    /*!
-     * \brief Создание коннекторов
-     */
-    void createConnectors();
-};
+        /*!
+         * \brief Создание действий менеджеров
+         */
+        void createActions();
+
+        /*!
+         * \brief Создание коннекторов
+         */
+        void createConnectors();
+    };
 
 }
 

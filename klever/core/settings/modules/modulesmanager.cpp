@@ -5,7 +5,7 @@
 #include "../../frameWork/gui/cvegui.h"
 
 #include <library/loggerapi/loggerapi.h>
-using namespace Library::LoggerApi;
+using namespace Library::Logger;
 
 
 ModulesManager &ModulesManager::instance() {
@@ -191,7 +191,7 @@ void ModulesManager::readModulesPathAndInitialize() {
       if (ok) {
         // Загрузка модуля и инициализация
         for (int j = 1; j <= count; j++) {
-          CveGui::instance().splashMessage(QString( "Инициализация модуля '%1' ...").arg(dllname));
+          Core::CveGui::instance().splashMessage(QString( "Инициализация модуля '%1' ...").arg(dllname));
           loadModule(dllname, j);
         }
       }

@@ -4,7 +4,7 @@
 
 #include <library/loggerapi/loggerapi.h>
 
-using namespace Library::LoggerApi;
+using namespace Library::Logger;
 
 /*
  * Инстанцирование объекта api функций для работы с БД

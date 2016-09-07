@@ -234,7 +234,7 @@ void MainWindow::createDockWindows() {
       }
     }
     else {
-      Library::LoggerApi::logWarning(this,"Список модулей пуст!");
+      Library::Logger::logWarning(this,"Список модулей пуст!");
     }
   }
 }

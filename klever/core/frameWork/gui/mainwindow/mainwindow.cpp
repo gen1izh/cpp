@@ -112,7 +112,7 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
  * Признак того что форма видима и активна
  */
 QWidget *MainWindow::isVisibleAndActiveMdiChild() {
-  if ( QMdiSubWindow *activeSubWindow = CveGui::instance().mdi()->activeSubWindow() ) {
+  if ( QMdiSubWindow *activeSubWindow = Core::CveGui::instance().mdi()->activeSubWindow() ) {
     if ( activeSubWindow->isVisible() ) {
       return qobject_cast<QWidget *>(activeSubWindow->widget());
     }
@@ -126,12 +126,12 @@ QWidget *MainWindow::isVisibleAndActiveMdiChild() {
  */
 void MainWindow::updateActivWindowsListOnToolBar() {
   // Очистка панели активных окон
-  CveGui::instance().activWindowsListToolBar->clear();
+  Core::CveGui::instance().activWindowsListToolBar->clear();
 
   // Получение списка всех окон из subWindowList
   QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
 
-  CveGui::instance().activWindowsListToolBar->setToolButtonStyle(
+  Core::CveGui::instance().activWindowsListToolBar->setToolButtonStyle(
         Qt::ToolButtonTextBesideIcon );
 
   // TODO: при обращении к элементам QList необходима проверка на его пределы
@@ -141,7 +141,7 @@ void MainWindow::updateActivWindowsListOnToolBar() {
       QWidget *child  = qobject_cast<QWidget *>(windows.at(i)->widget());
       // Создание действия
       QAction   *action =
-          CveGui::instance().activWindowsListToolBar->addAction(
+          Core::CveGui::instance().activWindowsListToolBar->addAction(
             windows.at(i)->windowIcon(),
             windows.at(i)->widget()->windowTitle() );
 

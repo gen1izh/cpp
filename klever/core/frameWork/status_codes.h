@@ -1,10 +1,10 @@
-#ifndef ERROR
-#define ERROR
+#ifndef STATUS_CODES
+#define STATUS_CODES
 
 
 namespace Core {
 
-    enum States{
+    enum Status{
         SUCCESSFUL,
         BOOT_LOADING_ERROR,
         LOGGER_LOADING_ERROR,
@@ -12,9 +12,15 @@ namespace Core {
         NO_MANAGERS_ERROR,
         NO_MAIN_INI_ERROR
     };
+}
+
+namespace Library {
 
 }
 
+namespace Forms {
 
-#endif // ERROR
+}
+
+#endif // STATUS_CODES
 

@@ -1,7 +1,7 @@
 #include "optimemanager.h"
 #include <library/loggerapi/loggerapi.h>
 
-using namespace Library::LoggerApi;
+using namespace Library::Logger;
 
 OptimeManager::OptimeManager() {
   setName("/optime");           // Установка имени модуля (внутреннее)

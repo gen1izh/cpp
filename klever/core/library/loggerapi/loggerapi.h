@@ -6,8 +6,9 @@
 
 namespace Library {
 
-    namespace LoggerApi {
+    namespace Logger {
 
+         ILogger *loggerPtr;
 
         /*!
          * \brief Журналирование информационного сообщения
@@ -29,15 +30,6 @@ namespace Library {
          * \param[in] txt - текст сообщения
          */
         void logError(QObject *ptr, QString txt);
-
-
-        class Utilities {
-            static ILogger *m_loggerPtr;
-
-        public:
-            static ILogger *loggerPtr();
-            static void setLoggerPtr(ILogger *loggerPtr);
-        };
 
     }
 }
