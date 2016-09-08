@@ -1,4 +1,5 @@
 #include "loggerapi.h"
+#include "../glabals.h"
 
 // Журналирование информационного сообщения
 void Library::Logger::logInfo(QObject *ptr, QString txt)

@@ -23,14 +23,14 @@ void FormsManager::createManagersConnections() {
    *******************************************************************************/
   // Если менеджер журналирования подключен
 
-  if (CveManager::instance().isManagerExist(tr("logger"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("logger"))) {
     connect( getManagerAction_FromWAPair(tr("logger"),
                                          tr("(LoggerManager)loggersWatcherWidget")),
              SIGNAL(triggered()), this, SLOT(openLoggersWatcherWindow()) );
   }
 
   // Если менеджер тестовых последовательностей подключен
-  if (CveManager::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("testsequence"))) {
     connect(getManagerAction_FromWAPair(tr("testsequence"),
                                         tr("(TestSequenceManager)TestsequenceEditor")),
             SIGNAL(triggered()), this, SLOT( openTestSequenceTreeWindow() ) );

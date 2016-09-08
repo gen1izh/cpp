@@ -107,7 +107,7 @@ void SessionManagerSettings::acceptButton() {
   }
 
   QHashIterator<QString, QHash<int, QPair<bool,QString> > >
-      j(CveManager::instance().boot()->rights());
+      j(Core::CveManager::instance().boot()->rights());
   while (j.hasNext()) {
     j.next();
 

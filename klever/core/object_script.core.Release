@@ -8,13 +8,13 @@ INPUT(
 ./..\_build\release\temp\core\objs\QDjangoWhere.o
 ./..\_build\release\temp\core\objs\mainqdjangomodel.o
 ./..\_build\release\temp\core\objs\pluginslistqdjangomodel.o
+./..\_build\release\temp\core\objs\base.o
 ./..\_build\release\temp\core\objs\optionspage.o
 ./..\_build\release\temp\core\objs\appsettings.o
 ./..\_build\release\temp\core\objs\modulesmanager.o
 ./..\_build\release\temp\core\objs\modulessettingswidget.o
 ./..\_build\release\temp\core\objs\modulesmainwindget.o
 ./..\_build\release\temp\core\objs\moduleslistmodel.o
-./..\_build\release\temp\core\objs\cve.o
 ./..\_build\release\temp\core\objs\cvegui.o
 ./..\_build\release\temp\core\objs\mainwindow.o
 ./..\_build\release\temp\core\objs\creator.o
@@ -46,6 +46,7 @@ INPUT(
 ./..\_build\release\temp\core\objs\moc_QDjangoModel.o
 ./..\_build\release\temp\core\objs\moc_mainqdjangomodel.o
 ./..\_build\release\temp\core\objs\moc_pluginslistqdjangomodel.o
+./..\_build\release\temp\core\objs\moc_base.o
 ./..\_build\release\temp\core\objs\moc_optionspage.o
 ./..\_build\release\temp\core\objs\moc_appsettings.o
 ./..\_build\release\temp\core\objs\moc_modulesmanager.o
@@ -53,7 +54,6 @@ INPUT(
 ./..\_build\release\temp\core\objs\moc_modulesmainwindget.o
 ./..\_build\release\temp\core\objs\moc_moduleslistmodel.o
 ./..\_build\release\temp\core\objs\moc_iformmanager.o
-./..\_build\release\temp\core\objs\moc_cve.o
 ./..\_build\release\temp\core\objs\moc_cvegui.o
 ./..\_build\release\temp\core\objs\moc_mainwindow.o
 ./..\_build\release\temp\core\objs\moc_cvemanager.o

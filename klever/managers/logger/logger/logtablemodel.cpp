@@ -1,5 +1,5 @@
 #include "logtablemodel.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 /*******************************************************************************
  *                          Реализация модели данных
  *******************************************************************************/
@@ -693,7 +693,7 @@ void LogTableModel::openReport() {
 //  mainsetup.checkMainParam(QString("Variables"), QString("/sessionPath"), QString(""));
 //  QString sessionPath = mainsetup.getMainParam(QString("Variables"), QString("/sessionPath"));
 
-  QString sessionPath = Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+  QString sessionPath = Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   _openReportProcessDialog = new QDialog();
 

@@ -21,30 +21,18 @@
 #include <library/processDialog/processdialog.h>
 
 
+
 namespace Core {
 
     /*!
      * \brief Класс работы с графическим интерфейсом
      */
-    class CveGui : public QObject {
+    class CveGui : public QObject, public ITopManager {
 
       Q_OBJECT
 
-      /*!
-       * \brief Конструктор синглтона элементов графического интерфейса
-       */
       CveGui();
-
-      /*!
-       * \brief Копирующий конструктор
-       * \param root
-       */
       CveGui(const CveGui& root);
-
-      /*!
-       * \brief Конструктор присвоения
-       * \return
-       */
       CveGui& operator=(const CveGui&);
 
       /*!
@@ -116,14 +104,15 @@ namespace Core {
         static CveGui& instance();
 
         /*!
+         * \brief Загрузка ГИП
+         * \return
+         */
+        int load();
+
+        /*!
          * \brief Финализация работы ГИП
          */
-        void finalize() {
-          // Удаление главного окна приложения
-          delete _mainwindow;
-          // Зануление указателя на главное окно приложения
-          _mainwindow = NULL;
-        }
+        int finalize();
 
         /*!
          * \brief Панель активных окон

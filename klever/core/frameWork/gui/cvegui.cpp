@@ -28,6 +28,23 @@ Core::CveGui &Core::CveGui::instance() {
   return singleObject;
 }
 
+int Core::CveGui::load()
+{
+
+    return 0;
+}
+
+// Финализация работы ГИП
+int Core::CveGui::finalize()
+{
+    // Удаление главного окна приложения
+    delete _mainwindow;
+    // Зануление указателя на главное окно приложения
+    _mainwindow = NULL;
+
+    return 0;
+}
+
 /*
  * Подготовка ГИП
  */

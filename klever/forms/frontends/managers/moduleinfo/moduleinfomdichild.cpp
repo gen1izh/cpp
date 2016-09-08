@@ -10,7 +10,7 @@ ModuleInfoMdiChild::ModuleInfoMdiChild() {
 
   grid->setContentsMargins(1,1,1,1);
   grid->addWidget(
-        ModulesManager::instance().getMainWindow()
+        Core::ModulesManager::instance().getMainWindow()
         );
 
   /* Добавление сетки на слой виджета */

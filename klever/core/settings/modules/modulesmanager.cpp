@@ -5,19 +5,19 @@
 #include "../../frameWork/gui/cvegui.h"
 
 #include <library/loggerapi/loggerapi.h>
+
+#include <frameWork/status_codes.h>
+
 using namespace Library::Logger;
 
 
-ModulesManager &ModulesManager::instance() {
-  static ModulesManager singleObject;
+Core::ModulesManager &Core::ModulesManager::instance() {
+  static Core::ModulesManager singleObject;
   return singleObject;
 }
 
-
-/*
- * Возвращает список названий виджетов модулей
- */
-QStringList ModulesManager::getModulesWidgetNamesStringList() {
+// Возвращает список названий виджетов модулей
+QStringList Core::ModulesManager::getModulesWidgetNamesStringList() {
   QHashIterator<QString,QList<ModulesQueueItem> >
       i(modules());
 
@@ -40,10 +40,9 @@ QStringList ModulesManager::getModulesWidgetNamesStringList() {
   return lst;
 }
 
-/*
- * Возвращает список названий  модулей
- */
-QStringList ModulesManager::getModulesNamesStringList() {
+
+// Возвращает список названий  модулей
+QStringList Core::ModulesManager::getModulesNamesStringList() {
   QHashIterator<QString,QList<ModulesQueueItem> > i(modules());
   QStringList lst;
 
@@ -55,38 +54,32 @@ QStringList ModulesManager::getModulesNamesStringList() {
   return lst;
 }
 
-/*
- * Инициализация виджета настроек и основного виджета менеджера
- */
-ModulesManager::ModulesManager() {
+// Инициализация виджета настроек и основного виджета менеджера
+Core::ModulesManager::ModulesManager() {
   setObjectName(tr("Менеджер модулей"));
 
-  _modulesSettingsWidget = new ModulesSettingsWidget();
-  _modulesSettingsWidget->setWidgetsNamesItems(
+  m_modulesSettingsWidget = new ModulesSettingsWidget();
+  m_modulesSettingsWidget->setWidgetsNamesItems(
           getModulesWidgetNamesStringList()
         );
 
-  _modulesMainWidget  = new ModulesMainWindget();
+  m_modulesMainWidget  = new ModulesMainWindget();
 
-  connect(_modulesMainWidget,SIGNAL(openModulesInformationDialog(QString,int)),
+  connect(m_modulesMainWidget,SIGNAL(openModulesInformationDialog(QString,int)),
           this, SLOT(openModulesInformationDialog(QString,int)));
 
 
 }
 
-/*
- * Обновить список модулей
- */
-void ModulesManager::updateModulesList() {
-  _modulesMainWidget->setModulesInformationList(
+// Обновить список модулей
+void Core::ModulesManager::updateModulesList() {
+  m_modulesMainWidget->setModulesInformationList(
           getModulesNamesStringList()
         );
 }
 
-/*
- * Открытие информационного диалога по модулям
- */
-void ModulesManager::openModulesInformationDialog(QString name, int row) {
+// Открытие информационного диалога по модулям
+void Core::ModulesManager::openModulesInformationDialog(QString name, int row) {
   if ((row < modules().count())&&(row > -1)) {
 
     QHashIterator<QString,QList<ModulesQueueItem> >  i(modules());
@@ -94,7 +87,7 @@ void ModulesManager::openModulesInformationDialog(QString name, int row) {
       i.next();
       if (0==QString::compare(name, i.value().at(0).i->getModuleName(), Qt::CaseInsensitive)) {
         if ( i.value().at(0).i->getModuleInfo() != QStringList() ) {
-          _modulesMainWidget->setInfoAndChangeLog(i.value().at(0).i->getModuleInfo().at(0),
+          m_modulesMainWidget->setInfoAndChangeLog(i.value().at(0).i->getModuleInfo().at(0),
                                                   i.value().at(0).i->getModuleInfo().at(1));
           break;
         }
@@ -109,13 +102,12 @@ void ModulesManager::openModulesInformationDialog(QString name, int row) {
 
 }
 
-/*
- * Отложенная подготовка модулей к работе
- */
-void ModulesManager::instanceModulesLater() {
+
+// Отложенная подготовка модулей к работе
+void Core::ModulesManager::instanceModulesLater() {
   // Подготовка модулей к работе
 
-    QHashIterator<QString,QList<ModulesQueueItem> >  iter(_modules);
+    QHashIterator<QString,QList<ModulesQueueItem> >  iter(m_modules);
     while (iter.hasNext()) {
       iter.next();
       for (int j = 0; j < iter.value().size(); j++ ) {
@@ -126,18 +118,17 @@ void ModulesManager::instanceModulesLater() {
     }
 }
 
-/*
- * Загрузка модуля
- */
-void ModulesManager::loadModule(QString name, int id) {
+
+// Загрузка модуля
+void Core::ModulesManager::loadModule(QString name, int id) {
   QPluginLoader loader(name);
   QObject *pluginInstance = loader.instance();
 
   /* TODO: Если dll не существует, а в настройках сказано, что надо грузить, то
            выведет ошибку. При этом в списке дллек модуля не будет видно... */
   if (pluginInstance) {
-    mInterface = qobject_cast<IPluginInterface *>(pluginInstance);
-    ModuleInterface *p = mInterface->createModule(id);
+    m_interface = qobject_cast<IPluginInterface *>(pluginInstance);
+    ModuleInterface *p = m_interface->createModule(id);
 
     p->initializeModule();
 
@@ -146,23 +137,21 @@ void ModulesManager::loadModule(QString name, int id) {
     ModulesQueueItem item;
     item.i = p;
     item.isNeedUse = true;
-    _modules[modname].append(item);
+    m_modules[modname].append(item);
 
   }
   else {
     qDebug() << "mInterface:" << loader.errorString();
 
-    _modulesSettingsWidget->appendBugModuleName(name);
+    m_modulesSettingsWidget->appendBugModuleName(name);
   }
 
   qDebug() << "Try loaded dll: " << name;
 }
 
 
-/*
- * Инициализация компонентов приложения и модулей
- */
-void ModulesManager::readModulesPathAndInitialize() {
+// Загрузка модулей
+int Core::ModulesManager::load() {
 
   /*
                            Инициализация модулей устройств
@@ -200,28 +189,30 @@ void ModulesManager::readModulesPathAndInitialize() {
     i++;
   }
 
+  return SUCCESSFUL;
 }
 
 /*
  * Выгрузка всех модулей
  */
-void ModulesManager::deleteAllModules()
+int Core::ModulesManager::finalize()
 {
   logInfo(this,"Уничтожение всех модулей");
-  QHashIterator<QString,QList<ModulesQueueItem> >  iter(_modules);
+  QHashIterator<QString,QList<ModulesQueueItem> >  iter(m_modules);
   while (iter.hasNext()) {
     iter.next();
     for (int j = 0; j < iter.value().size(); j++ ) {
       delete iter.value().at(j).i;
     }
   }
+  return SUCCESSFUL;
 }
 
 /*
  * Отключения работы всех модулей.
  */
-void ModulesManager::allModulesOff() {
-  QHashIterator<QString,QList<ModulesQueueItem> >  iter(_modules);
+void Core::ModulesManager::allModulesOff() {
+  QHashIterator<QString,QList<ModulesQueueItem> >  iter(m_modules);
   while (iter.hasNext()) {
     iter.next();
     for (int j = 0; j < iter.value().size(); j++ ) {
@@ -249,8 +240,8 @@ void ModulesManager::allModulesOff() {
 /*
  * Включение всех модулей.
  */
-void ModulesManager::allModulesOn() {
-  QHashIterator<QString,QList<ModulesQueueItem> >  iter(_modules);
+void Core::ModulesManager::allModulesOn() {
+  QHashIterator<QString,QList<ModulesQueueItem> >  iter(m_modules);
   while (iter.hasNext()) {
     iter.next();
     for (int j = 0; j < iter.value().size(); j++ ) {
@@ -277,44 +268,44 @@ void ModulesManager::allModulesOn() {
 /*
  * Получение иконки
  */
-QIcon ModulesManager::getIcon(QString modname, int id, QString widgname)
+QIcon Core::ModulesManager::getIcon(QString modname, int id, QString widgname)
 {
-  return  (_modules[modname].at(id).i->getWidgetActionList()
+  return  (m_modules[modname].at(id).i->getWidgetActionList()
                   [widgname].first->windowIcon());
 }
 
 /*
  * Получение виджета
  */
-QWidget *ModulesManager::getWidget(QString modname, int id, QString widgname)
+QWidget *Core::ModulesManager::getWidget(QString modname, int id, QString widgname)
 {
-  return  (_modules[modname].at(id).i->getWidgetActionList()
+  return  (m_modules[modname].at(id).i->getWidgetActionList()
                   [widgname].first);
 }
 
 /*
  * Получение действия
  */
-QAction *ModulesManager::getAction(QString modname, int id, QString widgname)
+QAction *Core::ModulesManager::getAction(QString modname, int id, QString widgname)
 {
-  return  (_modules[modname].at(id).i->getWidgetActionList()
+  return  (m_modules[modname].at(id).i->getWidgetActionList()
            [widgname].second);
 }
 
 /*
  * Возвращает виджет настроек менеджера
  */
-QWidget *ModulesManager::getSettingPage()
+QWidget *Core::ModulesManager::getSettingPage()
 {
-  return _modulesSettingsWidget;
+  return m_modulesSettingsWidget;
 }
 
 /*
  * Возвращает основной виджет менеджера
  */
-QWidget *ModulesManager::getMainWindow()
+QWidget *Core::ModulesManager::getMainWindow()
 {
-  return _modulesMainWidget;
+  return m_modulesMainWidget;
 }
 
 
@@ -322,7 +313,7 @@ QWidget *ModulesManager::getMainWindow()
  * Отключение всех виджетов и действий.
  * Это необходимо для запуска тестовых последовательностей.
  */
-void ModulesManager::disableAllWidgetsAndActions(
+void Core::ModulesManager::disableAllWidgetsAndActions(
     QHash<QString, QPair<QWidget*,QAction*> > widgetActionList,
     QHash<QString, QAction*> actionList
     ) {
@@ -352,7 +343,7 @@ void ModulesManager::disableAllWidgetsAndActions(
  * Включение всех виджетов и действий.
  * Это необходимо для запуска тестовых последовательностей.
  */
-void ModulesManager::enableAllWidgetsAndActions(
+void Core::ModulesManager::enableAllWidgetsAndActions(
     QHash<QString, QPair<QWidget*,QAction*> > widgetActionList,
     QHash<QString, QAction*> actionList
     ) {

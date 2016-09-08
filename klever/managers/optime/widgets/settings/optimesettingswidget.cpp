@@ -73,7 +73,7 @@ void OptimeSettings::clearCveOperationTime() {
 void OptimeSettings::clearProductOperationTime() {
   QSettings settings("Irz", "OptimeManager");
   settings.beginGroup("operation_time");
-  settings.setValue(QString("product_%1").arg(Cve::instance().getParameterValue(QString("/serialNumber"),
+  settings.setValue(QString("product_%1").arg(Core::Base::instance().getParameterValue(QString("/serialNumber"),
                                                                                 QString("000000"))),
                                                                                 0);
   settings.endGroup();

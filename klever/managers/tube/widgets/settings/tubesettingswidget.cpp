@@ -35,7 +35,7 @@ TubeSettings::TubeSettings(QWidget *parent) : QWidget(parent)
 
   _table->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-  QHashIterator<QString, Parameter *> _parameters = Cve::instance().params();
+  QHashIterator<QString, Parameter *> _parameters = Core::Base::instance().params();
   QHashIterator<QString, Parameter *> i(_parameters);
 
   int k = 0;
@@ -68,7 +68,7 @@ void TubeSettings::createConnectors() {
  * Обновление таблицы ключей трубы
  */
 void TubeSettings::updateTable() {
-  QHashIterator<QString, Parameter *> _parameters = Cve::instance().params();
+  QHashIterator<QString, Parameter *> _parameters = Core::Base::instance().params();
   QHashIterator<QString, Parameter *> i(_parameters);
 
   int k = 0;

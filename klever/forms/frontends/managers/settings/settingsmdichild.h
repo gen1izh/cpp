@@ -10,7 +10,7 @@
 #include <QMenu>
 #include <QWidget>
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 class SettingsMdiChild : public QWidget {
   Q_OBJECT

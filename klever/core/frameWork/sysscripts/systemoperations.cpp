@@ -1,5 +1,5 @@
 #include "systemoperations.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 
 /*
@@ -88,7 +88,7 @@ void SystemOperations::sleep(int value) {
  * Прекращение исполнения тестовой последовательности
  */
 void SystemOperations::exitFromTestsequence() {
-  Cve::instance().setParameterValue(QString("exitFromTestsequence"), true);
+  Core::Base::instance().setParameterValue(QString("exitFromTestsequence"), true);
 }
 
 /*
@@ -132,23 +132,23 @@ void SystemOperations::openDoc(QString filename) {
  * Получение пути до сессии
  */
 QString SystemOperations::getSessionPath() {
-  return Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));;
+  return Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));;
 }
 
 QString SystemOperations::getSerialNumber(){
-  return Cve::instance().getParameterValue(QString("/serialNumber"), QString(""));
+  return Core::Base::instance().getParameterValue(QString("/serialNumber"), QString(""));
 }
 
 QString SystemOperations::getStringParameter(QString name) {
-  return Cve::instance().getParameterValue(name, QString(""));
+  return Core::Base::instance().getParameterValue(name, QString(""));
 }
 
 void SystemOperations::setStringParameter(QString name, QString value) {
-   Cve::instance().setParameterValue(name, value);
+  Core::Base::instance().setParameterValue(name, value);
 }
 
 int SystemOperations::getElapsedTime() {
-   QString tmp = Cve::instance().getParameterValue("/funcBeginTime", QString(""));
+   QString tmp = Core::Base::instance().getParameterValue("/funcBeginTime", QString(""));
    QStringList tmpList = tmp.split(":");
    if (tmpList.size() < 3)
        return 0;

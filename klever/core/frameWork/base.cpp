@@ -1,23 +1,47 @@
-#include "cve.h"
+#include "base.h"
 #include <frameWork/cveManager.h>
 #include <frameWork/gui/cvegui.h>
 
-using namespace Core;
 
-/*
- * Инстанцирование объекта Cve
- */
-Cve &Cve::instance() {
-  static Cve singleObject;
+Core::Base::Base()
+{
+      setObjectName(tr("Система"));
+      MySQLDataBaseApi::instance();
+
+      _sysops               = new SystemOperations();
+      _scriptEvaluteEngine  = new QScriptEngine();
+
+      QScriptValue value = _scriptEvaluteEngine->newQObject(_sysops);
+
+
+      _value.append(value);
+      _scriptEvaluteEngine->globalObject().setProperty(tr("iam"), value);
+
+      // Передаем указатель на движок qtscript.
+      // Необходим для реализации функции setEngine.
+      _sysops->setEngine(_scriptEvaluteEngine);
+
+      connect(_sysops, SIGNAL(showMessageSignal(QString,QString,QString)),
+              this, SLOT(showMessage(QString,QString,QString)));
+
+      connect(_sysops, SIGNAL(executeApp(QString,QString)),
+              this, SLOT(executeApplication(QString,QString)));
+
+      connect(_sysops, SIGNAL(openDocument(QString)),
+              this, SLOT(openDocument(QString)));
+}
+
+// Инстанцирование объекта Cve
+Core::Base &Core::Base::instance() {
+  static Base singleObject;
   return singleObject;
 }
 
-/*
- * Удаление объектов модулей устройств
- */
-void Cve::finalize() {
+
+// Удаление объектов модулей устройств
+int Core::Base::finalize() {
   // Завершаем работу всех модулей
-  ModulesManager::instance().deleteAllModules();
+  ModulesManager::instance().finalize();
   // Завершаем работу всех менеджеров
   CveManager::instance().finalize();
 
@@ -27,12 +51,13 @@ void Cve::finalize() {
     i.next();
     delete i.value();
   }
+
+  return 0;
 }
 
-/*
- * Открытие окна сообщений
- */
-void Cve::showMessage(QString text, QString okText, QString cancelText) {
+
+// Открытие окна сообщений
+void Core::Base::showMessage(QString text, QString okText, QString cancelText) {
   QMessageBox msgBox;
   msgBox.setText(text);
   QPushButton *okButton     = msgBox.addButton(okText, QMessageBox::ActionRole);
@@ -54,11 +79,11 @@ void Cve::showMessage(QString text, QString okText, QString cancelText) {
 /*
  * Функция запуска проги(используется в скриптах). Запуск в потоке.
  */
-void Cve::executeApplication(QString exeName, QString arguments) {
+void Core::Base::executeApplication(QString exeName, QString arguments) {
   QFuture<void> future;
 
   future = QtConcurrent::run(this,
-                            &Cve::startApp,
+                            &Base::startApp,
                             exeName,
                             arguments);
 }
@@ -66,7 +91,7 @@ void Cve::executeApplication(QString exeName, QString arguments) {
 /*
  * Функция запуска проги(используется в скриптах)
  */
-void Cve::startApp(QString exeName, QString arguments) {
+void Core::Base::startApp(QString exeName, QString arguments) {
   QProcess *process = new QProcess(this);
 //  QString cmd = QString("%1 %2").arg(exeName).arg(arguments);
   QFileInfo g(arguments);
@@ -90,10 +115,10 @@ void Cve::startApp(QString exeName, QString arguments) {
 /*
  * Открыть документ сформированный
  */
-void Cve::openDocument(QString filename) {
+void Core::Base::openDocument(QString filename) {
   QString _fileName;
   QString sessionPath =
-      Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+      Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   _fileName = QString("%1/%2")
       .arg(sessionPath)
@@ -116,7 +141,7 @@ void Cve::openDocument(QString filename) {
 /*
  * Инициализация настроек приложения
  */
-void Cve::initializeSettings() {
+void Core::Base::initializeSettings() {
   _appSettings = new AppSettings();
 }
 
@@ -124,7 +149,7 @@ void Cve::initializeSettings() {
 /*
  * Запуск модулей через 100 мс после прогрузки модулей
  */
-void Cve::startModulesBy100ms() {
+void Core::Base::startModulesBy100ms() {
   /*
    * Отложенная инициализация
    * TODO. Нужная для порядка инициализации объектов. Требуется доработка.
@@ -136,6 +161,11 @@ void Cve::startModulesBy100ms() {
                      &ModulesManager::instance(),
                      SLOT(instanceModulesLater()));
 
+}
+
+int Core::Base::load()
+{
+    return 0;
 }
 
 

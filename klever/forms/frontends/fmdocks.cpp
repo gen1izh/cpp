@@ -59,14 +59,14 @@ void FormsManager::createDocks(QList<QPair<QDockWidget*,QPair<int,int> > > &dock
   // INFO: Поскольку docks создавали лишь менеджеры активно, то
   // разделения на функции содания docks модулей и менеджеров тут нет.
 
-  if (CveManager::instance().isManagerExist(tr("logger"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("logger"))) {
     p.first = createLoggerDock();
     p.second.first  = Qt::BottomDockWidgetArea;
     p.second.second = Qt::Horizontal;
     docksList.append(p);
   }
 
-  if (CveManager::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("testsequence"))) {
     p.first = createTestsequenceManagerDock();
     p.second.first  = Qt::LeftDockWidgetArea;
     p.second.second = Qt::Vertical;

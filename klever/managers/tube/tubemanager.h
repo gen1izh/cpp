@@ -7,7 +7,7 @@
  */
 class TubeManager;
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include "widgets/settings/tubesettingswidget.h"
 
 class TubeManager : public QObject, public ManagerInterface {

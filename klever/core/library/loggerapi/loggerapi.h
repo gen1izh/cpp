@@ -2,13 +2,10 @@
 #define LOGGER_API_H
 
 #include <QObject>
-#include <interfaces/ilogger.h>
 
 namespace Library {
 
     namespace Logger {
-
-         ILogger *loggerPtr;
 
         /*!
          * \brief Журналирование информационного сообщения

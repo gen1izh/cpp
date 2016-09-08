@@ -16,7 +16,7 @@
 #include <QMessageBox>
 
 #include <frameWork/gui/iformmanager.h>
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 class FormsManager : public IFormManager {
 

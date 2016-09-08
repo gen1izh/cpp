@@ -2,7 +2,7 @@
 
 #include <library/setupApi/app.h>
 #include <library/utilsLibrary/utilslibrary.h>
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 LoggersSettingsPage::LoggersSettingsPage( QWidget *parent )
     : QWidget(parent)
@@ -61,7 +61,7 @@ LoggersSettingsPage::LoggersSettingsPage( QWidget *parent )
 
     // Получили путь до сессий
     QString sessionPath =
-        Cve::instance().getParameterValue(QString("/sessionPath"),
+        Core::Base::instance().getParameterValue(QString("/sessionPath"),
                                           QString(""));
     SysLibrary::UtilsLibrary pathChecker;
     // Проверили существование каталога logs

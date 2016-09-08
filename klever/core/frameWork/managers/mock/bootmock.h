@@ -4,7 +4,7 @@
 #include <QString>
 
 #include "interfaces/ibootmanager.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 class BootMock : public IBootManager
 {

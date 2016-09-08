@@ -16,4 +16,8 @@ DESTDIR += $$CVE_APP_PATH
 
 LIBS += -L$$CVE_APP_PATH -lcore \
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    kapplication.cpp
+
+HEADERS += \
+    kapplication.h

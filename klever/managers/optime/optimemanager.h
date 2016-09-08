@@ -9,7 +9,7 @@
  */
 class OptimeManager;
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include "widgets/settings/optimesettingswidget.h"
 
 #include <QTime>

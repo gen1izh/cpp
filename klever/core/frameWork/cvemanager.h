@@ -24,19 +24,21 @@
 #include "frameWork/managers/mock/bootmock.h"
 #include "frameWork/managers/mock/loggermock.h"
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <QTimer>
 
 #include "status_codes.h"
 
 #include <library/message/messagelibrary.h>
 
+#include <interfaces/itopmanager.h>
+
 namespace Core {
 
     /*!
      * \brief Класс главного менеджера
      */
-    class CveManager : public QObject {
+    class CveManager : public QObject, public ITopManager {
 
         Q_OBJECT
 
@@ -75,7 +77,7 @@ namespace Core {
          * \brief Инициализация менеджеров
          * \return Возвращает код ошибки, если 0 - то успешно.
          */
-        int loadManagers();
+        int load();
 
         /*!
          * \brief Возвращает хеш менеджеров
@@ -87,7 +89,7 @@ namespace Core {
          * \brief Финализация работы главного менеджера
          * \details Удаляет все менеджеры
          */
-        void finalize();
+        int finalize();
 
         /*!
          * \brief Возвращает признак существования файла main.ini

@@ -1,7 +1,7 @@
 #include "optionspage.h"
 
 /* Глобальные данные */
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <managers/logger/cveLogger.h>
 /* Менеджер сессии */
 //#include <managers/sessions/sessionmanager.h>
@@ -53,7 +53,7 @@ OptionsPage::OptionsPage(QWidget *parent)
 
   mainLayout->setContentsMargins(1,1,1,1);
 
-  mainLayout->addWidget(ModulesManager::instance().getSettingPage(),
+  mainLayout->addWidget(Core::ModulesManager::instance().getSettingPage(),
                         6, 0, 1, 2);
 
   // Установка выравнивания элементов по верхней границе
@@ -97,7 +97,7 @@ void OptionsPage::styleComboBoxChanged( int index ) {
 
   appsetup.checkApplicationParam(QString("Main"),
                                  QString("/style"),
-                                 QString("%1").arg(QPLASTIQUESTYLE) );
+                                 QString("%1").arg(Core::QPLASTIQUESTYLE) );
 
   appsetup.setApplicationParam( QString("Main"),
                                 QString("/style"),
@@ -109,23 +109,23 @@ void OptionsPage::styleComboBoxChanged( int index ) {
        appsetup.getApplicationParam( QString("Main"),
                                      QString("/style"))).toInt( &ok, 10 ) ;
 
-  if ( style == QPLASTIQUESTYLE ) {
+  if ( style == Core::QPLASTIQUESTYLE ) {
     QApplication::setStyle( QStyleFactory::create("Fusion") );
   }
 
-  if ( style == QWINDOWSXPSTYLE ) {
+  if ( style == Core::QWINDOWSXPSTYLE ) {
     QApplication::setStyle( QStyleFactory::create("windowsxp") );
   }
 
-  if ( style == QWINDOWSSTYLE ) {
+  if ( style == Core::QWINDOWSSTYLE ) {
     QApplication::setStyle( QStyleFactory::create("windows") );
   }
 
-  if ( style == QCDESTYLE ) {
+  if ( style == Core::QCDESTYLE ) {
     QApplication::setStyle( QStyleFactory::create("Fusion") );
   }
 
-  if ( style == QMOTIFSTYLE ) {
+  if ( style == Core::QMOTIFSTYLE ) {
     QApplication::setStyle( QStyleFactory::create("macintosh") );
   }
 

@@ -13,12 +13,13 @@ Core::CveManager::CveManager()
 }
 
 // Финализация главного менеджера
-void Core::CveManager::finalize() {
+int Core::CveManager::finalize() {
     QHashIterator<QString, ManagerInterface *>  i(m_managers);
     while (i.hasNext()) {
         i.next();
         delete i.value(); // Удаление менеджера из памяти
     }
+    return SUCCESSFUL;
 }
 
 // Возвращает указатель на объект журнала
@@ -54,7 +55,7 @@ IBootManager  *Core::CveManager::boot() const {
 }
 
 // Инициализация менеджеров
-int Core::CveManager::loadManagers() {
+int Core::CveManager::load() {
 
     ManagerInterface    *managerInterface;
 

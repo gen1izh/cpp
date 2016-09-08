@@ -12,7 +12,7 @@
  */
 class AutorizationManager;
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 class AutorizationManager : public QObject, public ManagerInterface {
 

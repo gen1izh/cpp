@@ -31,7 +31,7 @@ TestsequenceExecutorMdiChild::~TestsequenceExecutorMdiChild() {}
  */
 void TestsequenceExecutorMdiChild::closeEvent( QCloseEvent *event ) {
   event->ignore();
-  bool isTestStarted = Cve::instance().getParameterValue(QString("testStarted"), false);
+  bool isTestStarted = Core::Base::instance().getParameterValue(QString("testStarted"), false);
 
   if (isTestStarted) {
     messageLibrary msg;
