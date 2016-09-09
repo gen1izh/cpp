@@ -5,6 +5,12 @@ Server::Server(QObject *parent) : QObject(parent)
 
 }
 
+Server::~Server()
+{
+    stop();
+}
+
+// Создание Json пакета для клиента
 QByteArray Server::createJsonPacket(QString algo, QString text)
 {
     QStringList Strings = text.split('\n');
@@ -20,6 +26,7 @@ QByteArray Server::createJsonPacket(QString algo, QString text)
     return doc.toJson();
 }
 
+// Разбор Json пакета от клиента
 void Server::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text)
 {
     QJsonParseError *err = new QJsonParseError;
@@ -41,7 +48,6 @@ void Server::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text
 
 }
 
-
 // Чтение порта
 quint32 Server::port() const
 {
@@ -55,13 +61,13 @@ void Server::setPort(const quint32 &port)
 }
 
 // Чтение размера блока
-quint16 Server::blockSize() const
+quint32 Server::blockSize() const
 {
     return m_blockSize;
 }
 
 // Установка размера блока
-void Server::setBlockSize(const quint16 &nNextBlockSize)
+void Server::setBlockSize(const quint32 &nNextBlockSize)
 {
     m_blockSize = nNextBlockSize;
 }
@@ -78,9 +84,10 @@ void Server::start()
     connect(m_tcpServer, SIGNAL(newConnection()), this, SLOT(newConnect()));
 }
 
+// Останов сервера
 void Server::stop()
 {
-    m_tcpServer->deleteLater();
+    delete m_tcpServer;
 }
 
 // Слот вызывается при каждом новом подключении нового пользователя
@@ -104,15 +111,18 @@ void Server::readClient()
     in.setVersion(QDataStream::Qt_5_5);
     for (;;) {
         if (!m_blockSize) {
-            if (clientSocket->bytesAvailable() < sizeof(quint16)) {
+            if (clientSocket->bytesAvailable() < sizeof(quint32)) {
                 break;
             }
             in >> m_blockSize;
         }
 
         if (clientSocket->bytesAvailable() < m_blockSize) {
+            qDebug() << "Bytes available: " << clientSocket->bytesAvailable();
+            qDebug() << "Block size: " << m_blockSize;
             break;
         }
+
         QTime           time;
         QByteArray      data;
         QString         algo;
@@ -138,6 +148,7 @@ void Server::readClient()
         m_blockSize = 0;
 
         sendMessage(clientSocket, createJsonPacket(algo,textWithN));
+
     }
 }
 
@@ -147,15 +158,15 @@ void Server::sendMessage(QTcpSocket* socket, const QByteArray& str)
     QByteArray  arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_5);
-    out << quint16(0) << QTime::currentTime() << str;
+    out << quint32(0) << QTime::currentTime() << str;
 
     out.device()->seek(0);
-    out << quint16(arrBlock.size() - sizeof(quint16));
+    out << quint32(arrBlock.size() - sizeof(quint32));
 
-    socket->write(arrBlock);
+    socket->write(arrBlock, arrBlock.size());
 }
 
-
+// Выполнить алгоритм
 QStringList Server::execAlgorithm(QString alg, QStringList text)
 {
     bool ok;
@@ -181,16 +192,16 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
                 QStringList oneStringList;
                 oneStringList.clear();
 
-                // oneStringList = oneString.split(QRegularExpression("."));
-
                 for (int i=0; i < oneString.size(); i++) {
                     oneStringList << oneString.at(i);
                 }
 
+                // Разбил строку на список строк и отсортировал список строк
                 qSort(oneStringList.begin(), oneStringList.end(), qGreater<QString>());
 
                 QString sortedString = "";
 
+                // Затем опять соединил строки в одну строку
                 for (int i = 0; i < oneStringList.size(); i++) {
                     sortedString+= oneStringList.at(i);
                 }
@@ -225,6 +236,7 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
 
             tmp.clear();
 
+            // Воспользовался хешем для подсчета статистики.
             for (int i = 0; i < text.size(); i++) {
                 QString Stroka = text.at(i);
                 for (int j = 0; j < Stroka.size(); j++) {
@@ -244,7 +256,6 @@ QStringList Server::execAlgorithm(QString alg, QStringList text)
                 statisticIterator.next();
                 ret.append(QString("Char: %1 count: %2").arg(statisticIterator.key()).arg(statisticIterator.value()));
             }
-
 
             break;
 

@@ -5,6 +5,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
     Server *serv = new Server();
     qDebug() << "Server class initialized";
     serv->setPort(100);

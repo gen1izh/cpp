@@ -24,9 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete m_tcpSocket;
     delete ui;
 }
 
+// Создание Json пакета для сервера
 QByteArray MainWindow::createJsonPacket(QString algo, QString text)
 {
     QStringList Strings = text.split('\n');
@@ -41,13 +43,15 @@ QByteArray MainWindow::createJsonPacket(QString algo, QString text)
     return doc.toJson();
 }
 
+// Разбор Json пакета от сервера
 void MainWindow::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text)
 {
-    QJsonParseError *err = new QJsonParseError;
-    QJsonDocument packet(QJsonDocument::fromJson(bytes, err));
+    QScopedPointer<QJsonParseError> parseError(new QJsonParseError);
 
-    if(err->error != QJsonParseError::NoError) {
-        qDebug() << "Json data error: " << err->errorString();
+    QJsonDocument packet(QJsonDocument::fromJson(bytes, parseError.data()));
+
+    if(parseError.data()->error != QJsonParseError::NoError) {
+        qDebug() << "Json data error: " << parseError.data()->errorString();
         return;
     }
 
@@ -63,9 +67,11 @@ void MainWindow::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &
 
 }
 
+// Нажатие на кнопку соединения
 void MainWindow::on_connectButton_clicked()
 {
     m_tcpSocket = new QTcpSocket(this);
+
     bool ok;
 
     m_tcpSocket->connectToHost(ui->hostEdit->text(), ui->portEdit->text().toInt(&ok,10));
@@ -82,21 +88,27 @@ void MainWindow::readyRead()
     in.setVersion(QDataStream::Qt_5_5);
     for (;;) {
         if (!m_blockSize) {
-            if (m_tcpSocket->bytesAvailable() < sizeof(quint16)) {
+            if (m_tcpSocket->bytesAvailable() < sizeof(quint32)) {
                 break;
             }
             in >> m_blockSize;
         }
 
         if (m_tcpSocket->bytesAvailable() < m_blockSize) {
+            qDebug() << "Bytes available: " << m_tcpSocket->bytesAvailable();
+            qDebug() << "Block size: " << m_blockSize;
             break;
         }
+
         QTime       time;
         QByteArray  packet;
         QString     algo;
         QStringList text;
 
         in >> time >> packet;
+
+
+
 
         parseJsonPacket(packet, algo, text);
 
@@ -105,7 +117,10 @@ void MainWindow::readyRead()
             ui->logEdit->append(text.at(i));
         }
 
+
+
         m_blockSize = 0;
+
     }
 }
 
@@ -131,13 +146,13 @@ void MainWindow::sendMessageToServer()
     QByteArray  arrBlock;
     QDataStream out(&arrBlock, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_5);
-    out << quint16(0) << QTime::currentTime() << createJsonPacket(QString("ALGO%1").arg(ui->algoBox->currentIndex()),
+    out << quint32(0) << QTime::currentTime() << createJsonPacket(QString("ALGO%1").arg(ui->algoBox->currentIndex()),
                                                                   ui->dataEdit->toPlainText());
 
     out.device()->seek(0);
-    out << quint16(arrBlock.size() - sizeof(quint16));
+    out << quint32(arrBlock.size() - sizeof(quint32));
 
-    m_tcpSocket->write(arrBlock);
+    m_tcpSocket->write(arrBlock, arrBlock.size());
     ui->dataEdit->setText("");
 }
 
@@ -147,6 +162,7 @@ void MainWindow::connected()
     ui->logEdit->append("[Server]: Client was succesfully connected!");
 }
 
+// Нажатие на кнопку отправки данных
 void MainWindow::on_sendButton_clicked()
 {
     sendMessageToServer();

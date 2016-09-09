@@ -17,6 +17,11 @@ class Server : public QObject
 {
     Q_OBJECT
 
+    /*!
+     * Перечисление кодов алгоритмов
+     * TODO: По уму, чтобы дублирования кода не было, нужно
+     * вынести в отдельный файл, доступный и  для клиента и для сервера.
+     */
     enum {
         NO_ALGO = 0,
         SORT_CHARS_BY_DESCENDING,
@@ -25,24 +30,51 @@ class Server : public QObject
         CHARS_STATISTICS
     };
 
+    /*!
+     * \brief Указатель на объект сервера
+     */
     QTcpServer* m_tcpServer;
-    quint16     m_blockSize = 0;
+
+    /*!
+     * \brief Инициализация размера блока данных
+     * CONFIG += c++11
+     */
+    quint32     m_blockSize = 0;
+
+    /*!
+     * \brief Номер порта по умолчанию
+     * CONFIG += c++11
+     */
     quint32     m_port = 100;
 
+    /*!
+     * \brief Создание Json пакета для клиента
+     * \param[in] algo - алгоритм
+     * \param[in] text - текст
+     * \return
+     */
     QByteArray createJsonPacket(QString algo, QString text);
 
+    /*!
+     * \brief Разбор Json пакета от клиента
+     * \param[in] bytes - данные
+     * \param[in] algo - алгоритм
+     * \param[in] text - текст данных
+     */
     void parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text);
 
 public:
     explicit Server(QObject *parent = 0);
-    ~Server() {
-        stop();
-    }
+    ~Server();
 
-    // Запуск сервера
+    /*!
+     * \brief Запуск сервера
+     */
     void start();
 
-    // Останов сервера
+    /*!
+     * \brief Останов сервера
+     */
     void stop();
 
     /*!
@@ -61,15 +93,16 @@ public:
      * \brief Чтение размера блока
      * \return  размер блока
      */
-    quint16 blockSize() const;
+    quint32 blockSize() const;
 
     /*!
      * \brief Установка размера блока
      * \param[in] blockSize - размер блока
      */
-    void setBlockSize(const quint16 &blockSize);
+    void setBlockSize(const quint32 &blockSize);
 
 private:
+
     /*!
      * \brief Отправка сообщения клиенту
      * \param[in] socket - сокет
@@ -77,6 +110,12 @@ private:
      */
     void sendMessage(QTcpSocket* socket, const QByteArray &str);
 
+    /*!
+     * \brief Выполнить алгоритм
+     * \param[in] alg - алгоритм
+     * \param[in] text - текст
+     * \return
+     */
     QStringList execAlgorithm(QString alg, QStringList text);
 
 
