@@ -37,7 +37,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер журналирования
    *******************************************************************************/
 
-  if (Core::CveManager::instance().isManagerExist(tr("logger"))) {
+  if (Core::Managers::instance().isManagerExist(tr("logger"))) {
     managersToolBar->addAction(getManagerAction_FromWAPair(tr("logger"),
                                                            tr("(LoggerManager)loggersWatcherWidget")));
   }
@@ -46,7 +46,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-  if (Core::CveManager::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Managers::instance().isManagerExist(tr("testsequence"))) {
   }
 }
 
@@ -54,10 +54,10 @@ void FormsManager::createManagersToolBar() {
  * Создает панель быстрого запуска
  */
 void FormsManager::createToolBar() {
-  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
+  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
     createModulesToolBar();
   }
-  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
+  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
     createManagersToolBar();
   }
 }

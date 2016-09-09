@@ -27,13 +27,13 @@ void FormsManager::createManagersMenu() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-    if (Core::CveManager::instance().isManagerExist(tr("logger"))) {
+    if (Core::Managers::instance().isManagerExist(tr("logger"))) {
       QMenu *loggerMenu = _managersMenu->addMenu(tr("&Журнал"));
       loggerMenu->addAction(getManagerAction_FromWAPair("logger",
                                                               "(LoggerManager)loggersWatcherWidget"));
     }
 
-  if (Core::CveManager::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Managers::instance().isManagerExist(tr("testsequence"))) {
     // Создание меню "Тестовые последовательности"
     QMenu *testsequenceMenu = _managersMenu->addMenu(tr("&Тестовые последовательности"));
 
@@ -100,13 +100,13 @@ void FormsManager::createManagersMenu() {
  * Создает меню комплесных форм
  */
 void FormsManager::createMenu() {
-  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_MENU)) {
+  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_MENU)) {
     _modulesMenu  =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Модули"));
     _complexMenu  =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Комплексные окна"));
     createModulesMenu();
   }
 
-  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_MENU)) {
+  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_MENU)) {
     _managersMenu =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Менеджеры"));
     createManagersMenu();
   }

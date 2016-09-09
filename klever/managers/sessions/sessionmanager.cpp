@@ -195,7 +195,7 @@ void SessionManager::setRights() {
   _rights.insert(Operator,  h);
 
   QHashIterator<QString, QHash<int, QPair<bool,QString> > >
-      j(Core::CveManager::instance().boot()->rights());
+      j(Core::Managers::instance().boot()->rights());
   while (j.hasNext()) {
     j.next();
 

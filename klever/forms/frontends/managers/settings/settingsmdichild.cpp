@@ -1,6 +1,6 @@
 #include "settingsmdichild.h"
 #include <unistd.h>
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 SettingsMdiChild::SettingsMdiChild() {
   QGridLayout *grid = new QGridLayout();

@@ -1,7 +1,7 @@
 #include "formsManager.h"
 
 #include <frameWork/gui/cvegui.h>
-#include <frameWork/CveManager.h>
+#include <frameWork/managers.h>
 
 
 /*

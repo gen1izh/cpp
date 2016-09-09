@@ -1,6 +1,6 @@
 #include "optimesettingswidget.h"
 #include "../../optimemanager.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 OptimeSettings::OptimeSettings(QWidget *parent) : QWidget(parent)
 {

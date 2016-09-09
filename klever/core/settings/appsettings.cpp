@@ -5,7 +5,7 @@
 #include <interfaces/isession.h>
 
 
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 using namespace Core;
 
@@ -23,18 +23,18 @@ AppSettings::AppSettings(QWidget *parent) :
   _pagesWidget = new QStackedWidget;
 
   // TODO: Необходимо продумать менеджер прав доступа
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
-    QHashIterator<QString, ManagerInterface *>  i(CveManager::instance().managers());
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
+    QHashIterator<QString, ManagerInterface *>  i(Managers::instance().managers());
     while (i.hasNext()) {
       i.next();
       // если менеджер включен
       if (i.value()->isOn()) {
 
         if (i.key() == "logger") {
-          _pagesWidget->addWidget(CveManager::instance().logger()->getSettingPage());
+          _pagesWidget->addWidget(Managers::instance().logger()->getSettingPage());
         }
         else if (i.key() == "boot") {
-          _pagesWidget->addWidget(CveManager::instance().boot()->getSettingPage());
+          _pagesWidget->addWidget(Managers::instance().boot()->getSettingPage());
         }
         else {
           // если виджет настроек существует и менеджер включен
@@ -75,9 +75,9 @@ AppSettings::AppSettings(QWidget *parent) :
 void AppSettings::createIcons() {
 
   // TODO: Необходимо продумать менеджер прав доступа
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
 
-    QHashIterator<QString, ManagerInterface *>  i(CveManager::instance().managers());
+    QHashIterator<QString, ManagerInterface *>  i(Managers::instance().managers());
     while (i.hasNext()) {
       i.next();
 

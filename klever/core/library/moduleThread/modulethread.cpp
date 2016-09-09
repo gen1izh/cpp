@@ -1,5 +1,5 @@
 #include "modulethread.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <frameWork/gui/cvegui.h>
 
 ModuleThread::ModuleThread(QObject* parent) :

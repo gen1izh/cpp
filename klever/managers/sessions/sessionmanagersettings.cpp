@@ -1,6 +1,6 @@
 #include "sessionmanagersettings.h"
 #include "sessionmanager.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include "widgets/sessionstable.h"
 
 using namespace SessionViewNamespace;
@@ -107,7 +107,7 @@ void SessionManagerSettings::acceptButton() {
   }
 
   QHashIterator<QString, QHash<int, QPair<bool,QString> > >
-      j(Core::CveManager::instance().boot()->rights());
+      j(Core::Managers::instance().boot()->rights());
   while (j.hasNext()) {
     j.next();
 

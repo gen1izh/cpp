@@ -1,5 +1,5 @@
 #include "testsequencetreemdichild.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include "../../man.h"
 
 using namespace man;

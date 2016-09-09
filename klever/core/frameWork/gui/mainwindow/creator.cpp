@@ -75,7 +75,7 @@ void MainWindow::createMenus() {
   //Если список модулей не пуст, то ...
   if (!ModulesManager::instance().modules().isEmpty()) {
     //  и  отладочный режим включен
-  if (CveManager::instance().boot()->hasRightUser(DEBUG_MODE)) {
+  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
       // Создание меню "Модули устройств"
       devicesModulesMenu = menuBar()->addMenu(tr("Отладка"));
 
@@ -104,7 +104,7 @@ void MainWindow::createMenus() {
   CveGui::instance().formManager->createMenu();
 
   // Создание меню "Настройки приложения"
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_APP_SETTINGS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_APP_SETTINGS)) {
     QMenu *settingMenu = menuBar()->addMenu(tr("&Настройки"));
     settingMenu->addAction(_appSettingsWindowAct);
   }
@@ -120,7 +120,7 @@ void MainWindow::createMenus() {
   helpMenu->addSeparator();
   helpMenu->addAction(_aboutAct);
 
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_APP_DOCS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_APP_DOCS)) {
     QMenu *helpDocumentsMenu = helpMenu->addMenu(tr("&Документация"));
     helpDocumentsMenu->addActions(_documentsApi);
   }
@@ -146,7 +146,7 @@ void MainWindow::createToolBars() {
   windowToolBar->addAction(tileAct);
   windowToolBar->addAction(cascadeAct);
 
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_APP_SETTINGS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_APP_SETTINGS)) {
     QToolBar *toolsToolBar = addToolBar(tr("Инструменты"));
     toolsToolBar->setObjectName("Инструменты");
     toolsToolBar->setIconSize(QSize(32,32));
@@ -194,7 +194,7 @@ void MainWindow::createDockWindows() {
     panelMenu->addAction(dock.first->toggleViewAction());
   }
 
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_ALL_CONTROLS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_ALL_CONTROLS)) {
 
     //Если список модулей не пуст, то рисуем правый док с индикаторами, иначе он не нужен.
     if (!ModulesManager::instance().modules().isEmpty()) {

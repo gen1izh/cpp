@@ -4,7 +4,7 @@
 #include <QAction>
 #include <QString>
 #include <QWidget>
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <settings/modules/modulesmanager.h>
 
 namespace mod {

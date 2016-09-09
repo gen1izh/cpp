@@ -3,7 +3,7 @@
 #include <QAction>
 #include <QString>
 #include <QWidget>
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 
 namespace man {

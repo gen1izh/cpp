@@ -1,5 +1,5 @@
 #include "base.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <frameWork/gui/cvegui.h>
 
 
@@ -43,7 +43,7 @@ int Core::Base::finalize() {
   // Завершаем работу всех модулей
   ModulesManager::instance().finalize();
   // Завершаем работу всех менеджеров
-  CveManager::instance().finalize();
+  Managers::instance().finalize();
 
   // Удаление всех объектов parameter из хеша
   QHashIterator<QString, Parameter *> i(_parameters);

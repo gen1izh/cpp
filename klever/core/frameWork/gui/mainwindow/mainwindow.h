@@ -21,7 +21,7 @@
 /* Глобальные данные приложения */
 #include <frameWork/base.h>
 #include <frameWork/gui/cvegui.h>
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 #include <managers/logger/cveLogger.h>
 

@@ -6,7 +6,7 @@
 /* Менеджер сессии */
 //#include <managers/sessions/sessionmanager.h>
 
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 #include <library/setupApi/app.h>
 

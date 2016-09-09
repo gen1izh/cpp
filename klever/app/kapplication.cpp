@@ -61,7 +61,7 @@ void KApplication::instanceTopManagers()
     Core::Base::instance();
 
     // Инстанцирование главного менеджера
-    Core::CveManager::instance();
+    Core::Managers::instance();
 
     // Инициализация менеджера ГИП
     Core::CveGui::instance();
@@ -85,11 +85,11 @@ void KApplication::setSplashScreenVisible(bool value)
 void KApplication::prepareStage1()
 {
     // Создание действий
-    Core::CveManager::instance().createActions();
+    Core::Managers::instance().createActions();
     // Создание виджетов
-    Core::CveManager::instance().createWidgets();
+    Core::Managers::instance().createWidgets();
     // Создание коннекторов
-    Core::CveManager::instance().createConnectors();
+    Core::Managers::instance().createConnectors();
 
     // Инициализация mainwindow и mdi
     Core::CveGui::instance().initializeMainwindowAndMdi();

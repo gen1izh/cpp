@@ -1,19 +1,19 @@
-#include "CveManager.h"
+#include "managers.h"
 
 // Инстанцирование объекта главного менеджера
-Core::CveManager &Core::CveManager::instance() {
-    static Core::CveManager singleObject;
+Core::Managers &Core::Managers::instance() {
+    static Core::Managers singleObject;
     return singleObject;
 }
 
 // Конструктор менеджера
-Core::CveManager::CveManager()
+Core::Managers::Managers()
 {
     setObjectName(tr("Главный менеджер"));
 }
 
 // Финализация главного менеджера
-int Core::CveManager::finalize() {
+int Core::Managers::finalize() {
     QHashIterator<QString, ManagerInterface *>  i(m_managers);
     while (i.hasNext()) {
         i.next();
@@ -23,7 +23,7 @@ int Core::CveManager::finalize() {
 }
 
 // Возвращает указатель на объект журнала
-ILoggerManager  *Core::CveManager::logger() const {
+ILoggerManager  *Core::Managers::logger() const {
     if (_iloggermanager.data()==NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Журнал не подключен!"));
@@ -35,7 +35,7 @@ ILoggerManager  *Core::CveManager::logger() const {
  * \brief Возвращает хеш менеджеров
  * \return
  */
-QHash<QString, ManagerInterface *> Core::CveManager::managers() const {
+QHash<QString, ManagerInterface *> Core::Managers::managers() const {
     if (m_managers.isEmpty()) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Менеджеры отсутствуют!"));
@@ -46,7 +46,7 @@ QHash<QString, ManagerInterface *> Core::CveManager::managers() const {
 
 // Возвращает указатель на объект загрузочного менеджера
 
-IBootManager  *Core::CveManager::boot() const {
+IBootManager  *Core::Managers::boot() const {
     if (_ibootmanager.data()==NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Загрузчик не был корректно подключен!"));
@@ -55,7 +55,7 @@ IBootManager  *Core::CveManager::boot() const {
 }
 
 // Инициализация менеджеров
-int Core::CveManager::load() {
+int Core::Managers::load() {
 
     ManagerInterface    *managerInterface;
 
@@ -134,7 +134,7 @@ int Core::CveManager::load() {
 
 
 // Создание действий менеджеров
-void Core::CveManager::createActions() {
+void Core::Managers::createActions() {
     QHashIterator<QString, ManagerInterface *>  i(m_managers);
     while (i.hasNext()) {
         i.next();
@@ -143,7 +143,7 @@ void Core::CveManager::createActions() {
 }
 
 // Проверка наличия менеджера
-bool Core::CveManager::isManagerExist(QString name) {
+bool Core::Managers::isManagerExist(QString name) {
     QHashIterator<QString, ManagerInterface *>  i(m_managers);
     while (i.hasNext()) {
         i.next();
@@ -155,7 +155,7 @@ bool Core::CveManager::isManagerExist(QString name) {
 }
 
 // Создание коннекторов менеджеров
-void Core::CveManager::createConnectors() {
+void Core::Managers::createConnectors() {
     QHashIterator<QString, ManagerInterface *>  i(m_managers);
     while (i.hasNext()) {
         i.next();
@@ -165,7 +165,7 @@ void Core::CveManager::createConnectors() {
 
 
 // Создание виджетов для всех менеджеров
-void Core::CveManager::createWidgets() {
+void Core::Managers::createWidgets() {
     // Журнал должен инициализироваться самым первым.
     m_managers["logger"]->createWidgets();
 

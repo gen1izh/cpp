@@ -1,5 +1,5 @@
 #include "mysqldatabaseapi.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <frameWork/gui/cvegui.h>
 
 #include <library/loggerapi/loggerapi.h>

@@ -1,6 +1,6 @@
 #include "autorizationsettingswidget.h"
 #include "autorizationmanager.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 #include "personaldata.h"
 

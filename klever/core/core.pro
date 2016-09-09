@@ -31,7 +31,9 @@ HEADERS += settings/modulespage.h \
     frameWork/status_codes.h \
     library/glabals.h \
     interfaces/itopmanager.h \
-    frameWork/base.h
+    frameWork/base.h \
+    frameWork/managers.h \
+    interfaces/iautorization.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 HEADERS += settings/modules/modulesmanager.h
@@ -46,7 +48,7 @@ HEADERS += frameWork/gui/cvegui.h
 HEADERS += frameWork/gui/mainwindow/mainwindow.h
 HEADERS += frameWork/gui/mainwindow/mdiarea.h
 HEADERS += frameWork/information.h
-HEADERS += frameWork/cvemanager.h
+HEADERS +=
 HEADERS += frameWork/pipe/parameter.h
 HEADERS += frameWork/managers/mock/bootmock.h
 HEADERS += frameWork/managers/mock/loggermock.h
@@ -77,7 +79,7 @@ HEADERS += library/qled/qled.h
 HEADERS += library/loggerapi/loggerapi.h
 HEADERS += library/emptypage/emptypage.h
 HEADERS += library/message/messagelibrary.h
-HEADERS += library/singleApplication/singleapplication.h
+HEADERS +=
 
 
 # Исходники
@@ -92,7 +94,8 @@ SOURCES += settings/modulespage.cpp \
     library/orm/db/QDjangoWhere.cpp \
     library/orm/models/mainqdjangomodel.cpp \
     library/orm/models/pluginslistqdjangomodel.cpp \
-    frameWork/base.cpp
+    frameWork/base.cpp \
+    frameWork/managers.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 SOURCES += settings/modules/modulesmanager.cpp
@@ -106,7 +109,7 @@ SOURCES += frameWork/gui/cvegui.cpp
 SOURCES += frameWork/gui/mainwindow/mainwindow.cpp
 SOURCES += frameWork/gui/mainwindow/creator.cpp
 SOURCES += frameWork/gui/mainwindow/mdiarea.cpp
-SOURCES += frameWork/cvemanager.cpp
+SOURCES +=
 SOURCES += frameWork/pipe/parameter.cpp
 SOURCES += frameWork/sysscripts/filesoperations.cpp
 SOURCES +=
@@ -134,7 +137,7 @@ SOURCES += library/loggerapi/loggerapi.cpp
 SOURCES += library/emptypage/emptypage.cpp
 SOURCES += library/setupApi/app.cpp
 SOURCES += library/message/messagelibrary.cpp
-SOURCES += library/singleApplication/singleapplication.cpp
+SOURCES +=
 
 # Ресурсы
 RESOURCES += frameWork/resources/framework_resources.qrc

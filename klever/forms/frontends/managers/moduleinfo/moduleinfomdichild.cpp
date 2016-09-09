@@ -1,5 +1,5 @@
 #include "moduleinfomdichild.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <library/setupApi/app.h>
 
 ModuleInfoMdiChild::ModuleInfoMdiChild() {

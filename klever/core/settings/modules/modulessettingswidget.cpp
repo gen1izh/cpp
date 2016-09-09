@@ -1,5 +1,5 @@
 #include "modulessettingswidget.h"
-#include <frameWork/CveManager.h>
+#include <frameWork/managers.h>
 
 using namespace Core;
 
@@ -37,7 +37,7 @@ ModulesSettingsWidget::ModulesSettingsWidget(QWidget *parent) : QWidget(parent) 
 
   createConnections();
 
-  if (CveManager::instance().boot()->hasRightUser(DEBUG_MODE)) {
+  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
     grid->addWidget(_modulesWidgetsNamesLabel, 0, 0);
     grid->addWidget(_modulesWidgetsNamesBox, 0, 1);
 
@@ -58,7 +58,7 @@ ModulesSettingsWidget::ModulesSettingsWidget(QWidget *parent) : QWidget(parent) 
  * Функция установки списка имен виджетов
  */
 void ModulesSettingsWidget::setWidgetsNamesItems(QStringList lst) {
-  if (CveManager::instance().boot()->hasRightUser(DEBUG_MODE)) {
+  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
     _modulesWidgetsNamesBox->addItems(lst);
   }
 }

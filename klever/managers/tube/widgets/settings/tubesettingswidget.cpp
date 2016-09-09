@@ -1,6 +1,6 @@
 #include "tubesettingswidget.h"
 #include "../../tubemanager.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 
 TubeSettings::TubeSettings(QWidget *parent) : QWidget(parent)
 {

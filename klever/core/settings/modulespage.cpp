@@ -19,7 +19,7 @@
 
 /* Глобальные данные */
 #include <frameWork/base.h>
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <library/emptypage/emptypage.h>
 
 using namespace Core;
@@ -30,7 +30,7 @@ ModulesPage::ModulesPage(QWidget *parent)
   QVBoxLayout *mainLayout = new QVBoxLayout;
   QToolBox    *tb = new QToolBox();
 
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_SETTINGS)) {
+  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_SETTINGS)) {
     if (ModulesManager::instance().modules().isEmpty()) {
       EmptyPage *setting = new EmptyPage(NULL,tr("Страница модулей пуста"));
       mainLayout->addWidget(setting);

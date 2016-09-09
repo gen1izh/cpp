@@ -1,5 +1,5 @@
-#ifndef CVE_MANAGER_H
-#define CVE_MANAGER_H
+#ifndef MANAGERS_H
+#define MANAGERS_H
 
 // Библиотека утилит
 #include <library/utilsLibrary/utilslibrary.h>
@@ -38,15 +38,15 @@ namespace Core {
     /*!
      * \brief Класс главного менеджера
      */
-    class CveManager : public QObject, public ITopManager {
+    class Managers : public QObject, public ITopManager {
 
         Q_OBJECT
 
-        CveManager();
+        Managers();
 
         // Не переопределять!
-        CveManager(const CveManager& root);
-        CveManager& operator=(const CveManager&);
+        Managers(const Managers& root);
+        Managers& operator=(const Managers&);
 
         // Интерфейс на загрузчик и журнал
         QScopedPointer<IBootManager>    _ibootmanager;
@@ -59,7 +59,7 @@ namespace Core {
 
     public:
 
-        static CveManager& instance();
+        static Managers& instance();
 
         /*!
          * \brief Возвращает указатель на объект журнала
@@ -133,4 +133,4 @@ namespace Core {
 
 }
 
-#endif // CVE_MANAGER_H
+#endif // MANAGERS_H

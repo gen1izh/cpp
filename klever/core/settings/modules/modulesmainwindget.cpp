@@ -1,5 +1,5 @@
 #include "modulesmainwindget.h"
-#include <frameWork/cveManager.h>
+#include <frameWork/managers.h>
 #include <library/setupApi/app.h>
 
 ModulesMainWindget::ModulesMainWindget(QWidget *parent) : QWidget(parent) {

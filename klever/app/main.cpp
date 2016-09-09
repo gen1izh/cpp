@@ -4,10 +4,11 @@
 #include <QtWidgets>
 
 #include "kapplication.h"
+#include "singleapplication.h"
 
-// Подключение основного класс приложения MainWindow
-#include <core/frameWork/gui/mainwindow/mainwindow.h>
-#include <library/singleApplication/singleapplication.h>
+//// Подключение основного класс приложения MainWindow
+//#include <core/frameWork/gui/mainwindow/mainwindow.h>
+
 
 // Тело основной функции программы
 int main(int argc, char *argv[]) {
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]) {
     KApplication::setSplashScreenVisible(true);
 
     // Загрузка менеджеров
-    int result = Core::CveManager::instance().load();
+    int result = Core::Managers::instance().load();
 
     // Если файла main.ini нет, то смысла продолжать исполнения программы - нет.
     // В этом случае пользователь должен запустить конфигуратор.
@@ -54,7 +55,7 @@ int main(int argc, char *argv[]) {
     }
 
     // Запуск загрузчика
-    if (!Core::CveManager::instance().boot()->execute()) {
+    if (!Core::Managers::instance().boot()->execute()) {
         int kCode = KApplication::finalize();
         return kCode;
     }
