@@ -46,7 +46,7 @@ class SessionManager;
 
 #include "sessionmanagersettings.h"
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 // FIXME: Зачем засорять глобальное пространство? Вместо директив using следует использовать объявления using.
 using namespace SessionViewNamespace;
@@ -159,7 +159,7 @@ public:
    * \return
    */
   bool hasRightUser(int r) {
-    return hasRight(Cve::instance().getParameterValue(QString("/rights"),QString("none")),
+    return hasRight(Core::Base::instance().getParameterValue(QString("/rights"),QString("none")),
                     static_cast<Right>(r));
   }
 

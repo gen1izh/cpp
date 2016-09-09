@@ -30,11 +30,11 @@ void MainWindow::setupStyleAndMainSettings()
   // Проверка наличия основных параметров приложения
   appsetup.checkApplicationParam(QString("Main"), QString("/name"),  tr("ГП - mainwindow"));
   appsetup.checkApplicationParam(QString("Main"), QString("/text"),  Information::instance().mainTitleApp());
-  appsetup.checkApplicationParam(QString("Main"), QString("/style"), QString("%1").arg(QPLASTIQUESTYLE));
+  appsetup.checkApplicationParam(QString("Main"), QString("/style"), QString("%1").arg(Core::QPLASTIQUESTYLE));
   appsetup.checkApplicationParam(QString("Main"), QString("/mode"),  QString("off"));
 
-  QString sessionName = Cve::instance().getParameterValue(QString("/sessionName"),QString());
-  QString rights      = Cve::instance().getParameterValue(QString("/rights"),QString());
+  QString sessionName = Core::Base::instance().getParameterValue(QString("/sessionName"),QString());
+  QString rights      = Core::Base::instance().getParameterValue(QString("/rights"),QString());
 
   // Установка имени главного модуля
   setObjectName(appsetup.getApplicationParam(QString("Main"), QString("/name")));
@@ -54,19 +54,19 @@ void MainWindow::setupStyleAndMainSettings()
                       ).toInt(&ok, 10);
 
   switch (style) {
-  case QPLASTIQUESTYLE:
+  case Core::QPLASTIQUESTYLE:
     QApplication::setStyle( QStyleFactory::create("Fusion") );
     break;
-  case QWINDOWSXPSTYLE:
+  case Core::QWINDOWSXPSTYLE:
     QApplication::setStyle( QStyleFactory::create("windowsxp") );
     break;
-  case QWINDOWSSTYLE:
+  case Core::QWINDOWSSTYLE:
     QApplication::setStyle( QStyleFactory::create("windows") );
     break;
-  case QCDESTYLE:
+  case Core::QCDESTYLE:
     QApplication::setStyle( QStyleFactory::create("Fusion") );
     break;
-  case QMOTIFSTYLE:
+  case Core::QMOTIFSTYLE:
     QApplication::setStyle( QStyleFactory::create("macintosh") );
     break;
   default:
@@ -87,7 +87,7 @@ MainWindow::~MainWindow() {
  */
 void MainWindow::closeEvent( QCloseEvent *event ) {
 
-  bool isTestStarted = Cve::instance().getParameterValue(QString("testStarted"), false);
+  bool isTestStarted = Core::Base::instance().getParameterValue(QString("testStarted"), false);
 
   if (isTestStarted) {
     event->ignore();
@@ -112,7 +112,7 @@ void MainWindow::closeEvent( QCloseEvent *event ) {
  * Признак того что форма видима и активна
  */
 QWidget *MainWindow::isVisibleAndActiveMdiChild() {
-  if ( QMdiSubWindow *activeSubWindow = CveGui::instance().mdi()->activeSubWindow() ) {
+  if ( QMdiSubWindow *activeSubWindow = Core::CveGui::instance().mdi()->activeSubWindow() ) {
     if ( activeSubWindow->isVisible() ) {
       return qobject_cast<QWidget *>(activeSubWindow->widget());
     }
@@ -126,12 +126,12 @@ QWidget *MainWindow::isVisibleAndActiveMdiChild() {
  */
 void MainWindow::updateActivWindowsListOnToolBar() {
   // Очистка панели активных окон
-  CveGui::instance().activWindowsListToolBar->clear();
+  Core::CveGui::instance().activWindowsListToolBar->clear();
 
   // Получение списка всех окон из subWindowList
   QList<QMdiSubWindow *> windows = mdiArea->subWindowList();
 
-  CveGui::instance().activWindowsListToolBar->setToolButtonStyle(
+  Core::CveGui::instance().activWindowsListToolBar->setToolButtonStyle(
         Qt::ToolButtonTextBesideIcon );
 
   // TODO: при обращении к элементам QList необходима проверка на его пределы
@@ -141,7 +141,7 @@ void MainWindow::updateActivWindowsListOnToolBar() {
       QWidget *child  = qobject_cast<QWidget *>(windows.at(i)->widget());
       // Создание действия
       QAction   *action =
-          CveGui::instance().activWindowsListToolBar->addAction(
+          Core::CveGui::instance().activWindowsListToolBar->addAction(
             windows.at(i)->windowIcon(),
             windows.at(i)->widget()->windowTitle() );
 

@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <QCoreApplication>
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 #include "isetupapi.h"
 

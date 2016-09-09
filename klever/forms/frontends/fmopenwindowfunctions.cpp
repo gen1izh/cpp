@@ -20,7 +20,7 @@
  * Открытие дочернего окна "Управления"
  */
 void FormsManager::openControlWindow() {
-  CveGui::instance().openWindow<ControlMdiChild, MainWindow>(
+  Core::CveGui::instance().openWindow<ControlMdiChild, MainWindow>(
         "CONTROL_POWER_WINDOW",
         tr("Управления"),
         tr("Окно 'Управления' было успешно открыто."),
@@ -37,7 +37,7 @@ void FormsManager::openControlWindow() {
  */
 void FormsManager::openAppOptionsWindow() {
 
-  CveGui::instance().openWindow<SettingsMdiChild,MainWindow>(
+  Core::CveGui::instance().openWindow<SettingsMdiChild,MainWindow>(
         "APP_CONFIG_WINDOW", tr("Настройки приложения"),
         tr("Окно настроек приложения было успешно открыто."),
         tr("Окно настроек приложения не было успешно открыто!") );
@@ -49,7 +49,7 @@ void FormsManager::openAppOptionsWindow() {
  */
 void FormsManager::openTestSequenceTreeWindow() {
 
-  CveGui::instance().openWindow<TestSequenceMdiChild,MainWindow>(
+  Core::CveGui::instance().openWindow<TestSequenceMdiChild,MainWindow>(
         "TEST_SEQUENCE_TREE_WINDOW", tr("Редактор тестовой последовательности"),
         tr("Окно редактора тестовой последовательности было успешно открыто."),
         tr("Окно редактора тестовой последовательности не было успешно открыто!") );
@@ -59,7 +59,7 @@ void FormsManager::openTestSequenceTreeWindow() {
  * Открытие дочернего окна с деревом проверок. Исполнение.
  */
 void FormsManager::openTestSequenceExecutorTreeWindow() {
-  CveGui::instance().openWindow<TestsequenceExecutorMdiChild,MainWindow>(
+  Core::CveGui::instance().openWindow<TestsequenceExecutorMdiChild,MainWindow>(
         "TEST_SEQUENCE_EXECUTOR_TREE_WINDOW", tr("Исполнение теста"),
         tr("Окно исполнения тестовой последовательности было успешно открыто."),
         tr("Окно исполнения тестовых последовательности не было успешно открыто!") );
@@ -72,7 +72,7 @@ void FormsManager::openTestSequenceExecutorTreeWindow() {
  */
 void FormsManager::openModuleInfoWindow() {
 
-  CveGui::instance().openWindow<ModuleInfoMdiChild,MainWindow>(
+  Core::CveGui::instance().openWindow<ModuleInfoMdiChild,MainWindow>(
         "MODULE_INFO_WINDOW", tr("О модулях"),
         tr("Окно модулей системы было успешно открыто."),
         tr("Окно модулей системы не было успешно открыто!") );
@@ -84,7 +84,7 @@ void FormsManager::openModuleInfoWindow() {
  */
 void FormsManager::openLoggersWatcherWindow() {
 
-  CveGui::instance().openWindow<LoggersWatcherMdiChild,MainWindow>(
+  Core::CveGui::instance().openWindow<LoggersWatcherMdiChild,MainWindow>(
         "LOGGERS_WATCHER_WINDOW", tr("Просмотрщик журналов"),
         tr("Окно просмотрщика журналов было успешно открыто."),
         tr("Окно просмотрщика журналов не было успешно открыто!") );

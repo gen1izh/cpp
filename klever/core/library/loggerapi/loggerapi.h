@@ -2,12 +2,10 @@
 #define LOGGER_API_H
 
 #include <QObject>
-#include <interfaces/ilogger.h>
 
 namespace Library {
 
-    namespace LoggerApi {
-
+    namespace Logger {
 
         /*!
          * \brief Журналирование информационного сообщения
@@ -29,15 +27,6 @@ namespace Library {
          * \param[in] txt - текст сообщения
          */
         void logError(QObject *ptr, QString txt);
-
-
-        class Utilities {
-            static ILogger *m_loggerPtr;
-
-        public:
-            static ILogger *loggerPtr();
-            static void setLoggerPtr(ILogger *loggerPtr);
-        };
 
     }
 }

@@ -1,7 +1,7 @@
 #include "appsettings.h"
 
 /* Глобальные данные */
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <interfaces/isession.h>
 
 

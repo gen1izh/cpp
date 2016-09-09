@@ -1,14 +1,14 @@
 #include "rightslistmodel.h"
 #include <frameWork/cveManager.h>
-#include "frameWork/cve.h"
+#include "frameWork/base.h"
 
 RightsListModel::RightsListModel(QWidget *parent)
 {
   Q_UNUSED(parent)
 
-  QString rights = Cve::instance().getParameterValue(QString("/rights"),QString());
+  QString rights = Core::Base::instance().getParameterValue(QString("/rights"),QString());
 
-  QHashIterator<int, QPair<bool,QString> > i(CveManager::instance().boot()->rightsByRole(rights));
+  QHashIterator<int, QPair<bool,QString> > i(Core::CveManager::instance().boot()->rightsByRole(rights));
   while (i.hasNext()) {
     i.next();
     _rightsStringList << i.value().second;
@@ -33,7 +33,7 @@ QVariant RightsListModel::data(const QModelIndex &index, int role) const {
 
   if ( (role == Qt::CheckStateRole) && (index.column() == 0) ) {
     QString txt = (QString)(_rightsStringList.at(index.row()));
-    QHashIterator<int, QPair<bool,QString> > i(CveManager::instance().boot()->rightsByRole(_role));
+    QHashIterator<int, QPair<bool,QString> > i(Core::CveManager::instance().boot()->rightsByRole(_role));
     while (i.hasNext()) {
       i.next();
       if (i.value().second == txt) {
@@ -89,11 +89,11 @@ bool RightsListModel::setData( const QModelIndex &index,
 
   if ( role == Qt::CheckStateRole ) {
 
-    QHashIterator<int, QPair<bool,QString> > i(CveManager::instance().boot()->rightsByRole(_role));
+    QHashIterator<int, QPair<bool,QString> > i(Core::CveManager::instance().boot()->rightsByRole(_role));
     while (i.hasNext()) {
       i.next();
       if (_rightsStringList.at(index.row()) == i.value().second) {
-        CveManager::instance().boot()->setRight(_role, i.key(),value.toBool());
+        Core::CveManager::instance().boot()->setRight(_role, i.key(),value.toBool());
       }
 
     }

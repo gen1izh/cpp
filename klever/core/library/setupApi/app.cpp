@@ -1,5 +1,5 @@
 #include "app.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 /*!
  *  \brief Получает значение параметра компонента для ПО Application.
@@ -12,7 +12,7 @@ QString AppSetupApi::getApplicationParam(QString component, QString key) {
   // Подключение к компоненту.
   setComponentName( component );
 
-  QString sessionPath =Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+  QString sessionPath = Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   // Установка пути до файла с конфигурацией.
   setFileName( QString("%1\\%2").arg(sessionPath)
@@ -36,7 +36,7 @@ void AppSetupApi::checkApplicationParam(QString component, QString key, QString 
   // Подключение к компоненту.
   setComponentName(component);
 
-  QString sessionPath = Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+  QString sessionPath = Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   // Установка пути до файла с конфигурацией.
   setFileName( QString("%1\\%2").arg(sessionPath)
@@ -59,7 +59,7 @@ void AppSetupApi::setApplicationParam(QString component, QString key, QString va
   // Подключение к компоненту.
   setComponentName( component );
 
-  QString sessionPath =Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+  QString sessionPath = Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   // Установка пути до файла с конфигурацией.
   setFileName( QString("%1\\%2").arg(sessionPath)

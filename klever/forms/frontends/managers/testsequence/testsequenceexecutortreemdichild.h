@@ -12,7 +12,7 @@
 #include <QAction>
 #include <QMenu>
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 #include <library/message/messagelibrary.h>
 

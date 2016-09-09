@@ -1,6 +1,6 @@
 #include "controlpowermdichild.h"
 
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 
 ControlMdiChild::ControlMdiChild() {

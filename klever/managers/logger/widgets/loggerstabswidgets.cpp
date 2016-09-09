@@ -3,7 +3,7 @@
 #include <library/utilsLibrary/utilslibrary.h>
 #include "../logger/loggerssettingspage.h"
 #include <interfaces/ilogger.h>
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 LoggersTabsWidgets::LoggersTabsWidgets(QWidget *parent) : QWidget(parent)
 {
@@ -13,7 +13,7 @@ LoggersTabsWidgets::LoggersTabsWidgets(QWidget *parent) : QWidget(parent)
   QString enabled;
 
   QString sessionPath =
-     Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+     Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   for (int i = 0; i < LoggersSettingsPage::COUNT; i++) {
 

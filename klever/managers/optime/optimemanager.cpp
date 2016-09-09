@@ -1,7 +1,7 @@
 #include "optimemanager.h"
 #include <library/loggerapi/loggerapi.h>
 
-using namespace Library::LoggerApi;
+using namespace Library::Logger;
 
 OptimeManager::OptimeManager() {
   setName("/optime");           // Установка имени модуля (внутреннее)
@@ -28,8 +28,8 @@ OptimeManager::OptimeManager() {
   _cveOperationTimeAccumulateFlag = false;
   _productOperationTimeAccumulateFlag = false;
 
-  Cve::instance().setParameterValue(QString("/isCveOperationTimeAccumulated"), false);
-  Cve::instance().setParameterValue(QString("/isProductOperationTimeAccumulated"), false);
+  Core::Base::instance().setParameterValue(QString("/isCveOperationTimeAccumulated"), false);
+  Core::Base::instance().setParameterValue(QString("/isProductOperationTimeAccumulated"), false);
 
   QTimer::singleShot(10000, this, SLOT(readCveAndProductOperationTime()));
 
@@ -49,10 +49,10 @@ void OptimeManager::createConnectors()
 void OptimeManager::pollingOptimesFlagsTimerTick() {
 
   int isCveOperationTimeAccumulated =
-      Cve::instance().getParameterValue(QString("/isCveOperationTimeAccumulated"), false);
+      Core::Base::instance().getParameterValue(QString("/isCveOperationTimeAccumulated"), false);
 
   int isProductOperationTimeAccumulated =
-      Cve::instance().getParameterValue(QString("/isProductOperationTimeAccumulated"), false);
+      Core::Base::instance().getParameterValue(QString("/isProductOperationTimeAccumulated"), false);
 
   if (_cveOperationTimeAccumulateFlag != isCveOperationTimeAccumulated) {
     _cveOperationTimeAccumulateFlag = isCveOperationTimeAccumulated;
@@ -74,7 +74,7 @@ void OptimeManager::cveOperationTimerTick()
 {
   if (_cveOperationTimeAccumulateFlag) {
 
-    int accumulatedTime = Cve::instance().getParameterValue(QString("/cveOperationTime"), 0);
+    int accumulatedTime = Core::Base::instance().getParameterValue(QString("/cveOperationTime"), 0);
 
     qDebug() << "cveOperationTime" << accumulatedTime;
 
@@ -82,7 +82,7 @@ void OptimeManager::cveOperationTimerTick()
 
     qDebug() << "accumulatedTime" << accumulatedTime;
 
-    Cve::instance().setParameterValue(QString("/cveOperationTime"), accumulatedTime);
+    Core::Base::instance().setParameterValue(QString("/cveOperationTime"), accumulatedTime);
 
     writeCveAndProductOperationTime();
   }
@@ -93,11 +93,11 @@ void OptimeManager::productOperationTimerTick()
 {
   if (_productOperationTimeAccumulateFlag) {
 
-    int accumulatedTime = Cve::instance().getParameterValue(QString("/productOperationTime"), 0);
+    int accumulatedTime = Core::Base::instance().getParameterValue(QString("/productOperationTime"), 0);
 
     accumulatedTime += _productOperationTime->elapsed()/1000;
 
-    Cve::instance().setParameterValue(QString("/productOperationTime"), accumulatedTime);
+    Core::Base::instance().setParameterValue(QString("/productOperationTime"), accumulatedTime);
 
     writeCveAndProductOperationTime();
   }
@@ -146,10 +146,10 @@ QIcon OptimeManager::settingIcon() {
 void OptimeManager::writeCveAndProductOperationTime() {
   QSettings settings("Irz", "OptimeManager");
   // Актуализация значения времени наработки КПА
-  int cveOperationTime = Cve::instance().getParameterValue(QString("/cveOperationTime"), 0);
+  int cveOperationTime = Core::Base::instance().getParameterValue(QString("/cveOperationTime"), 0);
 
   // Актуализация значения времени наработки Изделия
-  int productOperationTime = Cve::instance().getParameterValue(QString("/productOperationTime"), 0);
+  int productOperationTime = Core::Base::instance().getParameterValue(QString("/productOperationTime"), 0);
 
   qDebug() << "writeCveAndProductOperationTime " << " cveOperationTime = " << cveOperationTime;
 
@@ -180,7 +180,7 @@ void OptimeManager::writeCveAndProductOperationTime() {
 
   settings.beginGroup("operation_time");
   settings.setValue("cve", cveOperationTime);
-  settings.setValue(QString("product_%1").arg(Cve::instance().getParameterValue(QString("/serialNumber"),
+  settings.setValue(QString("product_%1").arg(Core::Base::instance().getParameterValue(QString("/serialNumber"),
                                                                                 QString("000000"))),
                                                                                 productOperationTime);
   settings.endGroup();
@@ -201,15 +201,15 @@ void OptimeManager::readCveAndProductOperationTime() {
   int cveOperationTime = settings.value("cve", 0).toInt(&ok);
 
   // Актуализация значения времени наработки КПА
-  Cve::instance().setParameterValue(QString("/cveOperationTime"),
+  Core::Base::instance().setParameterValue(QString("/cveOperationTime"),
                                     cveOperationTime);
 
   // TODO: если менеджер сессий подгрузится позже, то тут будет фейл
   int productOperationTime = settings.value(QString("product_%1").arg(
-                                           Cve::instance().getParameterValue(QString("/serialNumber"),
+                                           Core::Base::instance().getParameterValue(QString("/serialNumber"),
                                                                              QString("000000"))), 0).toInt(&ok);;
 
-  Cve::instance().setParameterValue(QString("/productOperationTime"),
+  Core::Base::instance().setParameterValue(QString("/productOperationTime"),
                                     productOperationTime);
 
   settings.endGroup();

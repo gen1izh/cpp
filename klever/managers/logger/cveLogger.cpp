@@ -3,7 +3,7 @@
 #include <QMainWindow>
 #include <library/utilsLibrary/utilslibrary.h>
 #include <managers/logger/logger/logger.h>
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <interfaces/ilogger.h>
 
 #include "widgets/loggerstabswidgets.h"
@@ -27,9 +27,9 @@ CveLogger::CveLogger()
   _scripts = new LogerScriptApi();
 
   // Регистрация этого объекта в движке исполнения
-  QScriptValue value = Cve::instance().scriptEngine()->newQObject(_scripts);
-  Cve::instance().addToGlobalValueList(value);
-  Cve::instance().scriptEngine()->globalObject().setProperty(QString("log"), value);
+  QScriptValue value = Core::Base::instance().scriptEngine()->newQObject(_scripts);
+  Core::Base::instance().addToGlobalValueList(value);
+  Core::Base::instance().scriptEngine()->globalObject().setProperty(QString("log"), value);
 
 
 }

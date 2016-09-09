@@ -18,7 +18,7 @@
 #include <QVariant>
 
 /* Глобальные данные */
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <frameWork/cveManager.h>
 #include <library/emptypage/emptypage.h>
 

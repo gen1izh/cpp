@@ -22,19 +22,19 @@ bool BootMock::execute()
 
     qDebug() << "============================ ";
 
-    Cve::instance().setParameterValue(QString("/sessionPath"), QDir::currentPath() );
+    Core::Base::instance().setParameterValue(QString("/sessionPath"), QDir::currentPath() );
     qDebug() << "Current path = " << QDir::currentPath();
 
-    Cve::instance().setParameterValue(QString("/rights"), QString("ALL"));
+    Core::Base::instance().setParameterValue(QString("/rights"), QString("ALL"));
     qDebug() << "Rights = " << QString("ALL");
 
-    Cve::instance().setParameterValue(QString("/sessionName"), QString("NO_SESSION"));
+    Core::Base::instance().setParameterValue(QString("/sessionName"), QString("NO_SESSION"));
     qDebug() << "SessionName = " << QString("NO_SESSION");
 
-    Cve::instance().setParameterValue(QString("/productType"), QString("NONE"));
+    Core::Base::instance().setParameterValue(QString("/productType"), QString("NONE"));
     qDebug() << "ProductType = " << QString("NONE");
 
-    Cve::instance().setParameterValue(QString("/serialNumber"), QString("1234"));
+    Core::Base::instance().setParameterValue(QString("/serialNumber"), QString("1234"));
     qDebug() << "SerialNumber = " << QString("1234");
 
     qDebug() << "============================ ";

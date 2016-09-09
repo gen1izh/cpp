@@ -28,7 +28,10 @@ HEADERS += settings/modulespage.h \
     library/orm/db/QDjangoWhere_p.h \
     library/orm/models/mainqdjangomodel.h \
     library/orm/models/pluginslistqdjangomodel.h \
-    frameWork/error.h
+    frameWork/status_codes.h \
+    library/glabals.h \
+    interfaces/itopmanager.h \
+    frameWork/base.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 HEADERS += settings/modules/modulesmanager.h
@@ -38,7 +41,7 @@ HEADERS += settings/modules/moduleslistmodel.h
 
 # Карскас приложения
 HEADERS += frameWork/gui/iformmanager.h
-HEADERS += frameWork/cve.h
+HEADERS +=
 HEADERS += frameWork/gui/cvegui.h
 HEADERS += frameWork/gui/mainwindow/mainwindow.h
 HEADERS += frameWork/gui/mainwindow/mdiarea.h
@@ -88,7 +91,8 @@ SOURCES += settings/modulespage.cpp \
     library/orm/db/QDjangoQuerySet.cpp \
     library/orm/db/QDjangoWhere.cpp \
     library/orm/models/mainqdjangomodel.cpp \
-    library/orm/models/pluginslistqdjangomodel.cpp
+    library/orm/models/pluginslistqdjangomodel.cpp \
+    frameWork/base.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 SOURCES += settings/modules/modulesmanager.cpp
@@ -97,7 +101,7 @@ SOURCES += settings/modules/modulesmainwindget.cpp
 SOURCES += settings/modules/moduleslistmodel.cpp
 
 # Карскас приложения
-SOURCES += frameWork/cve.cpp
+SOURCES +=
 SOURCES += frameWork/gui/cvegui.cpp
 SOURCES += frameWork/gui/mainwindow/mainwindow.cpp
 SOURCES += frameWork/gui/mainwindow/creator.cpp

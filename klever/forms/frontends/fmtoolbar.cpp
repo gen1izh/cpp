@@ -14,9 +14,9 @@ void FormsManager::createModulesToolBar() {
    *                  Модуль источника питания
    *******************************************************************************/
 
-  QToolBar *controlToolBar = CveGui::instance().mainwindow()->addToolBar(tr("Управление"));
+  QToolBar *controlToolBar = Core::CveGui::instance().mainwindow()->addToolBar(tr("Управление"));
   controlToolBar->setObjectName(tr("Управление"));
-  CveGui::instance().mainwindow()->addToolBar(Qt::RightToolBarArea,controlToolBar);
+  Core::CveGui::instance().mainwindow()->addToolBar(Qt::RightToolBarArea,controlToolBar);
   controlToolBar->setAllowedAreas( Qt::RightToolBarArea );
   controlToolBar->addAction(_controlAction);
   controlToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -29,7 +29,7 @@ void FormsManager::createModulesToolBar() {
  */
 void FormsManager::createManagersToolBar() {
 
-  QToolBar *managersToolBar = CveGui::instance().mainwindow()->addToolBar(tr("Менеджеры"));
+  QToolBar *managersToolBar = Core::CveGui::instance().mainwindow()->addToolBar(tr("Менеджеры"));
   managersToolBar->setObjectName("Менеджеры");
   managersToolBar->setIconSize(QSize(32,32));
 
@@ -37,7 +37,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер журналирования
    *******************************************************************************/
 
-  if (CveManager::instance().isManagerExist(tr("logger"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("logger"))) {
     managersToolBar->addAction(getManagerAction_FromWAPair(tr("logger"),
                                                            tr("(LoggerManager)loggersWatcherWidget")));
   }
@@ -46,7 +46,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-  if (CveManager::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::CveManager::instance().isManagerExist(tr("testsequence"))) {
   }
 }
 
@@ -54,10 +54,10 @@ void FormsManager::createManagersToolBar() {
  * Создает панель быстрого запуска
  */
 void FormsManager::createToolBar() {
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
+  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
     createModulesToolBar();
   }
-  if (CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
+  if (Core::CveManager::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
     createManagersToolBar();
   }
 }

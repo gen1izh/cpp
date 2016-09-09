@@ -1,5 +1,5 @@
 #include "systemoperations.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 
 
 /*
@@ -79,7 +79,7 @@ void SystemOperations::setFileName(QString filename) {
 //  mainsetup.checkMainParam(QString("Variables"), QString("/sessionPath"), QString(""));
 //  QString sessionPath = mainsetup.getMainParam(QString("Variables"), QString("/sessionPath"));
 
-  QString sessionPath =Cve::instance().getParameterValue(QString("/sessionPath"), QString(""));
+  QString sessionPath = Core::Base::instance().getParameterValue(QString("/sessionPath"), QString(""));
 
   _fileName = QString("%1/%2")
       .arg(sessionPath)

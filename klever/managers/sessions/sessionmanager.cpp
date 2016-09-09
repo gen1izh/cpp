@@ -1,5 +1,5 @@
 #include "sessionmanager.h"
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <interfaces/isession.h>
 #include <QByteArray>
 
@@ -91,7 +91,7 @@ void SessionManager::checkDefaultSessions() {
   QString operatorName  = mainsetup.getMainParam(QString("iam"), QString("operator_name"));
   QString developerName = mainsetup.getMainParam(QString("iam"), QString("developer_name"));
 
-  Cve::instance().setParameterValue(QString("/device_cve_name"), devname);
+  Core::Base::instance().setParameterValue(QString("/device_cve_name"), devname);
 
   // Получение модельного индекса выделенной ячейки
   int count = _sessionsDialog.model()->rowCount();
@@ -162,17 +162,17 @@ void SessionManager::switchToCurrentSession() {
   serial      = _sessionsDialog.model()->index(row,SERIAL_NUMBER).data().toString();
   int id          = _sessionsDialog.model()->index(row,SESSION_ID).data().toInt(&ok);
 
-  Cve::instance().setParameterValue(QString("/sessionId"),id);
+  Core::Base::instance().setParameterValue(QString("/sessionId"),id);
 
-  Cve::instance().setParameterValue(QString("/rights"),right);
+  Core::Base::instance().setParameterValue(QString("/rights"),right);
 
-  Cve::instance().setParameterValue(QString("/sessionName"),name);
+  Core::Base::instance().setParameterValue(QString("/sessionName"),name);
 
-  Cve::instance().setParameterValue(QString("/productType"),producttype);
+  Core::Base::instance().setParameterValue(QString("/productType"),producttype);
 
-  Cve::instance().setParameterValue(QString("/serialNumber"),serial);
+  Core::Base::instance().setParameterValue(QString("/serialNumber"),serial);
 
-  Cve::instance().setParameterValue(QString("/sessionPath"),
+  Core::Base::instance().setParameterValue(QString("/sessionPath"),
                                     QString("%1/%2/%3")
                                     .arg(QDir::currentPath())
                                     .arg("sessions")
@@ -195,7 +195,7 @@ void SessionManager::setRights() {
   _rights.insert(Operator,  h);
 
   QHashIterator<QString, QHash<int, QPair<bool,QString> > >
-      j(CveManager::instance().boot()->rights());
+      j(Core::CveManager::instance().boot()->rights());
   while (j.hasNext()) {
     j.next();
 

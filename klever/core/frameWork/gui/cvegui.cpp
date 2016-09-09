@@ -1,17 +1,12 @@
-#include <QCoreApplication>
-#include <QDebug>
-#include <QPluginLoader>
 
-/* Подключение статус бара главного окна */
+// Подключение статус бара главного окна
 #include "mainwindow/mainwindow.h"
-
 #include "cvegui.h"
-
 
 /*
  * Обращение к синглтону cvegui
  */
-CveGui::CveGui()
+Core::CveGui::CveGui()
 {
   setObjectName("Графическая среда");
   activWindowsListToolBar = new QToolBar();
@@ -21,36 +16,53 @@ CveGui::CveGui()
 /*
  * Инициализация mainwindow и mdiarea
  */
-void CveGui::initializeMainwindowAndMdi()
+void Core::CveGui::initializeMainwindowAndMdi()
 {
   _mainwindow  = new MainWindow();
   _mdi  = ((MainWindow *)_mainwindow)->mdiArea;
 }
 
 
-CveGui &CveGui::instance() {
+Core::CveGui &Core::CveGui::instance() {
   static CveGui singleObject;
   return singleObject;
+}
+
+int Core::CveGui::load()
+{
+
+    return 0;
+}
+
+// Финализация работы ГИП
+int Core::CveGui::finalize()
+{
+    // Удаление главного окна приложения
+    delete _mainwindow;
+    // Зануление указателя на главное окно приложения
+    _mainwindow = NULL;
+
+    return 0;
 }
 
 /*
  * Подготовка ГИП
  */
-void CveGui::prepare() {
+void Core::CveGui::prepare() {
 
-  Library::LoggerApi::logInfo(this,"Создание действий");
+  Library::Logger::logInfo(this,"Создание действий");
   ((MainWindow *)_mainwindow)->createActions();
 
-  Library::LoggerApi::logInfo(this,"Создание главного меню приложения");
+  Library::Logger::logInfo(this,"Создание главного меню приложения");
   ((MainWindow *)_mainwindow)->createMenus();
 
-  Library::LoggerApi::logInfo(this,"Создание коннекторов");
+  Library::Logger::logInfo(this,"Создание коннекторов");
   ((MainWindow *)_mainwindow)->createConnectors();
 
-  Library::LoggerApi::logInfo(this,"Создание меню быстрого запуска");
+  Library::Logger::logInfo(this,"Создание меню быстрого запуска");
   ((MainWindow *)_mainwindow)->createToolBars();
 
-  Library::LoggerApi::logInfo(this,"Создание доков");
+  Library::Logger::logInfo(this,"Создание доков");
   ((MainWindow *)_mainwindow)->createDockWindows();
 
   // Коннекторы модуля настроек приложения
@@ -65,7 +77,7 @@ void CveGui::prepare() {
 /*
  * Инициализация менеджера форм
  */
-void CveGui::initializeFormManager()
+void Core::CveGui::initializeFormManager()
 {
 
   QPluginLoader loader("formsManager");
@@ -84,7 +96,7 @@ void CveGui::initializeFormManager()
 /*
  * Поиск формы по идентификатору
  */
-QMdiSubWindow *CveGui::findMdiChild( QString id ) {
+QMdiSubWindow *Core::CveGui::findMdiChild( QString id ) {
   foreach ( QMdiSubWindow *window, mdi()->subWindowList() ) {
     QWidget *mdiChild = qobject_cast<QWidget *>(window->widget());
     if ( mdiChild->objectName() == id ) {
@@ -97,23 +109,23 @@ QMdiSubWindow *CveGui::findMdiChild( QString id ) {
 /*
  * Восстановить позиции доков
  */
-void CveGui::restoreDocksPosition() {
+void Core::CveGui::restoreDocksPosition() {
   QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
   bool res = _mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
-    Library::LoggerApi::logError(this,"Восстановление геометрии не выполнено!");
+    Library::Logger::logError(this,"Восстановление геометрии не выполнено!");
   }
 
   res = _mainwindow->restoreState(settings.value("windowState").toByteArray());
   if (!res) {
-    Library::LoggerApi::logError(this,"Восстановление состояний доков не выполнено!");
+    Library::Logger::logError(this,"Восстановление состояний доков не выполнено!");
   }
 }
 
 /*
  * Обработчик события скрытия формы
  */
-bool CveGui::eventFilter(QObject *obj, QEvent *event) {
+bool Core::CveGui::eventFilter(QObject *obj, QEvent *event) {
   QMdiSubWindow *window = qobject_cast<QMdiSubWindow*>(obj);
   if (window) {
     if (event->type() == QEvent::WindowStateChange) {
@@ -132,16 +144,16 @@ bool CveGui::eventFilter(QObject *obj, QEvent *event) {
 /*
  * При открытии окно будет максимального размера
  */
-void CveGui::showMaximized(){
+void Core::CveGui::showMaximized(){
   _mainwindow->showMaximized();
-  Library::LoggerApi::logInfo(this,"Главное окно приложения максимизировано");
+  Library::Logger::logInfo(this,"Главное окно приложения максимизировано");
 }
 
 
 /*
  * Сплеш-скрин. Информирование о загрузке модуля.
  */
-void CveGui::splashMessage(QString txt) {
+void Core::CveGui::splashMessage(QString txt) {
 
   QTime time;
   time.start();
@@ -160,7 +172,7 @@ void CveGui::splashMessage(QString txt) {
 /*
  * Инициализация сплеш скрина
  */
-void CveGui::initializeSplashScreen() {
+void Core::CveGui::initializeSplashScreen() {
   QPixmap pixmap(":/images/logo.png");
   _splash = new QSplashScreen();
   _splash->setPixmap(pixmap);
@@ -171,7 +183,7 @@ void CveGui::initializeSplashScreen() {
 /*
  * Отключение сплеш-скрина
  */
-void CveGui::finishSplashScreen()
+void Core::CveGui::finishSplashScreen()
 {
   _splash->finish(_mainwindow);
   delete _splash;
@@ -180,7 +192,7 @@ void CveGui::finishSplashScreen()
 /*
  * Функция блокирования MainWindow до окончания длительной операции
  */
-void CveGui::startDialog(QString msg)
+void Core::CveGui::startDialog(QString msg)
 {
   _procDialog.setDialog(msg);
   _procDialog.start();
@@ -191,7 +203,7 @@ void CveGui::startDialog(QString msg)
 /*
  * Функция разблокирования MainWindow после окончания длительной операции
  */
-void CveGui::closeDialog()
+void Core::CveGui::closeDialog()
 {
   _procDialog.finish();
   _mainwindow->setEnabled(true);

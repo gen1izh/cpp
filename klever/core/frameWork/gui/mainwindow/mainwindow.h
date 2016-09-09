@@ -19,7 +19,7 @@
 #include <QtWidgets>
 
 /* Глобальные данные приложения */
-#include <frameWork/cve.h>
+#include <frameWork/base.h>
 #include <frameWork/gui/cvegui.h>
 #include <frameWork/cveManager.h>
 
