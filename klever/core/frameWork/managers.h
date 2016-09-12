@@ -12,7 +12,7 @@
 #include <settings/appsettings.h>
 
 #include <interfaces/iloggermanager.h>
-#include <interfaces/ibootmanager.h>
+#include <interfaces/isessionmanager.h>
 #include <interfaces/moduleinterface.h>
 
 #include <settings/modules/modulesmanager.h>
@@ -21,7 +21,7 @@
 
 #include <QScopedPointer>
 
-#include "frameWork/managers/mock/bootmock.h"
+#include "frameWork/managers/mock/sessionmock.h"
 #include "frameWork/managers/mock/loggermock.h"
 
 #include <frameWork/base.h>
@@ -49,7 +49,7 @@ namespace Core {
         Managers& operator=(const Managers&);
 
         // Интерфейс на загрузчик и журнал
-        QScopedPointer<IBootManager>    _ibootmanager;
+        QScopedPointer<ISessionManager>    _ibootmanager;
         QScopedPointer<ILoggerManager>  _iloggermanager;
 
         /*!
@@ -71,7 +71,7 @@ namespace Core {
          * \brief Возвращает указатель на объект загрузочного менеджера
          * \return
          */
-        IBootManager  *boot() const;
+        ISessionManager  *boot() const;
 
         /*!
          * \brief Инициализация менеджеров

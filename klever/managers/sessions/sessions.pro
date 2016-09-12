@@ -3,22 +3,37 @@ TARGET = boot
 include(../managers.pri)
 
 # Заголовочные файлы
-HEADERS += sessionmanagersettings.h
-HEADERS += widgets/sessioninfodialog.h
+HEADERS += \
+    widgets/sessionslistform.h \
+    widgets/informationdialog.h \
+    widgets/settings/settingwidget.h \
+    widgets/addsessiondialog.h
+HEADERS +=
 HEADERS += widgets/sessionstable.h
 HEADERS += widgets/sessionpropertydialog.h
-HEADERS += rightslistmodel.h
+HEADERS +=
 HEADERS += sessionmanager.h
 
 # Исходные файлы
-SOURCES += sessionmanagersettings.cpp
-SOURCES += widgets/sessioninfodialog.cpp
+SOURCES += \
+    widgets/sessionslistform.cpp \
+    widgets/informationdialog.cpp \
+    widgets/settings/settingwidget.cpp \
+    widgets/addsessiondialog.cpp
+SOURCES +=
 SOURCES += widgets/sessionstable.cpp
 SOURCES += widgets/sessionpropertydialog.cpp
-SOURCES += rightslistmodel.cpp
+SOURCES +=
 SOURCES += sessionmanager.cpp
 
 # Ресурсы
 RESOURCES += sessionmanager_resources.qrc
 
-DISTFILES += boot.json
+DISTFILES += \
+    session.json
+
+FORMS += \
+    widgets/sessionslistform.ui \
+    widgets/informationdialog.ui \
+    widgets/settings/settingwidget.ui \
+    widgets/addsessiondialog.ui

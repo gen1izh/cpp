@@ -15,22 +15,22 @@ class ManagerInterface {
   /*!
    * \brief Признак активности менеджера
    */
-  bool     _isOn;
+  bool     m_isOn;
 
   /*!
    * \brief Признак неактивности менеджера
    */
-  bool     _isDisable;
+  bool     m_isDisable;
 
   /*!
    * \brief Название менеджера
    */
-  QString  _name;
+  QString  m_name;
 
   /*!
    * \brief Название менеджера
    */
-  QString  _textname;
+  QString  m_textname;
 
   protected:
 
@@ -57,24 +57,24 @@ class ManagerInterface {
      * \brief Устанавливает название для менеджера
      * \param[in] name - название менеджера
      */
-    virtual void setName(QString name) { _name = name; }
+    virtual void setName(QString name) { m_name = name; }
 
     /*!
      * \brief Возвращает название менеджера
      */
-    virtual QString name() { return _name; }
+    virtual QString name() { return m_name; }
 
 
     /*!
      * \brief Устанавливает текстовое название для менеджера
      * \param[in] name - название менеджера
      */
-    virtual void setTextName(QString name) { _textname = name; }
+    virtual void setTextName(QString name) { m_textname = name; }
 
     /*!
      * \brief Возвращает текстовое название менеджера
      */
-    virtual QString textName() { return _textname; }
+    virtual QString textName() { return m_textname; }
 
     /*!
      * \brief Иконка для окна настроек
@@ -87,7 +87,7 @@ class ManagerInterface {
      * \return
      */
     bool isOn() {
-      return _isOn;
+      return m_isOn;
     }
 
     /*!
@@ -97,7 +97,7 @@ class ManagerInterface {
      * \return
      */
     bool isDisable() {
-      return _isDisable;
+      return m_isDisable;
     }
 
     /*!
@@ -105,7 +105,7 @@ class ManagerInterface {
      * \return
      */
     void setOnOrOff(bool flag) {
-      _isOn = flag;
+      m_isOn = flag;
     }
 
     /*!
@@ -120,8 +120,8 @@ class ManagerInterface {
       // Проверяем включен ли модуль. Чтение настроек.
       MainSetupApi  mainsetup;
       // Проверить состояние менеджера, отключить по-умолчанию.
-      mainsetup.checkMainParam(QString("managers"), _name, QString("off"));
-      QString value = mainsetup.getMainParam(QString("managers"), _name);
+      mainsetup.checkMainParam(QString("managers"), m_name, QString("off"));
+      QString value = mainsetup.getMainParam(QString("managers"), m_name);
       if ( value == "on" ) {
         setOnOrOff(true);
       }

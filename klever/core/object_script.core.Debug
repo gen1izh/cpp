@@ -9,6 +9,7 @@ INPUT(
 ./..\_build\debug\temp\core\objs\mainqdjangomodel.o
 ./..\_build\debug\temp\core\objs\pluginslistqdjangomodel.o
 ./..\_build\debug\temp\core\objs\base.o
+./..\_build\debug\temp\core\objs\managers.o
 ./..\_build\debug\temp\core\objs\optionspage.o
 ./..\_build\debug\temp\core\objs\appsettings.o
 ./..\_build\debug\temp\core\objs\modulesmanager.o
@@ -19,7 +20,6 @@ INPUT(
 ./..\_build\debug\temp\core\objs\mainwindow.o
 ./..\_build\debug\temp\core\objs\creator.o
 ./..\_build\debug\temp\core\objs\mdiarea.o
-./..\_build\debug\temp\core\objs\cvemanager.o
 ./..\_build\debug\temp\core\objs\parameter.o
 ./..\_build\debug\temp\core\objs\filesoperations.o
 ./..\_build\debug\temp\core\objs\systemoperations.o
@@ -37,7 +37,6 @@ INPUT(
 ./..\_build\debug\temp\core\objs\emptypage.o
 ./..\_build\debug\temp\core\objs\app.o
 ./..\_build\debug\temp\core\objs\messagelibrary.o
-./..\_build\debug\temp\core\objs\singleapplication.o
 ./..\_build\debug\temp\core\objs\qrc_framework_resources.o
 ./..\_build\debug\temp\core\objs\qrc_cvesettingsmanager_resources.o
 ./..\_build\debug\temp\core\objs\qrc_lamplib_resources.o
@@ -47,6 +46,7 @@ INPUT(
 ./..\_build\debug\temp\core\objs\moc_mainqdjangomodel.o
 ./..\_build\debug\temp\core\objs\moc_pluginslistqdjangomodel.o
 ./..\_build\debug\temp\core\objs\moc_base.o
+./..\_build\debug\temp\core\objs\moc_managers.o
 ./..\_build\debug\temp\core\objs\moc_optionspage.o
 ./..\_build\debug\temp\core\objs\moc_appsettings.o
 ./..\_build\debug\temp\core\objs\moc_modulesmanager.o
@@ -56,7 +56,6 @@ INPUT(
 ./..\_build\debug\temp\core\objs\moc_iformmanager.o
 ./..\_build\debug\temp\core\objs\moc_cvegui.o
 ./..\_build\debug\temp\core\objs\moc_mainwindow.o
-./..\_build\debug\temp\core\objs\moc_cvemanager.o
 ./..\_build\debug\temp\core\objs\moc_parameter.o
 ./..\_build\debug\temp\core\objs\moc_systemoperations.o
 ./..\_build\debug\temp\core\objs\moc_modulethread.o
@@ -65,5 +64,4 @@ INPUT(
 ./..\_build\debug\temp\core\objs\moc_processdialog.o
 ./..\_build\debug\temp\core\objs\moc_qled.o
 ./..\_build\debug\temp\core\objs\moc_messagelibrary.o
-./..\_build\debug\temp\core\objs\moc_singleapplication.o
 );

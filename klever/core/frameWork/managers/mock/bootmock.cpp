@@ -1,22 +1,22 @@
-#include "bootmock.h"
+#include "sessionmock.h"
 
-BootMock::BootMock()
+SessionMock::SessionMock()
 {
 
 }
 
-BootMock::~BootMock()
+SessionMock::~SessionMock()
 {
     delete _wgt;
 }
 
-bool BootMock::hasRightUser(int r)
+bool SessionMock::hasRightUser(int r)
 {
     Q_UNUSED(r)
     return true;
 }
 
-bool BootMock::execute()
+bool SessionMock::execute()
 {
     qDebug() << "BootMock executed...";
 
@@ -42,28 +42,28 @@ bool BootMock::execute()
     return true;
 }
 
-QIcon BootMock::settingIcon()
+QIcon SessionMock::settingIcon()
 {
     return QIcon();
 }
 
-QWidget *BootMock::getSettingPage()
+QWidget *SessionMock::getSettingPage()
 {
     _wgt = new QWidget();
     return _wgt;
 }
 
-void BootMock::createWidgets()
+void SessionMock::createWidgets()
 {
     qDebug() << "BootMock::createWidgets()";
 }
 
-void BootMock::createActions()
+void SessionMock::createActions()
 {
     qDebug() << "BootMock::createActions()";
 }
 
-void BootMock::createConnectors()
+void SessionMock::createConnectors()
 {
     qDebug() << "BootMock::createConnectors()";
 }
