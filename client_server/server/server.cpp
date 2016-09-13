@@ -29,11 +29,11 @@ QByteArray Server::createJsonPacket(QString algo, QString text)
 // Разбор Json пакета от клиента
 void Server::parseJsonPacket(QByteArray &bytes, QString &algo, QStringList &text)
 {
-    QJsonParseError *err = new QJsonParseError;
-    QJsonDocument packet(QJsonDocument::fromJson(bytes, err));
+    QJsonParseError err;
+    QJsonDocument packet(QJsonDocument::fromJson(bytes, &err));
 
-    if(err->error != QJsonParseError::NoError) {
-        qDebug() << "Json data error: " << err->errorString();
+    if(err.error != QJsonParseError::NoError) {
+        qDebug() << "Json data error: " << err.errorString();
         return;
     }
 
