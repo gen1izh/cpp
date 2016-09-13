@@ -52,7 +52,7 @@ class IFormManager : public QObject {
 };
 
 // Идентификатор класса IFormManager. Уникальный идентификатор.
-#define IFormManager_iid "ru.irz.cve_software.IFormManager"
+#define IFormManager_iid "ru.home.klever.IFormManager"
 
 // Использование макроса Q_DECLARE_INTERFACE для того чтобы сказать метообъектной системе Qt
 // об интерфейсе

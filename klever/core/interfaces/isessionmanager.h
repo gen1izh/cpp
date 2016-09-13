@@ -20,7 +20,7 @@ class ISessionManager : public ManagerInterface {
 };
 
 // TODO: Расписать зачем это
-#define ISessionManager_iid "ru.irz.cve_software.ISessionManager"
+#define ISessionManager_iid "ru.home.klever.ISessionManager"
 // Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
 Q_DECLARE_INTERFACE(ISessionManager, ISessionManager_iid)
 

@@ -1,17 +1,11 @@
 #include "moduleinterface.h"
 
-/*
- * Конструктор класса.
- */
+
 ModuleInterface::ModuleInterface() {
-  _moduleName    = "Модуль";
-  _moduleObjName = "Предназначение модуля";
-  _moduleSysName = "device";
+
 }
 
-/*
- * Виртуальный деструктор модуля
- */
+
 ModuleInterface::~ModuleInterface() {
 }
 
@@ -34,56 +28,56 @@ QHash<QString, QAction *> ModuleInterface::getActionList() const {
  * Возвращает идентификатор модуля.
  */
 int ModuleInterface::getId() const {
-  return _id;
+  return m_id;
 }
 
 /*
  * Устанавливает идентификатор модуля.
  */
 void ModuleInterface::setId(int id) {
-  _id = id;
+  m_id = id;
 }
 
 /*
  * Возвращает имя модуля.
  */
 QString ModuleInterface::getModuleName() const {
-  return _moduleName;
+  return m_moduleName;
 }
 
 /*
  * Возвращает имя объекта модуля.
  */
 QString ModuleInterface::getModuleObjName() const {
-  return _moduleObjName;
+  return m_moduleObjectName;
 }
 
 /*
  * Возвращает внутреннее имя модуля.
  */
 QString ModuleInterface::getModuleSysName() const {
-  return _moduleSysName;
+  return m_moduleSystemName;
 }
 
 /*
  * Устанавливает имя модуля.
  */
 void ModuleInterface::setModuleName(QString n) {
-  _moduleName = n;
+  m_moduleName = n;
 }
 
 /*
  * Устанавливает имя объекта модуля.
  */
 void ModuleInterface::setModuleObjName(QString n) {
-  _moduleObjName = n;
+  m_moduleObjectName = n;
 }
 
 /*
  * Устанавливает внутреннее имя модуля.
  */
 void ModuleInterface::setModuleSysName(QString n) {
-  _moduleSysName = n;
+  m_moduleSystemName = n;
 }
 
 /*

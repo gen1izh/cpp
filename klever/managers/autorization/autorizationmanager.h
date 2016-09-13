@@ -4,26 +4,25 @@
 #include "widgets/settings/autorizationsettingswidget.h"
 
 /*!
- * brief    Менеджер авторизации
- * details  Менеджер определеяет группы, роли, пользователей,
+ * \brief    Менеджер авторизации
+ * \details  Менеджер определеяет группы, роли, пользователей,
  *          разрешения.
- * author  gen1izh
- * date
+ * \author  gen1izh
+ * \date
  */
-class AutorizationManager;
 
 #include <frameWork/base.h>
 #include <interfaces/iautorizationmanager.h>
 
-class AutorizationManager : public QObject, public IAutorizationManager, public ManagerInterface {
+class AutorizationManager : public QObject, public IAutorizationManager {
 
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID ManagerInterface_iid FILE "autorization.json")
-    Q_INTERFACES(ManagerInterface)
+    Q_PLUGIN_METADATA(IID IAutorizationManager_iid FILE "autorization.json")
+    Q_INTERFACES(IAutorizationManager)
 
     /*!
-     * brief Виджет настроек
+     * \brief Виджет настроек
      */
     autorizationSettings *_settings = NULL;
 
@@ -31,17 +30,17 @@ public:
 
     AutorizationManager();
 
-    ~AutorizationManager() {
-        finalize();
-    }
+    ~AutorizationManager();
+
+    bool execute();
 
     /*!
-     * brief Создание виджетов модуля
+     * \brief Создание виджетов модуля
      */
     void createWidgets();
 
     /*!
-     * brief Возвращает виджет настроек менеджера
+     * \brief Возвращает виджет настроек менеджера
      * return
      */
     QWidget *getSettingPage();
@@ -55,16 +54,16 @@ public:
     /*!
      * \brief Создание действий
      */
-    virtual void createActions() {}
+    void createActions();
 
     /*!
      * \brief Созданией коннекторов
      */
-    virtual void createConnectors() {}
+    void createConnectors();
 
 
     /*!
-     * brief Деинициализация элементов менеджера
+     * \brief Деинициализация элементов менеджера
      */
     void finalize();
 

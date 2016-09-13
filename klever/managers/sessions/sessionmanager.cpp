@@ -3,15 +3,9 @@
 SessionManager::SessionManager()
 {
     Q_INIT_RESOURCE(sessionmanager_resources);
-    setName(QString("session"));
-    setTextName(tr("Менеджер сессий"));
 
-    // Проверка состояния менеджера
-    checkManagerState();
+    initialize(tr("session"), tr("Менеджер сессий"));
 
-    createWidgets();
-    createActions();
-    createConnectors();
 }
 
 SessionManager::~SessionManager()

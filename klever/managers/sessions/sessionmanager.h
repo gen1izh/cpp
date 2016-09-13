@@ -2,21 +2,10 @@
 #define SESSION_MANAGER_H
 
 /*!
- * \brief   Менеджер сессий.
- * \details При открытии ПО открывается окно менеджера сессий.
+ * \brief   Менеджер сессий
  * \date    2015
  */
-#include <QDebug>
-#include <QGridLayout>
-#include <QGroupBox>
-#include <QLabel>
-#include <QLineEdit>
 #include <QObject>
-#include <QPushButton>
-#include <QSqlTableModel>
-#include <QTableWidgetItem>
-#include <QtSql>
-
 
 #include "widgets/settings/settingwidget.h"
 #include "widgets/sessionslistform.h"
@@ -30,8 +19,6 @@
 #include <library/emptypage/emptypage.h>
 
 #include <frameWork/base.h>
-
-
 
 class SessionManager : public QObject, public ISessionManager
 {

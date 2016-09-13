@@ -12,12 +12,12 @@ void PluginsQDjangoModel::setName(const QString &name)
   m_name = name;
 }
 
-QString PluginsQDjangoModel::state() const
+bool PluginsQDjangoModel::state() const
 {
   return m_state;
 }
 
-void PluginsQDjangoModel::setState(const QString &state)
+void PluginsQDjangoModel::setState(bool state)
 {
   m_state = state;
 }

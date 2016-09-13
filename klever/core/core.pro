@@ -98,7 +98,8 @@ SOURCES += settings/modulespage.cpp \
     library/orm/models/pluginslistqdjangomodel.cpp \
     frameWork/base.cpp \
     frameWork/managers.cpp \
-    frameWork/managers/mock/sessionmock.cpp
+    frameWork/managers/mock/sessionmock.cpp \
+    interfaces/managerinterface.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 SOURCES += settings/modules/modulesmanager.cpp

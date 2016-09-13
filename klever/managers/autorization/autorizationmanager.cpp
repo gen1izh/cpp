@@ -1,11 +1,16 @@
 #include "autorizationmanager.h"
 
 AutorizationManager::AutorizationManager() {
-    setName("autorization");     // Установка имени модуля (внутреннее)
-    setTextName(tr("Авторизация"));  // Установка имени модуля (внешнее)
-    setOnOrOff(true);
-    createWidgets();
+    initialize(tr("autorization"), tr("Авторизация"));
+}
 
+AutorizationManager::~AutorizationManager()
+{
+    finalize();
+}
+
+bool AutorizationManager::execute()
+{
 
 }
 
@@ -27,7 +32,7 @@ void AutorizationManager::createWidgets() {
  * Деинициализация элементов менеджера
  */
 void AutorizationManager::finalize() {
-
+    // TODO: ...
 }
 
 
@@ -44,6 +49,16 @@ QWidget *AutorizationManager::getSettingPage() {
  */
 QIcon AutorizationManager::settingIcon() {
     return QIcon(":/autorizationmanager/img/manager.png");
+}
+
+void AutorizationManager::createActions()
+{
+    // TODO: ...
+}
+
+void AutorizationManager::createConnectors()
+{
+    // TODO: ...
 }
 
 

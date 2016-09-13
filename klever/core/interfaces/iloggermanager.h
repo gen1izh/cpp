@@ -13,7 +13,7 @@ public:
 
 
 // TODO: Расписать зачем это
-#define ILoggerManager_iid "ru.irz.cve_software.ILoggerManager"
+#define ILoggerManager_iid "ru.home.klever.ILoggerManager"
 // Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
 Q_DECLARE_INTERFACE(ILoggerManager, ILoggerManager_iid)
 

@@ -20,7 +20,7 @@ class IPluginInterface
     virtual ModuleInterface* createModule(int id) = 0;
 };
 
-#define IPluginInterface_iid "ru.irz.cve_software.IPluginInterface"
+#define IPluginInterface_iid "ru.home.klever.IPluginInterface"
 
 Q_DECLARE_INTERFACE(IPluginInterface, IPluginInterface_iid)
 

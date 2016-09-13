@@ -1,5 +1,5 @@
-#ifndef MODULESPAGE_H
-#define MODULESPAGE_H
+#ifndef MODULES_PAGE_H
+#define MODULES_PAGE_H
 
 #include <QWidget>
 #include <library/setupApi/app.h>
@@ -12,4 +12,4 @@ class ModulesPage : public QWidget {
     ModulesPage(QWidget *parent = 0);
 };
 
-#endif // MODULESPAGE_H
+#endif // MODULES_PAGE_H
