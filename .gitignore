@@ -16,3 +16,8 @@ release
 /klever/core/object_script.core.Debug
 /klever/managers/sessions/object_script.boot.Release
 /klever/managers/sessions/object_script.boot.Debug
+/klever/managers/sessions/object_script.session.Debug
+/klever/core/frameWork/resources/images/Thumbs.db
+/klever/managers/sessions/object_script.session.Release
+/klever/managers/sessions/object_script.sessions.Debug
+/klever/managers/sessions/object_script.sessions.Release
