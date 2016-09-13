@@ -22,16 +22,17 @@
 #include <frameWork/managers.h>
 #include <library/emptypage/emptypage.h>
 
-using namespace Core;
-
 ModulesPage::ModulesPage(QWidget *parent)
     : QWidget(parent) {
 
   QVBoxLayout *mainLayout = new QVBoxLayout;
   QToolBox    *tb = new QToolBox();
 
-  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_SETTINGS)) {
-    if (ModulesManager::instance().modules().isEmpty()) {
+//  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_SETTINGS)) {
+
+  // TODO: CAN_SEE_MODULES_SETTINGS правило сделать
+
+    if (Core::ModulesManager::instance().modules().isEmpty()) {
       EmptyPage *setting = new EmptyPage(NULL,tr("Страница модулей пуста"));
       mainLayout->addWidget(setting);
       setLayout(mainLayout);
@@ -39,8 +40,8 @@ ModulesPage::ModulesPage(QWidget *parent)
     }
 
 
-    QHashIterator<QString,QList<ModulesQueueItem> >  i(
-          ModulesManager::instance().modules());
+    QHashIterator<QString,QList<Core::ModulesQueueItem> >  i(
+          Core::ModulesManager::instance().modules());
     while (i.hasNext()) {
       i.next();
 
@@ -56,7 +57,7 @@ ModulesPage::ModulesPage(QWidget *parent)
                       .arg( i.value().at(j).i->getModuleObjName() ) );
       }
     }
-  }
+//  }
 
   mainLayout->addWidget(tb);
   setLayout(mainLayout);

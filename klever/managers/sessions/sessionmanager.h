@@ -1,5 +1,5 @@
-#ifndef SESSIONMANAGER_H
-#define SESSIONMANAGER_H
+#ifndef SESSION_MANAGER_H
+#define SESSION_MANAGER_H
 
 /*!
  * \brief   Менеджер сессий.
@@ -37,7 +37,7 @@ class SessionManager;
 
 
 // Подключение интерфейса менеджера
-#include <interfaces/ibootmanager.h>
+#include <interfaces/isessionmanager.h>
 
 // Подключение функций работы с настройками
 #include <library/setupApi/main.h>
@@ -71,13 +71,13 @@ using namespace SessionViewNamespace;
  *  Элементы управления позволяют добавлять новую сессию, удалять сессию\сессии,
  *  соединяться с определенной сессией.
  */
-class SessionManager : public QObject, public IBootManager
+class SessionManager : public QObject, public ISessionManager
 {
 
   Q_OBJECT
 
-  Q_PLUGIN_METADATA(IID IBootManager_iid FILE "boot.json")
-  Q_INTERFACES(IBootManager)
+  Q_PLUGIN_METADATA(IID ISessionManager_iid FILE "session.json")
+  Q_INTERFACES(ISessionManager)
 
   /*!
    * \brief Проверка существования каталога sessions и ini файла
@@ -183,7 +183,7 @@ public:
   /*!
    * \brief Деинициализация элементов менеджера сессии
    */
-  void finalize();
+  int finalize();
 
   /*!
    * \brief Функция переключения на текущую сессию.
@@ -205,4 +205,4 @@ public:
 };
 
 
-#endif // SESSIONMANAGER_H
+#endif // SESSION_MANAGER_H

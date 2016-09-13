@@ -37,17 +37,19 @@ ModulesSettingsWidget::ModulesSettingsWidget(QWidget *parent) : QWidget(parent) 
 
   createConnections();
 
-  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
+
+  // TODO: DEBUG_MODE
+//  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
     grid->addWidget(_modulesWidgetsNamesLabel, 0, 0);
     grid->addWidget(_modulesWidgetsNamesBox, 0, 1);
 
     grid->addWidget(_modulesListLabel, 1, 0);
     grid->addWidget(_modulesList,      2, 0, 1, 2);
-  }
-  else {
+//  }
+//  else {
     grid->addWidget(_modulesListLabel, 1, 0);
     grid->addWidget(_modulesList,      2, 0, 1, 2);
-  }
+//  }
 
   /* Добавление сетки на слой виджета */
   setLayout( grid );
@@ -58,9 +60,10 @@ ModulesSettingsWidget::ModulesSettingsWidget(QWidget *parent) : QWidget(parent) 
  * Функция установки списка имен виджетов
  */
 void ModulesSettingsWidget::setWidgetsNamesItems(QStringList lst) {
-  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
+    // TODO: DEBUG_MODE
+//  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
     _modulesWidgetsNamesBox->addItems(lst);
-  }
+//  }
 }
 
 /*

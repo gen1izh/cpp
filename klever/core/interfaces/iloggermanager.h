@@ -1,5 +1,6 @@
-#ifndef ILOGGERMANAGER
-#define ILOGGERMANAGER
+#ifndef I_LOGGER_MANAGER_H
+#define I_LOGGER_MANAGER_H
+
 #include "ilogger.h"
 #include "managerinterface.h"
 
@@ -16,5 +17,5 @@ public:
 // Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
 Q_DECLARE_INTERFACE(ILoggerManager, ILoggerManager_iid)
 
-#endif // ILOGGERMANAGER
+#endif // I_LOGGER_MANAGER_H
 

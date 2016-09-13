@@ -2,13 +2,9 @@
 
 /* Глобальные данные */
 #include <frameWork/base.h>
-#include <interfaces/isession.h>
-
+#include <interfaces/isessionmanager.h>
 
 #include <frameWork/managers.h>
-
-using namespace Core;
-
 
 AppSettings::AppSettings(QWidget *parent) :
     QWidget(parent)
@@ -23,18 +19,19 @@ AppSettings::AppSettings(QWidget *parent) :
   _pagesWidget = new QStackedWidget;
 
   // TODO: Необходимо продумать менеджер прав доступа
-  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
-    QHashIterator<QString, ManagerInterface *>  i(Managers::instance().managers());
+//  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
+
+    QHashIterator<QString, ManagerInterface *>  i(Core::Managers::instance().managers());
     while (i.hasNext()) {
       i.next();
       // если менеджер включен
       if (i.value()->isOn()) {
 
         if (i.key() == "logger") {
-          _pagesWidget->addWidget(Managers::instance().logger()->getSettingPage());
+          _pagesWidget->addWidget(Core::Managers::instance().logger()->getSettingPage());
         }
         else if (i.key() == "boot") {
-          _pagesWidget->addWidget(Managers::instance().boot()->getSettingPage());
+          _pagesWidget->addWidget(Core::Managers::instance().boot()->getSettingPage());
         }
         else {
           // если виджет настроек существует и менеджер включен
@@ -47,7 +44,7 @@ AppSettings::AppSettings(QWidget *parent) :
 
     _pagesWidget->addWidget(new OptionsPage); /* основные настройки приложения */
     _pagesWidget->addWidget(new ModulesPage); /* модули */
-  }
+//  }
 
   createIcons();
 
@@ -75,9 +72,9 @@ AppSettings::AppSettings(QWidget *parent) :
 void AppSettings::createIcons() {
 
   // TODO: Необходимо продумать менеджер прав доступа
-  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
+//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
 
-    QHashIterator<QString, ManagerInterface *>  i(Managers::instance().managers());
+    QHashIterator<QString, ManagerInterface *>  i(Core::Managers::instance().managers());
     while (i.hasNext()) {
       i.next();
 
@@ -91,7 +88,7 @@ void AppSettings::createIcons() {
       }
     }
 
-  }
+//  }
 
   QListWidgetItem *optionsButton = new QListWidgetItem(_contentsWidget);
   optionsButton->setIcon(QPixmap(":/settings/img/configure.png"));

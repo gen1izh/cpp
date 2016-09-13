@@ -46,7 +46,7 @@ QHash<QString, ManagerInterface *> Core::Managers::managers() const {
 
 // Возвращает указатель на объект загрузочного менеджера
 
-IBootManager  *Core::Managers::boot() const {
+ISessionManager  *Core::Managers::boot() const {
     if (_ibootmanager.data()==NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Загрузчик не был корректно подключен!"));
@@ -70,7 +70,7 @@ int Core::Managers::load() {
     // Если менеджеры отсутствуют
     if (managersNamesList.isEmpty()) {
         // Создаем заглушку для загрузчика
-        _ibootmanager.reset(new BootMock());
+        _ibootmanager.reset(new SessionMock());
         m_managers["boot"] = static_cast<ManagerInterface *>(_ibootmanager.data());
 
         // Создаем заглушку для журнала
@@ -92,7 +92,7 @@ int Core::Managers::load() {
 
             if (pluginInstance) {
                 if (manName=="boot") {
-                    _ibootmanager.reset(qobject_cast<IBootManager *>(pluginInstance));
+                    _ibootmanager.reset(qobject_cast<ISessionManager *>(pluginInstance));
                     managerInterface = static_cast<ManagerInterface *>(_ibootmanager.data());
                 }
                 else if (manName=="logger") {

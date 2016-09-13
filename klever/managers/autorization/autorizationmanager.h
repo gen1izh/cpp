@@ -13,8 +13,9 @@
 class AutorizationManager;
 
 #include <frameWork/base.h>
+#include <interfaces/iautorizationmanager.h>
 
-class AutorizationManager : public QObject, public ManagerInterface {
+class AutorizationManager : public QObject, public IAutorizationManager, public ManagerInterface {
 
     Q_OBJECT
 
@@ -22,8 +23,8 @@ class AutorizationManager : public QObject, public ManagerInterface {
     Q_INTERFACES(ManagerInterface)
 
     /*!
-   * brief Виджет настроек
-   */
+     * brief Виджет настроек
+     */
     autorizationSettings *_settings = NULL;
 
 public:
@@ -35,36 +36,36 @@ public:
     }
 
     /*!
-   * brief Создание виджетов модуля
-   */
+     * brief Создание виджетов модуля
+     */
     void createWidgets();
 
     /*!
-   * brief Возвращает виджет настроек менеджера
-   * return
-   */
+     * brief Возвращает виджет настроек менеджера
+     * return
+     */
     QWidget *getSettingPage();
 
     /*!
-   * brief Возвращает иконку для настроек
-   * return
-   */
+     * brief Возвращает иконку для настроек
+     * return
+     */
     QIcon settingIcon();
 
     /*!
-   * \brief Создание действий
-   */
+     * \brief Создание действий
+     */
     virtual void createActions() {}
 
     /*!
-   * \brief Созданией коннекторов
-   */
+     * \brief Созданией коннекторов
+     */
     virtual void createConnectors() {}
 
 
     /*!
-   * brief Деинициализация элементов менеджера
-   */
+     * brief Деинициализация элементов менеджера
+     */
     void finalize();
 
 public slots:

@@ -33,7 +33,9 @@ HEADERS += settings/modulespage.h \
     interfaces/itopmanager.h \
     frameWork/base.h \
     frameWork/managers.h \
-    interfaces/iautorization.h
+    interfaces/iautorizationmanager.h \
+    interfaces/isessionmanager.h \
+    frameWork/managers/mock/sessionmock.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 HEADERS += settings/modules/modulesmanager.h
@@ -50,7 +52,7 @@ HEADERS += frameWork/gui/mainwindow/mdiarea.h
 HEADERS += frameWork/information.h
 HEADERS +=
 HEADERS += frameWork/pipe/parameter.h
-HEADERS += frameWork/managers/mock/bootmock.h
+HEADERS +=
 HEADERS += frameWork/managers/mock/loggermock.h
 HEADERS += frameWork/sysscripts/systemoperations.h
 
@@ -60,9 +62,9 @@ HEADERS += interfaces/moduleinterface.h
 HEADERS += interfaces/managerinterface.h
 HEADERS += interfaces/ilogger.h
 HEADERS += interfaces/iloggermanager.h
-HEADERS += interfaces/iboot.h
-HEADERS += interfaces/ibootmanager.h
-HEADERS += interfaces/isession.h
+HEADERS +=
+HEADERS +=
+HEADERS +=
 
 # Библиотеки ядра
 HEADERS += library/moduleThread/modulethread.h

@@ -1,12 +1,13 @@
-#ifndef BOOT_MOCK_H
-#define BOOT_MOCK_H
+#ifndef SESSION_MOCK_H
+#define SESSION_MOCK_H
+
 #include <QDebug>
 #include <QString>
 
-#include "interfaces/ibootmanager.h"
+#include "interfaces/isessionmanager.h"
 #include <frameWork/base.h>
 
-class BootMock : public IBootManager
+class SessionMock : public ISessionManager
 {
     /*!
      * \brief Пустой виджет настроек
@@ -16,8 +17,8 @@ class BootMock : public IBootManager
 
 public:
 
-    BootMock();
-    ~BootMock();
+    SessionMock();
+    ~SessionMock();
 
     /*!
      * \brief Запустить загрузчик
@@ -60,4 +61,4 @@ public:
     void createConnectors();
 };
 
-#endif // BOOT_MOCK_H
+#endif // SESSION_MOCK_H
