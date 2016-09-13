@@ -1,110 +1,82 @@
 #include "sessionmanager.h"
-#include <frameWork/base.h>
-#include <interfaces/isessionmanager.h>
-#include <QByteArray>
+
+SessionManager::SessionManager()
+{
+    Q_INIT_RESOURCE(sessionmanager_resources);
+    setName(QString("session"));
+    setTextName(tr("Менеджер сессий"));
+
+    // Проверка состояния менеджера
+    checkManagerState();
+
+    createWidgets();
+    createActions();
+    createConnectors();
+}
+
+SessionManager::~SessionManager()
+{
+    finalize();
+}
 
 // Проверка существования каталога sessions
 void SessionManager::checkSessionContent()
 {
-  SysLibrary::UtilsLibrary utils;
-  // Если каталог sessions не существовал, то создаем его...
-  utils.checkFolder(QString("%1//%2").arg(QDir::currentPath()).arg("sessions"));
+    SysLibrary::UtilsLibrary utils;
+    // Если каталог sessions не существовал, то создаем его...
+    utils.checkFolder(QString("%1//%2").arg(QDir::currentPath()).arg("sessions"));
 }
+
+
 
 // Открытие всех сессий
 bool SessionManager::execute() {
-  bool result=false;
-  if (isOn()) {
-    // Подготовка менеджера сессий к работе
-    // Открытие файла сессий
-    checkSessionContent();
-
-    // Установка модели во вьювер
-    _sessionsDialog.setModelToView();
-
-    // Проверка наличия сессий по-умолчанию
-    checkDefaultSessions();
-
-    // Отобразить диалоговое окно менеджера сессий
-    while (!result) {
-      try {
-        if (showSessions())  {
-            result = true;
-
-            // Переключить контекст на текущую сессию
-            switchToCurrentSession();
-        }
-      }
-      catch (QString) {
-        return false;
-      }
+    if (m_sessionsListForm->exec() == QDialog::Accepted) {
+        return true;
     }
 
-//      delete _sessionsDialog.model();
-//      delete _sessionsDialog;
-    return result;
-  }
-  return true;
+    return false;
 }
 
+// Создание виджетов
+void SessionManager::createWidgets()
+{
+    if (m_setting==nullptr) {
+        m_setting = new SettingWidget(NULL);
+    }
 
+    if (m_sessionsListForm) {
+        m_sessionsListForm = new SessionsListForm(NULL);
+    }
 
-
-
-/*
- *  Функция переключения на текущую сессию
- */
-void SessionManager::switchToCurrentSession() {
-
-  QString name, right, serial, producttype;
-  bool ok;
-
-  // Получение модельного индекса выделенной ячейки
-  int row = _sessionsDialog.table().currentIndex().row();
-
-  name        = _sessionsDialog.model()->index(row,SESSION_NAME).data().toString();
-  producttype = _sessionsDialog.model()->index(row,PRODUCT_TYPE).data().toString();
-  right       = _sessionsDialog.model()->index(row,RIGHTS).data().toString();
-  serial      = _sessionsDialog.model()->index(row,SERIAL_NUMBER).data().toString();
-  int id          = _sessionsDialog.model()->index(row,SESSION_ID).data().toInt(&ok);
-
-  Core::Base::instance().setParameterValue(QString("/sessionId"),id);
-
-  Core::Base::instance().setParameterValue(QString("/rights"),right);
-
-  Core::Base::instance().setParameterValue(QString("/sessionName"),name);
-
-  Core::Base::instance().setParameterValue(QString("/productType"),producttype);
-
-  Core::Base::instance().setParameterValue(QString("/serialNumber"),serial);
-
-  Core::Base::instance().setParameterValue(QString("/sessionPath"),
-                                    QString("%1/%2/%3")
-                                    .arg(QDir::currentPath())
-                                    .arg("sessions")
-                                    .arg(name ));
-
-  setRights(); // после того как выбрали роль устанавливаем права доступа
+    if (m_informationDialog) {
+        m_informationDialog = new InformationDialog(NULL);
+    }
 }
 
-
-
-
-//  Запуск диалогового окна
-bool SessionManager::showSessions() {
-
-  bool res = ( _sessionsDialog.exec() == QDialog::Accepted );
-
-  /* Обработка нажатия кнопки Отмены */
-  if (!res) {
-    throw QString("ExitException");
-  }
-  else{
-    return _sessionsDialog.connectToSession();
-  }
+void SessionManager::createActions()
+{
+    // TODO: ...
 }
+
+void SessionManager::createConnectors()
+{
+    // TODO: ...
+}
+
+QWidget *SessionManager::getSettingPage()
+{
+    QWidget* wgt=static_cast<QWidget *>(m_setting);
+    return wgt;
+}
+
+QIcon SessionManager::settingIcon()
+{
+    return QIcon(":/sessionmanager/img/settings/sessions.png");
+}
+
 
 // Деинициализация элементов менеджера сессии
 int SessionManager::finalize() {
-
+    // TODO: ...
 }

@@ -1,5 +1,5 @@
-#ifndef MODULEINTERFACE_H
-#define MODULEINTERFACE_H
+#ifndef MODULE_INTERFACE_H
+#define MODULE_INTERFACE_H
 
 #include <QObject>
 #include <QWidget>
@@ -186,4 +186,4 @@ class ModuleInterface {
     QStringList getModuleInfo();
 };
 
-#endif // MODULEINTERFACE_H
+#endif // MODULE_INTERFACE_H

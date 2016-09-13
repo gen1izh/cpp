@@ -56,6 +56,7 @@ int main(int argc, char *argv[]) {
 
     // Запуск загрузчика
     if (!Core::Managers::instance().boot()->execute()) {
+
         int kCode = KApplication::finalize();
         return kCode;
     }

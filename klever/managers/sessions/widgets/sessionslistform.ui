@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>sessionsListForm</class>
- <widget class="QWidget" name="sessionsListForm">
+ <class>SessionsListForm</class>
+ <widget class="QWidget" name="SessionsListForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,17 +14,30 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QPushButton" name="openButton">
+   <item row="11" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" rowspan="12">
+    <widget class="QListView" name="sessionsView"/>
+   </item>
+   <item row="4" column="1">
+    <widget class="QPushButton" name="dublicateButton">
      <property name="text">
-      <string>Открыть</string>
+      <string>Дублировать</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" rowspan="9">
-    <widget class="QListView" name="sessionsView"/>
-   </item>
-   <item row="7" column="1">
+   <item row="8" column="1">
     <widget class="QPushButton" name="informationButton">
      <property name="text">
       <string>Информация</string>
@@ -38,31 +51,38 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QPushButton" name="deleteButton">
-     <property name="text">
-      <string>Удалить</string>
-     </property>
-    </widget>
-   </item>
    <item row="5" column="1">
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="renameButton">
      <property name="text">
       <string>Переименовать</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="0" column="1">
+    <widget class="QPushButton" name="openButton">
+     <property name="text">
+      <string>Открыть</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
     <widget class="Line" name="line">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QPushButton" name="pushButton">
+   <item row="9" column="1">
+    <widget class="Line" name="line_3">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="1">
+    <widget class="QPushButton" name="exitButton">
      <property name="text">
-      <string>Дублировать</string>
+      <string>Выход</string>
      </property>
     </widget>
    </item>
@@ -72,6 +92,16 @@
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QPushButton" name="deleteButton">
+     <property name="text">
+      <string>Удалить</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="newNameEdit"/>
    </item>
   </layout>
  </widget>

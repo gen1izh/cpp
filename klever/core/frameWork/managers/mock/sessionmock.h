@@ -27,13 +27,6 @@ public:
     bool execute();
 
     /*!
-     * \brief Возвращает результат ответа имеет ли пользователь права
-     * \param[in] r - право
-     * \return
-     */
-    bool hasRightUser(int r);
-
-    /*!
      * \brief Возвращает иконку
      * \return
      */

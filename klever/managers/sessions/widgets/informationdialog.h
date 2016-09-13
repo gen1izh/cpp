@@ -1,5 +1,5 @@
-#ifndef INFORMATIONDIALOG_H
-#define INFORMATIONDIALOG_H
+#ifndef INFORMATION_DIALOG_H
+#define INFORMATION_DIALOG_H
 
 #include <QDialog>
 
@@ -19,4 +19,4 @@ private:
     Ui::InformationDialog *ui;
 };
 
-#endif // INFORMATIONDIALOG_H
+#endif // INFORMATION_DIALOG_H

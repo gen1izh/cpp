@@ -12,3 +12,16 @@ AddSessionDialog::~AddSessionDialog()
 {
     delete ui;
 }
+QString AddSessionDialog::name() const
+{
+    return ui->nameEdit->text();
+}
+
+
+QString AddSessionDialog::parameters() const
+{
+    return QString("");
+}
+
+
+

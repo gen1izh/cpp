@@ -1,5 +1,6 @@
 
 TARGET = autorization
+
 include(../managers.pri)
 
 # Заголовочные файлы

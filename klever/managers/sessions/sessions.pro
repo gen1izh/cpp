@@ -1,4 +1,4 @@
-TARGET = boot
+TARGET = session
 
 include(../managers.pri)
 
@@ -7,10 +7,12 @@ HEADERS += \
     widgets/sessionslistform.h \
     widgets/informationdialog.h \
     widgets/settings/settingwidget.h \
-    widgets/addsessiondialog.h
+    widgets/addsessiondialog.h \
+    widgets/models/sessionsmodel.h \
+    widgets/models/sessionsqdjangomodel.h
 HEADERS +=
-HEADERS += widgets/sessionstable.h
-HEADERS += widgets/sessionpropertydialog.h
+HEADERS +=
+HEADERS +=
 HEADERS +=
 HEADERS += sessionmanager.h
 
@@ -19,10 +21,12 @@ SOURCES += \
     widgets/sessionslistform.cpp \
     widgets/informationdialog.cpp \
     widgets/settings/settingwidget.cpp \
-    widgets/addsessiondialog.cpp
+    widgets/addsessiondialog.cpp \
+    widgets/models/sessionsmodel.cpp \
+    widgets/models/sessionsqdjangomodel.cpp
 SOURCES +=
-SOURCES += widgets/sessionstable.cpp
-SOURCES += widgets/sessionpropertydialog.cpp
+SOURCES +=
+SOURCES +=
 SOURCES +=
 SOURCES += sessionmanager.cpp
 
@@ -37,3 +41,5 @@ FORMS += \
     widgets/informationdialog.ui \
     widgets/settings/settingwidget.ui \
     widgets/addsessiondialog.ui
+
+QMAKE_CXXFLAGS += -std=c++11

@@ -10,17 +10,9 @@ SessionMock::~SessionMock()
     delete _wgt;
 }
 
-bool SessionMock::hasRightUser(int r)
-{
-    Q_UNUSED(r)
-    return true;
-}
-
 bool SessionMock::execute()
 {
-    qDebug() << "BootMock executed...";
-
-    qDebug() << "============================ ";
+    qDebug() << "boot mock executed";
 
     Core::Base::instance().setParameterValue(QString("/sessionPath"), QDir::currentPath() );
     qDebug() << "Current path = " << QDir::currentPath();
@@ -36,8 +28,6 @@ bool SessionMock::execute()
 
     Core::Base::instance().setParameterValue(QString("/serialNumber"), QString("1234"));
     qDebug() << "SerialNumber = " << QString("1234");
-
-    qDebug() << "============================ ";
 
     return true;
 }
@@ -55,15 +45,15 @@ QWidget *SessionMock::getSettingPage()
 
 void SessionMock::createWidgets()
 {
-    qDebug() << "BootMock::createWidgets()";
+    qDebug() << "boot mock [createWidgets()]";
 }
 
 void SessionMock::createActions()
 {
-    qDebug() << "BootMock::createActions()";
+    qDebug() << "boot mock [createActions()]";
 }
 
 void SessionMock::createConnectors()
 {
-    qDebug() << "BootMock::createConnectors()";
+    qDebug() << "boot mock [createConnectors()]";
 }

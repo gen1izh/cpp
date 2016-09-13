@@ -97,7 +97,8 @@ SOURCES += settings/modulespage.cpp \
     library/orm/models/mainqdjangomodel.cpp \
     library/orm/models/pluginslistqdjangomodel.cpp \
     frameWork/base.cpp \
-    frameWork/managers.cpp
+    frameWork/managers.cpp \
+    frameWork/managers/mock/sessionmock.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 SOURCES += settings/modules/modulesmanager.cpp
@@ -121,7 +122,7 @@ SOURCES +=
 SOURCES += frameWork/sysscripts/systemoperations.cpp
 
 # Карскас приложения
-SOURCES += frameWork/managers/mock/bootmock.cpp
+SOURCES +=
 SOURCES += frameWork/managers/mock/loggermock.cpp
 
 # Интерфейсы приложения

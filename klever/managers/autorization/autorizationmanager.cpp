@@ -2,7 +2,7 @@
 
 AutorizationManager::AutorizationManager() {
     setName("autorization");     // Установка имени модуля (внутреннее)
-    setTextName("Авторизация");  // Установка имени модуля (внешнее)
+    setTextName(tr("Авторизация"));  // Установка имени модуля (внешнее)
     setOnOrOff(true);
     createWidgets();
 
