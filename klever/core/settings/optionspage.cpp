@@ -82,7 +82,7 @@ void OptionsPage::createConnectors() {
  */
 void OptionsPage::acceptButton_onClicked() {
   AppSetupApi  appsetup;
-//  CveGui::data().mainwindow()->setWindowTitle(text);
+//  KleverGui::data().mainwindow()->setWindowTitle(text);
   appsetup.setApplicationParam(QString("Main"), QString("/text"),
                                _textEdit->text() );
 }

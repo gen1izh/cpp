@@ -20,7 +20,7 @@
 
 /* Глобальные данные приложения */
 #include <frameWork/base.h>
-#include <frameWork/gui/cvegui.h>
+#include <frameWork/gui/klevergui.h>
 #include <frameWork/managers.h>
 
 #include <managers/logger/cveLogger.h>

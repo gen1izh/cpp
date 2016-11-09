@@ -11,8 +11,8 @@ TARGET = formsManager
 include(frontends.pri)
 
 # Разработчик модуля указывает подключаемые библиотеки при необходимости
-# TODO: путь до headers и libs указывается в CVE_software.pri
-LIBS += -L$$CVE_PLUGIN_PATH
+# TODO: путь до headers и libs указывается в KLEVER_software.pri
+LIBS += -L$$KLEVER_PLUGIN_PATH
 #LIBS *= -ltemplate
 
 # Менеджер форм и прототипы форм приложения

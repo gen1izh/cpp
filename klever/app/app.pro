@@ -2,19 +2,19 @@
 # Сборка исполняемого .exe файла
 #
 
-include(../cve_software/cve_software.pri)
+include(../klever_software/klever_software.pri)
 
 TEMPLATE = app
 
 CONFIG(debug, debug|release) {
-  TARGET   = cved_software
+  TARGET   = kleverd_software
 } else {
-  TARGET   = cve_software
+  TARGET   = klever_software
 }
 
-DESTDIR += $$CVE_APP_PATH
+DESTDIR += $$KLEVER_APP_PATH
 
-LIBS += -L$$CVE_APP_PATH -lcore \
+LIBS += -L$$KLEVER_APP_PATH -lcore \
 
 SOURCES += main.cpp \
     kapplication.cpp \

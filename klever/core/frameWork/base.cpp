@@ -1,6 +1,6 @@
 #include "base.h"
 #include <frameWork/managers.h>
-#include <frameWork/gui/cvegui.h>
+#include <frameWork/gui/klevergui.h>
 
 
 Core::Base::Base()

@@ -27,13 +27,13 @@ namespace Core {
     /*!
      * \brief Класс работы с графическим интерфейсом
      */
-    class CveGui : public QObject, public ITopManager {
+    class KleverGui : public QObject, public ITopManager {
 
       Q_OBJECT
 
-      CveGui();
-      CveGui(const CveGui& root);
-      CveGui& operator=(const CveGui&);
+      KleverGui();
+      KleverGui(const KleverGui& root);
+      KleverGui& operator=(const KleverGui&);
 
       /*!
        * \brief Хеш идентификаторов окон и иконок к ним
@@ -101,7 +101,7 @@ namespace Core {
          * \brief Инстанцирование класса
          * \return
          */
-        static CveGui& instance();
+        static KleverGui& instance();
 
         /*!
          * \brief Загрузка ГИП

@@ -21,3 +21,5 @@ release
 /klever/managers/sessions/object_script.session.Release
 /klever/managers/sessions/object_script.sessions.Debug
 /klever/managers/sessions/object_script.sessions.Release
+/klever/forms/frontends/object_script.formsManager.Debug
+/klever/forms/frontends/object_script.formsManager.Release

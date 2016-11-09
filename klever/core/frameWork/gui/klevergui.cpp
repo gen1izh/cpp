@@ -1,12 +1,9 @@
 
 // Подключение статус бара главного окна
 #include "mainwindow/mainwindow.h"
-#include "cvegui.h"
+#include "klevergui.h"
 
-/*
- * Обращение к синглтону cvegui
- */
-Core::CveGui::CveGui()
+Core::KleverGui::KleverGui()
 {
   setObjectName("Графическая среда");
   activWindowsListToolBar = new QToolBar();
@@ -16,26 +13,26 @@ Core::CveGui::CveGui()
 /*
  * Инициализация mainwindow и mdiarea
  */
-void Core::CveGui::initializeMainwindowAndMdi()
+void Core::KleverGui::initializeMainwindowAndMdi()
 {
   _mainwindow  = new MainWindow();
   _mdi  = ((MainWindow *)_mainwindow)->mdiArea;
 }
 
 
-Core::CveGui &Core::CveGui::instance() {
-  static CveGui singleObject;
+Core::KleverGui &Core::KleverGui::instance() {
+  static KleverGui singleObject;
   return singleObject;
 }
 
-int Core::CveGui::load()
+int Core::KleverGui::load()
 {
 
     return 0;
 }
 
 // Финализация работы ГИП
-int Core::CveGui::finalize()
+int Core::KleverGui::finalize()
 {
     // Удаление главного окна приложения
     delete _mainwindow;
@@ -48,7 +45,7 @@ int Core::CveGui::finalize()
 /*
  * Подготовка ГИП
  */
-void Core::CveGui::prepare() {
+void Core::KleverGui::prepare() {
 
   Library::Logger::logInfo(this,"Создание действий");
   ((MainWindow *)_mainwindow)->createActions();
@@ -77,7 +74,7 @@ void Core::CveGui::prepare() {
 /*
  * Инициализация менеджера форм
  */
-void Core::CveGui::initializeFormManager()
+void Core::KleverGui::initializeFormManager()
 {
 
   QPluginLoader loader("formsManager");
@@ -96,7 +93,7 @@ void Core::CveGui::initializeFormManager()
 /*
  * Поиск формы по идентификатору
  */
-QMdiSubWindow *Core::CveGui::findMdiChild( QString id ) {
+QMdiSubWindow *Core::KleverGui::findMdiChild( QString id ) {
   foreach ( QMdiSubWindow *window, mdi()->subWindowList() ) {
     QWidget *mdiChild = qobject_cast<QWidget *>(window->widget());
     if ( mdiChild->objectName() == id ) {
@@ -109,7 +106,7 @@ QMdiSubWindow *Core::CveGui::findMdiChild( QString id ) {
 /*
  * Восстановить позиции доков
  */
-void Core::CveGui::restoreDocksPosition() {
+void Core::KleverGui::restoreDocksPosition() {
   QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
   bool res = _mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
@@ -125,7 +122,7 @@ void Core::CveGui::restoreDocksPosition() {
 /*
  * Обработчик события скрытия формы
  */
-bool Core::CveGui::eventFilter(QObject *obj, QEvent *event) {
+bool Core::KleverGui::eventFilter(QObject *obj, QEvent *event) {
   QMdiSubWindow *window = qobject_cast<QMdiSubWindow*>(obj);
   if (window) {
     if (event->type() == QEvent::WindowStateChange) {
@@ -144,7 +141,7 @@ bool Core::CveGui::eventFilter(QObject *obj, QEvent *event) {
 /*
  * При открытии окно будет максимального размера
  */
-void Core::CveGui::showMaximized(){
+void Core::KleverGui::showMaximized(){
   _mainwindow->showMaximized();
   Library::Logger::logInfo(this,"Главное окно приложения максимизировано");
 }
@@ -153,7 +150,7 @@ void Core::CveGui::showMaximized(){
 /*
  * Сплеш-скрин. Информирование о загрузке модуля.
  */
-void Core::CveGui::splashMessage(QString txt) {
+void Core::KleverGui::splashMessage(QString txt) {
 
   QTime time;
   time.start();
@@ -172,7 +169,7 @@ void Core::CveGui::splashMessage(QString txt) {
 /*
  * Инициализация сплеш скрина
  */
-void Core::CveGui::initializeSplashScreen() {
+void Core::KleverGui::initializeSplashScreen() {
   QPixmap pixmap(":/images/logo.png");
   _splash = new QSplashScreen();
   _splash->setPixmap(pixmap);
@@ -183,7 +180,7 @@ void Core::CveGui::initializeSplashScreen() {
 /*
  * Отключение сплеш-скрина
  */
-void Core::CveGui::finishSplashScreen()
+void Core::KleverGui::finishSplashScreen()
 {
   _splash->finish(_mainwindow);
   delete _splash;
@@ -192,7 +189,7 @@ void Core::CveGui::finishSplashScreen()
 /*
  * Функция блокирования MainWindow до окончания длительной операции
  */
-void Core::CveGui::startDialog(QString msg)
+void Core::KleverGui::startDialog(QString msg)
 {
   _procDialog.setDialog(msg);
   _procDialog.start();
@@ -203,7 +200,7 @@ void Core::CveGui::startDialog(QString msg)
 /*
  * Функция разблокирования MainWindow после окончания длительной операции
  */
-void Core::CveGui::closeDialog()
+void Core::KleverGui::closeDialog()
 {
   _procDialog.finish();
   _mainwindow->setEnabled(true);

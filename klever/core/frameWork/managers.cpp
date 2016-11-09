@@ -82,7 +82,7 @@ int Core::Managers::load() {
 
     // Пробегаемся по всем менеджерам
     foreach (QString manName, managersNamesList) {
-        CveGui::instance().splashMessage("Инициализация менеджера \" " + manName + " \" ");
+        KleverGui::instance().splashMessage("Инициализация менеджера \" " + manName + " \" ");
 
         QString state = mainsetup.getMainParam(QString("managers"),manName);
 

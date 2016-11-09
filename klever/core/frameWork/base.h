@@ -28,7 +28,7 @@
 
 #include <library/databasesapi/mysql/mysqldatabaseapi.h>
 
-#include <frameWork/gui/cvegui.h>
+#include <frameWork/gui/klevergui.h>
 
 
 

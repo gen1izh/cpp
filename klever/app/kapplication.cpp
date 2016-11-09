@@ -1,7 +1,7 @@
 #include "kapplication.h"
 
 #include <frameWork/base.h>
-#include <frameWork/gui/cvegui.h>
+#include <frameWork/gui/klevergui.h>
 #include <core/frameWork/information.h>
 
 
@@ -34,12 +34,15 @@ int KApplication::finalize()
     if (Core::Base::instance().finalize() != KAPP_SUCCESSFUL) {
         qDebug() << "System error[" << KAPP_SYSTEM_FINALIZE_ERROR << "]";
     }
-    if (Core::CveGui::instance().finalize() != KAPP_SUCCESSFUL) {
+    if (Core::KleverGui::instance().finalize() != KAPP_SUCCESSFUL) {
         qDebug() << "System error[" << KAPP_GUI_FINALIZE_ERROR << "]";
     }
     return KAPP_SOME_ERROR;
 }
 
+/*
+ * Чтение информации о программе.
+ */
 void KApplication::readInformation()
 {
     Information::instance();
@@ -48,11 +51,11 @@ void KApplication::readInformation()
 
 void KApplication::connect()
 {
-    QObject::connect(&Core::CveGui::instance(), SIGNAL(blockMainWindowByDialogSignal(QString)),
-                   &Core::CveGui::instance(), SLOT(startDialog(QString)));
+    QObject::connect(&Core::KleverGui::instance(), SIGNAL(blockMainWindowByDialogSignal(QString)),
+                   &Core::KleverGui::instance(), SLOT(startDialog(QString)));
 
-    QObject::connect(&Core::CveGui::instance(), SIGNAL(unblockMainWindowByDialogSignal()),
-                   &Core::CveGui::instance(), SLOT(closeDialog()));
+    QObject::connect(&Core::KleverGui::instance(), SIGNAL(unblockMainWindowByDialogSignal()),
+                   &Core::KleverGui::instance(), SLOT(closeDialog()));
 }
 
 void KApplication::instanceTopManagers()
@@ -64,7 +67,7 @@ void KApplication::instanceTopManagers()
     Core::Managers::instance();
 
     // Инициализация менеджера ГИП
-    Core::CveGui::instance();
+    Core::KleverGui::instance();
 
     // Инициализация менеджера модулей
     Core::ModulesManager::instance();
@@ -74,14 +77,17 @@ void KApplication::setSplashScreenVisible(bool value)
 {
     if (value) {
         // Инициализация сплеш-скрина
-        Core::CveGui::instance().initializeSplashScreen();
+        Core::KleverGui::instance().initializeSplashScreen();
     }
     else {
         // Отключение сплеш-скрина
-        Core::CveGui::instance().finishSplashScreen();
+        Core::KleverGui::instance().finishSplashScreen();
     }
 }
 
+/*
+ * Подготовка. Стадия 1.
+ */
 void KApplication::prepareStage1()
 {
     // Создание действий
@@ -92,7 +98,7 @@ void KApplication::prepareStage1()
     Core::Managers::instance().createConnectors();
 
     // Инициализация mainwindow и mdi
-    Core::CveGui::instance().initializeMainwindowAndMdi();
+    Core::KleverGui::instance().initializeMainwindowAndMdi();
 }
 
 void KApplication::prepareStage2()
@@ -102,10 +108,10 @@ void KApplication::prepareStage2()
 
     // Инициализация менеджера форм.
     // INFO: Инициализация должна происходить после загрузки всех модулей.
-    Core::CveGui::instance().initializeFormManager();
+    Core::KleverGui::instance().initializeFormManager();
 
     // Подготовка ГИП
-    Core::CveGui::instance().prepare();
+    Core::KleverGui::instance().prepare();
 
     // Инициализация настроек
     Core::Base::instance().initializeSettings();
@@ -114,11 +120,11 @@ void KApplication::prepareStage2()
     Core::Base::instance().startModulesBy100ms();
 
     // При открытии окно будет максимального размера
-    Core::CveGui::instance().showMaximized();
+    Core::KleverGui::instance().showMaximized();
 }
 
 void KApplication::prepareStage3()
 {
     // Восстановление позиции доков
-    Core::CveGui::instance().restoreDocksPosition();
+    Core::KleverGui::instance().restoreDocksPosition();
 }

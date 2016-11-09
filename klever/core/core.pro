@@ -4,7 +4,7 @@
 #
 # При добавлении новых модулей/плагинов сюда добавлять доп. директив не требуется
 
-include(../cve_software/cve_software.pri)
+include(../klever_software/klever_software.pri)
 
 TEMPLATE = lib
 CONFIG  += dll
@@ -14,7 +14,7 @@ TARGET = core
 
 DEFINES += CORE_LIBRARY
 
-DESTDIR = $$CVE_APP_PATH
+DESTDIR = $$KLEVER_APP_PATH
 
 # Менеджер настроек приложения
 HEADERS += settings/modulespage.h \
@@ -35,7 +35,8 @@ HEADERS += settings/modulespage.h \
     frameWork/managers.h \
     interfaces/iautorizationmanager.h \
     interfaces/isessionmanager.h \
-    frameWork/managers/mock/sessionmock.h
+    frameWork/managers/mock/sessionmock.h \
+    frameWork/gui/klevergui.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 HEADERS += settings/modules/modulesmanager.h
@@ -46,7 +47,7 @@ HEADERS += settings/modules/moduleslistmodel.h
 # Карскас приложения
 HEADERS += frameWork/gui/iformmanager.h
 HEADERS +=
-HEADERS += frameWork/gui/cvegui.h
+HEADERS +=
 HEADERS += frameWork/gui/mainwindow/mainwindow.h
 HEADERS += frameWork/gui/mainwindow/mdiarea.h
 HEADERS += frameWork/information.h
@@ -99,7 +100,8 @@ SOURCES += settings/modulespage.cpp \
     frameWork/base.cpp \
     frameWork/managers.cpp \
     frameWork/managers/mock/sessionmock.cpp \
-    interfaces/managerinterface.cpp
+    interfaces/managerinterface.cpp \
+    frameWork/gui/klevergui.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 SOURCES += settings/modules/modulesmanager.cpp
@@ -109,7 +111,7 @@ SOURCES += settings/modules/moduleslistmodel.cpp
 
 # Карскас приложения
 SOURCES +=
-SOURCES += frameWork/gui/cvegui.cpp
+SOURCES +=
 SOURCES += frameWork/gui/mainwindow/mainwindow.cpp
 SOURCES += frameWork/gui/mainwindow/creator.cpp
 SOURCES += frameWork/gui/mainwindow/mdiarea.cpp

@@ -10,69 +10,78 @@
 //#include <core/frameWork/gui/mainwindow/mainwindow.h>
 
 
-// Тело основной функции программы
 int main(int argc, char *argv[]) {
 
-    // Инициализация класса приложения
+    // Инициализация класса приложения.
+    // SingleApplication дает инициализировать один экзмпляр приложения.
     SingleApplication a(argc, argv);
 
-    // Подключение ресурсов приложения
+    // Подключение ресурсов приложения.
     Q_INIT_RESOURCE(framework_resources);
     Q_INIT_RESOURCE(cvesettingsmanager_resources);
     Q_INIT_RESOURCE(lamplib_resources);
 
-    // Настройка шаблона сообщения выводимого в консоль
+    // Настройка шаблона сообщения выводимого в консоль.
     qSetMessagePattern(
         "%{if-debug}[D]%{endif}%{if-warning}[W]%{endif}%{if-critical}[C]"
         "%{endif}%{if-fatal}[F]%{endif} [%{time hh:mm:ss}]%{if-category} "
         "[%{category}]%{endif} [%{file} : %{line}]   *** %{message} ***" );
 
-    // Настройка кодировки приложения
+    // Настройка кодировки приложения.
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    // Чтение информации
+    // Чтение информации о приложении.
+    // Компания, название программы, автор и тд.
+    // Инициализирует объект information этими данными.
     KApplication::readInformation();
 
-    // Инициализация путей к плагинам приложения
+    // Инициализация путей к плагинам приложения.
     KApplication::initPluginsPath();
 
-    // Инстанцирование всех главных менеджеров
+    // Инстанцирование всех главных менеджеров.
     KApplication::instanceTopManagers();
 
-    // Создание коннекторов
+    // Создание коннекторов.
     KApplication::connect();
 
-    // Включить сплеш-скрин
+    // Включить сплеш-скрин приложения.
     KApplication::setSplashScreenVisible(true);
 
-    // Загрузка менеджеров
+    // Загрузка менеджеров.
     int result = Core::Managers::instance().load();
 
     // Если файла main.ini нет, то смысла продолжать исполнения программы - нет.
     // В этом случае пользователь должен запустить конфигуратор.
+    // TODO: в будущем нужно отказаться от этого вообще.
     if (result==Core::NO_MAIN_INI_ERROR) {
         return -1;
     }
 
-    // Запуск загрузчика
+    // Запуск загрузчика.
+    // Если загрузчик выполнился с ошибкой, то прекращает работу с приложением.
     if (!Core::Managers::instance().boot()->execute()) {
 
         int kCode = KApplication::finalize();
         return kCode;
     }
 
+    // Подготовка. Стадия 1.
     KApplication::prepareStage1();
 
     // Чтение каталога с модулями
     Core::ModulesManager::instance().load();
 
+    // Подготовка. Стадия 2.
     KApplication::prepareStage2();
 
+    // Отключаем сплеш-скрин.
+    // Считается что все компоненты подгрузились.
     KApplication::setSplashScreenVisible(false);
 
+    // Подготовка. Стадия 3.
     KApplication::prepareStage3();
 
-    // Запустить приложение
+    // Запустить приложение.
     int retVal = a.exec();
 
     qDebug() << " Application exit code: " << retVal;

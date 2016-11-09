@@ -14,9 +14,9 @@ void FormsManager::createModulesToolBar() {
    *                  Модуль источника питания
    *******************************************************************************/
 
-  QToolBar *controlToolBar = Core::CveGui::instance().mainwindow()->addToolBar(tr("Управление"));
+  QToolBar *controlToolBar = Core::KleverGui::instance().mainwindow()->addToolBar(tr("Управление"));
   controlToolBar->setObjectName(tr("Управление"));
-  Core::CveGui::instance().mainwindow()->addToolBar(Qt::RightToolBarArea,controlToolBar);
+  Core::KleverGui::instance().mainwindow()->addToolBar(Qt::RightToolBarArea,controlToolBar);
   controlToolBar->setAllowedAreas( Qt::RightToolBarArea );
   controlToolBar->addAction(_controlAction);
   controlToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -29,7 +29,7 @@ void FormsManager::createModulesToolBar() {
  */
 void FormsManager::createManagersToolBar() {
 
-  QToolBar *managersToolBar = Core::CveGui::instance().mainwindow()->addToolBar(tr("Менеджеры"));
+  QToolBar *managersToolBar = Core::KleverGui::instance().mainwindow()->addToolBar(tr("Менеджеры"));
   managersToolBar->setObjectName("Менеджеры");
   managersToolBar->setIconSize(QSize(32,32));
 
@@ -54,10 +54,10 @@ void FormsManager::createManagersToolBar() {
  * Создает панель быстрого запуска
  */
 void FormsManager::createToolBar() {
-  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
-    createModulesToolBar();
-  }
-  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
-    createManagersToolBar();
-  }
+//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_TOOLBAR)) {
+//    createModulesToolBar();
+//  }
+//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_TOOLBAR)) {
+//    createManagersToolBar();
+//  }
 }

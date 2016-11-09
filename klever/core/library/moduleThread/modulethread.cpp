@@ -1,6 +1,6 @@
 #include "modulethread.h"
 #include <frameWork/managers.h>
-#include <frameWork/gui/cvegui.h>
+#include <frameWork/gui/klevergui.h>
 
 ModuleThread::ModuleThread(QObject* parent) :
     QThread(parent)

@@ -2,7 +2,7 @@
 #include <QPluginLoader>
 #include <QDebug>
 #include <QMessageBox>
-#include "../../frameWork/gui/cvegui.h"
+#include "../../frameWork/gui/klevergui.h"
 
 #include <library/loggerapi/loggerapi.h>
 
@@ -180,7 +180,7 @@ int Core::ModulesManager::load() {
       if (ok) {
         // Загрузка модуля и инициализация
         for (int j = 1; j <= count; j++) {
-          Core::CveGui::instance().splashMessage(QString( "Инициализация модуля '%1' ...").arg(dllname));
+          Core::KleverGui::instance().splashMessage(QString( "Инициализация модуля '%1' ...").arg(dllname));
           loadModule(dllname, j);
         }
       }

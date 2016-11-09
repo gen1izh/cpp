@@ -102,7 +102,7 @@ void MainWindow::createMenus() {
   }
 
   // Создание главного меню. Права доступа определяются внутри
-  CveGui::instance().formManager->createMenu();
+  KleverGui::instance().formManager->createMenu();
 
   // Создание меню "Настройки приложения"
     // TODO: CAN_SEE_APP_SETTINGS
@@ -140,7 +140,7 @@ void MainWindow::createMenus() {
 void MainWindow::createToolBars() {
 
   // Создание главного меню быстрого запуска. Права доступа определяются внутри
-  CveGui::instance().formManager->createToolBar();
+  KleverGui::instance().formManager->createToolBar();
 
   // Создание панели работы с окнами
   windowToolBar = addToolBar(tr("Окна"));
@@ -158,7 +158,7 @@ void MainWindow::createToolBars() {
 //  }
 
   // Создание панели справки
-  QToolBar *helpToolBar = CveGui::instance().mainwindow()->addToolBar(tr("Помощь"));
+  QToolBar *helpToolBar = KleverGui::instance().mainwindow()->addToolBar(tr("Помощь"));
   helpToolBar->setObjectName("Помощь");
   helpToolBar->setIconSize(QSize(32,32));
 
@@ -176,22 +176,22 @@ void MainWindow::createDockWindows() {
   QDockWidget *minimizedBottomDock = new QDockWidget(tr("Активные окна"), this);
   minimizedBottomDock->setObjectName("Активные окна");
   minimizedBottomDock->setAllowedAreas(Qt::BottomDockWidgetArea);
-  minimizedBottomDock->setWidget(CveGui::instance().activWindowsListToolBar);
+  minimizedBottomDock->setWidget(KleverGui::instance().activWindowsListToolBar);
   minimizedBottomDock->setFeatures(QDockWidget::AllDockWidgetFeatures);
   addDockWidget(Qt::BottomDockWidgetArea, minimizedBottomDock, Qt::Vertical);
   panelMenu->addAction(minimizedBottomDock->toggleViewAction());
 
-  CveGui::instance().formManager->createDocks(docksList);
+  KleverGui::instance().formManager->createDocks(docksList);
 
 //  foreach (QPair<QDockWidget*,QPair<int,int> > dock, docksList) {
-//    dock->first->setParent(CveGui::instance().mainwindow());
+//    dock->first->setParent(KleverGui::instance().mainwindow());
 //    addDockWidget(dock->second.first,dock, dock->second.second);
 //    panelMenu->addAction(dock->toggleViewAction());
 //  }
 
   for (int i = 0; i < docksList.size(); i++) {
     QPair<QDockWidget*,QPair<int,int> > dock = docksList.at(i);
-    dock.first->setParent(CveGui::instance().mainwindow());
+    dock.first->setParent(KleverGui::instance().mainwindow());
     addDockWidget((Qt::DockWidgetArea)dock.second.first,
                   dock.first,
                   (Qt::Orientation)dock.second.second);

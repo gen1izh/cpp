@@ -1,4 +1,4 @@
-# include(../cve_software/cve_software.pri)
+# include(../klever_software/klever_software.pri)
 
 TEMPLATE  = subdirs
 CONFIG   += ordered

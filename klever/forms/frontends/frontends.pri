@@ -7,12 +7,12 @@
 # Общие конфигурационные настройки для модулей/плагинов
 
 
-include(../../cve_software/cve_software.pri)
+include(../../klever_software/klever_software.pri)
 
 TEMPLATE = lib
 CONFIG  += dll
 
-DESTDIR = $$CVE_PLUGIN_PATH
+DESTDIR = $$KLEVER_PLUGIN_PATH
 
-LIBS += -L$$CVE_LIBRARY_PATH \
+LIBS += -L$$KLEVER_LIBRARY_PATH \
         -lcore

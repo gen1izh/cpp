@@ -28,7 +28,7 @@ namespace KApplication {
     QString initPluginsPath();
 
     /*!
-     * \brief Чтение информации о программе
+     * \brief Чтение информации о программе.
      */
     void readInformation();
 

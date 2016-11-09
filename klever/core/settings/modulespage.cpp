@@ -62,4 +62,3 @@ ModulesPage::ModulesPage(QWidget *parent)
   mainLayout->addWidget(tb);
   setLayout(mainLayout);
 }
-

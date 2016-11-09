@@ -100,14 +100,14 @@ void FormsManager::createManagersMenu() {
  * Создает меню комплесных форм
  */
 void FormsManager::createMenu() {
-  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_MENU)) {
-    _modulesMenu  =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Модули"));
-    _complexMenu  =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Комплексные окна"));
-    createModulesMenu();
-  }
+//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_MENU)) {
+//    _modulesMenu  =  Core::KleverGui::instance().mainwindow()->menuBar()->addMenu(tr("&Модули"));
+//    _complexMenu  =  Core::KleverGui::instance().mainwindow()->menuBar()->addMenu(tr("&Комплексные окна"));
+//    createModulesMenu();
+//  }
 
-  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_MENU)) {
-    _managersMenu =  Core::CveGui::instance().mainwindow()->menuBar()->addMenu(tr("&Менеджеры"));
-    createManagersMenu();
-  }
+//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_MENU)) {
+//    _managersMenu =  Core::KleverGui::instance().mainwindow()->menuBar()->addMenu(tr("&Менеджеры"));
+//    createManagersMenu();
+//  }
 }
