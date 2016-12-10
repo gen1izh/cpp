@@ -55,7 +55,7 @@ namespace Core {
         /*!
          * \brief Хеш менеджеров
          */
-        QHash<QString, ManagerInterface *> m_managers;
+        QHash<QString, ManagerInterface *> m_plugins;
 
     public:
 
@@ -74,7 +74,7 @@ namespace Core {
         ISessionManager  *boot() const;
 
         /*!
-         * \brief Инициализация менеджеров
+         * \brief Инициализация плагинов системы.
          * \return Возвращает код ошибки, если 0 - то успешно.
          */
         int load();
@@ -90,23 +90,6 @@ namespace Core {
          * \details Удаляет все менеджеры
          */
         int finalize();
-
-        /*!
-         * \brief Возвращает признак существования файла main.ini
-         * \return
-         */
-        bool isMainIniExist() {
-            QString path = QString("%1\\%2").arg(QDir::currentPath()).arg("main.ini");
-            QFileInfo fil(path);
-            if (!fil.exists()) {
-                messageLibrary msg;
-                msg.createErrorMessage(tr("Главный менеджер"),
-                                       tr("Конфигурационный файл main.ini не найден! "
-                                          "Попробуйте запустить конфигуратор и создать main.ini."));
-                return false;
-            }
-            return true;
-        }
 
         /*!
          * \brief Проверка наличия менеджера

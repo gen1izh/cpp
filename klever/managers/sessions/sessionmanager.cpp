@@ -39,11 +39,11 @@ void SessionManager::createWidgets()
         m_setting = new SettingWidget(NULL);
     }
 
-    if (m_sessionsListForm) {
+    if (m_sessionsListForm==nullptr) {
         m_sessionsListForm = new SessionsListForm(NULL);
     }
 
-    if (m_informationDialog) {
+    if (m_informationDialog==nullptr) {
         m_informationDialog = new InformationDialog(NULL);
     }
 }

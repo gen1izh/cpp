@@ -8,7 +8,6 @@
 
 SessionsModel::SessionsModel()
 {
-
     m_db = QSqlDatabase::addDatabase("QSQLITE");
     m_db.setDatabaseName("sessions");
     m_db.open();
@@ -17,6 +16,8 @@ SessionsModel::SessionsModel()
     QDjango::registerModel<Sessions>();
 
     QDjango::createTables();
+
+    updateModel();
 }
 
 SessionsModel::~SessionsModel()
@@ -31,7 +32,7 @@ QStringList SessionsModel::selectAllSessions()
 
     tmp.clear();
 
-    QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
+    QList<QVariantMap> propertyMaps = proms.values(QStringList() <<  "name" << "parameters");
     foreach (const QVariantMap &propertyMap, propertyMaps) {
         tmp.append(propertyMap["name"].toString());
     }

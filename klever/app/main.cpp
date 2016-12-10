@@ -48,12 +48,7 @@ int main(int argc, char *argv[]) {
     KApplication::setSplashScreenVisible(true);
 
     // Загрузка менеджеров.
-    int result = Core::Managers::instance().load();
-
-    // Если файла main.ini нет, то смысла продолжать исполнения программы - нет.
-    // В этом случае пользователь должен запустить конфигуратор.
-    // TODO: в будущем нужно отказаться от этого вообще.
-    if (result==Core::NO_MAIN_INI_ERROR) {
+    if (Core::Managers::instance().load()) {
         return -1;
     }
 

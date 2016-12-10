@@ -7,7 +7,10 @@ SessionsListForm::SessionsListForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    m_model = new SessionsModel();
+
     ui->sessionsView->setModel(m_model);
+    m_model->updateModel();
 }
 
 SessionsListForm::~SessionsListForm()
@@ -31,6 +34,7 @@ void SessionsListForm::on_addButton_clicked()
 
     if (dialog.data()->exec() == QDialog::Accepted) {
         m_model->addSession(dialog.data()->name(), dialog.data()->parameters());
+        m_model->updateModel();
     }
 
 }
