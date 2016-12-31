@@ -1,5 +1,5 @@
-#ifndef MANAGER_INTERFACE
-#define MANAGER_INTERFACE
+#ifndef PLUGIN_INTERFACE
+#define PLUGIN_INTERFACE
 
 #include <QAction>
 #include <QObject>
@@ -12,41 +12,41 @@
 #include <library/orm/models/pluginslistqdjangomodel.h>
 
 /*!
- * \brief Интерфейс менеджеров приложения
+ * \brief Интерфейс плагинов приложения
  */
-class ManagerInterface {
+class PluginInterface {
 
     public:
 
-        ManagerInterface();
-        virtual ~ManagerInterface();
+        PluginInterface();
+        virtual ~PluginInterface();
 
         /*!
-         * \brief Инициализация менеджера
-         * \param[in] name - имя менеджера
-         * \param[in] textName - текстовое имя менеджера
+         * \brief Инициализация плагина
+         * \param[in] name - имя плагина
+         * \param[in] textName - текстовое имя плагина
          */
         void initialize(const QString &name, const QString textName);
 
         /*!
-         * \brief Устанавливает название для менеджера
-         * \param[in] name - название менеджера
+         * \brief Устанавливает название для плагина
+         * \param[in] name - название плагина
          */
         void setName(const QString &name);
 
         /*!
-         * \brief Возвращает название менеджера
+         * \brief Возвращает название плагина
          */
         QString name() const;
 
         /*!
-         * \brief Устанавливает текстовое название для менеджера
-         * \param[in] name - название менеджера
+         * \brief Устанавливает текстовое название для плагина
+         * \param[in] name - название плагина
          */
         void setTextName(const QString &name);
 
         /*!
-         * \brief Возвращает текстовое название менеджера
+         * \brief Возвращает текстовое название плагина
          */
         QString textName() const;
 
@@ -59,7 +59,7 @@ class ManagerInterface {
         /*!
          * \brief Проверка того факта, что менеджер будет доступен
          * То есть если менеджер _isDisable = true, то это означает, то что
-         * все элементы управления этого менеджера будут неактивны.
+         * все элементы управления этого плагина будут неактивны.
          * \return
          */
         bool isDisable() const;
@@ -71,8 +71,8 @@ class ManagerInterface {
         void setOnOrOff(bool flag);
 
         /*!
-         * \brief Проверка состояния менеджера
-         * Если в файле конфигурации менеджера нет, то по умолчанию он
+         * \brief Проверка состояния плагина
+         * Если в файле конфигурации плагина нет, то по умолчанию он
          * считается отключенным
          */
         void checkManagerState();
@@ -83,7 +83,7 @@ class ManagerInterface {
         QHash<QString, QPair<QWidget*, QAction*> > getWidgetActionList() const;
 
         /*!
-         * \brief Возвращает действия менеджера
+         * \brief Возвращает действия плагина
          */
         QHash<QString, QAction*> getActionList() const;
 
@@ -117,22 +117,22 @@ class ManagerInterface {
 
     private:
         /*!
-         * \brief Признак подключенности менеджера
+         * \brief Признак подключенности плагина
          */
         bool     m_isOn;
 
         /*!
-         * \brief Признак неактивности менеджера
+         * \brief Признак неактивности плагина
          */
         bool     m_isDisable;
 
         /*!
-         * \brief Системное название менеджера
+         * \brief Системное название плагина
          */
         QString  m_name;
 
         /*!
-         * \brief Пользователькое название менеджера
+         * \brief Пользователькое название плагина
          */
         QString  m_textname;
 
@@ -144,7 +144,7 @@ class ManagerInterface {
     protected:
 
       /*!
-       * \brief Действия менеджера
+       * \brief Действия плагина
        * При вызове действия происходит какое-то событие, без открытия окна
        */
       QHash<QString, QAction*> actionList;
@@ -158,11 +158,10 @@ class ManagerInterface {
 };
 
 
-// TODO: Расписать зачем это
-#define ManagerInterface_iid "ru.home.klever.ManagerInterface"
+#define PluginInterface_iid "ru.home.klever.PluginInterface"
 // Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
-Q_DECLARE_INTERFACE(ManagerInterface, ManagerInterface_iid)
+Q_DECLARE_INTERFACE(PluginInterface, PluginInterface_iid)
 
-#endif // MANAGER_INTERFACE
+#endif // PLUGIN_INTERFACE
 
 

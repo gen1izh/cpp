@@ -1,5 +1,5 @@
-#ifndef MANAGERS_H
-#define MANAGERS_H
+#ifndef PLUGINS_H
+#define PLUGINS_H
 
 // Библиотека утилит
 #include <library/utilsLibrary/utilslibrary.h>
@@ -13,9 +13,7 @@
 
 #include <interfaces/iloggermanager.h>
 #include <interfaces/isessionmanager.h>
-#include <interfaces/moduleinterface.h>
-
-#include <settings/modules/modulesmanager.h>
+#include <interfaces/iautorizationmanager.h>
 
 #include <QFileInfo>
 
@@ -36,42 +34,43 @@
 namespace Core {
 
     /*!
-     * \brief Класс главного менеджера
+     * \brief Класс главного плагина
      */
-    class Managers : public QObject, public ITopManager {
+    class Plugins : public QObject, public ITopManager {
 
         Q_OBJECT
 
-        Managers();
+        Plugins();
 
         // Не переопределять!
-        Managers(const Managers& root);
-        Managers& operator=(const Managers&);
+        Plugins(const Plugins& root);
+        Plugins& operator=(const Plugins&);
 
         // Интерфейс на загрузчик и журнал
-        QScopedPointer<ISessionManager>    _ibootmanager;
-        QScopedPointer<ILoggerManager>  _iloggermanager;
+        QScopedPointer<ISessionPlugin>          m_ibootmanager;
+        QScopedPointer<ILoggerPlugin>           m_iloggermanager;
+        QScopedPointer<IAutorizationManager>    m_iautorizationmanager;
 
         /*!
-         * \brief Хеш менеджеров
+         * \brief Хеш плагинов
          */
-        QHash<QString, ManagerInterface *> m_plugins;
+        QHash<QString, PluginInterface *> m_plugins;
 
     public:
 
-        static Managers& instance();
+        static Plugins& instance();
 
         /*!
          * \brief Возвращает указатель на объект журнала
          * \return
          */
-        ILoggerManager  *logger() const;
+        ILoggerPlugin  *logger() const;
 
         /*!
-         * \brief Возвращает указатель на объект загрузочного менеджера
+         * \brief Возвращает указатель на объект загрузочного плагина
          * \return
          */
-        ISessionManager  *boot() const;
+        ISessionPlugin  *boot() const;
 
         /*!
          * \brief Инициализация плагинов системы.
@@ -80,31 +79,31 @@ namespace Core {
         int load();
 
         /*!
-         * \brief Возвращает хеш менеджеров
+         * \brief Возвращает хеш плагинов
          * \return
          */
-        QHash<QString, ManagerInterface *> managers() const;
+        QHash<QString, PluginInterface *> managers() const;
 
         /*!
-         * \brief Финализация работы главного менеджера
+         * \brief Финализация работы главного плагина
          * \details Удаляет все менеджеры
          */
         int finalize();
 
         /*!
-         * \brief Проверка наличия менеджера
-         * \param[in] name - название менеджера
+         * \brief Проверка наличия плагина
+         * \param[in] name - название плагина
          * \return
          */
         bool isManagerExist(QString name);
 
         /*!
-         * \brief Создание виджетов менеджеров
+         * \brief Создание виджетов плагинов
          */
         void createWidgets();
 
         /*!
-         * \brief Создание действий менеджеров
+         * \brief Создание действий плагинов
          */
         void createActions();
 
@@ -116,4 +115,4 @@ namespace Core {
 
 }
 
-#endif // MANAGERS_H
+#endif // PLUGINS_H

@@ -20,6 +20,7 @@
 #include <library/loggerapi/loggerapi.h>
 #include <library/processDialog/processdialog.h>
 
+#include <interfaces/itopmanager.h>
 
 
 namespace Core {
@@ -120,7 +121,7 @@ namespace Core {
         QToolBar *activWindowsListToolBar;
 
         /*!
-         * \brief Указатель на интерфейс менеджера форм
+         * \brief Указатель на интерфейс плагина форм
          */
         IFormManager *formManager;
 
@@ -159,7 +160,7 @@ namespace Core {
         MdiArea *mdi() const { return _mdi; }
 
         /*!
-         * \brief Инициализация менеджера форм
+         * \brief Инициализация плагина форм
          */
         void initializeFormManager();
 

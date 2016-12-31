@@ -19,6 +19,9 @@ namespace KApplication {
     };
 
 
+    /*!
+     * \brief Инстанцирование базовых плагинов
+     */
     void instanceTopManagers();
 
     /*!
@@ -28,7 +31,7 @@ namespace KApplication {
     QString initPluginsPath();
 
     /*!
-     * \brief Чтение информации о программе.
+     * \brief Чтение информации о программе
      */
     void readInformation();
 
@@ -39,7 +42,7 @@ namespace KApplication {
     int finalize();
 
     /*!
-     * \brief Соединение элементов менеджеров
+     * \brief Соединение элементов плагинов
      */
     void connect();
 

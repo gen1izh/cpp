@@ -7,7 +7,7 @@
 #include "interfaces/isessionmanager.h"
 #include <frameWork/base.h>
 
-class SessionMock : public ISessionManager
+class SessionMock : public ISessionPlugin
 {
     /*!
      * \brief Пустой виджет настроек

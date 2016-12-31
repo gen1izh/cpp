@@ -16,9 +16,7 @@ LIBS += -L$$KLEVER_PLUGIN_PATH
 #LIBS *= -ltemplate
 
 # Менеджер форм и прототипы форм приложения
-SOURCES += formsManager.cpp \
-    modules/control/controlpowermdichild.cpp
-SOURCES +=  mod.cpp
+SOURCES += formsManager.cpp
 SOURCES += fmactions.cpp
 SOURCES += fmconnectors.cpp
 SOURCES += fmtoolbar.cpp
@@ -34,9 +32,7 @@ SOURCES += managers/moduleinfo/moduleinfomdichild.cpp
 SOURCES += managers/settings/settingsmdichild.cpp
 
 # Менеджер форм и прототипы форм приложения
-HEADERS += formsManager.h \
-    modules/control/controlpowermdichild.h
-HEADERS += mod.h
+HEADERS += formsManager.h
 HEADERS += man.h
 HEADERS +=
 HEADERS += managers/logger/loggerswatchermdichild.h
@@ -50,5 +46,5 @@ HEADERS += managers/settings/settingsmdichild.h
 DISTFILES += formsManager.json
 
 # TODO: зачем тут ресурсы? Уже не понадобятся.
-RESOURCES += \
-    modules/res.qrc
+#RESOURCES += \
+#    modules/res.qrc

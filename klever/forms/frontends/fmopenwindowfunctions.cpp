@@ -6,30 +6,13 @@
 #include "managers/moduleinfo/moduleinfomdichild.h"
 #include "managers/logger/loggerswatchermdichild.h"
 
-/* Формы приложения. Модули. */
-#include "modules/control/controlpowermdichild.h"
-
 /* Подключение статус бара главного окна */
 #include <frameWork/gui/mainwindow/mainwindow.h>
 
-/*******************************************************************************
- *                      Формы модулей
- *******************************************************************************/
-
-/*
- * Открытие дочернего окна "Управления"
- */
-void FormsManager::openControlWindow() {
-  Core::KleverGui::instance().openWindow<ControlMdiChild, MainWindow>(
-        "CONTROL_POWER_WINDOW",
-        tr("Управления"),
-        tr("Окно 'Управления' было успешно открыто."),
-        tr("Окно 'Управления' не было успешно открыто!") );
-}
 
 
 /*******************************************************************************
- *                      Формы менеджеров
+ *                      Формы плагинов
  *******************************************************************************/
 
 /*

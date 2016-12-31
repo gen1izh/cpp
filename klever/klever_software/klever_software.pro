@@ -7,4 +7,3 @@ SUBDIRS = \
         ..\managers \
         ..\tools \
         ..\forms \
-        #..\modules \

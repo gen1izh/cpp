@@ -45,15 +45,10 @@ class FormsManager : public IFormManager {
   QDockWidget *createLoggerDock();
 
   /*!
-   * \brief Создает и возвращает dock менеджера тестовых последовательностей
+   * \brief Создает и возвращает dock плагина тестовых последовательностей
    * \return
    */
   QDockWidget *createTestsequenceManagerDock();
-
-  /*!
-   * \brief createModulesToolBar
-   */
-  void createModulesToolBar();
 
   /*!
    * \brief createManagersToolBar
@@ -61,24 +56,9 @@ class FormsManager : public IFormManager {
   void createManagersToolBar();
 
   /*!
-   * \brief Создание главного меню модулей
-   */
-  void createModulesMenu();
-
-  /*!
-   * \brief Создание главного меню менеджеров
+   * \brief Создание главного меню плагинов
    */
   void createManagersMenu();
-
-  /*!
-   * \brief Создание действий
-   */
-  void createModulesActions();
-
-  /*!
-   * \brief Создание коннекторов
-   */
-  void createModulesConnections();
 
   /*!
    * \brief Создание действий
@@ -137,15 +117,7 @@ class FormsManager : public IFormManager {
      */
     void openAppOptionsWindow();
 
-/*******************************************************************************
- *                  Не стандартные функции открытия окон. Модули.
- *                  Специфичны для каждого проекта
- *******************************************************************************/
 
-    /*!
-     * \brief Открытие дочернего окна "Управления" Тестовая форма
-     */
-    void openControlWindow();
 
 /*******************************************************************************
  *                  Не стандартные функции открытия окон. Менеджеры.

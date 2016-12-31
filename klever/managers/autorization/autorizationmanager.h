@@ -40,7 +40,7 @@ public:
     void createWidgets();
 
     /*!
-     * \brief Возвращает виджет настроек менеджера
+     * \brief Возвращает виджет настроек плагина
      * return
      */
     QWidget *getSettingPage();
@@ -63,7 +63,7 @@ public:
 
 
     /*!
-     * \brief Деинициализация элементов менеджера
+     * \brief Деинициализация элементов плагина
      */
     void finalize();
 

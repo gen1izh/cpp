@@ -1,14 +1,19 @@
 #include "usermodel.h"
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
-
+#include <QDebug>
 #include "userqdjangomodel.h"
+#include <QCoreApplication>
 
 UserModel::UserModel()
 {
 
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("autoriz");
+    m_db = QSqlDatabase::database("autorization");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    }
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
+    m_db.setDatabaseName(path);
     m_db.open();
 
     QDjango::setDatabase(m_db);

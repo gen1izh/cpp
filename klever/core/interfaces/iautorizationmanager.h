@@ -6,7 +6,7 @@
 /*!
  * \brief Интерфейс авторизации
  */
-class IAutorizationManager : public ManagerInterface {
+class IAutorizationManager : public PluginInterface {
 
   public:
     IAutorizationManager(){}

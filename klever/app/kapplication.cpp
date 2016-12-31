@@ -58,19 +58,22 @@ void KApplication::connect()
                    &Core::KleverGui::instance(), SLOT(closeDialog()));
 }
 
+/*
+ * Инстанцирование базовых плагинов
+ */
 void KApplication::instanceTopManagers()
 {
     // Инициализация базового компонента
     Core::Base::instance();
 
-    // Инстанцирование главного менеджера
-    Core::Managers::instance();
+    // Инстанцирование главного плагина
+    Core::Plugins::instance();
 
-    // Инициализация менеджера ГИП
+    // Инициализация плагина ГИП
     Core::KleverGui::instance();
 
-    // Инициализация менеджера модулей
-    Core::ModulesManager::instance();
+    // Инициализация плагина модулей
+    //Core::ModulesManager::instance();
 }
 
 void KApplication::setSplashScreenVisible(bool value)
@@ -91,11 +94,11 @@ void KApplication::setSplashScreenVisible(bool value)
 void KApplication::prepareStage1()
 {
     // Создание действий
-    Core::Managers::instance().createActions();
+    Core::Plugins::instance().createActions();
     // Создание виджетов
-    Core::Managers::instance().createWidgets();
+    Core::Plugins::instance().createWidgets();
     // Создание коннекторов
-    Core::Managers::instance().createConnectors();
+    Core::Plugins::instance().createConnectors();
 
     // Инициализация mainwindow и mdi
     Core::KleverGui::instance().initializeMainwindowAndMdi();
@@ -104,9 +107,9 @@ void KApplication::prepareStage1()
 void KApplication::prepareStage2()
 {
     // Обновление информации о модулях
-    Core::ModulesManager::instance().updateModulesList();
+    //Core::ModulesManager::instance().updateModulesList();
 
-    // Инициализация менеджера форм.
+    // Инициализация плагина форм.
     // INFO: Инициализация должна происходить после загрузки всех модулей.
     Core::KleverGui::instance().initializeFormManager();
 
@@ -117,7 +120,7 @@ void KApplication::prepareStage2()
     Core::Base::instance().initializeSettings();
 
     // Отложенный запуск модулей
-    Core::Base::instance().startModulesBy100ms();
+    //Core::Base::instance().startModulesBy100ms();
 
     // При открытии окно будет максимального размера
     Core::KleverGui::instance().showMaximized();

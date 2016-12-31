@@ -1,41 +1,41 @@
 #include "managers.h"
 
-// Инстанцирование объекта главного менеджера
-Core::Managers &Core::Managers::instance() {
-    static Core::Managers singleObject;
+// Инстанцирование объекта главного плагина
+Core::Plugins &Core::Plugins::instance() {
+    static Core::Plugins singleObject;
     return singleObject;
 }
 
-// Конструктор менеджера
-Core::Managers::Managers()
+// Конструктор плагина
+Core::Plugins::Plugins()
 {
     setObjectName(tr("Главный менеджер"));
 }
 
-// Финализация главного менеджера
-int Core::Managers::finalize() {
-    QHashIterator<QString, ManagerInterface *>  i(m_plugins);
+// Финализация главного плагина
+int Core::Plugins::finalize() {
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
-        delete i.value(); // Удаление менеджера из памяти
+        delete i.value(); // Удаление плагина из памяти
     }
     return SUCCESSFUL;
 }
 
 // Возвращает указатель на объект журнала
-ILoggerManager  *Core::Managers::logger() const {
-    if (_iloggermanager.data()==NULL) {
+ILoggerPlugin  *Core::Plugins::logger() const {
+    if (m_iloggermanager.data()==NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Журнал не подключен!"));
     }
-    return _iloggermanager.data();
+    return m_iloggermanager.data();
 }
 
 /*!
- * \brief Возвращает хеш менеджеров
+ * \brief Возвращает хеш плагинов
  * \return
  */
-QHash<QString, ManagerInterface *> Core::Managers::managers() const {
+QHash<QString, PluginInterface *> Core::Plugins::managers() const {
     if (m_plugins.isEmpty()) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Менеджеры отсутствуют!"));
@@ -44,19 +44,19 @@ QHash<QString, ManagerInterface *> Core::Managers::managers() const {
 }
 
 
-// Возвращает указатель на объект загрузочного менеджера
-ISessionManager *Core::Managers::boot() const {
-    if (_ibootmanager.data() == NULL) {
+// Возвращает указатель на объект загрузочного плагина
+ISessionPlugin *Core::Plugins::boot() const {
+    if (m_ibootmanager.data() == NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Загрузчик не был корректно подключен!"));
     }
-    return _ibootmanager.data();
+    return m_ibootmanager.data();
 }
 
 // Инициализация плагинов.
-int Core::Managers::load() {
+int Core::Plugins::load() {
 
-    ManagerInterface *managerInterface;
+    PluginInterface *pluginInterface;
 
     // Формирование списка плагинов для загрузки по-умолчанию.
     QStringList  defaultPlugins;
@@ -71,7 +71,7 @@ int Core::Managers::load() {
 
     // Пробегаемся по всем плагинам.
     foreach (QString pluginName, customPlugins) {
-        KleverGui::instance().splashMessage("Инициализация менеджера \" " + pluginName + " \" ");
+        KleverGui::instance().splashMessage("Инициализация плагина \" " + pluginName + " \" ");
 
         // Загрузка, инстанцирование плагина.
         QPluginLoader loader(pluginName);
@@ -80,19 +80,23 @@ int Core::Managers::load() {
         // Проверка факта инстанцирования.
         if (pluginInstance) {
             if (pluginName=="session") {
-                _ibootmanager.reset(qobject_cast<ISessionManager *>(pluginInstance));
-                managerInterface = static_cast<ManagerInterface *>(_ibootmanager.data());
+                m_ibootmanager.reset(qobject_cast<ISessionPlugin *>(pluginInstance));
+                pluginInterface = static_cast<PluginInterface *>(m_ibootmanager.data());
             }
             else if (pluginName=="logger") {
-                _iloggermanager.reset(qobject_cast<ILoggerManager *>(pluginInstance));
-                managerInterface = static_cast<ManagerInterface *>(_iloggermanager.data());
+                m_iloggermanager.reset(qobject_cast<ILoggerPlugin *>(pluginInstance));
+                pluginInterface = static_cast<PluginInterface *>(m_iloggermanager.data());
+            }
+            else if (pluginName=="autorization") {
+                m_iautorizationmanager.reset(qobject_cast<IAutorizationManager *>(pluginInstance));
+                pluginInterface = static_cast<PluginInterface *>(m_iautorizationmanager.data());
             }
             else {
-                managerInterface = qobject_cast<ManagerInterface *>(pluginInstance);
+                pluginInterface = qobject_cast<PluginInterface *>(pluginInstance);
             }
 
-            // Заполняем хеш менеджеров
-            m_plugins[pluginName] = managerInterface;
+            // Заполняем хеш плагинов
+            m_plugins[pluginName] = pluginInterface;
         }
         else {
             messageLibrary msg;
@@ -103,7 +107,7 @@ int Core::Managers::load() {
             }
         }
 
-        qDebug().noquote() << pluginName << " = " << managerInterface;
+        qDebug().noquote() << pluginName << " = " << pluginInterface;
 
     }
 
@@ -111,18 +115,18 @@ int Core::Managers::load() {
 }
 
 
-// Создание действий менеджеров
-void Core::Managers::createActions() {
-    QHashIterator<QString, ManagerInterface *>  i(m_plugins);
+// Создание действий плагинов
+void Core::Plugins::createActions() {
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
         i.value()->createActions();
     }
 }
 
-// Проверка наличия менеджера
-bool Core::Managers::isManagerExist(QString name) {
-    QHashIterator<QString, ManagerInterface *>  i(m_plugins);
+// Проверка наличия плагина
+bool Core::Plugins::isManagerExist(QString name) {
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
         if ( name == i.key() ) {
@@ -132,9 +136,9 @@ bool Core::Managers::isManagerExist(QString name) {
     return false;
 }
 
-// Создание коннекторов менеджеров
-void Core::Managers::createConnectors() {
-    QHashIterator<QString, ManagerInterface *>  i(m_plugins);
+// Создание коннекторов плагинов
+void Core::Plugins::createConnectors() {
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
         i.value()->createConnectors();
@@ -142,12 +146,12 @@ void Core::Managers::createConnectors() {
 }
 
 
-// Создание виджетов для всех менеджеров
-void Core::Managers::createWidgets() {
+// Создание виджетов для всех плагинов
+void Core::Plugins::createWidgets() {
     // Журнал должен инициализироваться самым первым.
     m_plugins["logger"]->createWidgets();
 
-    QHashIterator<QString, ManagerInterface *>  i(m_plugins);
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
         if (i.key()!="logger") {

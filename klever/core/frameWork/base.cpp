@@ -6,7 +6,6 @@
 Core::Base::Base()
 {
       setObjectName(tr("Система"));
-      MySQLDataBaseApi::instance();
 
       _sysops               = new SystemOperations();
       _scriptEvaluteEngine  = new QScriptEngine();
@@ -40,10 +39,8 @@ Core::Base &Core::Base::instance() {
 
 // Удаление объектов модулей устройств
 int Core::Base::finalize() {
-  // Завершаем работу всех модулей
-  ModulesManager::instance().finalize();
-  // Завершаем работу всех менеджеров
-  Managers::instance().finalize();
+  // Завершаем работу всех плагинов
+  Plugins::instance().finalize();
 
   // Удаление всех объектов parameter из хеша
   QHashIterator<QString, Parameter *> i(_parameters);
@@ -143,24 +140,6 @@ void Core::Base::openDocument(QString filename) {
  */
 void Core::Base::initializeSettings() {
   _appSettings = new AppSettings();
-}
-
-
-/*
- * Запуск модулей через 100 мс после прогрузки модулей
- */
-void Core::Base::startModulesBy100ms() {
-  /*
-   * Отложенная инициализация
-   * TODO. Нужная для порядка инициализации объектов. Требуется доработка.
-   * Это связано с тем что настройки подгружаются потом.
-   */
-
-  // TODO: Убрать, проверить, должно работать без этого
-  QTimer::singleShot(100,
-                     &ModulesManager::instance(),
-                     SLOT(instanceModulesLater()));
-
 }
 
 int Core::Base::load()

@@ -20,13 +20,13 @@
 
 #include <frameWork/base.h>
 
-class SessionManager : public QObject, public ISessionManager
+class SessionManager : public QObject, public ISessionPlugin
 {
 
     Q_OBJECT
 
-    Q_PLUGIN_METADATA(IID ISessionManager_iid FILE "session.json")
-    Q_INTERFACES(ISessionManager)
+    Q_PLUGIN_METADATA(IID ISessionPlugin_iid FILE "session.json")
+    Q_INTERFACES(ISessionPlugin)
 
     /*!
      * \brief Проверка существования каталога sessions и ini файла
@@ -94,7 +94,7 @@ class SessionManager : public QObject, public ISessionManager
         QIcon settingIcon();
 
         /*!
-         * \brief Деинициализация элементов менеджера сессии
+         * \brief Деинициализация элементов плагина сессии
          */
         int finalize();
 

@@ -29,7 +29,7 @@ void AutorizationManager::createWidgets() {
 }
 
 /*
- * Деинициализация элементов менеджера
+ * Деинициализация элементов плагина
  */
 void AutorizationManager::finalize() {
     // TODO: ...
@@ -37,7 +37,7 @@ void AutorizationManager::finalize() {
 
 
 /*
- * Возвращает виджет настроек менеджера
+ * Возвращает виджет настроек плагина
  */
 QWidget *AutorizationManager::getSettingPage() {
     QWidget* wgt=static_cast<QWidget *>(_settings);

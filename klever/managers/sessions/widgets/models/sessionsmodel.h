@@ -7,6 +7,8 @@
 class SessionsModel : public QStringListModel
 {
 
+    Q_OBJECT
+
     QSqlDatabase m_db;
 
 public:
@@ -18,11 +20,6 @@ public:
      * \return
      */
     QStringList selectAllSessions();
-
-    /*!
-     * \brief Обновить модель
-     */
-    void updateModel();
 
     /*!
      * \brief Добавить сессию
@@ -48,6 +45,12 @@ public:
      * \param[in] index - модельный индекс
      */
     void dublicateSession(const QModelIndex &index);
+
+public slots:
+    /*!
+     * \brief Обновить модель
+     */
+    void updateModel();
 
 };
 

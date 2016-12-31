@@ -1,21 +1,20 @@
-#ifndef I_LOGGER_MANAGER_H
-#define I_LOGGER_MANAGER_H
+#ifndef ILOGGERPLUGIN_H
+#define ILOGGERPLUGIN_H
 
 #include "ilogger.h"
 #include "managerinterface.h"
 
-class ILoggerManager : public ILogger, public ManagerInterface {
+class ILoggerPlugin : public ILogger, public PluginInterface {
 
 public:
-    ILoggerManager(){}
-    virtual ~ILoggerManager(){}
+    ILoggerPlugin(){}
+    virtual ~ILoggerPlugin(){}
 };
 
 
-// TODO: Расписать зачем это
-#define ILoggerManager_iid "ru.home.klever.ILoggerManager"
+#define ILoggerPlugin_iid "ru.home.klever.ILoggerPlugin"
 // Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
-Q_DECLARE_INTERFACE(ILoggerManager, ILoggerManager_iid)
+Q_DECLARE_INTERFACE(ILoggerPlugin, ILoggerPlugin_iid)
 
-#endif // I_LOGGER_MANAGER_H
+#endif // ILOGGERPLUGIN_H
 

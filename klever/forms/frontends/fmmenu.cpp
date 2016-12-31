@@ -1,25 +1,10 @@
 #include "formsManager.h"
 #include "man.h"
 
-#include "mod.h"
 using namespace man;
-using namespace mod;
 
 /*
- * Создание меню модулей
- */
-void FormsManager::createModulesMenu() {
-
-  /*******************************************************************************
-   *                  Модуль источника питания
-   *******************************************************************************/
-
-  QMenu *controlMenu = _complexMenu->addMenu(tr("&Управление"));
-  controlMenu->addAction(_controlAction);
-}
-
-/*
- * Создание меню менеджеров
+ * Создание меню плагинов
  */
 void FormsManager::createManagersMenu() {
 
@@ -27,13 +12,13 @@ void FormsManager::createManagersMenu() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-    if (Core::Managers::instance().isManagerExist(tr("logger"))) {
+    if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
       QMenu *loggerMenu = _managersMenu->addMenu(tr("&Журнал"));
       loggerMenu->addAction(getManagerAction_FromWAPair("logger",
                                                               "(LoggerManager)loggersWatcherWidget"));
     }
 
-  if (Core::Managers::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
     // Создание меню "Тестовые последовательности"
     QMenu *testsequenceMenu = _managersMenu->addMenu(tr("&Тестовые последовательности"));
 

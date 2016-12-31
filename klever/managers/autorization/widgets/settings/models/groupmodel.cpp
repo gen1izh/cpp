@@ -20,8 +20,9 @@ GroupModel::GroupModel(const QStringList &headers, QObject *parent)
 
     m_rootItem = new GroupItem(rootData);
 
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("autoriz");
+    m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
+    m_db.setDatabaseName(path);
     m_db.open();
 
     QDjango::setDatabase(m_db);

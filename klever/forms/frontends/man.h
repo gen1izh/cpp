@@ -9,7 +9,7 @@
 namespace man {
   /*!
    * \brief Возвращает действие из списка пар (виджет,действие)
-   * \param[in] managerName - имя менеджера
+   * \param[in] managerName - имя плагина
    * \param[in] waName - имя пары (виджет,действие)
    * \return Возвращает действие
    */
@@ -17,15 +17,15 @@ namespace man {
 
   /*!
    * \brief Возвращает виджет из списка пар (виджет,действие)
-   * \param[in] managerName - имя менеджера
+   * \param[in] managerName - имя плагина
    * \param[in] waName - имя пары (виджет,действие)
    * \return Возвращает виджет
    */
   QWidget *getManagerWidget_FromWAPair(QString managerName, QString waName);
 
   /*!
-   * \brief Возвращает дествие из списка действий менеджера
-   * \param[in] managerName - имя менеджера
+   * \brief Возвращает дествие из списка действий плагина
+   * \param[in] managerName - имя плагина
    * \param[in] actionName - имя действия
    * \return Возвращает действие
    */
@@ -46,7 +46,7 @@ namespace man {
   QWidget *getLoggerWidget_FromWAPair(QString waName);
 
   /*!
-   * \brief Возвращает дествие из списка действий менеджера
+   * \brief Возвращает дествие из списка действий плагина
    * \param[in] actionName - имя действия
    * \return Возвращает действие
    */

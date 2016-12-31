@@ -72,7 +72,7 @@ void Core::KleverGui::prepare() {
 }
 
 /*
- * Инициализация менеджера форм
+ * Инициализация плагина форм
  */
 void Core::KleverGui::initializeFormManager()
 {

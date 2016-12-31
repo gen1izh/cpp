@@ -5,19 +5,30 @@
 #include "sessionsqdjangomodel.h"
 
 #include <QMessageBox>
+#include <QDebug>
+#include <QCoreApplication>
 
 SessionsModel::SessionsModel()
 {
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("sessions");
+    m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
     m_db.open();
+
+    if (!m_db.isOpen()) {
+        qDebug() << "sessions database can not open!";
+        m_db.lastError();
+    }
 
     QDjango::setDatabase(m_db);
     QDjango::registerModel<Sessions>();
 
     QDjango::createTables();
 
-    updateModel();
 }
 
 SessionsModel::~SessionsModel()

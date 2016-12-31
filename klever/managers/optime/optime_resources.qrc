@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/optimemanager">
-        <file>img/manager.png</file>
-    </qresource>
-</RCC>

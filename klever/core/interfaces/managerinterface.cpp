@@ -1,16 +1,19 @@
 #include "managerinterface.h"
+#include <QDebug>
+#include <QCoreApplication>
 
-ManagerInterface::ManagerInterface()
+
+PluginInterface::PluginInterface()
 {
 
 }
 
-ManagerInterface::~ManagerInterface()
+PluginInterface::~PluginInterface()
 {
 
 }
 
-void ManagerInterface::initialize(const QString &name, const QString textName)
+void PluginInterface::initialize(const QString &name, const QString textName)
 {
     setName(name);
     setTextName(textName);
@@ -22,48 +25,53 @@ void ManagerInterface::initialize(const QString &name, const QString textName)
     createConnectors();
 }
 
-void ManagerInterface::setName(const QString &name)
+void PluginInterface::setName(const QString &name)
 {
     m_name = name;
 }
 
-QString ManagerInterface::name() const
+QString PluginInterface::name() const
 {
     return m_name;
 }
 
-void ManagerInterface::setTextName(const QString &name)
+void PluginInterface::setTextName(const QString &name)
 {
     m_textname = name;
 }
 
-QString ManagerInterface::textName() const
+QString PluginInterface::textName() const
 {
     return m_textname;
 }
 
-bool ManagerInterface::isOn() const
+bool PluginInterface::isOn() const
 {
     return m_isOn;
 }
 
-bool ManagerInterface::isDisable() const
+bool PluginInterface::isDisable() const
 {
     return m_isDisable;
 }
 
-void ManagerInterface::setOnOrOff(bool flag)
+void PluginInterface::setOnOrOff(bool flag)
 {
     m_isOn = flag;
 }
 
-void ManagerInterface::checkManagerState()
+void PluginInterface::checkManagerState()
 {
     // По умолчанию отключаем менеджер
-    setOnOrOff(false);
+    setOnOrOff(true);
 
-    m_db = QSqlDatabase::addDatabase("QSQLITE");
-    m_db.setDatabaseName("plugins");
+    m_db = QSqlDatabase::database("plugininterface");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "plugininterface");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
+    m_db.setDatabaseName(path);
     m_db.open();
 
     QDjango::setDatabase(m_db);
@@ -78,7 +86,7 @@ void ManagerInterface::checkManagerState()
         if (plugin.type() == "manager") {
             if (plugin.name() == this->name()) {
                 isFind = true;
-                if (plugin.state()) {
+                if (plugin.state() == "on") {
                     setOnOrOff(true);
                 }
             }
@@ -100,12 +108,12 @@ void ManagerInterface::checkManagerState()
     m_db.close();
 }
 
-QHash<QString, QPair<QWidget *, QAction *> > ManagerInterface::getWidgetActionList() const
+QHash<QString, QPair<QWidget *, QAction *> > PluginInterface::getWidgetActionList() const
 {
     return widgetActionList;
 }
 
-QHash<QString, QAction *> ManagerInterface::getActionList() const
+QHash<QString, QAction *> PluginInterface::getActionList() const
 {
     return actionList;
 }

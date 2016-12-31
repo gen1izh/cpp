@@ -72,34 +72,34 @@ void MainWindow::createActions() {
  */
 void MainWindow::createMenus() {
 
-  //Если список модулей не пуст, то ...
-  if (!ModulesManager::instance().modules().isEmpty()) {
-    //  и  отладочный режим включен
-        // TODO: DEBUG_MODE
-//  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
-      // Создание меню "Модули устройств"
-      devicesModulesMenu = menuBar()->addMenu(tr("Отладка"));
+//  //Если список модулей не пуст, то ...
+//  if (!ModulesManager::instance().modules().isEmpty()) {
+//    //  и  отладочный режим включен
+//        // TODO: DEBUG_MODE
+////  if (Managers::instance().boot()->hasRightUser(DEBUG_MODE)) {
+//      // Создание меню "Модули устройств"
+//      devicesModulesMenu = menuBar()->addMenu(tr("Отладка"));
 
-      QHashIterator<QString,QList<ModulesQueueItem> >
-          i(ModulesManager::instance().modules());
-      while (i.hasNext()) {
-        i.next();
-        for (int j = 0; j < i.value().size(); j++) {
-          if (i.value().at(j).isNeedUse) {
-            QMenu *menu = i.value().at(j).i->getMenu();
-            if ( menu == 0 ) {
-              continue;
-            }
+//      QHashIterator<QString,QList<ModulesQueueItem> >
+//          i(ModulesManager::instance().modules());
+//      while (i.hasNext()) {
+//        i.next();
+//        for (int j = 0; j < i.value().size(); j++) {
+//          if (i.value().at(j).isNeedUse) {
+//            QMenu *menu = i.value().at(j).i->getMenu();
+//            if ( menu == 0 ) {
+//              continue;
+//            }
 
-            devicesModulesMenu->addMenu( menu )->setText( QString("%1. %2.")
-                                        .arg(i.value().at(j).i->getModuleName())
-                                        .arg(i.value().at(j).i->getModuleObjName())
-                                          );
-          }
-        }
-      }
-//    }
-  }
+//            devicesModulesMenu->addMenu( menu )->setText( QString("%1. %2.")
+//                                        .arg(i.value().at(j).i->getModuleName())
+//                                        .arg(i.value().at(j).i->getModuleObjName())
+//                                          );
+//          }
+//        }
+//      }
+////    }
+//  }
 
   // Создание главного меню. Права доступа определяются внутри
   KleverGui::instance().formManager->createMenu();
@@ -201,45 +201,45 @@ void MainWindow::createDockWindows() {
   //TODO: CAN_SEE_MODULES_ALL_CONTROLS
 //  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MODULES_ALL_CONTROLS)) {
 
-    //Если список модулей не пуст, то рисуем правый док с индикаторами, иначе он не нужен.
-    if (!ModulesManager::instance().modules().isEmpty()) {
+//    //Если список модулей не пуст, то рисуем правый док с индикаторами, иначе он не нужен.
+//    if (!ModulesManager::instance().modules().isEmpty()) {
 
-      // Инициализация правой панели приложения. Индикаторы модулей
-      QWidget     *wgt = NULL;
-      QHashIterator<QString,QList<ModulesQueueItem> >  i(
-                  ModulesManager::instance().modules());
-      while (i.hasNext()) {
-        i.next();
-        QWidget     *indicatorsWidget = new QWidget();
-        QVBoxLayout *indicators = new QVBoxLayout();
-        bool         isWidgets = false;
-        for ( int j = 0; j < i.value().size(); j++ ) {
-          if ( i.value().at(j).isNeedUse ) {
-            wgt = i.value().at(j).i->getIndicatorsPanelWidget();
-            if (wgt == NULL) {
-              continue;
-            } else {
-              indicators->addWidget(wgt);
-              isWidgets = true;
-            }
-          }
-        }
+//      // Инициализация правой панели приложения. Индикаторы модулей
+//      QWidget     *wgt = NULL;
+//      QHashIterator<QString,QList<ModulesQueueItem> >  i(
+//                  ModulesManager::instance().modules());
+//      while (i.hasNext()) {
+//        i.next();
+//        QWidget     *indicatorsWidget = new QWidget();
+//        QVBoxLayout *indicators = new QVBoxLayout();
+//        bool         isWidgets = false;
+//        for ( int j = 0; j < i.value().size(); j++ ) {
+//          if ( i.value().at(j).isNeedUse ) {
+//            wgt = i.value().at(j).i->getIndicatorsPanelWidget();
+//            if (wgt == NULL) {
+//              continue;
+//            } else {
+//              indicators->addWidget(wgt);
+//              isWidgets = true;
+//            }
+//          }
+//        }
 
-      indicatorsWidget->setLayout(indicators);
-      indicators->setAlignment(Qt::AlignTop);
+//      indicatorsWidget->setLayout(indicators);
+//      indicators->setAlignment(Qt::AlignTop);
 
-        if ( isWidgets ) {
-          QDockWidget *dock = new QDockWidget(i.value().at(0).i->getModuleName(), this);
-          dock->setObjectName(i.value().at(0).i->getModuleName());
-          dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea );
-          dock->setWidget(indicatorsWidget);
-          addDockWidget(Qt::RightDockWidgetArea, dock);
-          indicatorPanelMenu->addAction(dock->toggleViewAction());
-        }
-      }
-    }
-    else {
-      Library::Logger::logWarning(this,"Список модулей пуст!");
-    }
+//        if ( isWidgets ) {
+//          QDockWidget *dock = new QDockWidget(i.value().at(0).i->getModuleName(), this);
+//          dock->setObjectName(i.value().at(0).i->getModuleName());
+//          dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea );
+//          dock->setWidget(indicatorsWidget);
+//          addDockWidget(Qt::RightDockWidgetArea, dock);
+//          indicatorPanelMenu->addAction(dock->toggleViewAction());
+//        }
+//      }
+//    }
+//    else {
+//      Library::Logger::logWarning(this,"Список модулей пуст!");
+//    }
 //  }
 }

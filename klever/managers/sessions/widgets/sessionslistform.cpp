@@ -1,5 +1,7 @@
 #include "sessionslistform.h"
 #include "ui_sessionslistform.h"
+#include <QTimer>
+
 
 SessionsListForm::SessionsListForm(QWidget *parent) :
     QDialog(parent),
@@ -10,7 +12,11 @@ SessionsListForm::SessionsListForm(QWidget *parent) :
     m_model = new SessionsModel();
 
     ui->sessionsView->setModel(m_model);
-    m_model->updateModel();
+
+    // HACK: Пришлось сделать задержку.
+    // Без задержки не отображает данные, не может считать из БД.
+    QTimer::singleShot(100, m_model, SLOT(updateModel()));
+
 }
 
 SessionsListForm::~SessionsListForm()
@@ -51,6 +57,7 @@ void SessionsListForm::on_informationButton_clicked()
     if (dialog.data()->exec() == QDialog::Accepted) {
 
     }
+
 }
 
 void SessionsListForm::on_dublicateButton_clicked()

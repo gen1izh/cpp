@@ -1,15 +1,15 @@
-#ifndef I_SESSION_MANAGER_H
-#define I_SESSION_MANAGER_H
+#ifndef ISESSIONPLUGIN_H
+#define ISESSIONPLUGIN_H
 
 #include "managerinterface.h"
 
 /*!
- * \brief Интерфейс менеджера сессий
+ * \brief Интерфейс плагина сессий
  */
-class ISessionManager : public ManagerInterface {
+class ISessionPlugin : public PluginInterface {
   public:
-    ISessionManager(){}
-    virtual ~ISessionManager(){}
+    ISessionPlugin(){}
+    virtual ~ISessionPlugin(){}
 
     /*!
      * \brief Запуск кода сессий
@@ -19,10 +19,10 @@ class ISessionManager : public ManagerInterface {
 
 };
 
-// TODO: Расписать зачем это
-#define ISessionManager_iid "ru.home.klever.ISessionManager"
-// Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
-Q_DECLARE_INTERFACE(ISessionManager, ISessionManager_iid)
 
-#endif // I_SESSION_MANAGER_H
+#define ISessionPlugin_iid "ru.home.klever.ISessionPlugin"
+// Use the Q_DECLARE_INTERFACE() macro to tell Qt's meta-object system about the interface.
+Q_DECLARE_INTERFACE(ISessionPlugin, ISessionPlugin_iid)
+
+#endif // ISESSIONPLUGIN_H
 

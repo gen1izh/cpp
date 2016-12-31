@@ -1,6 +1,6 @@
 QT += core gui script scripttools sql printsupport xml svg axcontainer network
 greaterThan(QT_MAJOR_VERSION, 4){
-    QT += widgets printsupport webkitwidgets
+    QT += widgets printsupport
 }
 
 CONFIG(debug,debug|release) {

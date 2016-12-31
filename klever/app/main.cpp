@@ -6,10 +6,6 @@
 #include "kapplication.h"
 #include "singleapplication.h"
 
-//// Подключение основного класс приложения MainWindow
-//#include <core/frameWork/gui/mainwindow/mainwindow.h>
-
-
 int main(int argc, char *argv[]) {
 
     // Инициализация класса приложения.
@@ -38,7 +34,7 @@ int main(int argc, char *argv[]) {
     // Инициализация путей к плагинам приложения.
     KApplication::initPluginsPath();
 
-    // Инстанцирование всех главных менеджеров.
+    // Инстанцирование всех главных плагинов.
     KApplication::instanceTopManagers();
 
     // Создание коннекторов.
@@ -47,14 +43,14 @@ int main(int argc, char *argv[]) {
     // Включить сплеш-скрин приложения.
     KApplication::setSplashScreenVisible(true);
 
-    // Загрузка менеджеров.
-    if (Core::Managers::instance().load()) {
+    // Загрузка плагинов.
+    if (Core::Plugins::instance().load()) {
         return -1;
     }
 
     // Запуск загрузчика.
     // Если загрузчик выполнился с ошибкой, то прекращает работу с приложением.
-    if (!Core::Managers::instance().boot()->execute()) {
+    if (!Core::Plugins::instance().boot()->execute()) {
 
         int kCode = KApplication::finalize();
         return kCode;
@@ -62,9 +58,6 @@ int main(int argc, char *argv[]) {
 
     // Подготовка. Стадия 1.
     KApplication::prepareStage1();
-
-    // Чтение каталога с модулями
-    Core::ModulesManager::instance().load();
 
     // Подготовка. Стадия 2.
     KApplication::prepareStage2();

@@ -53,8 +53,8 @@ OptionsPage::OptionsPage(QWidget *parent)
 
   mainLayout->setContentsMargins(1,1,1,1);
 
-  mainLayout->addWidget(Core::ModulesManager::instance().getSettingPage(),
-                        6, 0, 1, 2);
+//  mainLayout->addWidget(Core::ModulesManager::instance().getSettingPage(),
+//                        6, 0, 1, 2);
 
   // Установка выравнивания элементов по верхней границе
   mainLayout->setAlignment( Qt::AlignTop );

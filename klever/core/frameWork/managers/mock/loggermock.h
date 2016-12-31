@@ -4,7 +4,7 @@
 #include <interfaces/iloggermanager.h>
 #include <QDebug>
 
-class LoggerMock : public ILoggerManager
+class LoggerMock : public ILoggerPlugin
 {
 
   QWidget *_wgt;

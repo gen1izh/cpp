@@ -19,22 +19,16 @@
 
 /* Включения для объектов-оберток модуля скриптов */
 #include "sysscripts/systemoperations.h"
-#include <interfaces/moduleinterface.h>
-#include <settings/modules/modulesmanager.h>
-
 
 /* Работа с параметрами */
 #include <library/parameters/parameter.h>
 
-#include <library/databasesapi/mysql/mysqldatabaseapi.h>
-
 #include <frameWork/gui/klevergui.h>
-
-
+#include <interfaces/itopmanager.h>
 
 namespace Core {
     /*!
-     * Константы стилей ПО КПА графической оболочки
+     * Константы стилей графической оболочки
      */
     enum {
       QPLASTIQUESTYLE = 0,
@@ -75,8 +69,8 @@ namespace Core {
       /*!
        * \brief Общий словарь параметров.
        *
-       * Используется модулями и менеджерами для сохранения своего состояния в виде
-       * отдельных параметров и для получения состояния других модулей или менеджеров.
+       * Используется модулями и плагинами для сохранения своего состояния в виде
+       * отдельных параметров и для получения состояния других модулей или плагинов.
        *
        * \sa getParameter().
        */
@@ -175,11 +169,6 @@ namespace Core {
        * \brief Инициализация настроек
        */
       void initializeSettings();
-
-      /*!
-       * \brief Запуск модулей через 100 мс после прогрузки модулей
-       */
-      void startModulesBy100ms();
 
       /*!
        * \brief Настройки приложения

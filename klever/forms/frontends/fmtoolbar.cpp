@@ -1,31 +1,10 @@
 #include "formsManager.h"
 #include "man.h"
-#include "mod.h"
 
 using namespace man;
-using namespace mod;
 
 /*
- * Создание панели быстрого запуска для модулей
- */
-void FormsManager::createModulesToolBar() {
-
-  /*******************************************************************************
-   *                  Модуль источника питания
-   *******************************************************************************/
-
-  QToolBar *controlToolBar = Core::KleverGui::instance().mainwindow()->addToolBar(tr("Управление"));
-  controlToolBar->setObjectName(tr("Управление"));
-  Core::KleverGui::instance().mainwindow()->addToolBar(Qt::RightToolBarArea,controlToolBar);
-  controlToolBar->setAllowedAreas( Qt::RightToolBarArea );
-  controlToolBar->addAction(_controlAction);
-  controlToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-  controlToolBar->setIconSize(QSize(50,50));
-
-}
-
-/*
- * Создание панели быстрого запуска для менеджеров
+ * Создание панели быстрого запуска для плагинов
  */
 void FormsManager::createManagersToolBar() {
 
@@ -37,7 +16,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер журналирования
    *******************************************************************************/
 
-  if (Core::Managers::instance().isManagerExist(tr("logger"))) {
+  if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
     managersToolBar->addAction(getManagerAction_FromWAPair(tr("logger"),
                                                            tr("(LoggerManager)loggersWatcherWidget")));
   }
@@ -46,7 +25,7 @@ void FormsManager::createManagersToolBar() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-  if (Core::Managers::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
   }
 }
 

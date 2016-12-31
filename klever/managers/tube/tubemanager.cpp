@@ -1,9 +1,9 @@
 #include "tubemanager.h"
 
 TubeManager::TubeManager() {
-  setName("/tube");         // Установка имени модуля (внутреннее)
+  setName("tube");         // Установка имени модуля (внутреннее)
   setTextName("Труба");    // Установка имени модуля (внешнее)
-  checkManagerState();            // Проверка состояния менеджера (вкл. или выкл.)
+  checkManagerState();            // Проверка состояния плагина (вкл. или выкл.)
   createWidgets();
   _settings = NULL;
 }
@@ -23,7 +23,7 @@ void TubeManager::createWidgets() {
 }
 
 /*
- * Деинициализация элементов менеджера
+ * Деинициализация элементов плагина
  */
 void TubeManager::finalize() {
 
@@ -31,7 +31,7 @@ void TubeManager::finalize() {
 
 
 /*
- * Возвращает виджет настроек менеджера
+ * Возвращает виджет настроек плагина
  */
 QWidget *TubeManager::getSettingPage() {
   QWidget* wgt=static_cast<QWidget *>(_settings);

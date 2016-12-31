@@ -27,7 +27,7 @@ QDockWidget *FormsManager::createLoggerDock() {
 
 
 /*
- * Инициализация доков менеджера тестовых последовательностей
+ * Инициализация доков плагина тестовых последовательностей
  */
 QDockWidget *FormsManager::createTestsequenceManagerDock() {
 
@@ -57,16 +57,16 @@ void FormsManager::createDocks(QList<QPair<QDockWidget*,QPair<int,int> > > &dock
   QPair<QDockWidget*,QPair<int,int> > p;
 
   // INFO: Поскольку docks создавали лишь менеджеры активно, то
-  // разделения на функции содания docks модулей и менеджеров тут нет.
+  // разделения на функции содания docks модулей и плагинов тут нет.
 
-  if (Core::Managers::instance().isManagerExist(tr("logger"))) {
+  if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
     p.first = createLoggerDock();
     p.second.first  = Qt::BottomDockWidgetArea;
     p.second.second = Qt::Horizontal;
     docksList.append(p);
   }
 
-  if (Core::Managers::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
     p.first = createTestsequenceManagerDock();
     p.second.first  = Qt::LeftDockWidgetArea;
     p.second.second = Qt::Vertical;

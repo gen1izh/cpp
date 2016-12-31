@@ -4,8 +4,7 @@ SessionManager::SessionManager()
 {
     Q_INIT_RESOURCE(sessionmanager_resources);
 
-    initialize(tr("session"), tr("Менеджер сессий"));
-
+    initialize(tr("session"), tr("Параметры \n сессии"));
 }
 
 SessionManager::~SessionManager()
@@ -70,7 +69,7 @@ QIcon SessionManager::settingIcon()
 }
 
 
-// Деинициализация элементов менеджера сессии
+// Деинициализация элементов плагина сессии
 int SessionManager::finalize() {
     // TODO: ...
 }

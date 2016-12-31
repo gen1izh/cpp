@@ -9,60 +9,55 @@
 AppSettings::AppSettings(QWidget *parent) :
     QWidget(parent)
 {
-  _contentsWidget = new QListWidget;
-  _contentsWidget->setViewMode(QListView::IconMode);
-  _contentsWidget->setIconSize(QSize(96, 84));
-  _contentsWidget->setMovement(QListView::Static);
-  _contentsWidget->setMaximumWidth(170);
-  _contentsWidget->setSpacing(12);
+    _contentsWidget = new QListWidget;
+    _contentsWidget->setViewMode(QListView::IconMode);
+    _contentsWidget->setIconSize(QSize(96, 84));
+    _contentsWidget->setMovement(QListView::Static);
+    _contentsWidget->setMaximumWidth(170);
+    _contentsWidget->setSpacing(12);
 
-  _pagesWidget = new QStackedWidget;
+    _pagesWidget = new QStackedWidget;
 
-  // TODO: Необходимо продумать менеджер прав доступа
-//  if (Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
-
-    QHashIterator<QString, ManagerInterface *>  i(Core::Managers::instance().managers());
+    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().managers());
     while (i.hasNext()) {
       i.next();
       // если менеджер включен
       if (i.value()->isOn()) {
 
         if (i.key() == "logger") {
-          _pagesWidget->addWidget(Core::Managers::instance().logger()->getSettingPage());
+          _pagesWidget->addWidget(Core::Plugins::instance().logger()->getSettingPage());
         }
         else if (i.key() == "boot") {
-          _pagesWidget->addWidget(Core::Managers::instance().boot()->getSettingPage());
+          _pagesWidget->addWidget(Core::Plugins::instance().boot()->getSettingPage());
         }
         else {
-          // если виджет настроек существует и менеджер включен
-          if (((static_cast<ManagerInterface*>(i.value()))->getSettingPage()) && (i.value()->isOn())) {
-            _pagesWidget->addWidget((static_cast<ManagerInterface*>(i.value()))->getSettingPage());
+          // если виджет настроек существует и плагин включен
+          if (((static_cast<PluginInterface*>(i.value()))->getSettingPage()) && (i.value()->isOn())) {
+            _pagesWidget->addWidget((static_cast<PluginInterface*>(i.value()))->getSettingPage());
           }
         }
       }
     }
 
     _pagesWidget->addWidget(new OptionsPage); /* основные настройки приложения */
-    _pagesWidget->addWidget(new ModulesPage); /* модули */
-//  }
 
-  createIcons();
+    createIcons();
 
-  _contentsWidget->setCurrentRow(0);
+    _contentsWidget->setCurrentRow(0);
 
-  QHBoxLayout *horizontalLayout = new QHBoxLayout;
-  horizontalLayout->addWidget(_contentsWidget);
-  horizontalLayout->addWidget(_pagesWidget, 1);
+    QHBoxLayout *horizontalLayout = new QHBoxLayout;
+    horizontalLayout->addWidget(_contentsWidget);
+    horizontalLayout->addWidget(_pagesWidget, 1);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout;
-  mainLayout->addLayout(horizontalLayout);
-  mainLayout->setContentsMargins(1,1,1,1);
-  setLayout(mainLayout);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addLayout(horizontalLayout);
+    mainLayout->setContentsMargins(1,1,1,1);
+    setLayout(mainLayout);
 
-  setContentsMargins(1,1,1,1);
-  setWindowTitle(tr("Config Dialog"));
+    setContentsMargins(1,1,1,1);
+    setWindowTitle(tr("Config Dialog"));
 
-  setWindowIcon(QIcon(":/settings/img/settings.png"));
+    setWindowIcon(QIcon(":/settings/img/settings.png"));
 
 }
 
@@ -74,7 +69,7 @@ void AppSettings::createIcons() {
   // TODO: Необходимо продумать менеджер прав доступа
 //  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
 
-    QHashIterator<QString, ManagerInterface *>  i(Core::Managers::instance().managers());
+    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().managers());
     while (i.hasNext()) {
       i.next();
 

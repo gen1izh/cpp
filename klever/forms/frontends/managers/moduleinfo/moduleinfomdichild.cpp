@@ -9,9 +9,9 @@ ModuleInfoMdiChild::ModuleInfoMdiChild() {
   grid->setSizeConstraint( QLayout::SetDefaultConstraint );
 
   grid->setContentsMargins(1,1,1,1);
-  grid->addWidget(
-        Core::ModulesManager::instance().getMainWindow()
-        );
+//  grid->addWidget(
+//        Core::ModulesManager::instance().getMainWindow()
+//        );
 
   /* Добавление сетки на слой виджета */
   setLayout(grid);

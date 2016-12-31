@@ -11,7 +11,7 @@
 #include <interfaces/managerinterface.h>
 
 /*!
- * \brief Интерфейс менеджера форм
+ * \brief Интерфейс плагина форм
  */
 class IFormManager : public QObject {
 

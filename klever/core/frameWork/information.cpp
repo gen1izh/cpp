@@ -4,7 +4,7 @@
 #include <library/orm/models/mainqdjangomodel.h>
 
 #include <QDebug>
-
+#include <QCoreApplication>
 
 Information::Information()
 {
@@ -32,11 +32,14 @@ void Information::setIsDataReaded(bool isDataReaded)
 
 bool Information::readApplicationInformation()
 {
-  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-  db.setDatabaseName("main");
-  db.open();
+    QSqlDatabase db = QSqlDatabase::database("information");
+    if (db.driverName()!="QSQLITE") {
+        db = QSqlDatabase::addDatabase("QSQLITE", "information");
+    }
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
+    db.setDatabaseName(path);
+    db.open();
 
-  QDjango::setDatabase(db);
   QDjango::registerModel<MainQDjangoModel>();
 
   QDjango::createTables();
@@ -83,8 +86,12 @@ bool Information::readApplicationInformation()
 
 void Information::saveApplicationInformation()
 {
-  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-  db.setDatabaseName("main");
+  QSqlDatabase db = QSqlDatabase::database("information");
+  if (db.driverName()!="QSQLITE") {
+      db = QSqlDatabase::addDatabase("QSQLITE", "information");
+  }
+  QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
+  db.setDatabaseName(path);
   db.open();
 
   QDjango::setDatabase(db);

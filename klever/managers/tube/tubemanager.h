@@ -10,12 +10,12 @@ class TubeManager;
 #include <frameWork/base.h>
 #include "widgets/settings/tubesettingswidget.h"
 
-class TubeManager : public QObject, public ManagerInterface {
+class TubeManager : public QObject, public PluginInterface {
 
   Q_OBJECT
 
-  Q_PLUGIN_METADATA(IID ManagerInterface_iid FILE "tube.json")
-  Q_INTERFACES(ManagerInterface)
+  Q_PLUGIN_METADATA(IID PluginInterface_iid FILE "tube.json")
+  Q_INTERFACES(PluginInterface)
 
   /*!
    * brief Виджет настроек
@@ -36,7 +36,7 @@ public:
   void createWidgets();
 
   /*!
-   * brief Возвращает виджет настроек менеджера
+   * brief Возвращает виджет настроек плагина
    * return
    */
   QWidget *getSettingPage();
@@ -58,7 +58,7 @@ public:
   void createConnectors() {}
 
   /*!
-   * brief Деинициализация элементов менеджера
+   * brief Деинициализация элементов плагина
    */
   void finalize();
 
