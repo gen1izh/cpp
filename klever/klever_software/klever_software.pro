@@ -4,6 +4,6 @@ CONFIG   += ordered
 SUBDIRS = \
         ..\core \
         ..\app \
-        ..\managers \
+        ..\plugins \
         ..\tools \
         ..\forms \

@@ -23,7 +23,7 @@
 #include <frameWork/gui/klevergui.h>
 #include <frameWork/managers.h>
 
-#include <managers/logger/cveLogger.h>
+#include <plugins/logger/cveLogger.h>
 
 #include <interfaces/ilogger.h>
 

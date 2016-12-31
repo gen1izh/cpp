@@ -2,7 +2,7 @@
 #include "cveLogger.h"
 #include <QMainWindow>
 #include <library/utilsLibrary/utilslibrary.h>
-#include <managers/logger/logger/logger.h>
+#include <plugins/logger/logger/logger.h>
 #include <frameWork/base.h>
 #include <interfaces/ilogger.h>
 

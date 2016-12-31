@@ -1,7 +1,7 @@
 
 TARGET = autorization
 
-include(../managers.pri)
+include(../plugins.pri)
 
 # Заголовочные файлы
 HEADERS += widgets/settings/autorizationsettingswidget.h \

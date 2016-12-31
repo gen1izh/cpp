@@ -1,6 +1,6 @@
 
 TARGET = tube
-include(../managers.pri)
+include(../plugins.pri)
 
 # Заголовочные файлы
 HEADERS += widgets/settings/tubesettingswidget.h

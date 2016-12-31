@@ -2,9 +2,7 @@
 
 /* Глобальные данные */
 #include <frameWork/base.h>
-#include <managers/logger/cveLogger.h>
-/* Менеджер сессии */
-//#include <managers/sessions/sessionmanager.h>
+#include <plugins/logger/cveLogger.h>
 
 #include <frameWork/managers.h>
 

@@ -1,6 +1,6 @@
 TARGET = session
 
-include(../managers.pri)
+include(../plugins.pri)
 
 # Заголовочные файлы
 HEADERS += \

@@ -47,9 +47,9 @@
 
 // Подключаемые компоненты
 #include <interfaces/iloggermanager.h>
-#include <managers/logger/logger/filestorage.h>
-#include <managers/logger/logger/loggerssettingspage.h>
-#include <managers/logger/logger/logger.h>
+#include <plugins/logger/logger/filestorage.h>
+#include <plugins/logger/logger/loggerssettingspage.h>
+#include <plugins/logger/logger/logger.h>
 
 #include "loggerexport.h"
 

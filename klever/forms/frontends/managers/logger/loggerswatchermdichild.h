@@ -8,7 +8,7 @@
 #include <QPushButton>
 
 #include <frameWork/base.h>
-#include <managers/logger/cveLogger.h>
+#include <plugins/logger/cveLogger.h>
 
 class LoggersWatcherMdiChild : public QWidget {
 
