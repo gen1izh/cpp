@@ -9,12 +9,8 @@ HEADERS += \
     widgets/settings/settingwidget.h \
     widgets/addsessiondialog.h \
     widgets/models/sessionsmodel.h \
-    widgets/models/sessionsqdjangomodel.h
-HEADERS +=
-HEADERS +=
-HEADERS +=
-HEADERS +=
-HEADERS += sessionmanager.h
+    widgets/models/sessionsqdjangomodel.h \
+    sessionmanager.h
 
 # Исходные файлы
 SOURCES += \
@@ -23,15 +19,12 @@ SOURCES += \
     widgets/settings/settingwidget.cpp \
     widgets/addsessiondialog.cpp \
     widgets/models/sessionsmodel.cpp \
-    widgets/models/sessionsqdjangomodel.cpp
-SOURCES +=
-SOURCES +=
-SOURCES +=
-SOURCES +=
-SOURCES += sessionmanager.cpp
+    widgets/models/sessionsqdjangomodel.cpp \
+    sessionmanager.cpp
 
 # Ресурсы
-RESOURCES += sessionmanager_resources.qrc
+RESOURCES += \
+    resources.qrc
 
 DISTFILES += \
     session.json
