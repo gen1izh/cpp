@@ -3,6 +3,8 @@
 #include <library/orm/db/QDjangoQuerySet.h>
 #include <library/orm/models/mainqdjangomodel.h>
 
+#include <library/message/messagelibrary.h>
+
 #include <QDebug>
 #include <QCoreApplication>
 
@@ -10,8 +12,6 @@ Information::Information()
 {
 
 }
-
-
 
 Information &Information::instance()
 {
@@ -32,89 +32,108 @@ void Information::setIsDataReaded(bool isDataReaded)
 
 bool Information::readApplicationInformation()
 {
-    QSqlDatabase db = QSqlDatabase::database("information");
-    if (db.driverName()!="QSQLITE") {
-        db = QSqlDatabase::addDatabase("QSQLITE", "information");
+    m_db = QSqlDatabase::database("information");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
     }
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
-    db.setDatabaseName(path);
-    db.open();
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-  QDjango::registerModel<MainQDjangoModel>();
+        msg.createErrorMessage("Ошибка", text);
 
-  QDjango::createTables();
+        return false;
+    }
+    else {
+        QDjango::setDatabase(m_db);
 
-  QDjangoQuerySet<MainQDjangoModel> allModelRecords;
+        QDjango::registerModel<MainQDjangoModel>();
 
-  // Если запись 1 одна есть,значит настройки записаны и их нужно считать,
-  // иначе нужно создать запись с настройками.
-  if (allModelRecords.size() == 1) {
-      QList<QVariantMap> propertyMaps = allModelRecords.values( QStringList() << "company"
-                                                                              << "softwareNamePrefix"
-                                                                              << "softwareNameSuffix"
-                                                                              << "version"
-                                                                              << "mainTitleApp"
-                                                                              << "cveMessage"
-                                                                              << "otherMessage"
-                                                                              << "aboutMessageTitle"
-                                                                              << "aboutMessageTop"
-                                                                              << "aboutMessageBottom"
-                                                                              << "specialParameters");
-      foreach (const QVariantMap &propertyMap, propertyMaps) {
-        setCompany(propertyMap["company"].toString());
-        setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
-        setSoftwareNameSuffix(propertyMap["softwareNameSuffix"].toString());
-        setVersion(propertyMap["version"].toString());
-        setMainTitleApp(propertyMap["mainTitleApp"].toString());
-        setCveMessage(propertyMap["cveMessage"].toString());
-        setOtherMessage(propertyMap["otherMessage"].toString());
-        setAboutMessageTitle(propertyMap["aboutMessageTitle"].toString());
-        setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
-        setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
-        setSpecialParameters(propertyMap["specialParameters"].toString());
-        setIsDataReaded(true);
-        return true;
-      }
-  }
-  else {
-    return false;
-  }
+        QDjango::createTables();
 
-  db.close();
-  return true;
+        QDjangoQuerySet<MainQDjangoModel> allModelRecords;
+
+        // Если запись 1 одна есть,значит настройки записаны и их нужно считать,
+        // иначе нужно создать запись с настройками.
+        if (allModelRecords.size() == 1) {
+            QList<QVariantMap> propertyMaps = allModelRecords.values( QStringList() << "company"
+                                                                      << "softwareNamePrefix"
+                                                                      << "softwareNameSuffix"
+                                                                      << "version"
+                                                                      << "mainTitleApp"
+                                                                      << "cveMessage"
+                                                                      << "otherMessage"
+                                                                      << "aboutMessageTitle"
+                                                                      << "aboutMessageTop"
+                                                                      << "aboutMessageBottom"
+                                                                      << "specialParameters");
+            foreach (const QVariantMap &propertyMap, propertyMaps) {
+                setCompany(propertyMap["company"].toString());
+                setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
+                setSoftwareNameSuffix(propertyMap["softwareNameSuffix"].toString());
+                setVersion(propertyMap["version"].toString());
+                setMainTitleApp(propertyMap["mainTitleApp"].toString());
+                setCveMessage(propertyMap["cveMessage"].toString());
+                setOtherMessage(propertyMap["otherMessage"].toString());
+                setAboutMessageTitle(propertyMap["aboutMessageTitle"].toString());
+                setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
+                setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
+                setSpecialParameters(propertyMap["specialParameters"].toString());
+                setIsDataReaded(true);
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
+    }
+
+    m_db.close();
+    return true;
 }
 
 void Information::saveApplicationInformation()
 {
-  QSqlDatabase db = QSqlDatabase::database("information");
-  if (db.driverName()!="QSQLITE") {
-      db = QSqlDatabase::addDatabase("QSQLITE", "information");
-  }
-  QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
-  db.setDatabaseName(path);
-  db.open();
+    m_db = QSqlDatabase::database("information");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
+    }
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-  QDjango::setDatabase(db);
-  QDjango::registerModel<MainQDjangoModel>();
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
 
-  QDjango::dropTables();
-  QDjango::createTables();
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<MainQDjangoModel>();
 
-  MainQDjangoModel *information = new MainQDjangoModel;
-  information->setCompany(m_company);
-  information->setSoftwareNamePrefix(m_softwareNamePrefix);
-  information->setSoftwareNameSuffix(m_softwareNameSuffix);
-  information->setVersion(m_version);
-  information->setMainTitleApp(m_mainTitleApp);
-  information->setCveMessage(m_cveMessage);
-  information->setOtherMessage(m_otherMessage);
-  information->setAboutMessageTitle(m_aboutMessageTitle);
-  information->setAboutMessageTop(m_aboutMessageTop);
-  information->setAboutMessageBottom(m_aboutMessageBottom);
+        QDjango::dropTables();
+        QDjango::createTables();
 
-  information->save();
+        MainQDjangoModel *information = new MainQDjangoModel;
+        information->setCompany(m_company);
+        information->setSoftwareNamePrefix(m_softwareNamePrefix);
+        information->setSoftwareNameSuffix(m_softwareNameSuffix);
+        information->setVersion(m_version);
+        information->setMainTitleApp(m_mainTitleApp);
+        information->setCveMessage(m_cveMessage);
+        information->setOtherMessage(m_otherMessage);
+        information->setAboutMessageTitle(m_aboutMessageTitle);
+        information->setAboutMessageTop(m_aboutMessageTop);
+        information->setAboutMessageBottom(m_aboutMessageBottom);
 
-  db.close();
+        information->save();
+
+    }
+    m_db.close();
 }
 
 QString Information::company()

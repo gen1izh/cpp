@@ -2,7 +2,7 @@
 
 SessionManager::SessionManager()
 {
-    Q_INIT_RESOURCE(sessionmanager_resources);
+    Q_INIT_RESOURCE(resources);
 
     initialize(tr("session"), tr("Параметры \n сессии"));
 }
@@ -65,7 +65,7 @@ QWidget *SessionManager::getSettingPage()
 
 QIcon SessionManager::settingIcon()
 {
-    return QIcon(":/sessionmanager/img/settings/sessions.png");
+    return QIcon(":/images/settings/sessions.png");
 }
 
 

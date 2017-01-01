@@ -9,7 +9,7 @@
 #include <QDebug>
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
-
+#include <library/message/messagelibrary.h>
 
 GroupModel::GroupModel(const QStringList &headers, QObject *parent)
     : QAbstractItemModel(parent)
@@ -23,14 +23,23 @@ GroupModel::GroupModel(const QStringList &headers, QObject *parent)
     m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<Group>();
+        msg.createErrorMessage("Ошибка", text);
 
-    QDjango::createTables();
+    }
+    else {
 
-    setupModelData(m_rootItem);
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Group>();
+
+        QDjango::createTables();
+
+        setupModelData(m_rootItem);
+    }
 }
 
 GroupModel::~GroupModel()

@@ -20,6 +20,7 @@ public:
 
   void deleteUser(const QModelIndex &index);
 
+  QString getUserPasswordByName(QString username);
 };
 
 #endif // USERMODEL_H

@@ -3,7 +3,7 @@
 #include <library/orm/db/QDjangoQuerySet.h>
 #include <QDebug>
 #include <QCoreApplication>
-
+#include <library/message/messagelibrary.h>
 RoleModel::RoleModel()
 {
 
@@ -14,12 +14,20 @@ RoleModel::RoleModel()
 
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<Role>();
+        msg.createErrorMessage("Ошибка", text);
 
-    QDjango::createTables();
+    }
+    else {
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Role>();
+
+        QDjango::createTables();
+    }
 
 }
 

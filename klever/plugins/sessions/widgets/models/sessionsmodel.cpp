@@ -1,7 +1,7 @@
 #include "sessionsmodel.h"
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
-
+#include <library/message/messagelibrary.h>
 #include "sessionsqdjangomodel.h"
 
 #include <QMessageBox>
@@ -17,17 +17,21 @@ SessionsModel::SessionsModel()
 
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    if (!m_db.isOpen()) {
-        qDebug() << "sessions database can not open!";
-        m_db.lastError();
+        msg.createErrorMessage("Ошибка", text);
+
     }
+    else {
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<Sessions>();
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
 
-    QDjango::createTables();
+        QDjango::createTables();
+    }
 
 }
 

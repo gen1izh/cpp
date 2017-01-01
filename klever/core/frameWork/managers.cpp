@@ -24,11 +24,11 @@ int Core::Plugins::finalize() {
 
 // Возвращает указатель на объект журнала
 ILoggerPlugin  *Core::Plugins::logger() const {
-    if (m_iloggermanager.data()==NULL) {
+    if (m_iloggermanager==NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Журнал не подключен!"));
     }
-    return m_iloggermanager.data();
+    return m_iloggermanager;
 }
 
 /*!
@@ -46,12 +46,22 @@ QHash<QString, PluginInterface *> Core::Plugins::managers() const {
 
 // Возвращает указатель на объект загрузочного плагина
 ISessionPlugin *Core::Plugins::boot() const {
-    if (m_ibootmanager.data() == NULL) {
+    if (m_ibootmanager == NULL) {
         messageLibrary msg;
         msg.createErrorMessage(tr("Ошибка"), tr("Загрузчик не был корректно подключен!"));
     }
-    return m_ibootmanager.data();
+    return m_ibootmanager;
 }
+
+// Возвращает указатель на объект плагина авторизации
+IAutorizationManager *Core::Plugins::autorization() const {
+    if (m_iautorizationmanager == NULL) {
+        messageLibrary msg;
+        msg.createErrorMessage(tr("Ошибка"), tr("Плагин авторизации не был корректно подключен!"));
+    }
+    return m_iautorizationmanager;
+}
+
 
 // Инициализация плагинов.
 int Core::Plugins::load() {
@@ -80,16 +90,16 @@ int Core::Plugins::load() {
         // Проверка факта инстанцирования.
         if (pluginInstance) {
             if (pluginName=="session") {
-                m_ibootmanager.reset(qobject_cast<ISessionPlugin *>(pluginInstance));
-                pluginInterface = static_cast<PluginInterface *>(m_ibootmanager.data());
+                m_ibootmanager = qobject_cast<ISessionPlugin *>(pluginInstance);
+                pluginInterface = static_cast<PluginInterface *>(m_ibootmanager);
             }
             else if (pluginName=="logger") {
-                m_iloggermanager.reset(qobject_cast<ILoggerPlugin *>(pluginInstance));
-                pluginInterface = static_cast<PluginInterface *>(m_iloggermanager.data());
+                m_iloggermanager = qobject_cast<ILoggerPlugin *>(pluginInstance);
+                pluginInterface = static_cast<PluginInterface *>(m_iloggermanager);
             }
             else if (pluginName=="autorization") {
-                m_iautorizationmanager.reset(qobject_cast<IAutorizationManager *>(pluginInstance));
-                pluginInterface = static_cast<PluginInterface *>(m_iautorizationmanager.data());
+                m_iautorizationmanager = qobject_cast<IAutorizationManager *>(pluginInstance);
+                pluginInterface = static_cast<PluginInterface *>(m_iautorizationmanager);
             }
             else {
                 pluginInterface = qobject_cast<PluginInterface *>(pluginInstance);

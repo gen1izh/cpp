@@ -1,7 +1,7 @@
 #include "managerinterface.h"
 #include <QDebug>
 #include <QCoreApplication>
-
+#include <library/message/messagelibrary.h>
 
 PluginInterface::PluginInterface()
 {
@@ -72,39 +72,46 @@ void PluginInterface::checkManagerState()
 
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<PluginsQDjangoModel>();
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
 
-    QDjango::createTables();
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<PluginsQDjangoModel>();
 
-    QDjangoQuerySet<PluginsQDjangoModel> plugins;
+        QDjango::createTables();
 
-    bool isFind = false;
-    foreach (const PluginsQDjangoModel &plugin, plugins) {
-        if (plugin.type() == "manager") {
-            if (plugin.name() == this->name()) {
-                isFind = true;
-                if (plugin.state() == "on") {
-                    setOnOrOff(true);
+        QDjangoQuerySet<PluginsQDjangoModel> plugins;
+
+        bool isFind = false;
+        foreach (const PluginsQDjangoModel &plugin, plugins) {
+            if (plugin.type() == "manager") {
+                if (plugin.name() == this->name()) {
+                    isFind = true;
+                    if (plugin.state() == "on") {
+                        setOnOrOff(true);
+                    }
                 }
             }
         }
+
+        if (!isFind) {
+            QScopedPointer<PluginsQDjangoModel> newManager(new PluginsQDjangoModel());
+            newManager.data()->setName(this->name());
+            newManager.data()->setType("manager");
+            newManager.data()->setState(false);
+            newManager.data()->setObjectsCount(0);
+            newManager.data()->save();
+
+
+        }
+
     }
-
-    if (!isFind) {
-        QScopedPointer<PluginsQDjangoModel> newManager(new PluginsQDjangoModel());
-        newManager.data()->setName(this->name());
-        newManager.data()->setType("manager");
-        newManager.data()->setState(false);
-        newManager.data()->setObjectsCount(0);
-        newManager.data()->save();
-
-
-    }
-
-
     m_db.close();
 }
 

@@ -1,7 +1,7 @@
 #include "sessionslistform.h"
 #include "ui_sessionslistform.h"
 #include <QTimer>
-
+#include <frameWork/base.h>
 
 SessionsListForm::SessionsListForm(QWidget *parent) :
     QDialog(parent),
@@ -26,6 +26,14 @@ SessionsListForm::~SessionsListForm()
 
 void SessionsListForm::on_openButton_clicked()
 {
+    Core::Base::instance().setParameterValue(QString("[Session]Folder"),
+                                             QString("%1/%2")
+                                                 .arg(QCoreApplication::applicationDirPath())
+                                                 .arg(ui->sessionsView->currentIndex().data().toString()) );
+
+    Core::Base::instance().setParameterValue(QString("[Session]Name"),
+                                             ui->sessionsView->currentIndex().data());
+
     accept();
 }
 

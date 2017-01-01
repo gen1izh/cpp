@@ -17,17 +17,8 @@ bool SessionMock::execute()
     Core::Base::instance().setParameterValue(QString("/sessionPath"), QDir::currentPath() );
     qDebug() << "Current path = " << QDir::currentPath();
 
-    Core::Base::instance().setParameterValue(QString("/rights"), QString("ALL"));
-    qDebug() << "Rights = " << QString("ALL");
-
     Core::Base::instance().setParameterValue(QString("/sessionName"), QString("NO_SESSION"));
     qDebug() << "SessionName = " << QString("NO_SESSION");
-
-    Core::Base::instance().setParameterValue(QString("/productType"), QString("NONE"));
-    qDebug() << "ProductType = " << QString("NONE");
-
-    Core::Base::instance().setParameterValue(QString("/serialNumber"), QString("1234"));
-    qDebug() << "SerialNumber = " << QString("1234");
 
     return true;
 }

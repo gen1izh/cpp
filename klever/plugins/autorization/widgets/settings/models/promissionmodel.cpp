@@ -7,7 +7,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QCoreApplication>
-
+#include <library/message/messagelibrary.h>
 
 PromissionModel::PromissionModel()
 {
@@ -19,33 +19,40 @@ PromissionModel::PromissionModel()
 
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<Promission>();
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
 
-    QDjango::createTables();
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Promission>();
 
-    addPromission( tr("Возможность смотреть документацию приложения"),    "CAN_SEE_APP_DOCS",          "CONST" );
-    addPromission( tr("Возможность смотреть настройки приложения"),       "CAN_SEE_APP_SETTINGS",      "CONST" );
-    addPromission( tr("Возможность смотреть меню плагинов приложения"), "CAN_SEE_MANAGERS_MENU",     "CONST" );
-    addPromission( tr("Возможность управлять настройками плагинов"),    "CAN_SEE_MANAGERS_SETTINGS", "CONST" );
-    addPromission( tr("Возможность работать с панелями плагинов"),      "CAN_SEE_MANAGERS_TOOLBAR",  "CONST" );
+        QDjango::createTables();
 
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MANAGER_CONROLS_LEVEL_0",     "CONST" );
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MANAGER_CONROLS_LEVEL_1",     "CONST" );
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MANAGER_CONROLS_LEVEL_2",     "CONST" );
+        addPromission( tr("Возможность смотреть документацию приложения"),    "CAN_SEE_APP_DOCS",          "CONST" );
+        addPromission( tr("Возможность смотреть настройки приложения"),       "CAN_SEE_APP_SETTINGS",      "CONST" );
+        addPromission( tr("Возможность смотреть меню плагинов приложения"), "CAN_SEE_MANAGERS_MENU",     "CONST" );
+        addPromission( tr("Возможность управлять настройками плагинов"),    "CAN_SEE_MANAGERS_SETTINGS", "CONST" );
+        addPromission( tr("Возможность работать с панелями плагинов"),      "CAN_SEE_MANAGERS_TOOLBAR",  "CONST" );
 
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MODULES_CONROLS_LEVEL_0",     "CONST" );
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MODULES_CONROLS_LEVEL_1",     "CONST" );
-    addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MODULES_CONROLS_LEVEL_2",     "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MANAGER_CONROLS_LEVEL_0",     "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MANAGER_CONROLS_LEVEL_1",     "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MANAGER_CONROLS_LEVEL_2",     "CONST" );
 
-    addPromission( tr("Возможность смотреть меню модулей приложения"),      "CAN_SEE_MODULES_MENU",            "CONST" );
-    addPromission( tr("Возможность смотреть настройки модулей приложения"), "CAN_SEE_MODULES_SETTINGS",        "CONST" );
-    addPromission( tr("Возможность смотреть панели модулей приложения"),    "CAN_SEE_MODULES_TOOLBAR",         "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MODULES_CONROLS_LEVEL_0",     "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MODULES_CONROLS_LEVEL_1",     "CONST" );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MODULES_CONROLS_LEVEL_2",     "CONST" );
 
-    addPromission( tr("Возможность работать в отладочном режиме"), "DEBUG_MODE",                    "CONST" );
+        addPromission( tr("Возможность смотреть меню модулей приложения"),      "CAN_SEE_MODULES_MENU",            "CONST" );
+        addPromission( tr("Возможность смотреть настройки модулей приложения"), "CAN_SEE_MODULES_SETTINGS",        "CONST" );
+        addPromission( tr("Возможность смотреть панели модулей приложения"),    "CAN_SEE_MODULES_TOOLBAR",         "CONST" );
 
+        addPromission( tr("Возможность работать в отладочном режиме"), "DEBUG_MODE",                    "CONST" );
+    }
 }
 
 PromissionModel::~PromissionModel()

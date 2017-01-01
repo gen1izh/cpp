@@ -47,9 +47,9 @@ namespace Core {
         Plugins& operator=(const Plugins&);
 
         // Интерфейс на загрузчик и журнал
-        QScopedPointer<ISessionPlugin>          m_ibootmanager;
-        QScopedPointer<ILoggerPlugin>           m_iloggermanager;
-        QScopedPointer<IAutorizationManager>    m_iautorizationmanager;
+        ISessionPlugin          *m_ibootmanager;
+        ILoggerPlugin           *m_iloggermanager;
+        IAutorizationManager    *m_iautorizationmanager;
 
         /*!
          * \brief Хеш плагинов
@@ -71,6 +71,12 @@ namespace Core {
          * \return
          */
         ISessionPlugin  *boot() const;
+
+        /*!
+         * \brief  Возвращает указатель на объект плагина авторизации
+         * \return
+         */
+        IAutorizationManager *autorization() const;
 
         /*!
          * \brief Инициализация плагинов системы.

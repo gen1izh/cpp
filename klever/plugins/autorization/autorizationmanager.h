@@ -13,6 +13,8 @@
 
 #include <frameWork/base.h>
 #include <interfaces/iautorizationmanager.h>
+#include "widgets/autorizationdialog.h"
+
 
 class AutorizationManager : public QObject, public IAutorizationManager {
 
@@ -25,6 +27,8 @@ class AutorizationManager : public QObject, public IAutorizationManager {
      * \brief Виджет настроек
      */
     autorizationSettings *_settings = NULL;
+
+    AutorizationDialog   *m_autorizationDialog;
 
 public:
 

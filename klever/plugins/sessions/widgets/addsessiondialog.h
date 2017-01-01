@@ -19,6 +19,9 @@ public:
 
     QString parameters() const;
 
+private slots:
+    void on_buttonBox_accepted();
+
 private:
     Ui::AddSessionDialog *ui;
 

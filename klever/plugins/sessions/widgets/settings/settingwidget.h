@@ -17,6 +17,11 @@ public:
 
 private:
     Ui::SettingWidget *ui;
+
+
+public slots:
+    void initialize();
+
 };
 
 #endif // SETTINGWIDGET_H

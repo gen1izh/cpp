@@ -56,6 +56,14 @@ int main(int argc, char *argv[]) {
         return kCode;
     }
 
+    // Запуск авторизации.
+    // Если авторизация прошла с ошибкой, то прекращает работу с приложением.
+    if (!Core::Plugins::instance().autorization()->execute()) {
+        int kCode = KApplication::finalize();
+        return kCode;
+    }
+
+
     // Подготовка. Стадия 1.
     KApplication::prepareStage1();
 

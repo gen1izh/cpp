@@ -5,6 +5,8 @@
 #include "userqdjangomodel.h"
 #include <QCoreApplication>
 
+#include <library/message/messagelibrary.h>
+
 UserModel::UserModel()
 {
 
@@ -14,12 +16,21 @@ UserModel::UserModel()
     }
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
     m_db.setDatabaseName(path);
-    m_db.open();
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QDjango::setDatabase(m_db);
-    QDjango::registerModel<User>();
+        msg.createErrorMessage("Ошибка", text);
 
-    QDjango::createTables();
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<User>();
+
+        QDjango::createTables();
+    }
 
 }
 
@@ -49,6 +60,22 @@ void UserModel::addUser(QString username, QString password, QString group) {
     user->setPassword(password);
     user->setGroup(group);
     user->save();
+}
+
+QString UserModel::getUserPasswordByName(QString username) {
+    QDjangoQuerySet<User> users;
+    QStringList tmp;
+
+    tmp.clear();
+
+    QList<QVariantMap> propertyMaps = users.values(QStringList() << "username" << "password" << "group");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if (propertyMap["username"].toString() == username) {
+            return propertyMap["password"].toString();
+        }
+    }
+
+    return QString("");
 }
 
 void UserModel::updateModel()

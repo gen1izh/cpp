@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QHash>
+#include <QSqlDatabase>
 
 class Information {
 
@@ -20,6 +21,8 @@ class Information {
   bool m_isDataReaded = false;
 
   QHash<QString, QString> m_specialParameters;
+
+  QSqlDatabase m_db;
 
   Information();
 
