@@ -5,6 +5,7 @@
 #include "models/sessionsmodel.h"
 
 #include "addsessiondialog.h"
+#include "clonedialog.h"
 #include "informationdialog.h"
 
 namespace Ui {
@@ -20,6 +21,9 @@ public:
     explicit SessionsListForm(QWidget *parent = 0);
     ~SessionsListForm();
 
+protected:
+    void showEvent(QShowEvent *);
+
 private slots:
     void on_openButton_clicked();
 
@@ -33,7 +37,7 @@ private slots:
 
     void on_dublicateButton_clicked();
 
-    void on_renameButton_clicked();
+    void on_sessionsView_clicked(const QModelIndex &index);
 
 private:
     Ui::SessionsListForm *ui;

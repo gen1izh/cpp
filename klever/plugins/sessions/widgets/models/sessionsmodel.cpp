@@ -47,12 +47,48 @@ QStringList SessionsModel::selectAllSessions()
 
     tmp.clear();
 
-    QList<QVariantMap> propertyMaps = proms.values(QStringList() <<  "name" << "parameters");
+    QList<QVariantMap> propertyMaps = proms.values(QStringList() <<  "name");
     foreach (const QVariantMap &propertyMap, propertyMaps) {
         tmp.append(propertyMap["name"].toString());
     }
 
     return tmp;
+}
+
+/*
+ * Получить информацию сессии
+ */
+QString SessionsModel::getSessionInformation(const QString &name)
+{
+    QDjangoQuerySet<Sessions> sessions;
+
+    QList<QVariantMap> propertyMaps = sessions.values(QStringList() <<  "name" << "information");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+       if (propertyMap["name"].toString() == name) {
+          return propertyMap["information"].toString();
+       }
+    }
+
+    return QString("");
+}
+
+/*
+ * Установить информацию по сессии
+ */
+void SessionsModel::setSessionInformation(const QString &name, const QString &information)
+{
+    QDjangoQuerySet<Sessions> sessions;
+
+    Sessions session;
+    for (int i = 0; i < sessions.size(); ++i) {
+        if (sessions.at(i, &session)) {
+            if (session.name() == name) {
+                session.setInformation(information);
+                session.save();
+                break;
+            }
+        }
+    }
 }
 
 void SessionsModel::addSession(QString name, QString parameters) {
@@ -61,7 +97,7 @@ void SessionsModel::addSession(QString name, QString parameters) {
 
     bool isFind = false;
 
-    QList<QVariantMap> propertyMaps = sessions.values(QStringList() << "name" << "parameters");
+    QList<QVariantMap> propertyMaps = sessions.values(QStringList() << "name");
     foreach (const QVariantMap &propertyMap, propertyMaps) {
         if (propertyMap["name"].toString() == name) {
             isFind = true;
@@ -72,6 +108,7 @@ void SessionsModel::addSession(QString name, QString parameters) {
         Sessions *session = new Sessions;
         session->setName(name);
         session->setParameters(parameters);
+        session->setInformation("");
         session->save();
     }
 }
@@ -99,44 +136,34 @@ void SessionsModel::deleteSession(const QModelIndex &index)
 
 }
 
-void SessionsModel::renameSession(const QModelIndex &index, const QString &new_name)
+void SessionsModel::dublicateSession(const QModelIndex &index, const QString &cloneName)
 {
     QString name = data(index, Qt::DisplayRole).toString();
 
     QDjangoQuerySet<Sessions> sessions;
-    QDjangoQuerySet<Sessions> someSession;
-    someSession = sessions.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
 
-    QList<QVariantMap> propertyMaps = someSession.values(QStringList() << "name" << "parameters");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if (propertyMap["name"].toString() == name) {
-            // Имена будут уникальные у сессий, поэтому тут всего 1 итарация будет
-            someSession.at(0)->setName(new_name);
-            someSession.at(0)->save();
-            break;
+    Sessions session;
+
+    for (int i = 0; i < sessions.size(); ++i) {
+        if (sessions.at(i, &session)) {
+            if (session.name() == cloneName) {
+                messageLibrary msg;
+                msg.createErrorMessage("Ошибка", "Имя копии уже существует, выберите другое имя!");
+                return;
+            }
         }
     }
 
-    updateModel();
-}
-
-void SessionsModel::dublicateSession(const QModelIndex &index)
-{
-    QString name = data(index, Qt::DisplayRole).toString();
-
-    QDjangoQuerySet<Sessions> sessions;
-    QDjangoQuerySet<Sessions> someSession;
-    someSession = sessions.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-
-    QList<QVariantMap> propertyMaps = someSession.values(QStringList() << "name" << "parameters");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if (propertyMap["name"].toString() == name) {
-            // Имена будут уникальные у сессий, поэтому тут всего 1 итарация будет
-            Sessions *session = new Sessions;
-            session->setName(someSession.at(0)->name()+"_copy");
-            session->setParameters(someSession.at(0)->parameters());
-            session->save();
-            break;
+    for (int i = 0; i < sessions.size(); ++i) {
+        if (sessions.at(i, &session)) {
+            if (session.name() == name) {
+                Sessions clone;
+                clone.setName(cloneName);
+                clone.setParameters(session.parameters());
+                clone.setInformation(session.information());
+                clone.save();
+                break;
+            }
         }
     }
 

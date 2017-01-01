@@ -12,16 +12,15 @@ SessionsListForm::SessionsListForm(QWidget *parent) :
     m_model = new SessionsModel();
 
     ui->sessionsView->setModel(m_model);
-
-    // HACK: Пришлось сделать задержку.
-    // Без задержки не отображает данные, не может считать из БД.
-    QTimer::singleShot(100, m_model, SLOT(updateModel()));
-
 }
 
 SessionsListForm::~SessionsListForm()
 {
     delete ui;
+}
+
+void SessionsListForm::showEvent(QShowEvent *) {
+    m_model->updateModel();
 }
 
 void SessionsListForm::on_openButton_clicked()
@@ -49,6 +48,10 @@ void SessionsListForm::on_addButton_clicked()
     if (dialog.data()->exec() == QDialog::Accepted) {
         m_model->addSession(dialog.data()->name(), dialog.data()->parameters());
         m_model->updateModel();
+        ui->openButton->setEnabled(false);
+        ui->deleteButton->setEnabled(false);
+        ui->informationButton->setEnabled(false);
+        ui->dublicateButton->setEnabled(false);
     }
 
 }
@@ -56,11 +59,22 @@ void SessionsListForm::on_addButton_clicked()
 void SessionsListForm::on_deleteButton_clicked()
 {
     m_model->deleteSession(ui->sessionsView->currentIndex());
+    m_model->updateModel();
+    ui->openButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
+    ui->informationButton->setEnabled(false);
+    ui->dublicateButton->setEnabled(false);
 }
 
 void SessionsListForm::on_informationButton_clicked()
 {
     QScopedPointer<InformationDialog> dialog(new InformationDialog);
+
+    dialog.data()->setModel(m_model);
+
+    Core::Base::instance().setParameterValue(QString("[Session]SelectedName"),
+                                             ui->sessionsView->currentIndex().data().toString() );
+
 
     if (dialog.data()->exec() == QDialog::Accepted) {
 
@@ -70,10 +84,38 @@ void SessionsListForm::on_informationButton_clicked()
 
 void SessionsListForm::on_dublicateButton_clicked()
 {
-    m_model->dublicateSession(ui->sessionsView->currentIndex());
+    QScopedPointer<CloneDialog> dialog(new CloneDialog);
+
+    Core::Base::instance().setParameterValue(QString("[Session]SelectedName"),
+                                             ui->sessionsView->currentIndex().data().toString() );
+
+    if (dialog.data()->exec() == QDialog::Accepted) {
+        QString name = Core::Base::instance().getParameterValue(QString("[Session]CloneName"),
+                                                                QString(""));
+        m_model->dublicateSession(ui->sessionsView->currentIndex(), name);
+        m_model->updateModel();
+        ui->openButton->setEnabled(false);
+        ui->deleteButton->setEnabled(false);
+        ui->informationButton->setEnabled(false);
+        ui->dublicateButton->setEnabled(false);
+    }
 }
 
-void SessionsListForm::on_renameButton_clicked()
+/*
+ *
+ */
+void SessionsListForm::on_sessionsView_clicked(const QModelIndex &index)
 {
-    m_model->renameSession(ui->sessionsView->currentIndex(), ui->newNameEdit->text());
+    if (index.isValid()) {
+        ui->openButton->setEnabled(true);
+        ui->deleteButton->setEnabled(true);
+        ui->informationButton->setEnabled(true);
+        ui->dublicateButton->setEnabled(true);
+    }
+    else {
+        ui->openButton->setEnabled(false);
+        ui->deleteButton->setEnabled(false);
+        ui->informationButton->setEnabled(false);
+        ui->dublicateButton->setEnabled(false);
+    }
 }

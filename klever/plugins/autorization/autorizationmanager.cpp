@@ -33,7 +33,7 @@ bool AutorizationManager::execute()
 
     messageLibrary msg;
     msg.createInfoMessage(tr("Информация"),
-                          tr("Вы отменили процесс авторизации."
+                          tr("Вы отменили процесс авторизации. "
                              "Программа будет закрыта."));
 
     return false;

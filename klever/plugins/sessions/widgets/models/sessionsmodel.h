@@ -35,17 +35,13 @@ public:
     void deleteSession(const QModelIndex &index);
 
     /*!
-     * \brief Переименовать сессию
-     * \param[in] index - модельный индекс
-     */
-    void renameSession(const QModelIndex &index, const QString &new_name);
-
-    /*!
      * \brief Продублировать сессию
      * \param[in] index - модельный индекс
      */
-    void dublicateSession(const QModelIndex &index);
+    void dublicateSession(const QModelIndex &index, const QString &cloneName);
 
+    void setSessionInformation(const QString &name, const QString &information);
+    QString getSessionInformation(const QString &name);
 public slots:
     /*!
      * \brief Обновить модель

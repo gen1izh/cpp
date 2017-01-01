@@ -33,7 +33,8 @@ void AddSessionDialog::on_buttonBox_accepted()
 {
     QVariantMap parameter;
     for (int i = 0; i < ui->parametersWidget->rowCount(); i++) {
-        if (ui->parametersWidget->item(i, 0)!=NULL) {
+        if ((ui->parametersWidget->item(i, 0)!=NULL) &&
+            (ui->parametersWidget->item(i, 1)!=NULL)) {
             QString key = ui->parametersWidget->item(i, 0)->text();
             QString value = ui->parametersWidget->item(i, 1)->text();
             parameter.insert(key, value);

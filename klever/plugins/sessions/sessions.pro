@@ -10,7 +10,8 @@ HEADERS += \
     widgets/addsessiondialog.h \
     widgets/models/sessionsmodel.h \
     widgets/models/sessionsqdjangomodel.h \
-    sessionmanager.h
+    sessionmanager.h \
+    widgets/clonedialog.h
 
 # Исходные файлы
 SOURCES += \
@@ -20,7 +21,8 @@ SOURCES += \
     widgets/addsessiondialog.cpp \
     widgets/models/sessionsmodel.cpp \
     widgets/models/sessionsqdjangomodel.cpp \
-    sessionmanager.cpp
+    sessionmanager.cpp \
+    widgets/clonedialog.cpp
 
 # Ресурсы
 RESOURCES += \
@@ -33,6 +35,7 @@ FORMS += \
     widgets/sessionslistform.ui \
     widgets/informationdialog.ui \
     widgets/settings/settingwidget.ui \
-    widgets/addsessiondialog.ui
+    widgets/addsessiondialog.ui \
+    widgets/clonedialog.ui
 
 QMAKE_CXXFLAGS += -std=c++11

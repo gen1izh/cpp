@@ -3,7 +3,6 @@
         <file>images/base/add.png</file>
         <file>images/base/connect.png</file>
         <file>images/base/del.png</file>
-        <file>images/base/sessionmanager.png</file>
         <file>images/settings/sessions.png</file>
     </qresource>
 </RCC>

@@ -27,7 +27,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTextBrowser" name="informationBox"/>
+    <widget class="QPlainTextEdit" name="informationEdit"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

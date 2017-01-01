@@ -20,6 +20,16 @@ void Sessions::setParameters(const QString &parameters)
     m_parameters = parameters;
 }
 
+QString Sessions::information() const
+{
+    return m_information;
+}
+
+void Sessions::setInformation(const QString &information)
+{
+    m_information = information;
+}
+
 
 
 
