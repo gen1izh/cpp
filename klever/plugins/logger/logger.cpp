@@ -1,5 +1,5 @@
 
-#include "cveLogger.h"
+#include "logger.h"
 #include <QMainWindow>
 #include <library/utilsLibrary/utilslibrary.h>
 #include <plugins/logger/logger/logger.h>

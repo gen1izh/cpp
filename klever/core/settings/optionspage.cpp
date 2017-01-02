@@ -2,7 +2,7 @@
 
 /* Глобальные данные */
 #include <frameWork/base.h>
-#include <plugins/logger/cveLogger.h>
+#include <plugins/logger/logger.h>
 
 #include <frameWork/managers.h>
 
