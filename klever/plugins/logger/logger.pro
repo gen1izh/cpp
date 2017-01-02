@@ -7,7 +7,9 @@ include(../plugins.pri)
 # Заголовочные файлы
 HEADERS += cveLogger.h \
     widgets/loggerswatcherwidget.h \
-    logerscriptapi.h
+    logerscriptapi.h \
+    widgets/settings/settingsform.h \
+    widgets/loggerform.h
 HEADERS += widgets/loggerstabswidgets.h
 HEADERS += logger/logger.h
 HEADERS += logger/customfiltertablemodel.h
@@ -23,7 +25,9 @@ HEADERS += loggerexport.h
 # Исходные коды
 SOURCES += cveLogger.cpp \
     widgets/loggerswatcherwidget.cpp \
-    logerscriptapi.cpp
+    logerscriptapi.cpp \
+    widgets/settings/settingsform.cpp \
+    widgets/loggerform.cpp
 SOURCES += widgets/loggerstabswidgets.cpp
 SOURCES += logger/customfiltertablemodel.cpp
 SOURCES += logger/customfilteritemdelegate.cpp
@@ -39,3 +43,7 @@ RESOURCES += logger/logger.qrc
 
 DISTFILES += \
     logger.json
+
+FORMS += \
+    widgets/settings/settingsform.ui \
+    widgets/loggerform.ui
