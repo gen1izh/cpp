@@ -1,8 +1,8 @@
 #include "formsManager.h"
 #include <frameWork/gui/mainwindow/mainwindow.h>
-#include "man.h"
+#include "plug.h"
 
-using namespace man;
+using namespace plug;
 
 /*
  * Инициализация журнала приложения
@@ -58,14 +58,14 @@ void FormsManager::createDocks(QList<QPair<QDockWidget*,QPair<int,int> > > &dock
   // INFO: Поскольку docks создавали лишь менеджеры активно, то
   // разделения на функции содания docks модулей и плагинов тут нет.
 
-  if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
+  if (Core::Plugins::instance().isPluginExist(tr("logger"))) {
     p.first = createLoggerDock();
     p.second.first  = Qt::BottomDockWidgetArea;
     p.second.second = Qt::Horizontal;
     docksList.append(p);
   }
 
-  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isPluginExist(tr("testsequence"))) {
     p.first = createTestsequenceManagerDock();
     p.second.first  = Qt::LeftDockWidgetArea;
     p.second.second = Qt::Vertical;

@@ -101,7 +101,7 @@ namespace Core {
          * \param[in] name - название плагина
          * \return
          */
-        bool isManagerExist(QString name);
+        bool isPluginExist(QString name);
 
         /*!
          * \brief Создание виджетов плагинов

@@ -1,8 +1,8 @@
 #include "loggerswatchermdichild.h"
 #include <frameWork/managers.h>
-#include "../../man.h"
+#include "../../plug.h"
 
-using namespace man;
+using namespace plug;
 
 
 LoggersWatcherMdiChild::LoggersWatcherMdiChild() {
@@ -19,8 +19,7 @@ LoggersWatcherMdiChild::LoggersWatcherMdiChild() {
   setLayout(grid);
   setWindowTitle("Просмотрщик отчетов");
   setMinimumSize(600,400);
-//  setWindowIcon(
-//        CveTestSequencesManager::instance().elem()->reportWidget()->viewer->windowIcon() );
+  setWindowIcon(wgt->windowIcon());
 
 }
 
@@ -32,6 +31,6 @@ LoggersWatcherMdiChild::~LoggersWatcherMdiChild() {
  */
 void LoggersWatcherMdiChild::closeEvent( QCloseEvent *event ) {
   event->ignore();
-  emit setVisibleSignal( false );
+  emit setVisibleSignal(false);
 }
 

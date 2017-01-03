@@ -1,7 +1,7 @@
 #include "formsManager.h"
-#include "man.h"
+#include "plug.h"
 
-using namespace man;
+using namespace plug;
 
 /*
  * Создание меню плагинов
@@ -12,13 +12,13 @@ void FormsManager::createManagersMenu() {
    *                  Менеджер тестовых последовательностей.
    *******************************************************************************/
 
-    if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
+    if (Core::Plugins::instance().isPluginExist(tr("logger"))) {
       QMenu *loggerMenu = _managersMenu->addMenu(tr("&Журнал"));
       loggerMenu->addAction(getManagerAction_FromWAPair("logger",
                                                               "(Logger)Watcher"));
     }
 
-  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isPluginExist(tr("testsequence"))) {
     // Создание меню "Тестовые последовательности"
     QMenu *testsequenceMenu = _managersMenu->addMenu(tr("&Тестовые последовательности"));
 

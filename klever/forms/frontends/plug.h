@@ -1,35 +1,35 @@
-#ifndef MAN
-#define MAN
+#ifndef PLUG
+#define PLUG
 #include <QAction>
 #include <QString>
 #include <QWidget>
 #include <frameWork/managers.h>
 
 
-namespace man {
+namespace plug {
   /*!
    * \brief Возвращает действие из списка пар (виджет,действие)
-   * \param[in] managerName - имя плагина
+   * \param[in] pluginName - имя плагина
    * \param[in] waName - имя пары (виджет,действие)
    * \return Возвращает действие
    */
-  QAction *getManagerAction_FromWAPair(QString managerName, QString waName);
+  QAction *getManagerAction_FromWAPair(QString pluginName, QString waName);
 
   /*!
    * \brief Возвращает виджет из списка пар (виджет,действие)
-   * \param[in] managerName - имя плагина
+   * \param[in] pluginName - имя плагина
    * \param[in] waName - имя пары (виджет,действие)
    * \return Возвращает виджет
    */
-  QWidget *getManagerWidget_FromWAPair(QString managerName, QString waName);
+  QWidget *getManagerWidget_FromWAPair(QString pluginName, QString waName);
 
   /*!
    * \brief Возвращает дествие из списка действий плагина
-   * \param[in] managerName - имя плагина
+   * \param[in] pluginName - имя плагина
    * \param[in] actionName - имя действия
    * \return Возвращает действие
    */
-  QAction *getManagerAction_FromActionsList(QString managerName, QString actionName);
+  QAction *getManagerAction_FromActionsList(QString pluginName, QString actionName);
 
   /*!
    * \brief Возвращает действие из списка пар (виджет,действие)
@@ -52,5 +52,5 @@ namespace man {
    */
   QAction *getLoggerAction_FromActionsList(QString waName);
 }
-#endif // MAN
+#endif // PLUG
 

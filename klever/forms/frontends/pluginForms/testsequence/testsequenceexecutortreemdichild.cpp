@@ -1,8 +1,8 @@
 #include "testsequenceexecutortreemdichild.h"
 #include <frameWork/managers.h>
-#include "../../man.h"
+#include "../../plug.h"
 
-using namespace man;
+using namespace plug;
 
 TestsequenceExecutorMdiChild::TestsequenceExecutorMdiChild() {
   QGridLayout *grid = new QGridLayout();

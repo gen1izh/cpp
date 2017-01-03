@@ -25,6 +25,7 @@
 
 #include "widgets/settings/settingsform.h"
 #include "widgets/loggerform.h"
+#include "widgets/watcherform.h"
 #include "lthread.h"
 
 /*!

@@ -1,7 +1,7 @@
 #include "formsManager.h"
-#include "man.h"
+#include "plug.h"
 
-using namespace man;
+using namespace plug;
 
 /*
  * Создание коннекторов для плагинов
@@ -13,14 +13,14 @@ void FormsManager::createManagersConnections() {
    *******************************************************************************/
   // Если менеджер журналирования подключен
 
-  if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
+  if (Core::Plugins::instance().isPluginExist(tr("logger"))) {
     connect( getManagerAction_FromWAPair(tr("logger"),
                                          tr("(Logger)Watcher")),
              SIGNAL(triggered()), this, SLOT(openLoggersWatcherWindow()) );
   }
 
   // Если менеджер тестовых последовательностей подключен
-  if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {
+  if (Core::Plugins::instance().isPluginExist(tr("testsequence"))) {
     connect(getManagerAction_FromWAPair(tr("testsequence"),
                                         tr("(TestSequenceManager)TestsequenceEditor")),
             SIGNAL(triggered()), this, SLOT( openTestSequenceTreeWindow() ) );

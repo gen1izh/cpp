@@ -3,7 +3,6 @@
 #include <frameWork/gui/klevergui.h>
 #include <frameWork/managers.h>
 
-
 /*
  * Конструктор плагина форм
  */

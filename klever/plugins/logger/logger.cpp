@@ -13,7 +13,7 @@ Logger::Logger()
     m_settings = NULL;
 
 
-    m_watcherAction = new QAction(QIcon(":/images/flavour-extended-png/addressbook.png"),
+    m_watcherAction = new QAction(QIcon(":/images/flavour-extended-png/moleskine_black.png"),
                                   tr("&Просмотр журналов"));
     m_watcherAction->setStatusTip(tr("Просмотр журналов"));
 
@@ -49,10 +49,12 @@ void Logger::createWidgets()
     widgetActionList[tr("(Logger)SettingsForm")].first  = new SettingsForm();
     widgetActionList[tr("(Logger)SettingsForm")].second = NULL;
 
-    // Добавляем просмотрщик журналов
     widgetActionList[tr("(Logger)LoggerForm")].first  = new LoggerForm();
-    widgetActionList[tr("(Logger)LoggerForm")].second = m_watcherAction;
+    widgetActionList[tr("(Logger)LoggerForm")].second = NULL;
 
+    // Добавляем просмотрщик журналов
+    widgetActionList[tr("(Logger)Watcher")].first  = new WatcherForm();
+    widgetActionList[tr("(Logger)Watcher")].second = m_watcherAction;
 }
 
 void Logger::createActions()

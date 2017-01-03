@@ -51,11 +51,6 @@ class FormsManager : public IFormManager {
   QDockWidget *createTestsequenceManagerDock();
 
   /*!
-   * \brief createManagersToolBar
-   */
-  void createManagersToolBar();
-
-  /*!
    * \brief Создание главного меню плагинов
    */
   void createManagersMenu();

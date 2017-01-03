@@ -135,7 +135,7 @@ void Core::Plugins::createActions() {
 }
 
 // Проверка наличия плагина
-bool Core::Plugins::isManagerExist(QString name) {
+bool Core::Plugins::isPluginExist(QString name) {
     QHashIterator<QString, PluginInterface *>  i(m_plugins);
     while (i.hasNext()) {
         i.next();
