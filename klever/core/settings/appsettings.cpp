@@ -39,7 +39,7 @@ AppSettings::AppSettings(QWidget *parent) :
       }
     }
 
-    _pagesWidget->addWidget(new OptionsPage); /* основные настройки приложения */
+    _pagesWidget->addWidget(new OptionsForm); /* основные настройки приложения */
 
     createIcons();
 
@@ -66,9 +66,6 @@ AppSettings::AppSettings(QWidget *parent) :
  */
 void AppSettings::createIcons() {
 
-  // TODO: Необходимо продумать менеджер прав доступа
-//  if (Core::Managers::instance().boot()->hasRightUser(CAN_SEE_MANAGERS_SETTINGS)) {
-
     QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().managers());
     while (i.hasNext()) {
       i.next();
@@ -83,20 +80,11 @@ void AppSettings::createIcons() {
       }
     }
 
-//  }
-
   QListWidgetItem *optionsButton = new QListWidgetItem(_contentsWidget);
   optionsButton->setIcon(QPixmap(":/settings/img/configure.png"));
   optionsButton->setText(tr("Опции"));
   optionsButton->setTextAlignment(Qt::AlignHCenter);
   optionsButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-  // TODO: В случае отсутсвия модулей эту вкладку не надо отображать
-  QListWidgetItem *devicesButton = new QListWidgetItem(_contentsWidget);
-  devicesButton->setIcon(QPixmap(":/settings/img/devices.png"));
-  devicesButton->setText(tr("Модули"));
-  devicesButton->setTextAlignment(Qt::AlignHCenter);
-  devicesButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
   connect( _contentsWidget,
            SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) ),
@@ -108,10 +96,10 @@ void AppSettings::createIcons() {
  */
 void AppSettings::changePage(QListWidgetItem *current,
                              QListWidgetItem *previous) {
-  if ( !current ) {
+  if (!current) {
     current = previous;
   }
 
-  _pagesWidget->setCurrentIndex( _contentsWidget->row( current ) );
+  _pagesWidget->setCurrentIndex(_contentsWidget->row(current));
 }
 

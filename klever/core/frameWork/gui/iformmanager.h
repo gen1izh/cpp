@@ -42,7 +42,7 @@ class IFormManager : public QObject {
     /*!
      * \brief Открытие формы информации о модулях
      */
-    virtual void openModuleInfoWindow() = 0;
+    virtual void openPluginInfoWindow() = 0;
 
     /*!
      * \brief Открытие формы настроек приложения

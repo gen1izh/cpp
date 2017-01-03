@@ -220,7 +220,7 @@ void MainWindow::fillDocumentsActions() {
     QAction *act = new QAction(fileInfo.fileName(),
                                this );
     act->setObjectName(fileInfo.fileName());
-    _documentsApi.append(act);
+    m_documentsApi.append(act);
   }
 }
 

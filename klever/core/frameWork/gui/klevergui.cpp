@@ -15,8 +15,8 @@ Core::KleverGui::KleverGui()
  */
 void Core::KleverGui::initializeMainwindowAndMdi()
 {
-  _mainwindow  = new MainWindow();
-  _mdi  = ((MainWindow *)_mainwindow)->mdiArea;
+  m_mainwindow  = new MainWindow();
+  _mdi  = ((MainWindow *)m_mainwindow)->mdiArea;
 }
 
 
@@ -35,9 +35,9 @@ int Core::KleverGui::load()
 int Core::KleverGui::finalize()
 {
     // Удаление главного окна приложения
-    delete _mainwindow;
+    delete m_mainwindow;
     // Зануление указателя на главное окно приложения
-    _mainwindow = NULL;
+    m_mainwindow = NULL;
 
     return 0;
 }
@@ -48,27 +48,27 @@ int Core::KleverGui::finalize()
 void Core::KleverGui::prepare() {
 
   Library::LoggerApi::logInfo(this,"Создание действий");
-  ((MainWindow *)_mainwindow)->createActions();
+  ((MainWindow *)m_mainwindow)->createActions();
 
   Library::LoggerApi::logInfo(this,"Создание главного меню приложения");
-  ((MainWindow *)_mainwindow)->createMenus();
+  ((MainWindow *)m_mainwindow)->createMenu();
 
   Library::LoggerApi::logInfo(this,"Создание коннекторов");
-  ((MainWindow *)_mainwindow)->createConnectors();
+  ((MainWindow *)m_mainwindow)->createConnectors();
 
   Library::LoggerApi::logInfo(this,"Создание меню быстрого запуска");
-  ((MainWindow *)_mainwindow)->createToolBars();
+  ((MainWindow *)m_mainwindow)->createToolBars();
 
   Library::LoggerApi::logInfo(this,"Создание доков");
 
-  ((MainWindow *)_mainwindow)->createDockWindows();
+  ((MainWindow *)m_mainwindow)->createDockWindows();
 
   // Коннекторы модуля настроек приложения
-  connect( ((MainWindow *)_mainwindow)->appSettingAction(), SIGNAL(triggered()),
+  connect( ((MainWindow *)m_mainwindow)->appSettingAction(), SIGNAL(triggered()),
            formManager, SLOT(openAppOptionsWindow()) );
 
-  connect( ((MainWindow *)_mainwindow)->moduleInfoAction(), SIGNAL(triggered()),
-           formManager, SLOT(openModuleInfoWindow()) );
+  connect( ((MainWindow *)m_mainwindow)->moduleInfoAction(), SIGNAL(triggered()),
+           formManager, SLOT(openPluginInfoWindow()) );
 
 }
 
@@ -109,12 +109,12 @@ QMdiSubWindow *Core::KleverGui::findMdiChild( QString id ) {
  */
 void Core::KleverGui::restoreDocksPosition() {
   QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
-  bool res = _mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
+  bool res = m_mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
     Library::LoggerApi::logError(this,"Восстановление геометрии не выполнено!");
   }
 
-  res = _mainwindow->restoreState(settings.value("windowState").toByteArray());
+  res = m_mainwindow->restoreState(settings.value("windowState").toByteArray());
   if (!res) {
     Library::LoggerApi::logError(this,"Восстановление состояний доков не выполнено!");
   }
@@ -143,7 +143,7 @@ bool Core::KleverGui::eventFilter(QObject *obj, QEvent *event) {
  * При открытии окно будет максимального размера
  */
 void Core::KleverGui::showMaximized(){
-  _mainwindow->showMaximized();
+  m_mainwindow->showMaximized();
   Library::LoggerApi::logInfo(this,"Главное окно приложения максимизировано");
 }
 
@@ -183,7 +183,7 @@ void Core::KleverGui::initializeSplashScreen() {
  */
 void Core::KleverGui::finishSplashScreen()
 {
-  _splash->finish(_mainwindow);
+  _splash->finish(m_mainwindow);
   delete _splash;
 }
 
@@ -194,7 +194,7 @@ void Core::KleverGui::startDialog(QString msg)
 {
   _procDialog.setDialog(msg);
   _procDialog.start();
-  _mainwindow->setEnabled(false);
+  m_mainwindow->setEnabled(false);
   _waitingOperaion = false;
 }
 
@@ -204,7 +204,7 @@ void Core::KleverGui::startDialog(QString msg)
 void Core::KleverGui::closeDialog()
 {
   _procDialog.finish();
-  _mainwindow->setEnabled(true);
+  m_mainwindow->setEnabled(true);
   _waitingOperaion = false;
 }
 

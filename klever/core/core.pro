@@ -33,7 +33,8 @@ HEADERS += library/orm/db/QDjango.h \
     frameWork/managers/mock/sessionmock.h \
     frameWork/gui/klevergui.h \
     interfaces/plugininterface.h \
-    library/globals.h
+    library/globals.h \
+    settings/optionsform.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 
@@ -93,7 +94,8 @@ SOURCES +=  frameWork/information.cpp \
     frameWork/managers/mock/sessionmock.cpp \
     frameWork/gui/klevergui.cpp \
     interfaces/plugininterface.cpp \
-    library/globals.cpp
+    library/globals.cpp \
+    settings/optionsform.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 #SOURCES += settings/modules/modulesmanager.cpp
@@ -132,4 +134,7 @@ RESOURCES += frameWork/resources/framework_resources.qrc
 RESOURCES += settings/cvesettingsmanager_resources.qrc
 RESOURCES += library/lampLib/lamplib_resources.qrc
 RESOURCES += library/qled/qled.qrc
+
+FORMS += \
+    settings/optionsform.ui
 

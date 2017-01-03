@@ -44,7 +44,7 @@ namespace Core {
       /*!
        * \brief Указатель на главную форму приложения
        */
-      QMainWindow *_mainwindow;
+      QMainWindow *m_mainwindow;
 
       /*!
        * \brief Указатель на mdi area главной формы приложения
@@ -151,7 +151,7 @@ namespace Core {
          * \brief Возвращает указатель главного окна
          * \return
          */
-        QMainWindow *mainwindow() const { return _mainwindow; }
+        QMainWindow *mainwindow() const { return m_mainwindow; }
 
         /*!
          * \brief Возвращает указатель mdi area главного окна

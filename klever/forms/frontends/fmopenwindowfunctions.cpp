@@ -1,10 +1,8 @@
 #include "formsManager.h"
 /* Формы приложения. Менеджеры. */
-#include "managers/settings/settingsmdichild.h"
-#include "managers/testsequence/testsequencetreemdichild.h"
-#include "managers/testsequence/testsequenceexecutortreemdichild.h"
-#include "managers/moduleinfo/moduleinfomdichild.h"
-#include "managers/logger/loggerswatchermdichild.h"
+#include "pluginForms/settings/settingsmdichild.h"
+#include "pluginForms/moduleinfo/moduleinfomdichild.h"
+#include "pluginForms/logger/loggerswatchermdichild.h"
 
 /* Подключение статус бара главного окна */
 #include <frameWork/gui/mainwindow/mainwindow.h>
@@ -26,39 +24,15 @@ void FormsManager::openAppOptionsWindow() {
         tr("Окно настроек приложения не было успешно открыто!") );
 }
 
-
-/*
- * Открытие дочернего окна с деревом проверок. Редактирование.
- */
-void FormsManager::openTestSequenceTreeWindow() {
-
-  Core::KleverGui::instance().openWindow<TestSequenceMdiChild,MainWindow>(
-        "TEST_SEQUENCE_TREE_WINDOW", tr("Редактор тестовой последовательности"),
-        tr("Окно редактора тестовой последовательности было успешно открыто."),
-        tr("Окно редактора тестовой последовательности не было успешно открыто!") );
-}
-
-/*
- * Открытие дочернего окна с деревом проверок. Исполнение.
- */
-void FormsManager::openTestSequenceExecutorTreeWindow() {
-  Core::KleverGui::instance().openWindow<TestsequenceExecutorMdiChild,MainWindow>(
-        "TEST_SEQUENCE_EXECUTOR_TREE_WINDOW", tr("Исполнение теста"),
-        tr("Окно исполнения тестовой последовательности было успешно открыто."),
-        tr("Окно исполнения тестовых последовательности не было успешно открыто!") );
-}
-
-
-
 /*
  * Открытие дочернего окна с информацией о модулях
  */
-void FormsManager::openModuleInfoWindow() {
+void FormsManager::openPluginInfoWindow() {
 
-  Core::KleverGui::instance().openWindow<ModuleInfoMdiChild,MainWindow>(
-        "MODULE_INFO_WINDOW", tr("О модулях"),
-        tr("Окно модулей системы было успешно открыто."),
-        tr("Окно модулей системы не было успешно открыто!") );
+  Core::KleverGui::instance().openWindow<PluginInfoMdiChild,MainWindow>(
+        "PLUGIN_INFO_WINDOW", tr("О плагинах"),
+        tr("Окно плагинов системы было успешно открыто."),
+        tr("Окно плагинов системы не было успешно открыто!") );
 }
 
 

@@ -1,5 +1,5 @@
-#ifndef MODULEINFOMDICHILD_H
-#define MODULEINFOMDICHILD_H
+#ifndef PLUGININFOMDICHILD_H
+#define PLUGININFOMDICHILD_H
 
 #include <QWidget>
 #include <QObject>
@@ -9,10 +9,8 @@
 
 #include <frameWork/base.h>
 
-/*!
- * \brief ModuleInfoMdiChild класс
- */
-class ModuleInfoMdiChild : public QWidget {
+
+class PluginInfoMdiChild : public QWidget {
 
   Q_OBJECT
 
@@ -21,8 +19,8 @@ class ModuleInfoMdiChild : public QWidget {
 
   public:
 
-    ModuleInfoMdiChild();
-    ~ModuleInfoMdiChild();
+    PluginInfoMdiChild();
+    ~PluginInfoMdiChild();
 
     void closeEvent(QCloseEvent *event);
     void resizeEvent(QCloseEvent *event);
@@ -30,4 +28,4 @@ class ModuleInfoMdiChild : public QWidget {
 
 };
 
-#endif // MODULEINFOMDICHILD_H
+#endif // PLUGININFOMDICHILD_H

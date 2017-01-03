@@ -24,46 +24,15 @@ class FormsManager : public IFormManager {
   Q_PLUGIN_METADATA(IID IFormManager_iid FILE "formsManager.json")
   Q_INTERFACES(IFormManager)
 
-  // Док для журналов
-  QDockWidget *loggerBottomDock;
-  QDockWidget *leftDock;
-
-  // Табы для журналов
-  QTabWidget  *tabLogger;
-
-  // Действия для открытия окон
-  QAction *_controlAction;                // Управление
-
-  QMenu *_modulesMenu;
-  QMenu *_managersMenu;
-  QMenu *_complexMenu;
+   /*!
+   * \brief Dock журнала
+   */
+  QDockWidget *m_loggerDock;
 
   /*!
-   * \brief Создает и возвращает dock журнала
-   * \return
+   * \brief Меню плагинов
    */
-  QDockWidget *createLoggerDock();
-
-  /*!
-   * \brief Создает и возвращает dock плагина тестовых последовательностей
-   * \return
-   */
-  QDockWidget *createTestsequenceManagerDock();
-
-  /*!
-   * \brief Создание главного меню плагинов
-   */
-  void createManagersMenu();
-
-  /*!
-   * \brief Создание действий
-   */
-  void createManagersActions();
-
-  /*!
-   * \brief Создание коннекторов
-   */
-  void createManagersConnections();
+  QMenu *m_pluginsMenu;
 
   /*!
    * \brief Создание действий
@@ -96,40 +65,22 @@ class FormsManager : public IFormManager {
      */
     void createDocks(QList<QPair<QDockWidget *, QPair<int, int> > > &docksList);
 
-  public slots:
+
+public slots:
 
 /*******************************************************************************
- *                  Стандартные функции открытия окон
+ *                              Функции открытия окон
  *******************************************************************************/
 
     /*!
      * \brief Открытие формы информации о модулях
      */
-    void openModuleInfoWindow();
+    void openPluginInfoWindow();
 
     /*!
      * \brief Открытие формы настроек приложения
      */
     void openAppOptionsWindow();
-
-
-
-/*******************************************************************************
- *                  Не стандартные функции открытия окон. Менеджеры.
- *                  Специфичны для каждого проекта
- *******************************************************************************/
-
-
-    /*!
-     * \brief Открытие формы тестовых последовательностей
-     */
-    void openTestSequenceTreeWindow();
-
-    /*!
-     * \brief Открытие формы тестовых последовательностей. Исполнение.
-     */
-    void openTestSequenceExecutorTreeWindow();
-
     
     /*!
      * \brief Открытие формы просмотра журналов

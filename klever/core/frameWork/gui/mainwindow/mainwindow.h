@@ -32,11 +32,11 @@ class MainWindow : public QMainWindow {
 
     Q_OBJECT
 
-  protected:
+protected:
 
     void closeEvent(QCloseEvent *event);
 
-  public:
+public:
 
     MainWindow( QWidget *parent = 0 );
     ~MainWindow();
@@ -56,7 +56,6 @@ class MainWindow : public QMainWindow {
     QMenu *settingMenu;
     QMenu *scriptsAndSequencesMenu;
     QMenu *panelMenu;
-    QMenu *indicatorPanelMenu;
     QMenu *windowMenu;
     QMenu *devicesModulesMenu;
 
@@ -65,9 +64,9 @@ class MainWindow : public QMainWindow {
      * Инициализация mdi пространства
      */
     void initializeMdiArea() {
-      mdiArea = new MdiArea(this);
-      mdiArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
-      mdiArea->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+        mdiArea = new MdiArea(this);
+        mdiArea->setHorizontalScrollBarPolicy( Qt::ScrollBarAsNeeded );
+        mdiArea->setVerticalScrollBarPolicy( Qt::ScrollBarAsNeeded );
     }
 
     /*
@@ -76,7 +75,7 @@ class MainWindow : public QMainWindow {
     void setMapper() {
         windowMapper = new QSignalMapper( this );
         QObject::connect( windowMapper, SIGNAL( mapped( QWidget* ) ),
-                 this, SLOT( setActiveSubWindow( QWidget* ) ) );
+                          this, SLOT( setActiveSubWindow( QWidget* ) ) );
     }
 
     /*
@@ -84,13 +83,13 @@ class MainWindow : public QMainWindow {
      */
     void setupStyleAndMainSettings();
 
-    QAction *appSettingAction() { return _appSettingsWindowAct; }
+    QAction *appSettingAction() { return m_settingsAction; }
 
-    QAction *moduleInfoAction() { return _moduleInfoAct; }
+    QAction *moduleInfoAction() { return m_pluginInformationAction; }
 
 
 
-  public slots:
+public slots:
     // Слоты обновления списка активных окон
     void updateActivWindowsListOnMenu();
     void updateActivWindowsListOnToolBar();
@@ -99,10 +98,10 @@ class MainWindow : public QMainWindow {
      * Выделить активное окно приложения
      */
     void setActiveSubWindow( QWidget *window ) {
-      if ( !window ) {
-        return;
-      }
-      mdiArea->setActiveSubWindow( qobject_cast<QMdiSubWindow *>(window) );
+        if ( !window ) {
+            return;
+        }
+        mdiArea->setActiveSubWindow( qobject_cast<QMdiSubWindow *>(window) );
     }
 
     /*
@@ -110,18 +109,16 @@ class MainWindow : public QMainWindow {
                                                                              */
     void createActions();
     void createConnectors();
-    void createMenus();
+    void createMenu();
     void createToolBars();
-//    void createLoggerDockWindows();
     void createDockWindows();
-
-    void openDocument(); // Открытие документации с описанием функций скриптов
+    void openDocument();
     void about();
 
 
 private:
 
-  void fillDocumentsActions();
+    void fillDocumentsActions();
 
     /*
                         Список пунктов меню быстрого запуска
@@ -141,14 +138,14 @@ private:
     QAction *cascadeAct;
     QAction *separatorAct;
 
-    QAction          *_aboutAct;
-    QAction          *_moduleInfoAct;        // Информация о модуле
-    QList<QAction *>  _documentsApi;
-    QAction          *_appSettingsWindowAct; // Настройки приложения
-
-
-
-
+    // Действие открытия окна Об
+    QAction          *m_aboutAction;
+    // Действие открытия окна с информацией о плагине
+    QAction          *m_pluginInformationAction;
+    // Действие открытия документации
+    QList<QAction *>  m_documentsApi;
+    // Действие открытия настроек приложения
+    QAction          *m_settingsAction;
 
 };
 

@@ -6,7 +6,7 @@
 #include <QStackedWidget>
 
 #include "modulespage.h"
-#include "optionspage.h"
+#include "optionsform.h"
 
 
 /*!

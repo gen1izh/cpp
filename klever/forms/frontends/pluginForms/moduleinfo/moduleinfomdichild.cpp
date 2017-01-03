@@ -2,9 +2,9 @@
 #include <frameWork/managers.h>
 #include <library/setupApi/app.h>
 
-ModuleInfoMdiChild::ModuleInfoMdiChild() {
+PluginInfoMdiChild::PluginInfoMdiChild() {
 
-  /* Инициализация сетки расположения графических компонентов */
+  // Инициализация сетки расположения графических компонентов
   QGridLayout *grid = new QGridLayout();
   grid->setSizeConstraint( QLayout::SetDefaultConstraint );
 
@@ -21,17 +21,18 @@ ModuleInfoMdiChild::ModuleInfoMdiChild() {
   setMinimumSize(605,400);
 
   setContentsMargins(1,1,1,1);
+
 //  setWindowIcon( /*CveManager::instance().scriptEditorWidget()->windowIcon()*/ );
 
 }
 
-ModuleInfoMdiChild::~ModuleInfoMdiChild() {
+PluginInfoMdiChild::~PluginInfoMdiChild() {
 }
 
 /*
  * Закрытие окна
  */
-void ModuleInfoMdiChild::closeEvent( QCloseEvent *event ) {
+void PluginInfoMdiChild::closeEvent( QCloseEvent *event ) {
   event->ignore();
   emit setVisibleSignal( false );
 }
@@ -39,11 +40,11 @@ void ModuleInfoMdiChild::closeEvent( QCloseEvent *event ) {
 /*
  * Сворачивание окна
  */
-void ModuleInfoMdiChild::resizeEvent( QCloseEvent *event ) {
+void PluginInfoMdiChild::resizeEvent( QCloseEvent *event ) {
 Q_UNUSED(event);
 }
 
-void ModuleInfoMdiChild::changeEvent(QEvent *event){
+void PluginInfoMdiChild::changeEvent(QEvent *event){
   if ( event->type() == QEvent::WindowStateChange ){
     if ( parentWidget()->windowState() == Qt::WindowMinimized ) {
 //      emit setVisibleSignal(false);

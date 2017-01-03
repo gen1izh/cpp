@@ -6,6 +6,9 @@
 #include <QPixmap>
 #include <QPainter>
 
+#include <QDebug>
+#include <QCoreApplication>
+
 class MdiArea : public QMdiArea
 {
 
@@ -16,7 +19,13 @@ class MdiArea : public QMdiArea
   protected:
     void paintEvent(QPaintEvent *event) {
       QMdiArea::paintEvent(event);
-      QPixmap pixmap(":/images/mdi_logo.png");
+      // QPixmap pixmap(":/images/mdi_logo.png");
+      QPixmap pixmap;
+
+      QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("mdi_logo.png");
+      pixmap.load(path);
+
+
       QPainter painter(viewport());
       int x = (geometry().width()  - pixmap.width())/2;
       int y = (geometry().height() - pixmap.height())/2;
