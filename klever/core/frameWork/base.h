@@ -14,8 +14,8 @@
 #include <library/utilsLibrary/utilslibrary.h>
 
 /* Модуль журналирования */
-#include <plugins/logger/logger/logger.h>
-#include <plugins/logger/logger/loggerssettingspage.h>
+#include <plugins/logger/logger.h>
+#include <plugins/logger/widgets/settings/settingsform.h>
 
 /* Включения для объектов-оберток модуля скриптов */
 #include "sysscripts/systemoperations.h"

@@ -1,4 +1,4 @@
-#include "managerinterface.h"
+#include "plugininterface.h"
 #include <QDebug>
 #include <QCoreApplication>
 #include <library/message/messagelibrary.h>

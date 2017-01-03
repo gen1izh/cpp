@@ -15,7 +15,7 @@ void FormsManager::createManagersMenu() {
     if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
       QMenu *loggerMenu = _managersMenu->addMenu(tr("&Журнал"));
       loggerMenu->addAction(getManagerAction_FromWAPair("logger",
-                                                              "(LoggerManager)loggersWatcherWidget"));
+                                                              "(Logger)Watcher"));
     }
 
   if (Core::Plugins::instance().isManagerExist(tr("testsequence"))) {

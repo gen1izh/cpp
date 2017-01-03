@@ -21,22 +21,21 @@ public:
    * \param[in] loggertype - тип журнала
    */
   void log(QObject       *ptr,
-           QString        txt,
-           MessagesTypes  type,
-           LoggersTypes   loggertype = SYSTEM_LOG) {
-
-    Q_UNUSED(ptr)
-    Q_UNUSED(txt)
-    Q_UNUSED(loggertype)
+           const QString &datatime,
+           const QString &txt,
+           MessagesTypes  type) {
 
     if (type == MESSAGE_ERROR) {
-      qDebug().noquote() << "[error] " << txt;
+      qDebug().noquote() << "[error] " << ptr->objectName()
+                         << " " << datatime << " "  << txt;
     }
     else if (type == MESSAGE_WARNING) {
-      qDebug().noquote() << "[warning] " << txt;
+      qDebug().noquote() << "[warning] " << ptr->objectName()
+                         << " " << datatime << " "  << txt;
     }
     else {
-      qDebug().noquote() << "[info] " << txt;
+      qDebug().noquote() << "[information] " << ptr->objectName()
+                         << " " << datatime << " "  << txt;
     }
 
   }

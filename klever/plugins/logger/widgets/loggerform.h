@@ -15,6 +15,8 @@ public:
     explicit LoggerForm(QWidget *parent = 0);
     ~LoggerForm();
 
+    void appendText(const QString & txt);
+
 private:
     Ui::LoggerForm *ui;
 };

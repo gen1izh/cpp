@@ -239,7 +239,7 @@ void MainWindow::createDockWindows() {
 //      }
 //    }
 //    else {
-//      Library::Logger::logWarning(this,"Список модулей пуст!");
+//      Library::LoggerApi::logWarning(this,"Список модулей пуст!");
 //    }
 //  }
 }

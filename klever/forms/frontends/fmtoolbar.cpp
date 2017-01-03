@@ -18,7 +18,7 @@ void FormsManager::createManagersToolBar() {
 
   if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
     managersToolBar->addAction(getManagerAction_FromWAPair(tr("logger"),
-                                                           tr("(LoggerManager)loggersWatcherWidget")));
+                                                           tr("(Logger)Watcher")));
   }
 
   /*******************************************************************************

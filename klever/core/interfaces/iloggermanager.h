@@ -2,7 +2,7 @@
 #define ILOGGERPLUGIN_H
 
 #include "ilogger.h"
-#include "managerinterface.h"
+#include "plugininterface.h"
 
 class ILoggerPlugin : public ILogger, public PluginInterface {
 

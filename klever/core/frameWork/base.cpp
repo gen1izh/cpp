@@ -1,7 +1,7 @@
 #include "base.h"
 #include <frameWork/managers.h>
 #include <frameWork/gui/klevergui.h>
-
+#include <QtConcurrent>
 
 Core::Base::Base()
 {

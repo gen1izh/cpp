@@ -8,7 +8,7 @@
 #include <QString>
 #include <QIcon>
 #include <QDockWidget>
-#include <interfaces/managerinterface.h>
+#include <interfaces/plugininterface.h>
 
 /*!
  * \brief Интерфейс плагина форм

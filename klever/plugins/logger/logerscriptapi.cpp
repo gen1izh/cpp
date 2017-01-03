@@ -1,7 +1,7 @@
 #include "logerscriptapi.h"
 #include "frameWork/base.h"
 
-using namespace Library::Logger;
+using namespace Library::LoggerApi;
 
 LogerScriptApi::LogerScriptApi(QObject *parent) : QObject(parent){}
 

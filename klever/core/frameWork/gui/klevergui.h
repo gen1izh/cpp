@@ -207,7 +207,7 @@ namespace Core {
            ( (T2 *)mainwindow() )->statusBar()->showMessage(
                  msgPositiveResult, 2000 );
 
-            Library::Logger::logInfo(this,msgPositiveResult);
+            Library::LoggerApi::logInfo(this, msgPositiveResult);
 
            ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
            return;
@@ -220,13 +220,13 @@ namespace Core {
           ( (T2 *)mainwindow() )->statusBar()->showMessage(
                 msgPositiveResult, 2000 );
 
-           Library::Logger::logInfo(this,msgPositiveResult);
+           Library::LoggerApi::logInfo(this,msgPositiveResult);
 
            child->setWindowTitle( title );
            child->show();
          }
          else {
-           Library::Logger::logWarning(this,msgNegativeResult);
+           Library::LoggerApi::logWarning(this,msgNegativeResult);
          }
          ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
         }
@@ -248,13 +248,13 @@ namespace Core {
 
            ((T2 *)mainwindow())->statusBar()->showMessage(
                  msgPositiveResult, 2000 );
-            Library::Logger::logInfo(this,msgPositiveResult);
+            Library::LoggerApi::logInfo(this, msgPositiveResult);
 
-            child->setWindowTitle( title );
+            child->setWindowTitle(title);
             child->show();
           }
           else {
-            Library::Logger::logWarning(this,msgNegativeResult);
+            Library::LoggerApi::logWarning(this, msgNegativeResult);
           }
           ((T2 *)mainwindow())->updateActivWindowsListOnToolBar();
 

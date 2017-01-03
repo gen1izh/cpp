@@ -8,19 +8,18 @@ using namespace man;
  * Инициализация журнала приложения
  */
 QDockWidget *FormsManager::createLoggerDock() {
-  loggerBottomDock = new QDockWidget(tr("Журналы"));
+  loggerBottomDock = new QDockWidget(tr("Журнал"));
 
-  loggerBottomDock->setObjectName("Журналы");
+  loggerBottomDock->setObjectName("Журнал");
   loggerBottomDock->setAllowedAreas(Qt::BottomDockWidgetArea);
 
-  QWidget *wgt = getLoggerWidget_FromWAPair(tr("(LoggerManager)loggersTabsWidgets"));
+  QWidget *wgt = getLoggerWidget_FromWAPair(tr("(Logger)LoggerForm"));
 
   wgt->setParent(loggerBottomDock);
   loggerBottomDock->setWidget(wgt);
 
   loggerBottomDock->setFeatures(QDockWidget::AllDockWidgetFeatures);
   loggerBottomDock->setMinimumHeight(50);  /* todo: magic number */
-  loggerBottomDock->setMaximumHeight(150); /* todo: magic number */
 
   return loggerBottomDock;
 }

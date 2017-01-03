@@ -1,7 +1,7 @@
 #ifndef ISESSIONPLUGIN_H
 #define ISESSIONPLUGIN_H
 
-#include "managerinterface.h"
+#include "plugininterface.h"
 
 /*!
  * \brief Интерфейс плагина сессий

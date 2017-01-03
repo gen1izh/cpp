@@ -6,8 +6,8 @@
 #include <library/message/messagelibrary.h>
 
 // Включения для объектов-оберток модуля скриптов
-#include <plugins/logger/logger/logger.h>
-#include <plugins/logger/logger/loggerssettingspage.h>
+#include <plugins/logger/logger.h>
+#include <plugins/logger/widgets/settings/settingsform.h>
 
 #include <settings/appsettings.h>
 

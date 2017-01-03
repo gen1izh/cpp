@@ -2,87 +2,98 @@
 #include "logger.h"
 #include <QMainWindow>
 #include <library/utilsLibrary/utilslibrary.h>
-#include <plugins/logger/logger/logger.h>
 #include <frameWork/base.h>
 #include <interfaces/ilogger.h>
 
-#include "widgets/loggerstabswidgets.h"
-#include "widgets/loggerswatcherwidget.h"
 
-/*
- * Функция журналирования сообщения
- */
-CveLogger::CveLogger()
+Logger::Logger()
 {
-  setName(QString("/logger"));
-  setTextName(tr("Журналы"));
-  _settings = NULL;
-
-  _loggersWatcherAct = new QAction(
-        QIcon(":/logger/img/logwatcher.png"),
-        tr("&Просмотр журналов"), this);
-  _loggersWatcherAct->setStatusTip(
-        tr("Просмотр журналов"));
-
-  _scripts = new LogerScriptApi();
-
-  // Регистрация этого объекта в движке исполнения
-  QScriptValue value = Core::Base::instance().scriptEngine()->newQObject(_scripts);
-  Core::Base::instance().addToGlobalValueList(value);
-  Core::Base::instance().scriptEngine()->globalObject().setProperty(QString("log"), value);
+    setName(QString("logger"));
+    setTextName(tr("Журнал"));
+    m_settings = NULL;
 
 
+    m_watcherAction = new QAction(QIcon(":/images/flavour-extended-png/addressbook.png"),
+                                  tr("&Просмотр журналов"));
+    m_watcherAction->setStatusTip(tr("Просмотр журналов"));
+
+    m_scripts = new LogerScriptApi();
+
+    // Регистрация этого объекта в движке исполнения
+    QScriptValue value = Core::Base::instance().scriptEngine()->newQObject(m_scripts);
+    Core::Base::instance().addToGlobalValueList(value);
+    Core::Base::instance().scriptEngine()->globalObject().setProperty(QString("log"), value);
+
+    m_thread = new LThread();
+    m_thread->start();
+}
+
+Logger::~Logger()
+{
+
+}
+
+QWidget *Logger::getSettingPage()
+{
+    if (m_settings == NULL) {
+      m_settings = new SettingsForm();
+    }
+    return m_settings;
 }
 
 /*
  * Создание виджетов
  */
-void CveLogger::createWidgets()
+void Logger::createWidgets()
 {
-  // Добавляем  табы с журналами
-  widgetActionList[tr("(LoggerManager)loggersTabsWidgets")].first  = new LoggersTabsWidgets();
-  widgetActionList[tr("(LoggerManager)loggersTabsWidgets")].second = NULL;
+    widgetActionList[tr("(Logger)SettingsForm")].first  = new SettingsForm();
+    widgetActionList[tr("(Logger)SettingsForm")].second = NULL;
 
-  // Добавляем просмотрщик журналов
-  widgetActionList[tr("(LoggerManager)loggersWatcherWidget")].first  =
-      new LoggersWatcherWidget(NULL,
-                               (LoggersTabsWidgets *)
-                               widgetActionList[tr("(LoggerManager)loggersTabsWidgets")].first);
+    // Добавляем просмотрщик журналов
+    widgetActionList[tr("(Logger)LoggerForm")].first  = new LoggerForm();
+    widgetActionList[tr("(Logger)LoggerForm")].second = m_watcherAction;
 
-  widgetActionList[tr("(LoggerManager)loggersWatcherWidget")].second = _loggersWatcherAct;
+}
 
+void Logger::createActions()
+{
+
+}
+
+void Logger::createConnectors()
+{
+    QObject::connect(m_thread, SIGNAL(sendMessage(const QString&)),
+                     this, SLOT(drawMessage(const QString&)));
+}
+
+QIcon Logger::settingIcon()
+{
+    return QIcon(":/settings/img/log.png");
+}
+
+/*
+ *
+ */
+void Logger::drawMessage(const QString& msg) {
+    static_cast<LoggerForm*>(widgetActionList[tr("(Logger)LoggerForm")].first)->appendText(msg);
 }
 
 /*
  * Основная функция для протоколирования.
- * При разработке плагина журналирования ее необходимо переопределить.
  */
-void CveLogger::log(QObject       *ptr,
-                    QString        txt,
-                    MessagesTypes  type,
-                    LoggersTypes   loggertype) {
+void Logger::log(QObject *ptr,
+                 const QString &datetime,
+                 const QString &txt,
+                 MessagesTypes type) {
 
-  // TODO хак
-  LoggersTabsWidgets *lo =
-      (LoggersTabsWidgets *)
-      widgetActionList[tr("(LoggerManager)loggersTabsWidgets")].first;
+    logPacket pkt;
 
-  if (lo->loggers()->value(loggertype) != NULL) {
-    if ( type == MESSAGE_ERROR ) {
-      lo->loggers()->value(loggertype)->errorMessage(ptr, txt);
-    }
-    else if ( type == MESSAGE_WARNING ) {
-      lo->loggers()->value(loggertype)->warnMessage(ptr, txt);
-    }
-    else if ( type == MESSAGE_INFO ) {
-      lo->loggers()->value(loggertype)->infoMessage(ptr, txt);
-    }
-    else {
-      qDebug().noquote() << QString("Неправильно задан тип сообщения!");
-    }
-  }
-  else {
-    qDebug().noquote()  << QString("Журнала не существует! Msg = %2 ").arg(txt);
-  }
+    pkt.ptr = ptr;
+    pkt.datetime = datetime;
+    pkt.txt = txt;
+    pkt.type = type;
+
+    m_thread->appendItemToLogList(pkt);
+
 }
 

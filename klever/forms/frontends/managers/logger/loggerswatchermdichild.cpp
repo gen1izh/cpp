@@ -11,7 +11,7 @@ LoggersWatcherMdiChild::LoggersWatcherMdiChild() {
   grid->setSizeConstraint( QLayout::SetDefaultConstraint );
 
   QWidget *wgt = getManagerWidget_FromWAPair(tr("logger"),
-                                             tr("(LoggerManager)loggersWatcherWidget"));
+                                             tr("(Logger)Watcher"));
 
   grid->addWidget(wgt);
   grid->setContentsMargins(1,1,1,1);

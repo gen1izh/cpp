@@ -1,7 +1,4 @@
-# TODO: вопрос на рассмотрение (static or dynamic?)
-# Сборка модуля ядра проекта
-# Статическая библиотека
-#
+
 # При добавлении новых модулей/плагинов сюда добавлять доп. директив не требуется
 
 include(../klever_software/klever_software.pri)
@@ -28,14 +25,15 @@ HEADERS += library/orm/db/QDjango.h \
     library/orm/models/mainqdjangomodel.h \
     library/orm/models/pluginslistqdjangomodel.h \
     frameWork/status_codes.h \
-    library/glabals.h \
     interfaces/itopmanager.h \
     frameWork/base.h \
     frameWork/managers.h \
     interfaces/iautorizationmanager.h \
     interfaces/isessionmanager.h \
     frameWork/managers/mock/sessionmock.h \
-    frameWork/gui/klevergui.h
+    frameWork/gui/klevergui.h \
+    interfaces/plugininterface.h \
+    library/globals.h
 HEADERS += settings/optionspage.h
 HEADERS += settings/appsettings.h
 
@@ -60,7 +58,7 @@ HEADERS += frameWork/sysscripts/systemoperations.h
 
 # Интерфейсы приложения
 HEADERS += interfaces/iplugininterface.h
-HEADERS += interfaces/managerinterface.h
+HEADERS +=
 HEADERS += interfaces/ilogger.h
 HEADERS += interfaces/iloggermanager.h
 
@@ -93,8 +91,9 @@ SOURCES +=  frameWork/information.cpp \
     frameWork/base.cpp \
     frameWork/managers.cpp \
     frameWork/managers/mock/sessionmock.cpp \
-    interfaces/managerinterface.cpp \
-    frameWork/gui/klevergui.cpp
+    frameWork/gui/klevergui.cpp \
+    interfaces/plugininterface.cpp \
+    library/globals.cpp
 SOURCES += settings/optionspage.cpp
 SOURCES += settings/appsettings.cpp
 #SOURCES += settings/modules/modulesmanager.cpp

@@ -6,27 +6,27 @@ include(../plugins.pri)
 
 # Заголовочные файлы
 HEADERS += \
-    widgets/loggerswatcherwidget.h \
     logerscriptapi.h \
     widgets/settings/settingsform.h \
     widgets/loggerform.h \
     loggerexport.h \
-    logger.h
+    logger.h \
+    lthread.h \
+    widgets/watcherform.h
 
 # Исходные коды
 SOURCES += \
-    widgets/loggerswatcherwidget.cpp \
     logerscriptapi.cpp \
     widgets/settings/settingsform.cpp \
     widgets/loggerform.cpp \
-    logger.cpp
-
-# Ресурсы
-RESOURCES += logger/logger.qrc
+    logger.cpp \
+    lthread.cpp \
+    widgets/watcherform.cpp
 
 DISTFILES += \
     logger.json
 
 FORMS += \
     widgets/settings/settingsform.ui \
-    widgets/loggerform.ui
+    widgets/loggerform.ui \
+    widgets/watcherform.ui

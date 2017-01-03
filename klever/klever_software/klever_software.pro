@@ -5,5 +5,4 @@ SUBDIRS = \
         ..\core \
         ..\app \
         ..\plugins \
-        ..\tools \
         ..\forms \

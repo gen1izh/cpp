@@ -1,4 +1,4 @@
-QT += core gui script scripttools sql printsupport xml svg axcontainer network
+QT += core gui script scripttools sql printsupport xml svg axcontainer network concurrent
 greaterThan(QT_MAJOR_VERSION, 4){
     QT += widgets printsupport
 }

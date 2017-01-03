@@ -47,19 +47,20 @@ int Core::KleverGui::finalize()
  */
 void Core::KleverGui::prepare() {
 
-  Library::Logger::logInfo(this,"Создание действий");
+  Library::LoggerApi::logInfo(this,"Создание действий");
   ((MainWindow *)_mainwindow)->createActions();
 
-  Library::Logger::logInfo(this,"Создание главного меню приложения");
+  Library::LoggerApi::logInfo(this,"Создание главного меню приложения");
   ((MainWindow *)_mainwindow)->createMenus();
 
-  Library::Logger::logInfo(this,"Создание коннекторов");
+  Library::LoggerApi::logInfo(this,"Создание коннекторов");
   ((MainWindow *)_mainwindow)->createConnectors();
 
-  Library::Logger::logInfo(this,"Создание меню быстрого запуска");
+  Library::LoggerApi::logInfo(this,"Создание меню быстрого запуска");
   ((MainWindow *)_mainwindow)->createToolBars();
 
-  Library::Logger::logInfo(this,"Создание доков");
+  Library::LoggerApi::logInfo(this,"Создание доков");
+
   ((MainWindow *)_mainwindow)->createDockWindows();
 
   // Коннекторы модуля настроек приложения
@@ -110,12 +111,12 @@ void Core::KleverGui::restoreDocksPosition() {
   QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
   bool res = _mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
-    Library::Logger::logError(this,"Восстановление геометрии не выполнено!");
+    Library::LoggerApi::logError(this,"Восстановление геометрии не выполнено!");
   }
 
   res = _mainwindow->restoreState(settings.value("windowState").toByteArray());
   if (!res) {
-    Library::Logger::logError(this,"Восстановление состояний доков не выполнено!");
+    Library::LoggerApi::logError(this,"Восстановление состояний доков не выполнено!");
   }
 }
 
@@ -143,7 +144,7 @@ bool Core::KleverGui::eventFilter(QObject *obj, QEvent *event) {
  */
 void Core::KleverGui::showMaximized(){
   _mainwindow->showMaximized();
-  Library::Logger::logInfo(this,"Главное окно приложения максимизировано");
+  Library::LoggerApi::logInfo(this,"Главное окно приложения максимизировано");
 }
 
 

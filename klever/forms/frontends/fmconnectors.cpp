@@ -15,7 +15,7 @@ void FormsManager::createManagersConnections() {
 
   if (Core::Plugins::instance().isManagerExist(tr("logger"))) {
     connect( getManagerAction_FromWAPair(tr("logger"),
-                                         tr("(LoggerManager)loggersWatcherWidget")),
+                                         tr("(Logger)Watcher")),
              SIGNAL(triggered()), this, SLOT(openLoggersWatcherWindow()) );
   }
 

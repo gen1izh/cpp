@@ -1,7 +1,7 @@
 #ifndef I_AUTORIZATION_MANAGER_H
 #define I_AUTORIZATION_MANAGER_H
 
-#include "managerinterface.h"
+#include "plugininterface.h"
 
 /*!
  * \brief Интерфейс авторизации
