@@ -1,6 +1,6 @@
 #include "autorizationsettingswidget.h"
 #include "autorizationmanager.h"
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 
 #include "personaldata.h"
 

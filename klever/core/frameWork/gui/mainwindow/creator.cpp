@@ -49,15 +49,15 @@ void MainWindow::createActions() {
     separatorAct = new QAction(this);
     separatorAct->setSeparator(true);
 
-    m_pluginInformationAction = new QAction(QIcon(":/images/flavour-extended-png/qbic.png"), tr("&Плагины"), this);
+    m_pluginInformationAction = new QAction(QIcon(":/images/base/plugins.png"), tr("&Плагины"), this);
     m_pluginInformationAction->setStatusTip(tr("О модулях"));
 
     // Действия для открытия справочной информации
-    m_aboutAction = new QAction( QIcon(":/images/help.png"), tr("&Информация о программе"), this);
+    m_aboutAction = new QAction( QIcon(":/images/base/inform.png"), tr("&Информация о программе"), this);
     m_aboutAction->setStatusTip( tr( "Информация о системе") );
 
     // Настройки приложения
-    m_settingsAction = new QAction( QIcon(":/settings/img/settings.png"),
+    m_settingsAction = new QAction( QIcon(":/images/base/settings.png"),
                                          tr( "&Настройки..." ),
                                          this );
     m_settingsAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_P ) );
@@ -108,29 +108,15 @@ void MainWindow::createToolBars() {
     // Создание главного меню быстрого запуска. Права доступа определяются внутри
     KleverGui::instance().formManager->createToolBar();
 
-    // Создание панели работы с окнами
-    windowToolBar = addToolBar(tr("Окна"));
-    windowToolBar->setObjectName("Окна");
-    windowToolBar->setIconSize(QSize(32,32));
-    windowToolBar->addAction(tileAct);
-    windowToolBar->addAction(cascadeAct);
-
-    // TODO: CAN_SEE_APP_SETTINGS
-    //  if (Managers::instance().boot()->hasRightUser(CAN_SEE_APP_SETTINGS)) {
-    QToolBar *toolsToolBar = addToolBar(tr("Инструменты"));
-    toolsToolBar->setObjectName("Инструменты");
-    toolsToolBar->setIconSize(QSize(32,32));
-    toolsToolBar->addAction(m_settingsAction);
-    //  }
-
-    // Создание панели справки
-    QToolBar *helpToolBar = KleverGui::instance().mainwindow()->addToolBar(tr("Помощь"));
-    helpToolBar->setObjectName("Помощь");
-    helpToolBar->setIconSize(QSize(32,32));
-
-    helpToolBar->addAction(m_pluginInformationAction);
-    helpToolBar->addAction(m_aboutAction);
-
+    // Создание обшей панели
+    QToolBar *commonToolBar = KleverGui::instance().mainwindow()->addToolBar(tr("Стандартная панель"));
+    commonToolBar->setObjectName("Стандартная панель");
+    commonToolBar->setIconSize(QSize(32,32));
+    commonToolBar->addAction(m_settingsAction);
+    commonToolBar->addAction(m_pluginInformationAction);
+    commonToolBar->addAction(m_aboutAction);
+    commonToolBar->addAction(tileAct);
+    commonToolBar->addAction(cascadeAct);
 }
 
 /*

@@ -15,49 +15,49 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="13" column="0">
-    <widget class="QLabel" name="label_12">
+    <widget class="QLabel" name="changelogLabel">
      <property name="text">
       <string>Измнения в ПО</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="preffixSoftwareNameLabel">
      <property name="text">
       <string>Преффикс названия ПО</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="suffixSoftwareNameLabel">
      <property name="text">
       <string>Суффикс названия ПО</string>
      </property>
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="versionLabel">
      <property name="text">
       <string>Версия ПО</string>
      </property>
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="styleLabel">
      <property name="text">
       <string>Внешний стиль</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="softwareNameLabel">
      <property name="text">
       <string>Название ПО</string>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="companyNameLabel">
      <property name="text">
       <string>Название компании</string>
      </property>
@@ -77,43 +77,43 @@
     </spacer>
    </item>
    <item row="3" column="2">
-    <widget class="QLineEdit" name="lineEdit_4"/>
+    <widget class="QLineEdit" name="versionEdit"/>
    </item>
    <item row="2" column="2">
-    <widget class="QLineEdit" name="lineEdit_3"/>
+    <widget class="QLineEdit" name="suffixSoftwareNameEdit"/>
    </item>
    <item row="4" column="2">
-    <widget class="QLineEdit" name="lineEdit_5"/>
+    <widget class="QLineEdit" name="softwareNameEdit"/>
    </item>
    <item row="9" column="0">
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="aboutTopLabel">
      <property name="text">
       <string>Верхняя часть</string>
      </property>
     </widget>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="aboutNameLabel">
      <property name="text">
       <string>Название</string>
      </property>
     </widget>
    </item>
    <item row="10" column="0">
-    <widget class="QLabel" name="label_10">
+    <widget class="QLabel" name="aboutBottomLabel">
      <property name="text">
       <string>Нижняя часть</string>
      </property>
     </widget>
    </item>
    <item row="9" column="2">
-    <widget class="QLineEdit" name="lineEdit_7"/>
+    <widget class="QLineEdit" name="aboutTopEdit"/>
    </item>
    <item row="10" column="2">
-    <widget class="QLineEdit" name="lineEdit_8"/>
+    <widget class="QLineEdit" name="aboutBottomEdit"/>
    </item>
    <item row="7" column="2">
-    <widget class="QLineEdit" name="lineEdit_6"/>
+    <widget class="QLineEdit" name="aboutNameEdit"/>
    </item>
    <item row="11" column="0" colspan="3">
     <widget class="QLabel" name="label_11">
@@ -126,13 +126,13 @@
     </widget>
    </item>
    <item row="5" column="2">
-    <widget class="QComboBox" name="comboBox"/>
+    <widget class="QComboBox" name="styleBox"/>
    </item>
    <item row="0" column="2">
-    <widget class="QLineEdit" name="lineEdit"/>
+    <widget class="QLineEdit" name="companyNameEdit"/>
    </item>
    <item row="1" column="2">
-    <widget class="QLineEdit" name="lineEdit_2"/>
+    <widget class="QLineEdit" name="preffixSoftwareNameEdit"/>
    </item>
    <item row="6" column="0" colspan="3">
     <widget class="QLabel" name="label_7">
@@ -145,14 +145,14 @@
     </widget>
    </item>
    <item row="15" column="0">
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="acceptButton">
      <property name="text">
       <string>Применить</string>
      </property>
     </widget>
    </item>
    <item row="13" column="2">
-    <widget class="QPlainTextEdit" name="plainTextEdit"/>
+    <widget class="QPlainTextEdit" name="changelogEdit"/>
    </item>
   </layout>
  </widget>

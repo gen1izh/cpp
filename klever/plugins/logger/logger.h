@@ -85,6 +85,10 @@ public:
      */
     void createConnectors();
 
+    /*!
+     * \brief Информация о плагине
+     */
+    QString getInformation();
 
     /*!
      * \brief Возвращает иконку для настроек

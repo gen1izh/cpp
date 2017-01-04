@@ -42,7 +42,14 @@ QWidget *TubeManager::getSettingPage() {
  *  Возвращает иконку для настроек
  */
 QIcon TubeManager::settingIcon() {
-  return QIcon(":/tubemanager/img/manager.png");
+    return QIcon(":/tubemanager/img/manager.png");
+}
+
+QString TubeManager::getInformation()
+{
+    QString msg = "truba";
+
+    return msg;
 }
 
 

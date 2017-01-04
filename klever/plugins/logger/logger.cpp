@@ -13,7 +13,7 @@ Logger::Logger()
     m_settings = NULL;
 
 
-    m_watcherAction = new QAction(QIcon(":/images/flavour-extended-png/moleskine_black.png"),
+    m_watcherAction = new QAction(QIcon(":/images/base/watcher.png"),
                                   tr("&Просмотр журналов"));
     m_watcherAction->setStatusTip(tr("Просмотр журналов"));
 
@@ -66,6 +66,13 @@ void Logger::createConnectors()
 {
     QObject::connect(m_thread, SIGNAL(sendMessage(const QString&)),
                      this, SLOT(drawMessage(const QString&)));
+}
+
+QString Logger::getInformation()
+{
+    QString msg = "logger";
+
+    return msg;
 }
 
 QIcon Logger::settingIcon()

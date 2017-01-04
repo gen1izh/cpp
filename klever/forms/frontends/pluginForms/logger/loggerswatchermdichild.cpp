@@ -1,5 +1,5 @@
 #include "loggerswatchermdichild.h"
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 #include "../../plug.h"
 
 using namespace plug;

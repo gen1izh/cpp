@@ -10,25 +10,33 @@
 
 Information::Information()
 {
+}
 
+QString Information::style() const
+{
+    return m_style;
+}
+
+void Information::setStyle(const QString &style)
+{
+    m_style = style;
 }
 
 Information &Information::instance()
 {
-  static Information info;
-  return info;
+    static Information info;
+    return info;
 }
 
 bool Information::isDataReaded()
 {
-  return m_isDataReaded;
+    return m_isDataReaded;
 }
 
 void Information::setIsDataReaded(bool isDataReaded)
 {
   m_isDataReaded = isDataReaded;
 }
-
 
 bool Information::readApplicationInformation()
 {
@@ -64,24 +72,22 @@ bool Information::readApplicationInformation()
                                                                       << "softwareNameSuffix"
                                                                       << "version"
                                                                       << "mainTitleApp"
-                                                                      << "cveMessage"
-                                                                      << "otherMessage"
+                                                                      << "changelog"
                                                                       << "aboutMessageTitle"
                                                                       << "aboutMessageTop"
                                                                       << "aboutMessageBottom"
-                                                                      << "specialParameters");
+                                                                      << "style");
             foreach (const QVariantMap &propertyMap, propertyMaps) {
                 setCompany(propertyMap["company"].toString());
                 setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
                 setSoftwareNameSuffix(propertyMap["softwareNameSuffix"].toString());
                 setVersion(propertyMap["version"].toString());
                 setMainTitleApp(propertyMap["mainTitleApp"].toString());
-                setCveMessage(propertyMap["cveMessage"].toString());
-                setOtherMessage(propertyMap["otherMessage"].toString());
+                setChangelog(propertyMap["changelog"].toString());
+                setStyle(propertyMap["style"].toString());
                 setAboutMessageTitle(propertyMap["aboutMessageTitle"].toString());
                 setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
                 setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
-                setSpecialParameters(propertyMap["specialParameters"].toString());
                 setIsDataReaded(true);
                 return true;
             }
@@ -124,14 +130,13 @@ void Information::saveApplicationInformation()
         information->setSoftwareNameSuffix(m_softwareNameSuffix);
         information->setVersion(m_version);
         information->setMainTitleApp(m_mainTitleApp);
-        information->setCveMessage(m_cveMessage);
-        information->setOtherMessage(m_otherMessage);
+        information->setChangelog(m_changelog);
+        information->setStyle(m_style);
         information->setAboutMessageTitle(m_aboutMessageTitle);
         information->setAboutMessageTop(m_aboutMessageTop);
         information->setAboutMessageBottom(m_aboutMessageBottom);
 
         information->save();
-
     }
     m_db.close();
 }
@@ -186,24 +191,14 @@ void Information::setMainTitleApp(const QString &mainTitleApp)
   m_mainTitleApp = mainTitleApp;
 }
 
-QString Information::cveMessage()
+QString Information::changelog()
 {
-  return m_cveMessage;
+  return m_changelog;
 }
 
-void Information::setCveMessage(const QString &cveMessage)
+void Information::setChangelog(const QString &changelog)
 {
-  m_cveMessage = cveMessage;
-}
-
-QString Information::otherMessage()
-{
-  return m_otherMessage;
-}
-
-void Information::setOtherMessage(const QString &otherMessage)
-{
-  m_otherMessage = otherMessage;
+  m_changelog = changelog;
 }
 
 QString Information::aboutMessageTitle()
@@ -236,74 +231,4 @@ void Information::setAboutMessageBottom(const QString &aboutMessageBottom)
   m_aboutMessageBottom = aboutMessageBottom;
 }
 
-QHash<QString, QString> Information::specialParameters() const
-{
-  return m_specialParameters;
-}
 
-QString Information::specialParametersToString() const
-{
-  QString params = "";
-  QHashIterator<QString, QString> i(m_specialParameters);
-  while (i.hasNext()) {
-      i.next();
-      if (!params.isEmpty()) {
-        params+=";";
-      }
-      params += QString("{'%1'='%2'}").arg(i.key()).arg(i.value());
-  }
-
-  params += "{" + params + "}";
-
-  return params;
-
-}
-
-void Information::setSpecialParameters(const QString &specialParameters)
-{
-  // Формат специальных параметров следующий
-  // {{'key'='value'};...}
-
-
-  QString parseString = specialParameters;
-
-  // Удалил все пробелмы вначале и в конце предложения
-  parseString.trimmed();
-
-  // Удалил все  символы ; внутри ключей или значений, если таковые есть.
-  for (int i = 0; i < parseString.size(); i++) {
-    if ((i >0) && (i < parseString.size())) {
-      if ((parseString.at(i) == QString(";")) && ((parseString.at(i-1) != QString("}"))||(parseString.at(i+1) != QString("{")))) {
-        parseString.replace(i, 1, QString(""));
-      }
-    }
-  }
-
-  if ((parseString.at(0) == QString("{")) && (parseString.at(parseString.size()) == QString("}"))) {
-
-    QStringList tmp = parseString.split(";");
-
-    foreach (QString param, tmp) {
-      if ((param.at(0) == QString("{")) && (param.at(param.size()) == QString("}"))) {
-        param.remove(0,1);
-        param.remove(param.size()-1,1);
-        QStringList keyValue = param.split("=");
-        QString key = keyValue.at(0);
-        QString value = keyValue.at(1);
-        key = key.trimmed();
-        value = value.trimmed();
-
-        key.remove(0,1);
-        key.remove(key.size()-1,1);
-
-        value.remove(0,1);
-        value.remove(value.size()-1,1);
-
-        m_specialParameters[key] = value;
-
-      }
-    }
-
-  }
-
-}

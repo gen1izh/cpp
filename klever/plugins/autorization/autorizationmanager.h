@@ -65,6 +65,10 @@ public:
      */
     void createConnectors();
 
+    /*!
+     * \brief Информация о плагине
+     */
+    QString getInformation();
 
     /*!
      * \brief Деинициализация элементов плагина

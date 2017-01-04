@@ -27,17 +27,6 @@
 #include <interfaces/itopmanager.h>
 
 namespace Core {
-    /*!
-     * Константы стилей графической оболочки
-     */
-    enum {
-      QPLASTIQUESTYLE = 0,
-      QWINDOWSXPSTYLE,
-      QMACSTYLE,
-      QWINDOWSSTYLE,
-      QCDESTYLE,
-      QMOTIFSTYLE
-    };
 
     /*!
      * \brief Класс основных переменных приложения

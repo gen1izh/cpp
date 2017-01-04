@@ -114,6 +114,11 @@ class PluginInterface {
          */
         virtual void createWidgets() = 0;
 
+        /*!
+         * \brief Информация о плагине
+         */
+        virtual QString getInformation() = 0;
+
 
     private:
         /*!

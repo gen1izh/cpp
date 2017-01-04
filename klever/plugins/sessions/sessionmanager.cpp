@@ -68,6 +68,13 @@ QIcon SessionManager::settingIcon()
     return QIcon(":/images/settings/sessions.png");
 }
 
+QString SessionManager::getInformation()
+{
+    QString msg = "session";
+
+    return msg;
+}
+
 
 // Деинициализация элементов плагина сессии
 int SessionManager::finalize() {

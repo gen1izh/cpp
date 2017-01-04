@@ -16,7 +16,7 @@
 // Работа с mdiarea
 #include "mainwindow/mdiarea.h"
 // Работа с журналом
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 #include <library/loggerapi/loggerapi.h>
 #include <library/processDialog/processdialog.h>
 

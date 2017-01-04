@@ -47,6 +47,8 @@ void AutorizationDialog::on_buttonBox_accepted()
     QString pwd = userModel.getUserPasswordByName(ui->usersBox->currentText());
 
     if (pwd == ui->pwdEdit->text()) {
+        Core::Base::instance().setParameterValue(QString("[Autorization]User"),
+                                                 ui->usersBox->currentText());
         m_autorizatedSuccessful = true;
     }
 }

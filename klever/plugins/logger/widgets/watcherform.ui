@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../../core/frameWork/resources/framework_resources.qrc">
-    <normaloff>:/images/flavour-extended-png/moleskine_black.png</normaloff>:/images/flavour-extended-png/moleskine_black.png</iconset>
+    <normaloff>:/images/base/watcher.png</normaloff>:/images/base/watcher.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">

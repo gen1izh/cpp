@@ -6,7 +6,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 
 
 namespace KApplication {

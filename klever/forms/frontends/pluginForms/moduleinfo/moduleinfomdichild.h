@@ -8,16 +8,19 @@
 #include <QPushButton>
 
 #include <frameWork/base.h>
+#include "plugininformationform.h"
 
 
 class PluginInfoMdiChild : public QWidget {
 
-  Q_OBJECT
+    Q_OBJECT
 
-  signals:
-    void setVisibleSignal(bool visible);
+    PluginInformationForm *m_pluginWidget;
 
-  public:
+    signals:
+        void setVisibleSignal(bool visible);
+
+public:
 
     PluginInfoMdiChild();
     ~PluginInfoMdiChild();

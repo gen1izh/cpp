@@ -3,7 +3,7 @@
 #include <QAction>
 #include <QString>
 #include <QWidget>
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 
 
 namespace plug {

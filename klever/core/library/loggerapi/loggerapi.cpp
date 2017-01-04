@@ -8,7 +8,7 @@
 void Library::LoggerApi::logInfo(QObject *ptr, QString txt)
 {
     QString datetime = QDateTime::currentDateTime().toString("hh:mm:ss.zzz dd.MM.yyyy");
-    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().managers()["logger"]);
+    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().plugins()["logger"]);
     if (loggerPtr != NULL) {
         loggerPtr->log(ptr, datetime, txt, MESSAGE_INFO);
     }
@@ -17,7 +17,7 @@ void Library::LoggerApi::logInfo(QObject *ptr, QString txt)
 // Журналирование сообщения предупреждения
 void Library::LoggerApi::logWarning(QObject *ptr, QString txt) {
     QString datetime = QDateTime::currentDateTime().toString("hh:mm:ss.zzz dd.MM.yyyy");
-    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().managers()["logger"]);
+    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().plugins()["logger"]);
     if (loggerPtr != NULL) {
         loggerPtr->log(ptr, datetime, txt, MESSAGE_WARNING);
     }
@@ -26,7 +26,7 @@ void Library::LoggerApi::logWarning(QObject *ptr, QString txt) {
 // Журналирование сообщения с ошибкой
 void Library::LoggerApi::logError(QObject *ptr, QString txt) {
     QString datetime = QDateTime::currentDateTime().toString("hh:mm:ss.zzz dd.MM.yyyy");
-    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().managers()["logger"]);
+    ILoggerPlugin *loggerPtr = static_cast<ILoggerPlugin*>(Core::Plugins::instance().plugins()["logger"]);
     if (loggerPtr != NULL) {
         loggerPtr->log(ptr, datetime, txt, MESSAGE_ERROR);
     }

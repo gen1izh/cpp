@@ -1,5 +1,5 @@
 #include "base.h"
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 #include <frameWork/gui/klevergui.h>
 #include <QtConcurrent>
 

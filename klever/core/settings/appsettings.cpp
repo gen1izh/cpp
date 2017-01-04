@@ -4,7 +4,7 @@
 #include <frameWork/base.h>
 #include <interfaces/isessionmanager.h>
 
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 
 AppSettings::AppSettings(QWidget *parent) :
     QWidget(parent)
@@ -18,7 +18,7 @@ AppSettings::AppSettings(QWidget *parent) :
 
     _pagesWidget = new QStackedWidget;
 
-    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().managers());
+    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().plugins());
     while (i.hasNext()) {
       i.next();
       // если менеджер включен
@@ -57,7 +57,7 @@ AppSettings::AppSettings(QWidget *parent) :
     setContentsMargins(1,1,1,1);
     setWindowTitle(tr("Config Dialog"));
 
-    setWindowIcon(QIcon(":/settings/img/settings.png"));
+    setWindowIcon(QIcon(":/images/base/settings.png"));
 
 }
 
@@ -66,7 +66,7 @@ AppSettings::AppSettings(QWidget *parent) :
  */
 void AppSettings::createIcons() {
 
-    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().managers());
+    QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().plugins());
     while (i.hasNext()) {
       i.next();
 

@@ -21,7 +21,7 @@
 /* Глобальные данные приложения */
 #include <frameWork/base.h>
 #include <frameWork/gui/klevergui.h>
-#include <frameWork/managers.h>
+#include <frameWork/plugins.h>
 
 #include <plugins/logger/logger.h>
 

@@ -13,13 +13,11 @@ class MainQDjangoModel : public QDjangoModel
     QString m_softwareNameSuffix;
     QString m_version;
     QString m_mainTitleApp;
-    QString m_cveMessage;
-    QString m_otherMessage;
+    QString m_changelog;
     QString m_aboutMessageTitle;
     QString m_aboutMessageTop;
     QString m_aboutMessageBottom;
-
-    QString m_specialParameters;
+    QString m_style;
 
     Q_PROPERTY(QString company READ company WRITE setCompany)
     Q_CLASSINFO("company", "max_length=255")
@@ -36,11 +34,11 @@ class MainQDjangoModel : public QDjangoModel
     Q_PROPERTY(QString mainTitleApp READ mainTitleApp WRITE setMainTitleApp)
     Q_CLASSINFO("mainTitleApp", "max_length=255")
 
-    Q_PROPERTY(QString cveMessage READ cveMessage WRITE setCveMessage)
-    Q_CLASSINFO("cveMessage", "max_length=255")
+    Q_PROPERTY(QString changelog READ changelog WRITE setChangelog)
+    Q_CLASSINFO("changelog", "max_length=8192")
 
-    Q_PROPERTY(QString otherMessage READ otherMessage WRITE setOtherMessage)
-    Q_CLASSINFO("otherMessage", "max_length=255")
+    Q_PROPERTY(QString style READ style WRITE setStyle)
+    Q_CLASSINFO("style", "max_length=32")
 
     Q_PROPERTY(QString aboutMessageTitle READ aboutMessageTitle WRITE setAboutMessageTitle)
     Q_CLASSINFO("aboutMessageTitle", "max_length=255")
@@ -50,9 +48,6 @@ class MainQDjangoModel : public QDjangoModel
 
     Q_PROPERTY(QString aboutMessageBottom READ aboutMessageBottom WRITE setAboutMessageBottom)
     Q_CLASSINFO("aboutMessageBottom", "max_length=1024")
-
-    Q_PROPERTY(QString specialParameters READ specialParameters WRITE setSpecialParameters)
-    Q_CLASSINFO("specialParameters", "max_length=8192")
 
 public:
 
@@ -71,11 +66,8 @@ public:
     QString mainTitleApp();
     void setMainTitleApp(const QString &mainTitleApp);
 
-    QString cveMessage();
-    void setCveMessage(const QString &cveMessage);
-
-    QString otherMessage();
-    void setOtherMessage(const QString &otherMessage);
+    QString changelog();
+    void setChangelog(const QString &changelog);
 
     QString aboutMessageTitle();
     void setAboutMessageTitle(const QString &aboutMessageTitle);
@@ -86,8 +78,8 @@ public:
     QString aboutMessageBottom();
     void setAboutMessageBottom(const QString &aboutMessageBottom);
 
-    QString specialParameters() const;
-    void setSpecialParameters(const QString &specialParameters);
+    QString style() const;
+    void setStyle(const QString &style);
 };
 
 #endif // MAIN_QDJANGO_MODEL_H

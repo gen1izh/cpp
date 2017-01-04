@@ -94,6 +94,11 @@ class SessionManager : public QObject, public ISessionPlugin
         QIcon settingIcon();
 
         /*!
+         * \brief Информация о плагине
+         */
+        QString getInformation();
+
+        /*!
          * \brief Деинициализация элементов плагина сессии
          */
         int finalize();

@@ -88,5 +88,12 @@ void AutorizationManager::createConnectors()
     // TODO: ...
 }
 
+QString AutorizationManager::getInformation()
+{
+    QString msg = "auto";
+
+    return msg;
+}
+
 
 

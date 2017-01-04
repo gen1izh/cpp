@@ -40,24 +40,14 @@ void MainQDjangoModel::setMainTitleApp(const QString &mainTitleApp)
   m_mainTitleApp = mainTitleApp;
 }
 
-QString MainQDjangoModel::cveMessage()
+QString MainQDjangoModel::changelog()
 {
-  return m_cveMessage;
+  return m_changelog;
 }
 
-void MainQDjangoModel::setCveMessage(const QString &cveMessage)
+void MainQDjangoModel::setChangelog(const QString &changelog)
 {
-  m_cveMessage = cveMessage;
-}
-
-QString MainQDjangoModel::otherMessage()
-{
-  return m_otherMessage;
-}
-
-void MainQDjangoModel::setOtherMessage(const QString &otherMessage)
-{
-  m_otherMessage = otherMessage;
+  m_changelog = changelog;
 }
 
 QString MainQDjangoModel::aboutMessageTitle()
@@ -90,21 +80,22 @@ void MainQDjangoModel::setAboutMessageBottom(const QString &aboutMessageBottom)
   m_aboutMessageBottom = aboutMessageBottom;
 }
 
-QString MainQDjangoModel::specialParameters() const
+QString MainQDjangoModel::style() const
 {
-  return m_specialParameters;
+    return m_style;
 }
 
-void MainQDjangoModel::setSpecialParameters(const QString &specialParameters)
+void MainQDjangoModel::setStyle(const QString &style)
 {
-  m_specialParameters = specialParameters;
+    m_style = style;
 }
+
 QString MainQDjangoModel::company()
 {
-  return m_company;
+    return m_company;
 }
 
 void MainQDjangoModel::setCompany(const QString &company)
 {
-  m_company = company;
+    m_company = company;
 }

@@ -7,65 +7,64 @@
 
 class Information {
 
-  QString m_company            = "Company";
-  QString m_softwareNamePrefix = "Klever_";
-  QString m_softwareNameSuffix = "Software";
-  QString m_version            = "0.0.1";
-  QString m_mainTitleApp       = "Klever Software";
-  QString m_cveMessage         = "deprecated";
-  QString m_otherMessage       = "deprecated";
-  QString m_aboutMessageTitle  = "Klever Software";
-  QString m_aboutMessageTop    = "Klever easy framework";
-  QString m_aboutMessageBottom = "Hello world!";
+    Information();
+    Information(const Information&);
+    Information& operator=(const Information&);
 
-  bool m_isDataReaded = false;
+    QString m_company            = "Company";
+    QString m_softwareNamePrefix = "Klever_";
+    QString m_softwareNameSuffix = "Software";
+    QString m_version            = "0.0.1";
+    QString m_mainTitleApp       = "Klever Software";
+    QString m_changelog          = "";
+    QString m_aboutMessageTitle  = "Klever Software";
+    QString m_aboutMessageTop    = "Klever easy framework";
+    QString m_aboutMessageBottom = "Hello world!";
 
-  QHash<QString, QString> m_specialParameters;
+    QString m_style = "windows";
 
-  QSqlDatabase m_db;
+    bool m_isDataReaded = false;
 
-  Information();
+    QHash<QString, QString> m_specialParameters;
 
-  Information(const Information&);
+    QSqlDatabase m_db;
 
-  Information& operator=(const Information&);
+
 
 public:
 
-  static Information& instance();
+    static Information& instance();
 
-  bool readApplicationInformation();
-  void saveApplicationInformation();
+    bool readApplicationInformation();
+    void saveApplicationInformation();
 
-  QString company();
-  void setCompany(const QString &company);
+    QString company();
+    void setCompany(const QString &company);
 
-  QString softwareNamePrefix();
-  void setSoftwareNamePrefix(const QString &softwareNamePrefix);
+    QString softwareNamePrefix();
+    void setSoftwareNamePrefix(const QString &softwareNamePrefix);
 
-  QString softwareNameSuffix();
-  void setSoftwareNameSuffix(const QString &softwareNameSuffix);
-  QString version();
-  void setVersion(const QString &version);
-  QString mainTitleApp();
-  void setMainTitleApp(const QString &mainTitleApp);
-  QString cveMessage();
-  void setCveMessage(const QString &cveMessage);
-  QString otherMessage();
-  void setOtherMessage(const QString &otherMessage);
-  QString aboutMessageTitle();
-  void setAboutMessageTitle(const QString &aboutMessageTitle);
-  QString aboutMessageTop();
-  void setAboutMessageTop(const QString &aboutMessageTop);
-  QString aboutMessageBottom();
-  void setAboutMessageBottom(const QString &aboutMessageBottom);
-  QHash<QString, QString> specialParameters() const;
-  QString specialParametersToString() const;
-  void setSpecialParameters(const QString &specialParameters);
+    QString softwareNameSuffix();
+    void setSoftwareNameSuffix(const QString &softwareNameSuffix);
+    QString version();
+    void setVersion(const QString &version);
+    QString mainTitleApp();
+    void setMainTitleApp(const QString &mainTitleApp);
+    QString changelog();
+    void setChangelog(const QString &changelog);
 
-  bool isDataReaded();
-  void setIsDataReaded(bool isDataReaded);
+    QString aboutMessageTitle();
+    void setAboutMessageTitle(const QString &aboutMessageTitle);
+    QString aboutMessageTop();
+    void setAboutMessageTop(const QString &aboutMessageTop);
+    QString aboutMessageBottom();
+    void setAboutMessageBottom(const QString &aboutMessageBottom);
 
+    bool isDataReaded();
+    void setIsDataReaded(bool isDataReaded);
+
+    QString style() const;
+    void setStyle(const QString &style);
 };
 
 

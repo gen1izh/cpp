@@ -27,15 +27,14 @@ HEADERS += library/orm/db/QDjango.h \
     frameWork/status_codes.h \
     interfaces/itopmanager.h \
     frameWork/base.h \
-    frameWork/managers.h \
     interfaces/iautorizationmanager.h \
     interfaces/isessionmanager.h \
     frameWork/managers/mock/sessionmock.h \
     frameWork/gui/klevergui.h \
     interfaces/plugininterface.h \
     library/globals.h \
-    settings/optionsform.h
-HEADERS += settings/optionspage.h
+    settings/optionsform.h \
+    frameWork/plugins.h
 HEADERS += settings/appsettings.h
 
 
@@ -90,13 +89,12 @@ SOURCES +=  frameWork/information.cpp \
     library/orm/models/mainqdjangomodel.cpp \
     library/orm/models/pluginslistqdjangomodel.cpp \
     frameWork/base.cpp \
-    frameWork/managers.cpp \
     frameWork/managers/mock/sessionmock.cpp \
     frameWork/gui/klevergui.cpp \
     interfaces/plugininterface.cpp \
     library/globals.cpp \
-    settings/optionsform.cpp
-SOURCES += settings/optionspage.cpp
+    settings/optionsform.cpp \
+    frameWork/plugins.cpp
 SOURCES += settings/appsettings.cpp
 #SOURCES += settings/modules/modulesmanager.cpp
 #SOURCES += settings/modules/modulessettingswidget.cpp
