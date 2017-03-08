@@ -14,7 +14,7 @@ class analysisPlugin : public QObject, public PluginInterface {
     Q_PLUGIN_METADATA(IID PluginInterface_iid FILE "analysis.json")
     Q_INTERFACES(PluginInterface)
 
-    analysisSettings *m_settings;
+    analysisSettings *m_settings = NULL;
 
     QAction *m_BF_AnalizeForm;
 

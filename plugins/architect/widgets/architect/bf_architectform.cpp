@@ -20,8 +20,7 @@ BF_ArchitectForm::BF_ArchitectForm(QWidget *parent) :
     m_currentArchitectTreeItem   = NULL;
     QTimer::singleShot(100, this, SLOT(openArchitect()));
     // TODO: Заменить на название сессии
-    Core::Base::instance().setParameterValue("SessionName", "Унифицированный комплекс");
-    ui->sysNameEdit->setText(Core::Base::instance().getParameterValue("SessionName", QString("")));
+    ui->sysNameEdit->setText(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
     on_updateButton_clicked();
 }
 
@@ -228,7 +227,7 @@ void BF_ArchitectForm::openArchitect()
         // Если система не найдена, то создаем ее сами
         // имя сессии = имя системы
         if (!isSystem) {
-            ae.setArticle(Core::Base::instance().getParameterValue("SessionName", QString("")));
+            ae.setArticle(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
             ae.setName("");
             ae.setDescription("");
             ae.setType("Система");

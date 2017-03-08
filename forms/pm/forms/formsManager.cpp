@@ -20,23 +20,33 @@ void FormsManager::createConnections() {
                  SIGNAL(triggered()), this, SLOT(openLoggersWatcherWindow()) );
     }
 
-    if (Core::Plugins::instance().isPluginExist(tr("project_manager"))) {
-        connect( getManagerAction_FromWAPair(tr("project_manager"),
+    if (Core::Plugins::instance().isPluginExist(tr("analysis"))) {
+        connect( getManagerAction_FromWAPair(tr("analysis"),
                                              tr("(PM)BF_AnalizeForm")),
                  SIGNAL(triggered()), this, SLOT(openAnalysisWindow()) );
 
-        connect( getManagerAction_FromWAPair(tr("project_manager"),
+    }
+
+    if (Core::Plugins::instance().isPluginExist(tr("architect"))) {
+        connect( getManagerAction_FromWAPair(tr("architect"),
                                              tr("(PM)BF_ArchitectForm")),
                  SIGNAL(triggered()), this, SLOT(openArchitectWindow()) );
+    }
 
-        connect( getManagerAction_FromWAPair(tr("project_manager"),
-                                             tr("(PM)BF_DeployBuildForm")),
-                 SIGNAL(triggered()), this, SLOT(openDeployBuildWindow()) );
+//    if (Core::Plugins::instance().isPluginExist(tr("delpoy"))) {
+//        connect( getManagerAction_FromWAPair(tr("project_manager"),
+//                                             tr("(PM)BF_DeployBuildForm")),
+//                 SIGNAL(triggered()), this, SLOT(openDeployBuildWindow()) );
 
-        connect( getManagerAction_FromWAPair(tr("project_manager"),
+//    }
+
+    if (Core::Plugins::instance().isPluginExist(tr("document"))) {
+        connect( getManagerAction_FromWAPair(tr("document"),
                                              tr("(PM)BF_DocumentsForm")),
                  SIGNAL(triggered()), this, SLOT(openDocumentsWindow()) );
+
     }
+
 
 }
 
@@ -103,10 +113,10 @@ void FormsManager::createToolBar() {
     }
 
     if (Core::Plugins::instance().isPluginExist(tr("project_manager"))) {
-        pluginsBar->addAction(getManagerAction_FromWAPair(tr("project_manager"), tr("(PM)BF_AnalizeForm")));
-        pluginsBar->addAction(getManagerAction_FromWAPair(tr("project_manager"), tr("(PM)BF_ArchitectForm")));
-        pluginsBar->addAction(getManagerAction_FromWAPair(tr("project_manager"), tr("(PM)BF_DeployBuildForm")));
-        pluginsBar->addAction(getManagerAction_FromWAPair(tr("project_manager"), tr("(PM)BF_DocumentsForm")));
+        pluginsBar->addAction(getManagerAction_FromWAPair(tr("analysis"), tr("(PM)BF_AnalizeForm")));
+        pluginsBar->addAction(getManagerAction_FromWAPair(tr("architect"), tr("(PM)BF_ArchitectForm")));
+        // pluginsBar->addAction(getManagerAction_FromWAPair(tr("deploy"), tr("(PM)BF_DeployBuildForm")));
+        pluginsBar->addAction(getManagerAction_FromWAPair(tr("document"), tr("(PM)BF_DocumentsForm")));
     }
 }
 

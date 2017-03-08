@@ -3,6 +3,7 @@
 documentPlugin::documentPlugin() {
     setName("document");
     setTextName("document");
+    createActions();
     createWidgets();
 }
 

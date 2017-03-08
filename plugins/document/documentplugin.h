@@ -16,7 +16,7 @@ class documentPlugin : public QObject, public PluginInterface {
     Q_INTERFACES(PluginInterface)
 
 
-    documentSettings *m_settings;
+    documentSettings *m_settings = NULL;
     QAction *m_BF_DocumentsForm;
 
 public:

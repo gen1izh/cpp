@@ -10,7 +10,7 @@
 
 LoggerModel::LoggerModel()
 {
-    m_db = QSqlDatabase::database("logger");
+    QSqlDatabase m_db = QSqlDatabase::database("logger");
     if (m_db.driverName()!="QSQLITE") {
         m_db = QSqlDatabase::addDatabase("QSQLITE", "logger");
     }
@@ -44,11 +44,12 @@ LoggerModel::LoggerModel()
         QDjango::createTables();
     }
 
+    m_db.close();
 }
 
 LoggerModel::~LoggerModel()
 {
-    m_db.close();
+
 }
 
 
@@ -136,12 +137,48 @@ QStringList LoggerModel::getSources()
  */
 void LoggerModel::addMessage(const QString &source, const QString &datetime, const QString &txt, const QString &type)
 {
-    LoggerQDjangoModel *log = new LoggerQDjangoModel;
-    log->setSource(source);
-    log->setDatetime(datetime);
-    log->setTxt(txt);
-    log->setType(type);
-    log->save();
+    QSqlDatabase m_db = QSqlDatabase::database("logger");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "logger");
+    }
+
+    QString path = Core::Base::instance().getParameterValue(QString("[Session]Folder"), QString(""));
+    path += "/logs";
+
+    QDir dir(path);
+    if (!dir.exists()) {
+        if (!dir.mkpath(path)) {
+            Library::LoggerApi::logError(this, "Каталог журналов не создан!");
+        }
+    }
+
+    path = QString("%1/%2").arg(path).arg("__logger");
+
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<LoggerQDjangoModel>();
+        QDjango::createTables();
+
+        LoggerQDjangoModel *log = new LoggerQDjangoModel;
+        log->setSource(source);
+        log->setDatetime(datetime);
+        log->setTxt(txt);
+        log->setType(type);
+        log->save();
+    }
+
+    m_db.close();
+
 }
 
 

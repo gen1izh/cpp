@@ -3,6 +3,7 @@
 architectPlugin::architectPlugin() {
     setName("architect");
     setTextName("architect");
+    createActions();
     createWidgets();
 }
 

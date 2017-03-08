@@ -90,7 +90,7 @@ QString DocumentGenerator::createBody(const QString& specification,
                            "            </div>"\
                            "        </div>"\
                            "    </div>")
-                        .arg(Core::Base::instance().getParameterValue(QString("SessionName"), QString("")))
+                        .arg(Core::Base::instance().getParameterValue(QString("[Session]Name"), QString("")))
                         .arg(QDateTime::currentDateTime().toString("ddd MMMM d yy hh:mm:ss.zzz"))
                         .arg(specification)
                         .arg(description)

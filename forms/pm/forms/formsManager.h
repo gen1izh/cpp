@@ -92,26 +92,22 @@ public slots:
      */
     void openLoggersWatcherWindow();
 
-
-
-
-
-    /*
+    /*!
      * Открытие дочернего окна анализа требований
      */
     void openAnalysisWindow();
 
-    /*
+    /*!
      * Открытие дочернего окна структуры системы
      */
     void openArchitectWindow();
 
-    /*
+    /*!
      * Открытие дочернего окна сборки установщика
      */
-    void openDeployBuildWindow();
+//    void openDeployBuildWindow();
 
-    /*
+    /*!
      * Открытие дочернего окна документации
      */
     void openDocumentsWindow();

@@ -12,8 +12,6 @@ class LoggerModel : public QObject
 
     Q_OBJECT
 
-    QSqlDatabase m_db;
-
 public:
     LoggerModel();
     ~LoggerModel();

@@ -16,7 +16,7 @@ class architectPlugin : public QObject, public PluginInterface {
 
     QAction *m_BF_ArchitectForm;
 
-    architectSettings *m_settings;
+    architectSettings *m_settings= NULL;
 
 public:
 

@@ -82,13 +82,13 @@ void FormsManager::openArchitectWindow() {
 /*
  * Открытие дочернего окна сборки установщика
  */
-void FormsManager::openDeployBuildWindow() {
+//void FormsManager::openDeployBuildWindow() {
 
-  Core::KleverGui::instance().openWindow<DeployBuildMdiChild,MainWindow>(
-        "DEPLOY_BUIDLER_WINDOW", tr("Сборка установщика"),
-        tr("Окно сборки установщика было успешно открыто."),
-        tr("Окно сборки установщика не было успешно открыто!") );
-}
+//  Core::KleverGui::instance().openWindow<DeployBuildMdiChild,MainWindow>(
+//        "DEPLOY_BUIDLER_WINDOW", tr("Сборка установщика"),
+//        tr("Окно сборки установщика было успешно открыто."),
+//        tr("Окно сборки установщика не было успешно открыто!") );
+//}
 
 /*
  * Открытие дочернего окна документации

@@ -3,6 +3,7 @@
 analysisPlugin::analysisPlugin() {
     setName("analysis");
     setTextName("analysis");
+    createActions();
     createWidgets();
 }
 
