@@ -18,20 +18,28 @@ class IFormManager : public QObject {
   Q_OBJECT
 
   public:
-    /*!
-     * \brief Виртуальный деструктор интерфейса
-     */
+
     virtual ~IFormManager(){ }
 
     /*!
      * \brief Функция создания меню
-     * \param[in] menuBar указатель на меню-панель в главном окне приложения
      */
     virtual void createMenu() = 0;
     /*!
      * \brief Функция создания тулбара
      */
     virtual void createToolBar() = 0;
+
+    /*!
+     * \brief Функция создания действий
+     */
+    virtual void createActions() = 0;
+
+    /*!
+     * \brief Функция создания соединений
+     */
+    virtual void createConnections() = 0;
+
     /*!
      * \brief Функция создания доков
      */

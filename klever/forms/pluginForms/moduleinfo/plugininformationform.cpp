@@ -37,7 +37,7 @@ void PluginInformationForm::on_pluginsListWidget_clicked(const QModelIndex &inde
     while (i.hasNext()) {
         i.next();
         if (i.key() == plugin) {
-            ui->pluginInformationEdit->setPlainText(i.value()->getInformation());
+            ui->pluginInformationEdit->setPlainText(i.value()->information());
             break;
         }
     }

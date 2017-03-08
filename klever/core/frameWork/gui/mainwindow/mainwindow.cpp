@@ -53,25 +53,15 @@ void MainWindow::setupStyleAndMainSettings()
  * Закрытие основного окна приложения
  */
 void MainWindow::closeEvent( QCloseEvent *event ) {
+    mdiArea->closeAllSubWindows();
+    event->accept();
 
-    bool isTestStarted = Core::Base::instance().getParameterValue(QString("testStarted"), false);
-
-    if (isTestStarted) {
-        event->ignore();
-        messageLibrary msg;
-        msg.createWarnMessage(tr("Предупреждение"),
-                              tr("Идет тест, завершите тест корректно!"));
-
-    } else {
-        mdiArea->closeAllSubWindows();
-        event->accept();
-
-        QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
-        settings.setValue("geometry", saveGeometry());
-        settings.setValue("windowState", saveState());
-        QMainWindow::closeEvent(event);
-    }
-
+    QSettings settings(Information::instance().company(),
+                       QString("%1_%2").arg(Information::instance().mainTitleApp())
+                       .arg(Information::instance().version()));
+    settings.setValue("geometry", saveGeometry());
+    settings.setValue("windowState", saveState());
+    QMainWindow::closeEvent(event);
 }
 
 

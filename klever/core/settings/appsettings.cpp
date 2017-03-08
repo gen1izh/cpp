@@ -1,53 +1,46 @@
 #include "appsettings.h"
-
-/* Глобальные данные */
 #include <frameWork/base.h>
 #include <interfaces/isessionmanager.h>
-
 #include <frameWork/plugins.h>
 
 AppSettings::AppSettings(QWidget *parent) :
     QWidget(parent)
 {
-    _contentsWidget = new QListWidget;
-    _contentsWidget->setViewMode(QListView::IconMode);
-    _contentsWidget->setIconSize(QSize(96, 84));
-    _contentsWidget->setMovement(QListView::Static);
-    _contentsWidget->setMaximumWidth(170);
-    _contentsWidget->setSpacing(12);
+    m_contentsWidget = new QListWidget;
+    m_contentsWidget->setViewMode(QListView::IconMode);
+    m_contentsWidget->setIconSize(QSize(96, 84));
+    m_contentsWidget->setMovement(QListView::Static);
+    m_contentsWidget->setMaximumWidth(170);
+    m_contentsWidget->setSpacing(12);
 
-    _pagesWidget = new QStackedWidget;
+    m_pagesWidget = new QStackedWidget;
 
     QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().plugins());
     while (i.hasNext()) {
-      i.next();
-      // если менеджер включен
-      if (i.value()->isOn()) {
-
+        i.next();
         if (i.key() == "logger") {
-          _pagesWidget->addWidget(Core::Plugins::instance().logger()->getSettingPage());
+            m_pagesWidget->addWidget(Core::Plugins::instance().logger()->settingPage());
         }
         else if (i.key() == "boot") {
-          _pagesWidget->addWidget(Core::Plugins::instance().boot()->getSettingPage());
+            m_pagesWidget->addWidget(Core::Plugins::instance().boot()->settingPage());
         }
         else {
-          // если виджет настроек существует и плагин включен
-          if (((static_cast<PluginInterface*>(i.value()))->getSettingPage()) && (i.value()->isOn())) {
-            _pagesWidget->addWidget((static_cast<PluginInterface*>(i.value()))->getSettingPage());
-          }
+            // если виджет настроек существует и плагин включен
+            if ((static_cast<PluginInterface*>(i.value()))->settingPage()) {
+                m_pagesWidget->addWidget((static_cast<PluginInterface*>(i.value()))->settingPage());
+            }
         }
-      }
     }
 
-    _pagesWidget->addWidget(new OptionsForm); /* основные настройки приложения */
+    m_pagesWidget->addWidget(new OptionsForm); // основные настройки приложения
 
     createIcons();
 
-    _contentsWidget->setCurrentRow(0);
+    m_contentsWidget->setCurrentRow(0);
 
     QHBoxLayout *horizontalLayout = new QHBoxLayout;
-    horizontalLayout->addWidget(_contentsWidget);
-    horizontalLayout->addWidget(_pagesWidget, 1);
+    horizontalLayout->addWidget(m_contentsWidget);
+    horizontalLayout->addWidget(m_pagesWidget, 1);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     mainLayout->addLayout(horizontalLayout);
@@ -61,45 +54,40 @@ AppSettings::AppSettings(QWidget *parent) :
 
 }
 
-/*
- * Функция создания иконок на менюшку настроек
- */
+
+// Функция создания иконок настроек
 void AppSettings::createIcons() {
 
     QHashIterator<QString, PluginInterface *>  i(Core::Plugins::instance().plugins());
     while (i.hasNext()) {
-      i.next();
+        i.next();
 
-      // если менеджер включен
-      if (i.value()->isOn()) {
-        QListWidgetItem *managerButton = new QListWidgetItem(_contentsWidget);
-        managerButton->setIcon(i.value()->settingIcon());
-        managerButton->setText(i.value()->textName());
-        managerButton->setTextAlignment(Qt::AlignHCenter);
-        managerButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-      }
+        QListWidgetItem *pluginButton = new QListWidgetItem(m_contentsWidget);
+        pluginButton->setIcon(i.value()->settingIcon());
+        pluginButton->setText(i.value()->textName());
+        pluginButton->setTextAlignment(Qt::AlignHCenter);
+        pluginButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
 
-  QListWidgetItem *optionsButton = new QListWidgetItem(_contentsWidget);
+  QListWidgetItem *optionsButton = new QListWidgetItem(m_contentsWidget);
   optionsButton->setIcon(QPixmap(":/settings/img/configure.png"));
   optionsButton->setText(tr("Опции"));
   optionsButton->setTextAlignment(Qt::AlignHCenter);
   optionsButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-  connect( _contentsWidget,
+  connect( m_contentsWidget,
            SIGNAL( currentItemChanged( QListWidgetItem*, QListWidgetItem* ) ),
            this, SLOT( changePage( QListWidgetItem*, QListWidgetItem* ) ) );
 }
 
-/*
- * Функция выбора страницы настроек
- */
+
+// Функция выбора страницы настроек
 void AppSettings::changePage(QListWidgetItem *current,
                              QListWidgetItem *previous) {
   if (!current) {
     current = previous;
   }
 
-  _pagesWidget->setCurrentIndex(_contentsWidget->row(current));
+  m_pagesWidget->setCurrentIndex(m_contentsWidget->row(current));
 }
 

@@ -56,8 +56,6 @@ private:
 
     GroupItem *m_rootItem;
 
-    QSqlDatabase m_db;
-
 };
 
 #endif // GROUP_MODEL_H

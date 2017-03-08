@@ -45,25 +45,8 @@ QString PluginInterface::textName() const
     return m_textname;
 }
 
-bool PluginInterface::isOn() const
-{
-    return m_isOn;
-}
-
-bool PluginInterface::isDisable() const
-{
-    return m_isDisable;
-}
-
-void PluginInterface::setOnOrOff(bool flag)
-{
-    m_isOn = flag;
-}
-
 void PluginInterface::checkManagerState()
 {
-    // По умолчанию отключаем менеджер
-    setOnOrOff(true);
 
     m_db = QSqlDatabase::database("plugininterface");
     if (m_db.driverName()!="QSQLITE") {
@@ -90,22 +73,15 @@ void PluginInterface::checkManagerState()
 
         bool isFind = false;
         foreach (const PluginsQDjangoModel &plugin, plugins) {
-            if (plugin.type() == "manager") {
+
                 if (plugin.name() == this->name()) {
                     isFind = true;
-                    if (plugin.state() == "on") {
-                        setOnOrOff(true);
-                    }
                 }
-            }
         }
 
         if (!isFind) {
             QScopedPointer<PluginsQDjangoModel> newManager(new PluginsQDjangoModel());
             newManager.data()->setName(this->name());
-            newManager.data()->setType("manager");
-            newManager.data()->setState(false);
-            newManager.data()->setObjectsCount(0);
             newManager.data()->save();
 
 
@@ -115,12 +91,12 @@ void PluginInterface::checkManagerState()
     m_db.close();
 }
 
-QHash<QString, QPair<QWidget *, QAction *> > PluginInterface::getWidgetActionList() const
+QHash<QString, QPair<QWidget *, QAction *> > PluginInterface::widgetActionList() const
 {
-    return widgetActionList;
+    return _widgetActionList;
 }
 
-QHash<QString, QAction *> PluginInterface::getActionList() const
+QHash<QString, QAction *> PluginInterface::actionList() const
 {
-    return actionList;
+    return _actionList;
 }

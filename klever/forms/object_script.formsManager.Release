@@ -1,0 +1,14 @@
+INPUT(
+./..\_build\release\temp\formsManager\objs\formsManager.o
+./..\_build\release\temp\formsManager\objs\plug.o
+./..\_build\release\temp\formsManager\objs\plugininformationform.o
+./..\_build\release\temp\formsManager\objs\fmopenwindowfunctions.o
+./..\_build\release\temp\formsManager\objs\loggerswatchermdichild.o
+./..\_build\release\temp\formsManager\objs\moduleinfomdichild.o
+./..\_build\release\temp\formsManager\objs\settingsmdichild.o
+./..\_build\release\temp\formsManager\objs\moc_formsManager.o
+./..\_build\release\temp\formsManager\objs\moc_plugininformationform.o
+./..\_build\release\temp\formsManager\objs\moc_loggerswatchermdichild.o
+./..\_build\release\temp\formsManager\objs\moc_moduleinfomdichild.o
+./..\_build\release\temp\formsManager\objs\moc_settingsmdichild.o
+);

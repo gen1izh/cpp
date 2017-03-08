@@ -6,8 +6,6 @@
 class UserModel : public QStringListModel
 {
 
-  QSqlDatabase m_db;
-
 public:
   UserModel();
   ~UserModel();

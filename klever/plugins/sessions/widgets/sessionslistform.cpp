@@ -25,14 +25,21 @@ void SessionsListForm::showEvent(QShowEvent *) {
 
 void SessionsListForm::on_openButton_clicked()
 {
-    Core::Base::instance().setParameterValue(QString("[Session]Folder"),
-                                             QString("%1/%2")
-                                                 .arg(QCoreApplication::applicationDirPath())
-                                                 .arg(ui->sessionsView->currentIndex().data().toString()) );
+    QString path = QString("%1/sessions/%2")
+                            .arg(QCoreApplication::applicationDirPath())
+                            .arg(ui->sessionsView->currentIndex().data().toString());
+
+
+    Core::Base::instance().setParameterValue(QString("[Session]Folder"), path);
+    QDir dir(path);
+    if (!dir.exists()) {
+        if (!dir.mkpath(path)) {
+            Library::LoggerApi::logError(this, "Каталог сессии не создан!");
+        }
+    }
 
     Core::Base::instance().setParameterValue(QString("[Session]Name"),
                                              ui->sessionsView->currentIndex().data());
-
     accept();
 }
 

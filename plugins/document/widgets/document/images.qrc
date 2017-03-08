@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/documentplugin">
+        <file>img/appendix_document.png</file>
+        <file>img/document_item.png</file>
+    </qresource>
+</RCC>

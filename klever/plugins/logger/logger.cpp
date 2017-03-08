@@ -12,7 +12,6 @@ Logger::Logger()
     setTextName(tr("Журнал"));
     m_settings = NULL;
 
-
     m_watcherAction = new QAction(QIcon(":/images/base/watcher.png"),
                                   tr("&Просмотр журналов"));
     m_watcherAction->setStatusTip(tr("Просмотр журналов"));
@@ -33,7 +32,7 @@ Logger::~Logger()
 
 }
 
-QWidget *Logger::getSettingPage()
+QWidget *Logger::settingPage()
 {
     if (m_settings == NULL) {
       m_settings = new SettingsForm();
@@ -46,15 +45,15 @@ QWidget *Logger::getSettingPage()
  */
 void Logger::createWidgets()
 {
-    widgetActionList[tr("(Logger)SettingsForm")].first  = new SettingsForm();
-    widgetActionList[tr("(Logger)SettingsForm")].second = NULL;
+    _widgetActionList[tr("(Logger)SettingsForm")].first  = new SettingsForm();
+    _widgetActionList[tr("(Logger)SettingsForm")].second = NULL;
 
-    widgetActionList[tr("(Logger)LoggerForm")].first  = new LoggerForm();
-    widgetActionList[tr("(Logger)LoggerForm")].second = NULL;
+    _widgetActionList[tr("(Logger)LoggerForm")].first  = new LoggerForm();
+    _widgetActionList[tr("(Logger)LoggerForm")].second = NULL;
 
     // Добавляем просмотрщик журналов
-    widgetActionList[tr("(Logger)Watcher")].first  = new WatcherForm();
-    widgetActionList[tr("(Logger)Watcher")].second = m_watcherAction;
+    _widgetActionList[tr("(Logger)Watcher")].first  = new WatcherForm();
+    _widgetActionList[tr("(Logger)Watcher")].second = m_watcherAction;
 }
 
 void Logger::createActions()
@@ -68,7 +67,7 @@ void Logger::createConnectors()
                      this, SLOT(drawMessage(const QString&)));
 }
 
-QString Logger::getInformation()
+QString Logger::information()
 {
     QString msg = "logger";
 
@@ -84,7 +83,7 @@ QIcon Logger::settingIcon()
  *
  */
 void Logger::drawMessage(const QString& msg) {
-    static_cast<LoggerForm*>(widgetActionList[tr("(Logger)LoggerForm")].first)->appendText(msg);
+    static_cast<LoggerForm*>(_widgetActionList[tr("(Logger)LoggerForm")].first)->appendText(msg);
 }
 
 /*
@@ -95,6 +94,17 @@ void Logger::log(QObject *ptr,
                  const QString &txt,
                  MessagesTypes type) {
 
+
+    WatcherForm *t = static_cast<WatcherForm*>(_widgetActionList[tr("(Logger)Watcher")].first);
+
+    QString stringType;
+
+    if (type==MESSAGE_ERROR) stringType = "error";
+    if (type==MESSAGE_WARNING) stringType = "warning";
+    if (type==MESSAGE_INFO)  stringType = "information";
+
+    t->loggerModel()->addMessage(ptr->objectName(), datetime, txt, stringType);
+
     logPacket pkt;
 
     pkt.ptr = ptr;
@@ -103,6 +113,7 @@ void Logger::log(QObject *ptr,
     pkt.type = type;
 
     m_thread->appendItemToLogList(pkt);
+
 
 }
 

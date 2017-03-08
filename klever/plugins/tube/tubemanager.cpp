@@ -5,7 +5,7 @@ TubeManager::TubeManager() {
   setTextName("Труба");    // Установка имени модуля (внешнее)
   checkManagerState();            // Проверка состояния плагина (вкл. или выкл.)
   createWidgets();
-  _settings = NULL;
+  m_settings = NULL;
 }
 
 /*
@@ -16,8 +16,8 @@ void TubeManager::createWidgets() {
   // Необходимо добавить остальные виджеты
 
   // Создание виджета настроек
-  if (_settings==NULL) {
-    _settings = new TubeSettings(NULL);
+  if (m_settings==NULL) {
+    m_settings = new SettingsForm(NULL);
   }
 
 }
@@ -33,8 +33,8 @@ void TubeManager::finalize() {
 /*
  * Возвращает виджет настроек плагина
  */
-QWidget *TubeManager::getSettingPage() {
-  QWidget* wgt=static_cast<QWidget *>(_settings);
+QWidget *TubeManager::settingPage() {
+  QWidget* wgt=static_cast<QWidget *>(m_settings);
   return wgt;
 }
 
@@ -45,7 +45,7 @@ QIcon TubeManager::settingIcon() {
     return QIcon(":/tubemanager/img/manager.png");
 }
 
-QString TubeManager::getInformation()
+QString TubeManager::information()
 {
     QString msg = "truba";
 

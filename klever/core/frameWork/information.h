@@ -20,15 +20,12 @@ class Information {
     QString m_aboutMessageTitle  = "Klever Software";
     QString m_aboutMessageTop    = "Klever easy framework";
     QString m_aboutMessageBottom = "Hello world!";
-
-    QString m_style = "windows";
+    QString m_style              = "windows";
+    QString m_logo               = "default";
 
     bool m_isDataReaded = false;
 
     QHash<QString, QString> m_specialParameters;
-
-    QSqlDatabase m_db;
-
 
 
 public:
@@ -46,17 +43,22 @@ public:
 
     QString softwareNameSuffix();
     void setSoftwareNameSuffix(const QString &softwareNameSuffix);
+
     QString version();
     void setVersion(const QString &version);
+
     QString mainTitleApp();
     void setMainTitleApp(const QString &mainTitleApp);
+
     QString changelog();
     void setChangelog(const QString &changelog);
 
     QString aboutMessageTitle();
     void setAboutMessageTitle(const QString &aboutMessageTitle);
+
     QString aboutMessageTop();
     void setAboutMessageTop(const QString &aboutMessageTop);
+
     QString aboutMessageBottom();
     void setAboutMessageBottom(const QString &aboutMessageBottom);
 
@@ -65,6 +67,9 @@ public:
 
     QString style() const;
     void setStyle(const QString &style);
+
+    QString logo() const;
+    void setLogo(const QString &name);
 };
 
 

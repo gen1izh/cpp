@@ -36,7 +36,7 @@ public:
      * \brief Возвращает указатель на виджет настроек
      * \return
      */
-    QWidget *getSettingPage();
+    QWidget *settingPage();
 
     /*!
      * \brief Создание виджетов

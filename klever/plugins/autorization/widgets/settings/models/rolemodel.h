@@ -9,8 +9,6 @@
 class RoleModel : public QStringListModel
 {
 
-  QSqlDatabase m_db;
-
 public:
   RoleModel();
   ~RoleModel();

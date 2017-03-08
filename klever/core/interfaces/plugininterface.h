@@ -19,6 +19,7 @@ class PluginInterface {
     public:
 
         PluginInterface();
+
         virtual ~PluginInterface();
 
         /*!
@@ -51,26 +52,6 @@ class PluginInterface {
         QString textName() const;
 
         /*!
-         * \brief Проверка того факта, что менеджер включен
-         * \return
-         */
-        bool isOn() const;
-
-        /*!
-         * \brief Проверка того факта, что менеджер будет доступен
-         * То есть если менеджер _isDisable = true, то это означает, то что
-         * все элементы управления этого плагина будут неактивны.
-         * \return
-         */
-        bool isDisable() const;
-
-        /*!
-         * \brief Функция отключает менеджер или включает его
-         * \return
-         */
-        void setOnOrOff(bool flag);
-
-        /*!
          * \brief Проверка состояния плагина
          * Если в файле конфигурации плагина нет, то по умолчанию он
          * считается отключенным
@@ -80,18 +61,18 @@ class PluginInterface {
         /*!
          * \brief Возвращает хеш пар виджет-действие
          */
-        QHash<QString, QPair<QWidget*, QAction*> > getWidgetActionList() const;
+        QHash<QString, QPair<QWidget*, QAction*> > widgetActionList() const;
 
         /*!
          * \brief Возвращает действия плагина
          */
-        QHash<QString, QAction*> getActionList() const;
+        QHash<QString, QAction*> actionList() const;
 
         /*!
          * \brief Возвращает указатель на форму настроек
          * \return
          */
-        virtual QWidget *getSettingPage() = 0;
+        virtual QWidget *settingPage() = 0;
 
         /*!
          * \brief Иконка для окна настроек
@@ -117,19 +98,10 @@ class PluginInterface {
         /*!
          * \brief Информация о плагине
          */
-        virtual QString getInformation() = 0;
+        virtual QString information() = 0;
 
 
     private:
-        /*!
-         * \brief Признак подключенности плагина
-         */
-        bool     m_isOn;
-
-        /*!
-         * \brief Признак неактивности плагина
-         */
-        bool     m_isDisable;
 
         /*!
          * \brief Системное название плагина
@@ -152,14 +124,14 @@ class PluginInterface {
        * \brief Действия плагина
        * При вызове действия происходит какое-то событие, без открытия окна
        */
-      QHash<QString, QAction*> actionList;
+      QHash<QString, QAction*> _actionList;
 
 
       /*!
        * \brief Хеш пар виджет-действие
        * При вызове действия открывается окно в контексте mdi пространства
        */
-      QHash<QString, QPair<QWidget*, QAction*> > widgetActionList;
+      QHash<QString, QPair<QWidget*, QAction*> > _widgetActionList;
 };
 
 

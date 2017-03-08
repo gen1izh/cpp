@@ -9,8 +9,6 @@ class SessionsModel : public QStringListModel
 
     Q_OBJECT
 
-    QSqlDatabase m_db;
-
 public:
     SessionsModel();
     ~SessionsModel();

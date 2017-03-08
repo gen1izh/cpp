@@ -23,6 +23,8 @@ public:
   QString role() const;
   QString description() const;
 
+protected:
+  void showEvent(QShowEvent *);
 private:
   Ui::addGroupDialog *ui;
 };

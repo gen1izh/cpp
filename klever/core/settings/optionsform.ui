@@ -6,153 +6,282 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>523</height>
+    <width>541</width>
+    <height>602</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="13" column="0">
-    <widget class="QLabel" name="changelogLabel">
-     <property name="text">
-      <string>Измнения в ПО</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="preffixSoftwareNameLabel">
-     <property name="text">
-      <string>Преффикс названия ПО</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="suffixSoftwareNameLabel">
-     <property name="text">
-      <string>Суффикс названия ПО</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="versionLabel">
-     <property name="text">
-      <string>Версия ПО</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="styleLabel">
-     <property name="text">
-      <string>Внешний стиль</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="softwareNameLabel">
-     <property name="text">
-      <string>Название ПО</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="companyNameLabel">
-     <property name="text">
-      <string>Название компании</string>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="styleSheet">
+      <string notr="true">QTabWidget::pane
+{
+border: 0px;
+top: 0.1em;
+border-width: 1px;
+border-style: solid;
+border-color: grey;
+}</string>
      </property>
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <property name="elideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
+     <property name="usesScrollButtons">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="pluginsTab">
+      <attribute name="title">
+       <string>Плагины</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" rowspan="3">
+        <widget class="QListWidget" name="pluginsList"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="addButton">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Добавить</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="deleteButton">
+         <property name="text">
+          <string>Удалить</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="informationTab">
+      <attribute name="title">
+       <string>Информация</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="2" column="0">
+        <widget class="QLabel" name="preffixSoftwareNameLabel">
+         <property name="text">
+          <string>Преффикс названия ПО</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="companyNameLabel">
+         <property name="text">
+          <string>Название компании</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Логотип</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QToolButton" name="logoBrowserButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="suffixSoftwareNameLabel">
+         <property name="text">
+          <string>Суффикс названия ПО</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="versionLabel">
+         <property name="text">
+          <string>Версия ПО</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="softwareNameLabel">
+         <property name="text">
+          <string>Название ПО</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="styleLabel">
+         <property name="text">
+          <string>Внешний стиль</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="font">
+          <font>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="text">
+          <string>Окно Об</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="aboutNameLabel">
+         <property name="text">
+          <string>Название</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="aboutTopLabel">
+         <property name="text">
+          <string>Верхняя часть</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="QLabel" name="aboutBottomLabel">
+         <property name="text">
+          <string>Нижняя часть</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="font">
+          <font>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="text">
+          <string>Лист изменения</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="changelogLabel">
+         <property name="text">
+          <string>Измнения в ПО</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1" colspan="2">
+        <widget class="QLineEdit" name="aboutNameEdit"/>
+       </item>
+       <item row="14" column="2">
+        <widget class="QPushButton" name="acceptButton">
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Применить</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1" colspan="2">
+        <widget class="QLineEdit" name="aboutTopEdit"/>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QComboBox" name="styleBox"/>
+       </item>
+       <item row="10" column="1" colspan="2">
+        <widget class="QLineEdit" name="aboutBottomEdit"/>
+       </item>
+       <item row="14" column="1">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="12" column="1" colspan="2">
+        <widget class="QPlainTextEdit" name="changelogEdit"/>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLineEdit" name="suffixSoftwareNameEdit"/>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QLineEdit" name="logoEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="companyNameEdit"/>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="QLineEdit" name="versionEdit"/>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QLineEdit" name="preffixSoftwareNameEdit"/>
+       </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QLineEdit" name="softwareNameEdit"/>
+       </item>
+       <item row="15" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
-   </item>
-   <item row="14" column="0" colspan="3">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="3" column="2">
-    <widget class="QLineEdit" name="versionEdit"/>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLineEdit" name="suffixSoftwareNameEdit"/>
-   </item>
-   <item row="4" column="2">
-    <widget class="QLineEdit" name="softwareNameEdit"/>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="aboutTopLabel">
-     <property name="text">
-      <string>Верхняя часть</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="aboutNameLabel">
-     <property name="text">
-      <string>Название</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="aboutBottomLabel">
-     <property name="text">
-      <string>Нижняя часть</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QLineEdit" name="aboutTopEdit"/>
-   </item>
-   <item row="10" column="2">
-    <widget class="QLineEdit" name="aboutBottomEdit"/>
-   </item>
-   <item row="7" column="2">
-    <widget class="QLineEdit" name="aboutNameEdit"/>
-   </item>
-   <item row="11" column="0" colspan="3">
-    <widget class="QLabel" name="label_11">
-     <property name="text">
-      <string>Лист изменения</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="2">
-    <widget class="QComboBox" name="styleBox"/>
-   </item>
-   <item row="0" column="2">
-    <widget class="QLineEdit" name="companyNameEdit"/>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLineEdit" name="preffixSoftwareNameEdit"/>
-   </item>
-   <item row="6" column="0" colspan="3">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Окно Об</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="0">
-    <widget class="QPushButton" name="acceptButton">
-     <property name="text">
-      <string>Применить</string>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="2">
-    <widget class="QPlainTextEdit" name="changelogEdit"/>
    </item>
   </layout>
  </widget>

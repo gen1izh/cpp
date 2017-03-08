@@ -199,30 +199,10 @@ void PersonalData::on_addPromissionButton_clicked()
 {
     AddPromissionDialog *dial = new AddPromissionDialog();
 
-    if ( dial->exec() == QDialog::Accepted ) {
+    dial->setModelPromissions(m_modelPromissions);
+    dial->exec();
 
-        QDjangoQuerySet<Promission> proms;
-        bool isFind = false;
-
-        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["signature"].toString() == dial->signature()) {
-                isFind = true;
-            }
-        }
-
-        if (!isFind) {
-            m_modelPromissions->addPromission(dial->name(), dial->signature(), "");
-            m_modelPromissions->updateModel();
-        }
-        else {
-            QMessageBox msgBox;
-            msgBox.setText(tr("Разрешение с таким названием уже существует!"));
-            msgBox.exec();
-        }
-    }
-
-    delete dial;
+    dial->deleteLater();
 }
 
 void PersonalData::on_deletePromissionButton_clicked()
@@ -235,29 +215,10 @@ void PersonalData::on_addRoleButton_clicked()
 {
     AddRoleDialog *dial = new AddRoleDialog();
 
-    if ( dial->exec() == QDialog::Accepted ) {
-        QDjangoQuerySet<Role> proms;
-        bool isFind = false;
+    dial->setModelRoles(m_modelRoles);
+    dial->exec();
 
-        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "promission");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["name"].toString() == dial->name()) {
-                isFind = true;
-            }
-        }
-
-        if (!isFind) {
-            m_modelRoles->addRole(dial->name(), dial->promissions());
-            m_modelRoles->updateModel();
-        }
-        else {
-            QMessageBox msgBox;
-            msgBox.setText(tr("Роль с таким названием уже существует!"));
-            msgBox.exec();
-        }
-    }
-
-    delete dial;
+    dial->deleteLater();
 }
 
 void PersonalData::on_editRoleButton_clicked()
@@ -314,19 +275,19 @@ void PersonalData::on_deleteRoleButton_clicked()
 
 void PersonalData::on_promissionsView_clicked(const QModelIndex &index)
 {
-    QString name = m_modelPromissions->data(index, Qt::DisplayRole).toString();
+//    QString name = m_modelPromissions->data(index, Qt::DisplayRole).toString();
 
-    QDjangoQuerySet<Promission> proms;
-    proms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-    // Если запись такая одна ...
-    if (proms.size() == 1) {
-         Promission prom;
-         proms.at(0, &prom);
-         ui->infoLabel->setText(QString("Сигнатура: %1 тип: %2").arg(prom.signature()).arg(prom.constant()));
-    }
-    else {
-      QMessageBox msgBox;
-      msgBox.setText(tr("Разрешений с подобным именем больше одного!"));
-      msgBox.exec();
-    }
+//    QDjangoQuerySet<Promission> proms;
+//    proms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+//    // Если запись такая одна ...
+//    if (proms.size() == 1) {
+//         Promission prom;
+//         proms.at(0, &prom);
+//         ui->infoLabel->setText(QString("Сигнатура: %1 тип: %2").arg(prom.signature()).arg(prom.constant()));
+//    }
+//    else {
+//      QMessageBox msgBox;
+//      msgBox.setText(tr("Разрешений с подобным именем больше одного!"));
+//      msgBox.exec();
+//    }
 }

@@ -21,6 +21,12 @@ protected:
 private slots:
     void on_acceptButton_clicked();
 
+    void on_addButton_clicked();
+
+    void on_deleteButton_clicked();
+
+    void on_logoBrowserButton_clicked();
+
 private:
     Ui::OptionsForm *ui;
 };

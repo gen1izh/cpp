@@ -4,10 +4,7 @@
 #
 #-------------------------------------------------
 
-# Общие конфигурационные настройки для модулей/плагинов
-
-
-include(../../klever_software/klever_software.pri)
+include(../klever_software/klever_software.pri)
 
 TEMPLATE = lib
 CONFIG  += dll

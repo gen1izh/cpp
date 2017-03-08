@@ -90,6 +90,16 @@ void MainQDjangoModel::setStyle(const QString &style)
     m_style = style;
 }
 
+QString MainQDjangoModel::logo() const
+{
+    return m_logo;
+}
+
+void MainQDjangoModel::setLogo(const QString &logo)
+{
+    m_logo = logo;
+}
+
 QString MainQDjangoModel::company()
 {
     return m_company;

@@ -117,6 +117,24 @@ namespace Core {
          * \brief Создание коннекторов
          */
         void createConnectors();
+
+        /*!
+         * \brief Подгржает список плагинов из БД
+         * \return
+         */
+        QStringList LoadListFromDatabase();
+
+        /*!
+         * \brief Добавляем в список плагинов новый плагин
+         * \return
+         */
+        void AddNewPluginDatabase(const QString &plugin_name);
+
+        /*!
+         * \brief Удаляем плагин из списка плагинов
+         * \param plugin_name
+         */
+        void DeletePluginFromDatabase(const QString &plugin_name);
     };
 
 }

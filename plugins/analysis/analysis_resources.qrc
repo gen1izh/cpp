@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/analysisplugin">
+        <file>img/plugin.png</file>
+    </qresource>
+</RCC>

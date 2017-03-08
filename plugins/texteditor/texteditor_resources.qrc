@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/texteditorplugin">
+        <file>img/plugin.png</file>
+    </qresource>
+</RCC>

@@ -108,7 +108,9 @@ QMdiSubWindow *Core::KleverGui::findMdiChild( QString id ) {
  * Восстановить позиции доков
  */
 void Core::KleverGui::restoreDocksPosition() {
-  QSettings settings(Information::instance().company(), QString("%1_%2").arg(Information::instance().mainTitleApp()).arg(Information::instance().version()));
+  QSettings settings(Information::instance().company(),
+                     QString("%1_%2").arg(Information::instance().mainTitleApp())
+                     .arg(Information::instance().version()));
   bool res = m_mainwindow->restoreGeometry(settings.value("geometry").toByteArray());
   if (!res) {
     Library::LoggerApi::logError(this,"Восстановление геометрии не выполнено!");
@@ -171,11 +173,20 @@ void Core::KleverGui::splashMessage(QString txt) {
  * Инициализация сплеш скрина
  */
 void Core::KleverGui::initializeSplashScreen() {
-  QPixmap pixmap(":/images/logo.png");
-  _splash = new QSplashScreen();
-  _splash->setPixmap(pixmap);
-  _splash->show();
-  _splash->showMessage(QString("Запуск приложения"));
+
+    QPixmap pixmap;
+
+    if(Information::instance().logo() != "default") {
+        pixmap.load(QCoreApplication::applicationDirPath() + "/" + Information::instance().logo());
+    }
+    else {
+        pixmap.load(":/images/logo.png");
+    }
+
+    _splash = new QSplashScreen();
+    _splash->setPixmap(pixmap);
+    _splash->show();
+    _splash->showMessage(QString("Запуск приложения"));
 }
 
 /*

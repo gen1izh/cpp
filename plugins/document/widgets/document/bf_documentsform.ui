@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BF_DocumentsForm</class>
+ <widget class="QWidget" name="BF_DocumentsForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>990</width>
+    <height>682</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Документирование</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/img/img/documentation.png</normaloff>:/img/img/documentation.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Управление</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="editButton">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Открыть 
+ редактор</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="generateDocumentsButton">
+        <property name="text">
+         <string>Сгенерировать 
+ документацию</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Приложение</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLineEdit" name="appendixNameEdit">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="createAppendixButton">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Создать</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="deleteAppendixButton">
+           <property name="text">
+            <string>Удалить </string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Определения</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QPushButton" name="glossaryButton">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Глоссарий</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="terminButton">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Термины</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Результат генерации:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="documentTreeWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <family>MS Shell Dlg 2</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <column>
+      <property name="text">
+       <string>Название документа</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Спецификация требований</string>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Описание ПО</string>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Руководство пользователя</string>
+      </property>
+      <property name="icon">
+       <iconset resource="images.qrc">
+        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Информация о ПО</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Общие сведения</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Назначение ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Язык программирования</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Средства компиляции и сборки проекта</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Перечень ссылочных документов</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Функциональные ограничения на применение</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Необходимые и достаточные условия эксплуатации ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Вызов и загрузка ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Установка ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Работа с ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Завершение ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Графический интерфейс ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Сообщения пользователю</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Приложения</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QPlainTextEdit" name="logEdit">
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

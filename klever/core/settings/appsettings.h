@@ -18,11 +18,11 @@ class AppSettings : public QWidget {
   /*!
    * \brief Контент настроек
    */
-  QListWidget     *_contentsWidget;
+  QListWidget     *m_contentsWidget;
   /*!
    * \brief Страницы настроек
    */
-  QStackedWidget  *_pagesWidget;
+  QStackedWidget  *m_pagesWidget;
 
   public:
     /*!

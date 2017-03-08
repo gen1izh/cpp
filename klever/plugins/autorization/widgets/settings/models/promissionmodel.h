@@ -6,8 +6,6 @@
 class PromissionModel : public QStringListModel
 {
 
-  QSqlDatabase m_db;
-
 public:
   PromissionModel();
   ~PromissionModel();

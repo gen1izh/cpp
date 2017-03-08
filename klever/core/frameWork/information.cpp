@@ -22,6 +22,16 @@ void Information::setStyle(const QString &style)
     m_style = style;
 }
 
+QString Information::logo() const
+{
+    return m_logo;
+}
+
+void Information::setLogo(const QString &name)
+{
+    m_logo = name;
+}
+
 Information &Information::instance()
 {
     static Information info;
@@ -40,7 +50,7 @@ void Information::setIsDataReaded(bool isDataReaded)
 
 bool Information::readApplicationInformation()
 {
-    m_db = QSqlDatabase::database("information");
+    QSqlDatabase m_db = QSqlDatabase::database("information");
     if (m_db.driverName()!="QSQLITE") {
         m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
     }
@@ -57,11 +67,8 @@ bool Information::readApplicationInformation()
     }
     else {
         QDjango::setDatabase(m_db);
-
         QDjango::registerModel<MainQDjangoModel>();
-
         QDjango::createTables();
-
         QDjangoQuerySet<MainQDjangoModel> allModelRecords;
 
         // Если запись 1 одна есть,значит настройки записаны и их нужно считать,
@@ -76,7 +83,8 @@ bool Information::readApplicationInformation()
                                                                       << "aboutMessageTitle"
                                                                       << "aboutMessageTop"
                                                                       << "aboutMessageBottom"
-                                                                      << "style");
+                                                                      << "style"
+                                                                      << "logo");
             foreach (const QVariantMap &propertyMap, propertyMaps) {
                 setCompany(propertyMap["company"].toString());
                 setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
@@ -89,6 +97,7 @@ bool Information::readApplicationInformation()
                 setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
                 setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
                 setIsDataReaded(true);
+                setLogo(propertyMap["logo"].toString());
                 return true;
             }
         }
@@ -103,7 +112,7 @@ bool Information::readApplicationInformation()
 
 void Information::saveApplicationInformation()
 {
-    m_db = QSqlDatabase::database("information");
+    QSqlDatabase m_db = QSqlDatabase::database("information");
     if (m_db.driverName()!="QSQLITE") {
         m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
     }
@@ -135,7 +144,7 @@ void Information::saveApplicationInformation()
         information->setAboutMessageTitle(m_aboutMessageTitle);
         information->setAboutMessageTop(m_aboutMessageTop);
         information->setAboutMessageBottom(m_aboutMessageBottom);
-
+        information->setLogo(m_logo);
         information->save();
     }
     m_db.close();

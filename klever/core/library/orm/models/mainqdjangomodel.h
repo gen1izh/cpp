@@ -8,17 +8,6 @@ class MainQDjangoModel : public QDjangoModel
 
     Q_OBJECT
 
-    QString m_company;
-    QString m_softwareNamePrefix;
-    QString m_softwareNameSuffix;
-    QString m_version;
-    QString m_mainTitleApp;
-    QString m_changelog;
-    QString m_aboutMessageTitle;
-    QString m_aboutMessageTop;
-    QString m_aboutMessageBottom;
-    QString m_style;
-
     Q_PROPERTY(QString company READ company WRITE setCompany)
     Q_CLASSINFO("company", "max_length=255")
 
@@ -48,6 +37,9 @@ class MainQDjangoModel : public QDjangoModel
 
     Q_PROPERTY(QString aboutMessageBottom READ aboutMessageBottom WRITE setAboutMessageBottom)
     Q_CLASSINFO("aboutMessageBottom", "max_length=1024")
+
+    Q_PROPERTY(QString logo READ logo WRITE setLogo)
+    Q_CLASSINFO("logo", "max_length=64")
 
 public:
 
@@ -80,6 +72,22 @@ public:
 
     QString style() const;
     void setStyle(const QString &style);
+
+    QString logo() const;
+    void setLogo(const QString &logo);
+
+private:
+    QString m_company;
+    QString m_softwareNamePrefix;
+    QString m_softwareNameSuffix;
+    QString m_version;
+    QString m_mainTitleApp;
+    QString m_changelog;
+    QString m_aboutMessageTitle;
+    QString m_aboutMessageTop;
+    QString m_aboutMessageBottom;
+    QString m_style;
+    QString m_logo;
 };
 
 #endif // MAIN_QDJANGO_MODEL_H

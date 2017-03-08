@@ -8,7 +8,7 @@
 class TubeManager;
 
 #include <frameWork/base.h>
-#include "widgets/settings/tubesettingswidget.h"
+#include "widgets/settings/settingsform.h"
 
 class TubeManager : public QObject, public PluginInterface {
 
@@ -20,7 +20,7 @@ class TubeManager : public QObject, public PluginInterface {
   /*!
    * brief Виджет настроек
    */
-  TubeSettings *_settings;
+  SettingsForm *m_settings;
 
 public:
 
@@ -39,7 +39,7 @@ public:
    * brief Возвращает виджет настроек плагина
    * return
    */
-  QWidget *getSettingPage();
+  QWidget *settingPage();
 
   /*!
    * brief Возвращает иконку для настроек
@@ -60,7 +60,7 @@ public:
   /*!
    * \brief Информация о плагине
    */
-  QString getInformation();
+  QString information();
 
   /*!
    * brief Деинициализация элементов плагина

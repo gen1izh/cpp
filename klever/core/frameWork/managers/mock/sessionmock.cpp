@@ -28,7 +28,7 @@ QIcon SessionMock::settingIcon()
     return QIcon();
 }
 
-QWidget *SessionMock::getSettingPage()
+QWidget *SessionMock::settingPage()
 {
     _wgt = new QWidget();
     return _wgt;

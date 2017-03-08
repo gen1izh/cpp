@@ -12,7 +12,7 @@
 PromissionModel::PromissionModel()
 {
 
-    m_db = QSqlDatabase::database("autorization");
+    QSqlDatabase m_db = QSqlDatabase::database("autorization");
     if (m_db.driverName()!="QSQLITE") {
         m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
     }
@@ -53,50 +53,101 @@ PromissionModel::PromissionModel()
 
         addPromission( tr("Возможность работать в отладочном режиме"), "DEBUG_MODE",                    "CONST" );
     }
+
+    m_db.close();
 }
 
 PromissionModel::~PromissionModel()
 {
-    m_db.close();
 }
 
 QStringList PromissionModel::selectAllPromission()
 {
-    QDjangoQuerySet<Promission> proms;
     QStringList tmp;
-
     tmp.clear();
 
-    QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        tmp.append(propertyMap["name"].toString());
+    QSqlDatabase m_db = QSqlDatabase::database("autorization");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
     }
+
+    QString path = QString("%1/%2")
+            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Promission>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Promission> proms;
+
+        QList<QVariantMap> propertyMaps =
+                proms.values(QStringList() << "name" << "signature" << "constant");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            tmp.append(propertyMap["name"].toString());
+        }
+    }
+
+    m_db.close();
 
     return tmp;
 }
 
 void PromissionModel::addPromission(QString name, QString signature, QString constant) {
 
-    QDjangoQuerySet<Promission> proms;
+    QSqlDatabase m_db = QSqlDatabase::database("autorization");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    }
 
-    bool isFind = false;
+    QString path = QString("%1/%2")
+            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if ((propertyMap["signature"].toString() == signature) &&
-            (propertyMap["constant"].toString() == "CONST") &&
-            (constant == "CONST")) {
-          isFind = true;
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+
+        QDjangoQuerySet<Promission> proms;
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Promission>();
+        QDjango::createTables();
+
+        bool isFind = false;
+
+        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if ((propertyMap["signature"].toString() == signature) &&
+                    (propertyMap["constant"].toString() == "CONST") &&
+                    (constant == "CONST")) {
+                isFind = true;
+            }
+        }
+
+        if (!isFind) {
+            Promission *proms = new Promission;
+            proms->setName(name);
+            proms->setSignature(signature);
+            proms->setConstant(constant);
+
+            proms->save();
         }
     }
 
-    if (!isFind) {
-      Promission *proms = new Promission;
-      proms->setName(name);
-      proms->setSignature(signature);
-      proms->setConstant(constant);
-      proms->save();
-    }
+    m_db.close();
 }
 
 void PromissionModel::updateModel()
@@ -112,20 +163,44 @@ void PromissionModel::deletePromission(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QDjangoQuerySet<Promission> proms;
-    QDjangoQuerySet<Promission> someProms;
-    someProms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    QSqlDatabase m_db = QSqlDatabase::database("autorization");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    }
 
-    QList<QVariantMap> propertyMaps = someProms.values(QStringList() << "name" << "signature" << "constant");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if (propertyMap["constant"].toString() != "CONST") {
-          someProms.remove();
-        }
-        else {
-          QMessageBox msgBox;
-          msgBox.setText(tr("Вы пытаетесь удалить системное разрешение!"));
-          msgBox.exec();
+    QString path = QString("%1/%2")
+            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Promission>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Promission> proms;
+        QDjangoQuerySet<Promission> someProms;
+        someProms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+
+        QList<QVariantMap> propertyMaps = someProms.values(QStringList() << "name" << "signature" << "constant");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["constant"].toString() != "CONST") {
+                someProms.remove();
+            }
+            else {
+                QMessageBox msgBox;
+                msgBox.setText(tr("Вы пытаетесь удалить системное разрешение!"));
+                msgBox.exec();
+            }
         }
     }
+
+    m_db.close();
 
 }

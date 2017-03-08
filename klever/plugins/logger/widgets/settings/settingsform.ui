@@ -1,21 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <author/>
- <comment/>
- <exportmacro/>
  <class>SettingsForm</class>
- <widget name="SettingsForm" class="QWidget">
+ <widget class="QWidget" name="SettingsForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>428</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0" colspan="3">
+    <widget class="QListWidget" name="loggerListWidget"/>
+   </item>
+   <item row="4" column="0">
+    <widget class="QPushButton" name="acceptButton">
+     <property name="text">
+      <string>Применить</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Текущий журнал</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="currentLoggerNameEdit"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QPushButton" name="addNewLoggerButton">
+     <property name="text">
+      <string>Добавить журнал</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
- <pixmapfunction/>
+ <resources/>
  <connections/>
 </ui>

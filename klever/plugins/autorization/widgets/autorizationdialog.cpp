@@ -23,7 +23,7 @@ AutorizationDialog::~AutorizationDialog()
 
 void AutorizationDialog::showEvent(QShowEvent *event)
 {
-
+Q_UNUSED(event)
     QString sessionName = Core::Base::instance().getParameterValue(QString("[Session]Name"),
                                                                    QString(""));
 

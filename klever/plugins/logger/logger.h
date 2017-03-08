@@ -38,19 +38,20 @@ class Logger : public QObject, public ILoggerPlugin {
     Q_PLUGIN_METADATA(IID ILoggerPlugin_iid FILE "logger.json")
     Q_INTERFACES(ILoggerPlugin)
 
+
     /*!
-   * \brief Класс настроек журналов
-   */
+     * \brief Класс настроек журналов
+     */
     SettingsForm *m_settings;
 
     /*!
-   * \brief Действия для открытия просмотрщика журналов
-   */
+     * \brief Действия для открытия просмотрщика журналов
+     */
     QAction *m_watcherAction;
 
     /*!
-   * \brief Указатель на обретку журнала- скриптапи
-   */
+     * \brief Указатель на обретку журнала- скриптапи
+     */
     LogerScriptApi *m_scripts;
 
     /*!
@@ -68,7 +69,7 @@ public:
      * \brief Возвращает указатель на форму настроек
      * \return
      */
-    QWidget *getSettingPage();
+    QWidget *settingPage();
 
     /*!
      * \brief Создание виджетов плагина
@@ -88,7 +89,7 @@ public:
     /*!
      * \brief Информация о плагине
      */
-    QString getInformation();
+    QString information();
 
     /*!
      * \brief Возвращает иконку для настроек

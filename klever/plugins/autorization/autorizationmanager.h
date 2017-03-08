@@ -47,7 +47,7 @@ public:
      * \brief Возвращает виджет настроек плагина
      * return
      */
-    QWidget *getSettingPage();
+    QWidget *settingPage();
 
     /*!
      * brief Возвращает иконку для настроек
@@ -68,7 +68,7 @@ public:
     /*!
      * \brief Информация о плагине
      */
-    QString getInformation();
+    QString information();
 
     /*!
      * \brief Деинициализация элементов плагина

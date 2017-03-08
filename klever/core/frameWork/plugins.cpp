@@ -62,6 +62,119 @@ IAutorizationManager *Core::Plugins::autorization() const {
     return m_iautorizationmanager;
 }
 
+// Подгржает список плагинов из БД
+QStringList Core::Plugins::LoadListFromDatabase() {
+
+    QStringList list;
+
+    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<PluginsQDjangoModel>();
+        QDjango::createTables();
+        QDjangoQuerySet<PluginsQDjangoModel> plugins;
+
+        foreach (const PluginsQDjangoModel &plugin, plugins) {
+            if (!plugin.name().trimmed().isEmpty()) {
+                list << plugin.name();
+            }
+        }
+
+    }
+    m_db.close();
+
+    return list;
+}
+
+// Удаляем плагин из списка плагинов
+void Core::Plugins::DeletePluginFromDatabase(const QString &plugin_name) {
+
+    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<PluginsQDjangoModel>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<PluginsQDjangoModel> plugins;
+        plugins = plugins.filter(QDjangoWhere("name", QDjangoWhere::Equals, plugin_name) );
+        plugins.remove();
+
+    }
+    m_db.close();
+}
+
+// Добавляем в список плагинов новый плагин
+void Core::Plugins::AddNewPluginDatabase(const QString &plugin_name) {
+
+    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+    }
+    else {
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<PluginsQDjangoModel>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<PluginsQDjangoModel> plugins;
+
+        bool isFind = false;
+        foreach (const PluginsQDjangoModel &plugin, plugins) {
+
+                if (plugin.name() == plugin_name) {
+                    isFind = true;
+                    break;
+                }
+        }
+
+        if (!isFind) {
+            QScopedPointer<PluginsQDjangoModel> newPlugin(new PluginsQDjangoModel());
+            newPlugin.data()->setName(plugin_name);
+            newPlugin.data()->save();
+        }
+        else {
+            // TODO... message
+        }
+    }
+    m_db.close();
+
+}
+
 
 // Инициализация плагинов.
 int Core::Plugins::load() {
@@ -71,13 +184,21 @@ int Core::Plugins::load() {
     // Формирование списка плагинов для загрузки по-умолчанию.
     QStringList  defaultPlugins;
     defaultPlugins << "session" << "logger" << "tube" << "autorization";
+    AddNewPluginDatabase("session");
+    AddNewPluginDatabase("logger");
+    AddNewPluginDatabase("tube");
+    AddNewPluginDatabase("autorization");
 
     // Формирование списка плагинов для загрузки. Из списка плагинов.
     QStringList  customPlugins;
-    customPlugins.clear();  // TODO: надо сделать загрузку из БД.
+    customPlugins.clear();
+
+    customPlugins = LoadListFromDatabase();
 
     // Теперь customPlugins содержит оба списка.
     customPlugins += defaultPlugins;
+
+    customPlugins.removeDuplicates();
 
     // Пробегаемся по всем плагинам.
     foreach (QString pluginName, customPlugins) {

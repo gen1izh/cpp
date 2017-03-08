@@ -85,7 +85,7 @@ class SessionManager : public QObject, public ISessionPlugin
          * \brief Возвращает указатель на виджет настроек
          * \return
          */
-        QWidget *getSettingPage();
+        QWidget *settingPage();
 
         /*!
          * \brief Возвращает иконку для настроек
@@ -96,7 +96,7 @@ class SessionManager : public QObject, public ISessionPlugin
         /*!
          * \brief Информация о плагине
          */
-        QString getInformation();
+        QString information();
 
         /*!
          * \brief Деинициализация элементов плагина сессии

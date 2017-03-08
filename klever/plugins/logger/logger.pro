@@ -12,7 +12,12 @@ HEADERS += \
     loggerexport.h \
     logger.h \
     lthread.h \
-    widgets/watcherform.h
+    widgets/watcherform.h \
+    widgets/models/loggermodel.h \
+    widgets/models/loggerqdjangomodel.h \
+    widgets/wthread.h \
+    widgets/models/loggersettingsmodel.h \
+    widgets/models/loggersettingsqdjangomodel.h
 
 # Исходные коды
 SOURCES += \
@@ -21,7 +26,12 @@ SOURCES += \
     widgets/loggerform.cpp \
     logger.cpp \
     lthread.cpp \
-    widgets/watcherform.cpp
+    widgets/watcherform.cpp \
+    widgets/models/loggermodel.cpp \
+    widgets/models/loggerqdjangomodel.cpp \
+    widgets/wthread.cpp \
+    widgets/models/loggersettingsmodel.cpp \
+    widgets/models/loggersettingsqdjangomodel.cpp
 
 DISTFILES += \
     logger.json

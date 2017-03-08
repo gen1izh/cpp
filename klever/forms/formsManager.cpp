@@ -13,9 +13,6 @@ FormsManager::FormsManager() {
 }
 
 
-/*
- * Создание коннекторов
- */
 void FormsManager::createConnections() {
     if (Core::Plugins::instance().isPluginExist(tr("logger"))) {
         connect( getManagerAction_FromWAPair(tr("logger"),

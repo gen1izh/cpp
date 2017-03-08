@@ -57,7 +57,7 @@ void SessionManager::createConnectors()
     // TODO: ...
 }
 
-QWidget *SessionManager::getSettingPage()
+QWidget *SessionManager::settingPage()
 {
     QWidget* wgt=static_cast<QWidget *>(m_setting);
     return wgt;
@@ -68,7 +68,7 @@ QIcon SessionManager::settingIcon()
     return QIcon(":/images/settings/sessions.png");
 }
 
-QString SessionManager::getInformation()
+QString SessionManager::information()
 {
     QString msg = "session";
 

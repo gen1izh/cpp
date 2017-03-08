@@ -19,6 +19,8 @@ public:
   QString group() const;
   QString password() const;
 
+protected:
+  void showEvent(QShowEvent *);
 private slots:
   void on_addButton_clicked();
 

@@ -23,3 +23,13 @@ release
 /klever/managers/sessions/object_script.sessions.Release
 /klever/forms/frontends/object_script.formsManager.Debug
 /klever/forms/frontends/object_script.formsManager.Release
+/klever/plugins/logger/object_script.logger.Debug
+/klever/plugins/logger/object_script.logger.Release
+/klever/app/.qmake.stash
+/klever/core/.qmake.stash
+/klever/forms/.qmake.stash
+/klever/klever_software/.qmake.stash
+/klever/klever_software/klever_software.pro.user
+/klever/plugins/.qmake.stash
+/klever/plugins/sessions/object_script.session.Debug
+/klever/plugins/sessions/object_script.session.Release

@@ -4,7 +4,7 @@
 /*!
  * \brief   Менеджер форм.
  * \details Данный менеджер позволяет соединить действия экшенов
- * и открытия конкретных форм, создать доки, панель быстрого запуска и галвное
+ * и открытия конкретных форм, создать доки, панель быстрого запуска и главное
  * меню. Таким образом данный менеджер формирует ГИП ПО.
  * \date    2015
  */
@@ -20,31 +20,21 @@
 
 class FormsManager : public IFormManager {
 
-  Q_OBJECT
-  Q_PLUGIN_METADATA(IID IFormManager_iid FILE "formsManager.json")
-  Q_INTERFACES(IFormManager)
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID IFormManager_iid FILE "formsManager.json")
+    Q_INTERFACES(IFormManager)
 
-   /*!
+    /*!
    * \brief Dock журнала
    */
-  QDockWidget *m_loggerDock;
+    QDockWidget *m_loggerDock;
 
-  /*!
+    /*!
    * \brief Меню плагинов
    */
-  QMenu *m_pluginsMenu;
+    QMenu *m_pluginsMenu;
 
-  /*!
-   * \brief Создание действий
-   */
-  void createActions();
-
-  /*!
-   * \brief Создание коннекторов
-   */
-  void createConnections();
-
-  public:
+public:
 
     FormsManager();
     ~FormsManager() {}
@@ -60,6 +50,16 @@ class FormsManager : public IFormManager {
     void createToolBar();
 
     /*!
+     * \brief Создание действий
+     */
+    void createActions();
+
+    /*!
+     * \brief Создание коннекторов
+     */
+    void createConnections();
+
+    /*!
      * \brief Создает docks
      * \param[in] docksList - список docks
      */
@@ -68,7 +68,7 @@ class FormsManager : public IFormManager {
 
 public slots:
 
-/*******************************************************************************
+    /*******************************************************************************
  *                              Функции открытия окон
  *******************************************************************************/
 

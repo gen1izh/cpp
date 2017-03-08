@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>BF_AnalizeForm</class>
+ <widget class="QWidget" name="BF_AnalizeForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>994</width>
+    <height>549</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Анализ</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/img/img/analyze.png</normaloff>:/img/img/analyze.png</iconset>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTreeWidget" name="analyzeTreeWidget">
+     <property name="font">
+      <font>
+       <family>MS Shell Dlg 2</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideRight</enum>
+     </property>
+     <attribute name="headerCascadingSectionResizes">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="headerDefaultSectionSize">
+      <number>350</number>
+     </attribute>
+     <attribute name="headerMinimumSectionSize">
+      <number>350</number>
+     </attribute>
+     <attribute name="headerShowSortIndicator" stdset="0">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="headerStretchLastSection">
+      <bool>false</bool>
+     </attribute>
+     <column>
+      <property name="text">
+       <string>Название</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Компонент</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Модуль</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>Бизнес-требования</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Видение</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Предметная область</string>
+       </property>
+      </item>
+     </item>
+     <item>
+      <property name="text">
+       <string>Пользовательские требования</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Функциональные требования</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Нефункциональные требования</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Общие требования</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Бизнес-правила</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Системные требования</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к документированию</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к дизаину ГИП</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к безопасности и надежности</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к производительности</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к устойчивости к сбоям</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к эксплуатации и персоналу</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к внутреннему состоянию</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к отладке</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования использования ПО</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к аппаратуре</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Требования к стороннему ПО</string>
+       </property>
+      </item>
+     </item>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="BF_AnalizeControlBox">
+     <property name="title">
+      <string>Управление</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QPushButton" name="onEditorButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Редактор</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="updateButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Обновить</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QGroupBox" name="RequirementsBox">
+        <property name="title">
+         <string>ПТ и ФТ</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QPushButton" name="editButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Редактировать</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="deleteButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Удалить</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="addButton">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="text">
+            <string>Добавить</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -66,7 +66,7 @@ void AutorizationManager::finalize() {
 /*
  * Возвращает виджет настроек плагина
  */
-QWidget *AutorizationManager::getSettingPage() {
+QWidget *AutorizationManager::settingPage() {
     QWidget* wgt=static_cast<QWidget *>(_settings);
     return wgt;
 }
@@ -88,7 +88,7 @@ void AutorizationManager::createConnectors()
     // TODO: ...
 }
 
-QString AutorizationManager::getInformation()
+QString AutorizationManager::information()
 {
     QString msg = "auto";
 

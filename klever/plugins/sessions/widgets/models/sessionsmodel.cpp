@@ -10,7 +10,7 @@
 
 SessionsModel::SessionsModel()
 {
-    m_db = QSqlDatabase::database("sessions");
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
     if (m_db.driverName()!="QSQLITE") {
         m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
     }
@@ -29,28 +29,51 @@ SessionsModel::SessionsModel()
 
         QDjango::setDatabase(m_db);
         QDjango::registerModel<Sessions>();
-
         QDjango::createTables();
     }
 
+    m_db.close();
+
 }
 
-SessionsModel::~SessionsModel()
-{
-    m_db.close();
-}
+SessionsModel::~SessionsModel(){}
 
 QStringList SessionsModel::selectAllSessions()
 {
-    QDjangoQuerySet<Sessions> proms;
     QStringList tmp;
 
     tmp.clear();
 
-    QList<QVariantMap> propertyMaps = proms.values(QStringList() <<  "name");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        tmp.append(propertyMap["name"].toString());
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
     }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+        QDjangoQuerySet<Sessions> proms;
+
+
+        QList<QVariantMap> propertyMaps = proms.values(QStringList() <<  "name");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            tmp.append(propertyMap["name"].toString());
+        }
+    }
+
+    m_db.close();
 
     return tmp;
 }
@@ -60,14 +83,39 @@ QStringList SessionsModel::selectAllSessions()
  */
 QString SessionsModel::getSessionInformation(const QString &name)
 {
-    QDjangoQuerySet<Sessions> sessions;
 
-    QList<QVariantMap> propertyMaps = sessions.values(QStringList() <<  "name" << "information");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-       if (propertyMap["name"].toString() == name) {
-          return propertyMap["information"].toString();
-       }
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
     }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Sessions> sessions;
+
+        QList<QVariantMap> propertyMaps = sessions.values(QStringList() <<  "name" << "information");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["name"].toString() == name) {
+                return propertyMap["information"].toString();
+            }
+        }
+    }
+
+    m_db.close();
 
     return QString("");
 }
@@ -77,40 +125,88 @@ QString SessionsModel::getSessionInformation(const QString &name)
  */
 void SessionsModel::setSessionInformation(const QString &name, const QString &information)
 {
-    QDjangoQuerySet<Sessions> sessions;
 
-    Sessions session;
-    for (int i = 0; i < sessions.size(); ++i) {
-        if (sessions.at(i, &session)) {
-            if (session.name() == name) {
-                session.setInformation(information);
-                session.save();
-                break;
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
+    }
+
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+        QDjangoQuerySet<Sessions> sessions;
+
+        Sessions session;
+        for (int i = 0; i < sessions.size(); ++i) {
+            if (sessions.at(i, &session)) {
+                if (session.name() == name) {
+                    session.setInformation(information);
+                    session.save();
+                    break;
+                }
             }
         }
     }
+
+    m_db.close();
 }
 
 void SessionsModel::addSession(QString name, QString parameters) {
 
-    QDjangoQuerySet<Sessions> sessions;
 
-    bool isFind = false;
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
+    }
 
-    QList<QVariantMap> propertyMaps = sessions.values(QStringList() << "name");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if (propertyMap["name"].toString() == name) {
-            isFind = true;
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Sessions> sessions;
+
+        bool isFind = false;
+
+        QList<QVariantMap> propertyMaps = sessions.values(QStringList() << "name");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["name"].toString() == name) {
+                isFind = true;
+            }
+        }
+
+        if (!isFind) {
+            Sessions *session = new Sessions;
+            session->setName(name);
+            session->setParameters(parameters);
+            session->setInformation("");
+            session->save();
         }
     }
-
-    if (!isFind) {
-        Sessions *session = new Sessions;
-        session->setName(name);
-        session->setParameters(parameters);
-        session->setInformation("");
-        session->save();
-    }
+    m_db.close();
 }
 
 void SessionsModel::updateModel()
@@ -123,16 +219,40 @@ void SessionsModel::deleteSession(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QDjangoQuerySet<Sessions> sessions;
-    QDjangoQuerySet<Sessions> someSession;
-    someSession = sessions.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
+    }
 
-    QList<QVariantMap> propertyMaps = someSession.values(QStringList() << "name" << "parameters");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        if (propertyMap["name"].toString() == name) {
-            someSession.remove();
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Sessions> sessions;
+        QDjangoQuerySet<Sessions> someSession;
+        someSession = sessions.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+
+        QList<QVariantMap> propertyMaps = someSession.values(QStringList() << "name" << "parameters");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            if (propertyMap["name"].toString() == name) {
+                someSession.remove();
+            }
         }
     }
+
+    m_db.close();
 
 }
 
@@ -140,32 +260,58 @@ void SessionsModel::dublicateSession(const QModelIndex &index, const QString &cl
 {
     QString name = data(index, Qt::DisplayRole).toString();
 
-    QDjangoQuerySet<Sessions> sessions;
 
-    Sessions session;
-
-    for (int i = 0; i < sessions.size(); ++i) {
-        if (sessions.at(i, &session)) {
-            if (session.name() == cloneName) {
-                messageLibrary msg;
-                msg.createErrorMessage("Ошибка", "Имя копии уже существует, выберите другое имя!");
-                return;
-            }
-        }
+    QSqlDatabase m_db = QSqlDatabase::database("sessions");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "sessions");
     }
 
-    for (int i = 0; i < sessions.size(); ++i) {
-        if (sessions.at(i, &session)) {
-            if (session.name() == name) {
-                Sessions clone;
-                clone.setName(cloneName);
-                clone.setParameters(session.parameters());
-                clone.setInformation(session.information());
-                clone.save();
-                break;
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__sessions");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<Sessions>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<Sessions> sessions;
+
+        Sessions session;
+
+        for (int i = 0; i < sessions.size(); ++i) {
+            if (sessions.at(i, &session)) {
+                if (session.name() == cloneName) {
+                    messageLibrary msg;
+                    msg.createErrorMessage("Ошибка", "Имя копии уже существует, выберите другое имя!");
+                    return;
+                }
             }
         }
+
+        for (int i = 0; i < sessions.size(); ++i) {
+            if (sessions.at(i, &session)) {
+                if (session.name() == name) {
+                    Sessions clone;
+                    clone.setName(cloneName);
+                    clone.setParameters(session.parameters());
+                    clone.setInformation(session.information());
+                    clone.save();
+                    break;
+                }
+            }
+        }
+
+        updateModel();
+
     }
 
-    updateModel();
+    m_db.close();
 }

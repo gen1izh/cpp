@@ -3,26 +3,38 @@
 
 #include <QDialog>
 
+#include "models/rolemodel.h"
+
 namespace Ui {
 class AddRoleDialog;
 }
 
 class AddRoleDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
+
+    RoleModel        *m_modelRoles;
 
 public:
-  explicit AddRoleDialog(QWidget *parent = 0);
-  ~AddRoleDialog();
+    explicit AddRoleDialog(QWidget *parent = 0);
+    ~AddRoleDialog();
 
-  QString name() const;
-  QString promissions() const;
+    QString name() const;
+    QString promissions() const;
+
+    RoleModel *modelRoles() const;
+    void setModelRoles(RoleModel *modelRoles);
+
+protected:
+    void showEvent(QShowEvent *);
 
 private slots:
-  void on_addButton_clicked();
+    void on_addButton_clicked();
+
+    void on_buttonBox_accepted();
 
 private:
-  Ui::AddRoleDialog *ui;
+    Ui::AddRoleDialog *ui;
 };
 
 #endif // ADDROLEDIALOG_H

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/setting">
+        <file>img/project_manager.png</file>
+    </qresource>
+</RCC>

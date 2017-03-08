@@ -44,7 +44,7 @@ public:
     return QIcon();
   }
 
-  QWidget *getSettingPage() {
+  QWidget *settingPage() {
     _wgt = new QWidget();
     return _wgt;
   }
