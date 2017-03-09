@@ -14,7 +14,7 @@ class texteditorPlugin : public QObject, public PluginInterface {
     Q_INTERFACES(PluginInterface)
 
 
-    texteditorSettings *m_settings;
+    texteditorSettings *m_settings = NULL;
 
 public:
 
@@ -44,7 +44,7 @@ public:
     /*!
    * brief Создание действий
    */
-    void createActions(){}
+    void createActions();
 
     /*!
    * brief Созданией коннекторов

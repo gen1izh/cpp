@@ -16,8 +16,9 @@ DeployBuildMdiChild::DeployBuildMdiChild() {
   grid->setContentsMargins(1,1,1,1);
   this->setContentsMargins(1,1,1,1);
   setLayout(grid);
-  setWindowTitle("Сборка установщика");
+  setWindowTitle(wgt->windowTitle());
   setWindowIcon(wgt->windowIcon());
+  setMinimumSize(1000, 550);
 }
 
 DeployBuildMdiChild::~DeployBuildMdiChild() {

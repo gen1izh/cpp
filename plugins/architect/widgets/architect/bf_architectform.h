@@ -22,6 +22,8 @@ public:
     explicit BF_ArchitectForm(QWidget *parent = 0);
     ~BF_ArchitectForm();
 
+protected:
+    void showEvent(QShowEvent *event);
 private slots:
     void on_editArchitectElementButton_clicked();
 
@@ -45,6 +47,8 @@ private slots:
     void on_changeButton_clicked();
 
     void on_saveAliasButton_clicked();
+
+    void on_editorButton_clicked();
 
 private:
     Ui::BF_ArchitectForm *ui;

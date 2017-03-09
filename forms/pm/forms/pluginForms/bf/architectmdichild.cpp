@@ -16,8 +16,9 @@ ArchitectMdiChild::ArchitectMdiChild() {
   grid->setContentsMargins(1,1,1,1);
   this->setContentsMargins(1,1,1,1);
   setLayout(grid);
-  setWindowTitle("Структура системы");
+  setWindowTitle(wgt->windowTitle());
   setWindowIcon(wgt->windowIcon());
+  setMinimumSize(1000, 550);
 
 }
 

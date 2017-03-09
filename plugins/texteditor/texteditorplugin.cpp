@@ -2,7 +2,8 @@
 
 texteditorPlugin::texteditorPlugin() {
     setName("texteditor");
-    setTextName("%{PluginName}");
+    setTextName("texteditor");
+    createActions();
     createWidgets();
 }
 
@@ -37,6 +38,11 @@ QWidget *texteditorPlugin::settingPage() {
  */
 QIcon texteditorPlugin::settingIcon() {
     return QIcon(":/texteditorplugin/img/plugin.png");
+}
+
+void texteditorPlugin::createActions()
+{
+
 }
 
 

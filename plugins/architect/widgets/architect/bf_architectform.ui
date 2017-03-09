@@ -19,101 +19,194 @@
    <string>Проектирование</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="images.qrc">
-    <normaloff>:/img/img/architect.png</normaloff>:/img/img/architect.png</iconset>
+   <iconset resource="../../architect_resources.qrc">
+    <normaloff>:/architectplugin/img/plugin.png</normaloff>:/architectplugin/img/plugin.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1">
-    <widget class="QWidget" name="widget" native="true">
+   <item row="0" column="2">
+    <widget class="QPushButton" name="addArchitectElementButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
      <property name="font">
       <font>
        <family>MS Shell Dlg 2</family>
        <pointsize>12</pointsize>
       </font>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="0">
-       <widget class="QPushButton" name="editArchitectElementButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="font">
-         <font>
-          <family>MS Shell Dlg 2</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Редактировать</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QPushButton" name="deleteArchitectElementButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="font">
-         <font>
-          <family>MS Shell Dlg 2</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Удалить</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="addArchitectElementButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="font">
-         <font>
-          <family>MS Shell Dlg 2</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Добавить</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <spacer name="verticalSpacer_2">
-        <property name="font">
-         <font>
-          <family>MS Shell Dlg 2</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="0">
-       <widget class="QPushButton" name="editorButton">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Открыть 
- в редакторе</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/112.png</normaloff>:/images/raznoe31/raznoe31/48x48/112.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="editArchitectElementButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>MS Shell Dlg 2</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/31.png</normaloff>:/images/raznoe31/raznoe31/48x48/31.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="0" column="0">
+    <widget class="QPushButton" name="editorButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/13.png</normaloff>:/images/raznoe31/raznoe31/48x48/13.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QPushButton" name="deleteArchitectElementButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>MS Shell Dlg 2</family>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/118.png</normaloff>:/images/raznoe31/raznoe31/48x48/118.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="6">
     <widget class="QTreeWidget" name="architectTreeWidget">
      <property name="font">
       <font>
@@ -161,12 +254,22 @@
      </column>
     </widget>
    </item>
-   <item row="1" column="0">
+   <item row="2" column="0" colspan="6">
     <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::South</enum>
+     </property>
+     <property name="tabShape">
+      <enum>QTabWidget::Triangular</enum>
+     </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab">
+      <attribute name="icon">
+       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+        <normaloff>:/images/raznoe31/raznoe31/48x48/127.png</normaloff>:/images/raznoe31/raznoe31/48x48/127.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Добавление связи</string>
       </attribute>
@@ -310,6 +413,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
+      <attribute name="icon">
+       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+        <normaloff>:/images/raznoe31/raznoe31/48x48/126.png</normaloff>:/images/raznoe31/raznoe31/48x48/126.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Удаление связи</string>
       </attribute>
@@ -364,6 +471,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_3">
+      <attribute name="icon">
+       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+        <normaloff>:/images/raznoe31/raznoe31/48x48/64.png</normaloff>:/images/raznoe31/raznoe31/48x48/64.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Генерация диаграммы</string>
       </attribute>
@@ -439,6 +550,10 @@
       </layout>
      </widget>
      <widget class="QWidget" name="tab_4">
+      <attribute name="icon">
+       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+        <normaloff>:/images/raznoe31/raznoe31/48x48/44.png</normaloff>:/images/raznoe31/raznoe31/48x48/44.png</iconset>
+      </attribute>
       <attribute name="title">
        <string>Управление именами</string>
       </attribute>
@@ -483,21 +598,21 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
-          <string>Подсистема</string>
+          <string>2 уровень</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_15">
          <property name="text">
-          <string>Модуль</string>
+          <string>4 уровень</string>
          </property>
         </widget>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_14">
          <property name="text">
-          <string>Компонент</string>
+          <string>3 уровень</string>
          </property>
         </widget>
        </item>
@@ -511,7 +626,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Система</string>
+          <string>1 уровень</string>
          </property>
         </widget>
        </item>
@@ -550,7 +665,8 @@
   </layout>
  </widget>
  <resources>
-  <include location="images.qrc"/>
+  <include location="../../architect_resources.qrc"/>
+  <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
  </resources>
  <connections/>
 </ui>

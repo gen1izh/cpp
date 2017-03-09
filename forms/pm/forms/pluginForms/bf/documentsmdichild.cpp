@@ -16,8 +16,9 @@ DocumentsMdiChild::DocumentsMdiChild() {
   grid->setContentsMargins(1,1,1,1);
   this->setContentsMargins(1,1,1,1);
   setLayout(grid);
-  setWindowTitle("Документация");
+  setWindowTitle(wgt->windowTitle());
   setWindowIcon(wgt->windowIcon());
+  setMinimumSize(1000, 550);
 
 }
 

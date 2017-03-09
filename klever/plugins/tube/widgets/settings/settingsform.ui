@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="4">
+   <item row="10" column="4">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -36,29 +36,6 @@
      </property>
      <property name="text">
       <string>Значение</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="5">
-    <widget class="QPushButton" name="editButton">
-     <property name="maximumSize">
-      <size>
-       <width>32</width>
-       <height>32</height>
-      </size>
-     </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../../../../core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/SilkCompanion1/icons/bullet_edit.png</normaloff>:/images/SilkCompanion1/icons/bullet_edit.png</iconset>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -87,13 +64,15 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="4">
-    <widget class="QLineEdit" name="valueEdit">
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
+   <item row="1" column="4">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <italic>true</italic>
+      </font>
+     </property>
+     <property name="text">
+      <string>Ключ</string>
      </property>
     </widget>
    </item>
@@ -108,32 +87,53 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="label_3">
-     <property name="font">
-      <font>
-       <italic>true</italic>
-      </font>
-     </property>
-     <property name="text">
-      <string>Ключ</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="4">
     <widget class="QLabel" name="keyLabel">
      <property name="text">
-      <string/>
+      <string>-------------</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" rowspan="11" colspan="4">
+   <item row="1" column="0" rowspan="12" colspan="4">
     <widget class="QListWidget" name="keysListWidget">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
        <height>16777215</height>
       </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QLineEdit" name="valueEdit">
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="5">
+    <widget class="QPushButton" name="editButton">
+     <property name="maximumSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/SilkCompanion1/icons/bullet_edit.png</normaloff>:/images/SilkCompanion1/icons/bullet_edit.png</iconset>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
    </item>

@@ -18,11 +18,16 @@ BF_ArchitectForm::BF_ArchitectForm(QWidget *parent) :
     ui->setupUi(this);
 
     m_currentArchitectTreeItem   = NULL;
-    QTimer::singleShot(100, this, SLOT(openArchitect()));
     // TODO: Заменить на название сессии
     ui->sysNameEdit->setText(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
     on_updateButton_clicked();
 }
+
+void BF_ArchitectForm::showEvent(QShowEvent *event) {
+    Q_UNUSED(event)
+    openArchitect();
+}
+
 
 BF_ArchitectForm::~BF_ArchitectForm()
 {
@@ -175,6 +180,8 @@ QTreeWidgetItem *BF_ArchitectForm::findItemByTypeAndOrArticle(const QString &typ
 void BF_ArchitectForm::openArchitect()
 {
     ui->architectTreeWidget->selectAll();
+
+    ui->architectTreeWidget->clear();
 
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -547,4 +554,9 @@ void BF_ArchitectForm::on_saveAliasButton_clicked()
         ae.save();
     }
     m_db.close();
+}
+
+void BF_ArchitectForm::on_editorButton_clicked()
+{
+
 }

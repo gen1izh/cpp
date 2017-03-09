@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>478</width>
-    <height>278</height>
+    <width>477</width>
+    <height>287</height>
    </rect>
   </property>
   <property name="font">
@@ -16,7 +16,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Добавление требования</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+    <normaloff>:/images/raznoe31/raznoe31/48x48/112.png</normaloff>:/images/raznoe31/raznoe31/48x48/112.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
@@ -103,7 +107,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>459</width>
-    <height>256</height>
+    <height>298</height>
    </rect>
   </property>
   <property name="font">
@@ -16,7 +16,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Добавить новый элемент </string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+    <normaloff>:/images/raznoe31/raznoe31/48x48/112.png</normaloff>:/images/raznoe31/raznoe31/48x48/112.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="1" colspan="3">
@@ -152,7 +156,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
