@@ -5,12 +5,16 @@ documentPlugin::documentPlugin() {
     setTextName("document");
     createActions();
     createWidgets();
+    createConnectors();
 }
 
 void documentPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)BF_DocumentsForm")].first  = new BF_DocumentsForm();
     _widgetActionList[tr("(PM)BF_DocumentsForm")].second = m_BF_DocumentsForm;
+
+
+   _actionList[tr("(PM)BF_TextEditorOpen")] = m_TextEditorOpen;
 
     // Создание виджета настроек
     if (m_settings==NULL) {
@@ -47,6 +51,13 @@ void documentPlugin::createActions()
     m_BF_DocumentsForm = new QAction(QIcon(":/documentplugin/img/plugin.png"),
                                        tr("&Документация"),
                                        this);
+    m_TextEditorOpen = new QAction();
+}
+
+void documentPlugin::createConnectors()
+{
+    connect(_widgetActionList[tr("(PM)BF_DocumentsForm")].first,
+            SIGNAL(openTexteditor()), m_TextEditorOpen, SIGNAL(triggered()));
 }
 
 

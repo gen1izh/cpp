@@ -45,8 +45,8 @@ void BF_DocumentsForm::on_editButton_clicked()
 
     }
 
-    // Сделать открытие документа
-    //m_editorDialog->show();
+    emit openTexteditor();
+
 }
 
 /*

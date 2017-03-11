@@ -12,6 +12,8 @@
 #include "pluginForms/bf/deploybuildmdichild.h"
 #include "pluginForms/bf/documentsmdichild.h"
 
+#include "pluginForms/pm/texteditormdichild.h"
+
 /*******************************************************************************
  *                      Формы плагинов
  *******************************************************************************/
@@ -99,4 +101,16 @@ void FormsManager::openDocumentsWindow() {
         "DOCUMENTS_WATCHER_WINDOW", tr("Документация"),
         tr("Окно документации было успешно открыто."),
         tr("Окно документации не было успешно открыто!") );
+}
+
+
+/*
+ * Открытие дочернего окна текстового редактора
+ */
+void FormsManager::openTextEditorWindow() {
+
+  Core::KleverGui::instance().openWindow<TextEditorMdiChild,MainWindow>(
+        "TEXT_EDITOR_WINDOW", tr("Текстовый редактор"),
+        tr("Окно текстового редактора было успешно открыто."),
+        tr("Окно текстового редактора не было успешно открыто!") );
 }

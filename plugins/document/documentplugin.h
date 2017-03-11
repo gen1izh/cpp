@@ -19,6 +19,8 @@ class documentPlugin : public QObject, public PluginInterface {
     documentSettings *m_settings = NULL;
     QAction *m_BF_DocumentsForm;
 
+     QAction *m_TextEditorOpen;
+
 public:
 
     documentPlugin();
@@ -52,7 +54,7 @@ public:
     /*!
    * brief Созданией коннекторов
    */
-    void createConnectors() {}
+    void createConnectors();
 
     /*!
    * brief Информация о плагине

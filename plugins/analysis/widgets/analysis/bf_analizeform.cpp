@@ -13,6 +13,10 @@
 
 #include <frameWork/base.h>
 
+#include "QtSql/QSqlDatabase"
+#include "QSqlError"
+
+
 
 BF_AnalizeForm::BF_AnalizeForm(QWidget *parent) :
     QWidget(parent),
@@ -127,9 +131,12 @@ bool BF_AnalizeForm::fillRequirements(const QString &rtype,
 
     bool isFind;
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;
@@ -205,7 +212,7 @@ void BF_AnalizeForm::on_onEditorButton_clicked()
         Core::Base::instance().setParameterValue("DOCTYPE", "ТРЕБОВАНИЕ");
     }
 
-
+    emit openTexteditor();
     // TODO: сделат открытие окна редактора
     // m_editorDialog->show();
 }
@@ -363,9 +370,12 @@ void BF_AnalizeForm::on_deleteButton_clicked()
     int rid   = (QString(tmp).right(3)).toInt(&ok, 10);
     QString rtype = QString(tmp).left(2);
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;

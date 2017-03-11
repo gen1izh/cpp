@@ -112,6 +112,11 @@ public slots:
      */
     void openDocumentsWindow();
 
+    /*!
+     * Открытие дочернего окна тектосового редактора
+     */
+    void openTextEditorWindow();
+
 };
 
 #endif // FORM_MANAGER_H

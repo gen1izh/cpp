@@ -3,6 +3,7 @@
 
 #include <frameWork/base.h>
 #include "widgets/settings/settingswidget.h"
+#include "widgets/texteditor/editorform.h"
 
 class texteditorPlugin;
 
@@ -13,7 +14,7 @@ class texteditorPlugin : public QObject, public PluginInterface {
     Q_PLUGIN_METADATA(IID PluginInterface_iid FILE "texteditor.json")
     Q_INTERFACES(PluginInterface)
 
-
+    QAction *m_TextEditor;
     texteditorSettings *m_settings = NULL;
 
 public:

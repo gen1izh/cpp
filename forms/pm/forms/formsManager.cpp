@@ -25,12 +25,26 @@ void FormsManager::createConnections() {
                                              tr("(PM)BF_AnalizeForm")),
                  SIGNAL(triggered()), this, SLOT(openAnalysisWindow()) );
 
+        if (Core::Plugins::instance().isPluginExist(tr("texteditor"))) {
+            connect( getManagerAction_FromActionsList(tr("analysis"),
+                                                      tr("(PM)BF_TextEditorOpen")),
+                     SIGNAL(triggered()), this, SLOT(openTextEditorWindow()) );
+
+        }
+
     }
 
     if (Core::Plugins::instance().isPluginExist(tr("architect"))) {
         connect( getManagerAction_FromWAPair(tr("architect"),
                                              tr("(PM)BF_ArchitectForm")),
                  SIGNAL(triggered()), this, SLOT(openArchitectWindow()) );
+
+        if (Core::Plugins::instance().isPluginExist(tr("texteditor"))) {
+            connect( getManagerAction_FromActionsList(tr("architect"),
+                                                      tr("(PM)BF_TextEditorOpen")),
+                     SIGNAL(triggered()), this, SLOT(openTextEditorWindow()) );
+
+        }
     }
 
 //    if (Core::Plugins::instance().isPluginExist(tr("delpoy"))) {
@@ -44,6 +58,13 @@ void FormsManager::createConnections() {
         connect( getManagerAction_FromWAPair(tr("document"),
                                              tr("(PM)BF_DocumentsForm")),
                  SIGNAL(triggered()), this, SLOT(openDocumentsWindow()) );
+
+        if (Core::Plugins::instance().isPluginExist(tr("texteditor"))) {
+            connect( getManagerAction_FromActionsList(tr("document"),
+                                                      tr("(PM)BF_TextEditorOpen")),
+                     SIGNAL(triggered()), this, SLOT(openTextEditorWindow()) );
+
+        }
 
     }
 

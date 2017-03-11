@@ -37,8 +37,8 @@ public:
     void setModule(const QString &module);
 
 private:
-    QString m_rtype;
     int m_identificator;
+    QString m_rtype;
     QString m_name;
     QString m_component;
     QString m_module;

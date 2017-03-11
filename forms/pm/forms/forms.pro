@@ -20,7 +20,8 @@ SOURCES += formsManager.cpp \
     pluginForms/bf/analizemdichild.cpp \
     pluginForms/bf/architectmdichild.cpp \
     pluginForms/bf/deploybuildmdichild.cpp \
-    pluginForms/bf/documentsmdichild.cpp
+    pluginForms/bf/documentsmdichild.cpp \
+    pluginForms/pm/texteditormdichild.cpp
 
 HEADERS += formsManager.h \
     plug.h \
@@ -32,7 +33,8 @@ HEADERS += formsManager.h \
     pluginForms/bf/analizemdichild.h \
     pluginForms/bf/architectmdichild.h \
     pluginForms/bf/deploybuildmdichild.h \
-    pluginForms/bf/documentsmdichild.h
+    pluginForms/bf/documentsmdichild.h \
+    pluginForms/pm/texteditormdichild.h
 
 DISTFILES += formsManager.json
 

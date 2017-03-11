@@ -5,12 +5,16 @@ analysisPlugin::analysisPlugin() {
     setTextName("analysis");
     createActions();
     createWidgets();
+    createConnectors();
 }
 
 void analysisPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)BF_AnalizeForm")].first  = new BF_AnalizeForm();
     _widgetActionList[tr("(PM)BF_AnalizeForm")].second = m_BF_AnalizeForm;
+
+    _actionList[tr("(PM)BF_TextEditorOpen")] = m_TextEditorOpen;
+
 
     // Создание виджета настроек
     if (m_settings==NULL) {
@@ -47,6 +51,14 @@ void analysisPlugin::createActions()
 {
     m_BF_AnalizeForm = new QAction(QIcon(":/analysisplugin/img/plugin.png"),
                                    tr("&Анализ требований"), this);
+
+    m_TextEditorOpen = new QAction();
+}
+
+void analysisPlugin::createConnectors()
+{
+    connect(_widgetActionList[tr("(PM)BF_AnalizeForm")].first,
+            SIGNAL(openTexteditor()), m_TextEditorOpen, SIGNAL(triggered()));
 }
 
 

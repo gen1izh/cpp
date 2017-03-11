@@ -5,6 +5,7 @@ architectPlugin::architectPlugin() {
     setTextName("architect");
     createActions();
     createWidgets();
+    createConnectors();
 }
 
 void architectPlugin::createWidgets() {
@@ -12,6 +13,7 @@ void architectPlugin::createWidgets() {
     _widgetActionList[tr("(PM)BF_ArchitectForm")].first  = new BF_ArchitectForm();
     _widgetActionList[tr("(PM)BF_ArchitectForm")].second = m_BF_ArchitectForm;
 
+    _actionList[tr("(PM)BF_TextEditorOpen")] = m_TextEditorOpen;
 
     // Создание виджета настроек
     if (m_settings==NULL) {
@@ -48,6 +50,16 @@ void architectPlugin::createActions()
 {
     m_BF_ArchitectForm   = new QAction(QIcon(":/architectplugin/img/plugin.png"),
                                        tr("&Структура системы"), this);
+
+    m_TextEditorOpen = new QAction();
 }
+
+void architectPlugin::createConnectors()
+{
+    connect(_widgetActionList[tr("(PM)BF_ArchitectForm")].first,
+            SIGNAL(openTexteditor()), m_TextEditorOpen, SIGNAL(triggered()));
+}
+
+
 
 

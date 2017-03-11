@@ -62,6 +62,9 @@ private slots:
     void on_deleteButton_clicked();
     void on_editButton_clicked();
 
+signals:
+    void openTexteditor();
+
 };
 
 #endif // BF_ANALIZEFORM_H

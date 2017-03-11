@@ -1274,5 +1274,8 @@
         <file>images/base/plugins.png</file>
         <file>images/base/settings.png</file>
         <file>images/base/watcher.png</file>
+        <file>images/SilkCompanion1/icons/anchor_5552.ico</file>
+        <file>images/SilkCompanion1/icons/application_view_columns_9428.ico</file>
+        <file>images/SilkCompanion1/icons/internet_link_02_9461.ico</file>
     </qresource>
 </RCC>

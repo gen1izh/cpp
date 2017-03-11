@@ -36,6 +36,10 @@ private slots:
 
     void on_documentTreeWidget_doubleClicked(const QModelIndex &index);
 
+
+signals:
+    void openTexteditor();
+
 private:
     Ui::BF_DocumentsForm *ui;
     void createDialogs();

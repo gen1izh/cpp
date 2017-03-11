@@ -18,6 +18,7 @@ class architectPlugin : public QObject, public PluginInterface {
 
     architectSettings *m_settings= NULL;
 
+    QAction *m_TextEditorOpen;
 public:
 
     architectPlugin();
@@ -51,7 +52,7 @@ public:
     /*!
    * brief Созданией коннекторов
    */
-    void createConnectors() {}
+    void createConnectors();
 
     /*!
    * brief Информация о плагине

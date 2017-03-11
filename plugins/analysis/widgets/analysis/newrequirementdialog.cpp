@@ -112,9 +112,12 @@ void NewRequirementDialog::on_componentBox_currentTextChanged(const QString &arg
  */
 void NewRequirementDialog::on_buttonBox_accepted()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;

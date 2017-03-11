@@ -9,6 +9,9 @@ texteditorPlugin::texteditorPlugin() {
 
 void texteditorPlugin::createWidgets() {
 
+    _widgetActionList[tr("(PM)TextEditor")].first  = new EditorForm();
+    _widgetActionList[tr("(PM)TextEditor")].second = m_TextEditor;
+
     // Создание виджета настроек
     if (m_settings==NULL) {
         m_settings = new texteditorSettings(NULL);
@@ -42,7 +45,8 @@ QIcon texteditorPlugin::settingIcon() {
 
 void texteditorPlugin::createActions()
 {
-
+    m_TextEditor = new QAction(QIcon(":/texteditorplugin/img/plugin.png"),
+                                   tr("&Текстовый редактор"), this);
 }
 
 

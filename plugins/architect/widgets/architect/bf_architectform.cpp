@@ -21,6 +21,7 @@ BF_ArchitectForm::BF_ArchitectForm(QWidget *parent) :
     // TODO: Заменить на название сессии
     ui->sysNameEdit->setText(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
     on_updateButton_clicked();
+
 }
 
 void BF_ArchitectForm::showEvent(QShowEvent *event) {
@@ -344,26 +345,8 @@ void BF_ArchitectForm::on_architectTreeWidget_itemClicked(QTreeWidgetItem *item,
     ui->deleteArchitectElementButton->setEnabled(true);
     ui->editArchitectElementButton->setEnabled(true);
 
-    // Выбираем элементы для связи
-    if (ui->linkAEdit->text().isEmpty()) {
-        ui->linkAEdit->setText(item->text(0));
-        return;
-    }
-    // Выбираем элементы для связи
-    else if (ui->linkBEdit->text().isEmpty()) {
-        ui->linkBEdit->setText(item->text(0));
-    }
-
 }
 
-
-void BF_ArchitectForm::on_resetButton_clicked()
-{
-    ui->linkAEdit->clear();
-    ui->linkBEdit->clear();
-    ui->nameLineEdit->clear();
-    ui->linkDescriptionEdit->clear();
-}
 
 void BF_ArchitectForm::on_setLinkButton_clicked()
 {
@@ -386,17 +369,23 @@ void BF_ArchitectForm::on_setLinkButton_clicked()
         ArchitectLinks al;
         al.setDescription(ui->linkDescriptionEdit->toPlainText());
         al.setLinkA(ui->linkAEdit->text());
-        al.setLinkACount(QString("%1").arg(ui->linkASpinBox->value()));
+        al.setLinkACount(QString("%1").arg(ui->linkACountBox->currentText()));
         al.setLinkB(ui->linkBEdit->text());
-        al.setLinkBCount(QString("%1").arg(ui->linkBSpinBox->value()));
+        al.setLinkBCount(QString("%1").arg(ui->linkBCountBox->currentText()));
         al.setName(ui->nameLineEdit->text());
         al.setType(ui->linkTypeBox->currentText());
         al.save();
     }
     m_db.close();
 
-    on_resetButton_clicked();
+    on_resetLinkBButton_clicked();
+    on_resetLinkBButton_clicked();
 
+    ui->nameLineEdit->clear();
+    ui->linkDescriptionEdit->clear();
+    ui->linkTypeBox->setCurrentIndex(0);
+
+    on_updateButton_clicked();
 }
 
 void BF_ArchitectForm::on_updateButton_clicked()
@@ -442,13 +431,13 @@ void BF_ArchitectForm::on_updateButton_clicked()
 
 void BF_ArchitectForm::on_linkListWidget_currentTextChanged(const QString &currentText)
 {
-    ui->idEdit->setText(QString(currentText.split("|").at(0)).trimmed());
+    ui->idLabel->setText(QString(currentText.split("|").at(0)).trimmed());
 }
 
 void BF_ArchitectForm::on_deleteLinkButton_clicked()
 {
     bool ok;
-    int id = ui->idEdit->text().toInt(&ok,10);
+    int id = ui->idLabel->text().toInt(&ok,10);
 
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -558,5 +547,33 @@ void BF_ArchitectForm::on_saveAliasButton_clicked()
 
 void BF_ArchitectForm::on_editorButton_clicked()
 {
+    if (ui->architectTreeWidget->selectedItems().count() > 0 ) {
+        QString s = ui->architectTreeWidget->selectedItems().at(0)->text(0);
+        Core::Base::instance().setParameterValue("NAME", s.split(".").at(0));
+        Core::Base::instance().setParameterValue("DOCTYPE", "КОМПОНЕНТ");
+    }
 
+    emit openTexteditor();
+}
+
+void BF_ArchitectForm::on_resetLinkBButton_clicked()
+{
+    ui->linkBEdit->clear();
+    ui->linkBCountBox->setItemText(0, "1");
+}
+
+void BF_ArchitectForm::on_resetLinkAButton_clicked()
+{
+    ui->linkAEdit->clear();
+    ui->linkACountBox->setItemText(0, "1");
+}
+
+void BF_ArchitectForm::on_setLinkAButton_clicked()
+{
+    ui->linkAEdit->setText(ui->architectTreeWidget->currentItem()->text(0));
+}
+
+void BF_ArchitectForm::on_setLinkBButton_clicked()
+{
+    ui->linkBEdit->setText(ui->architectTreeWidget->currentItem()->text(0));
 }

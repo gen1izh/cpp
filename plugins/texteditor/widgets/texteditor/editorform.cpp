@@ -1,5 +1,6 @@
-#include "editordialog.h"
-#include "ui_editordialog.h"
+#include "editorform.h"
+#include "ui_editorform.h"
+
 #include <frameWork/base.h>
 
 #include <library/orm/db/QDjangoQuerySet.h>
@@ -19,25 +20,21 @@
 
 #include <QDebug>
 
-EditorDialog::EditorDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::EditorDialog)
+EditorForm::EditorForm(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::EditorForm)
 {
     ui->setupUi(this);
-
-     m_highlighter = new Highlighter(ui->descriptionEdit->document());
-     m_highlighter->setDocument(ui->descriptionEdit->document());
 }
 
-EditorDialog::~EditorDialog()
+EditorForm::~EditorForm()
 {
     delete ui;
 }
-
 /*
  *
  */
-void EditorDialog::loadDescription() {
+void EditorForm::loadDescription() {
 
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -89,7 +86,7 @@ void EditorDialog::loadDescription() {
 /*
  * Загрузка картинок.
  */
-bool EditorDialog::loadImage(const QString &fullPath, const QString &fileName) {
+bool EditorForm::loadImage(const QString &fullPath, const QString &fileName) {
     QImage image;
     image.load(fullPath);
 
@@ -139,7 +136,7 @@ bool EditorDialog::loadImage(const QString &fullPath, const QString &fileName) {
 /*
  * Обновление списка картинок.
  */
-void EditorDialog::refreshImagesList(){
+void EditorForm::refreshImagesList(){
 
     ui->picturesList->clear();
 
@@ -180,7 +177,7 @@ void EditorDialog::refreshImagesList(){
 /*
  *
  */
-void EditorDialog::showEvent(QShowEvent *event)
+void EditorForm::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
     ui->nameEdit->setText(Core::Base::instance().getParameterValue("NAME", QString("")));
@@ -196,9 +193,12 @@ void EditorDialog::showEvent(QShowEvent *event)
     ui->frBox->clear();
     ui->nfrBox->clear();
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;
@@ -283,69 +283,12 @@ void EditorDialog::showEvent(QShowEvent *event)
 
 }
 
-/*
- *
- */
-void EditorDialog::on_dialogButtonBox_accepted()
-{
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<DocElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<DocElement> someDocElements;
-        someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
-
-        if (someDocElements.count() > 1) {
-            QMessageBox msgBox;
-             msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
-                            "Должен быть только один элемент!");
-             msgBox.exec();
-        }
-        else if (someDocElements.count() == 1) {
-            // Находим нужный элемент и меняем его.
-            DocElement de;
-            for (int i = 0; i < someDocElements.size(); ++i) {
-                if (someDocElements.at(i, &de)) {
-                    if (de.name() == ui->nameEdit->text()) {
-                        de.setName(ui->nameEdit->text());
-                        de.setType(ui->docTypeLabel->text());
-                        de.setDescription(ui->descriptionEdit->toPlainText());
-                        de.save();
-                    }
-                }
-            }
-        }
-        else {
-            DocElement de;
-            de.setName(ui->nameEdit->text());
-            de.setType(ui->docTypeLabel->text());
-            de.setDescription(ui->descriptionEdit->toPlainText());
-            de.save();
-        }
-
-    }
-
-    m_db.close();
-}
 
 /*
  *
  */
-void EditorDialog::on_browselButton_clicked()
+void EditorForm::on_browselButton_clicked()
 {
     ui->pathEdit->setText(
                 QFileDialog::getOpenFileName(this,
@@ -359,7 +302,7 @@ void EditorDialog::on_browselButton_clicked()
 /*
  * Добавление картинки.
  */
-void EditorDialog::on_addImageButton_clicked()
+void EditorForm::on_addImageButton_clicked()
 {
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -443,7 +386,7 @@ void EditorDialog::on_addImageButton_clicked()
 /*
  * Удаление картинки.
  */
-void EditorDialog::on_deleteImageButton_clicked()
+void EditorForm::on_deleteImageButton_clicked()
 {
 
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
@@ -518,7 +461,7 @@ void EditorDialog::on_deleteImageButton_clicked()
 /*
  * Обработка двойного щелчка.
  */
-void EditorDialog::on_picturesList_doubleClicked(const QModelIndex &index)
+void EditorForm::on_picturesList_doubleClicked(const QModelIndex &index)
 {
     Q_UNUSED(index)
     QClipboard *clipboard = QApplication::clipboard();
@@ -541,7 +484,7 @@ void EditorDialog::on_picturesList_doubleClicked(const QModelIndex &index)
 /*
  * Добавление курсива
  */
-void EditorDialog::on_italicButton_clicked()
+void EditorForm::on_italicButton_clicked()
 {
     QString result =
             "[I]" + ui->descriptionEdit->textCursor().selectedText() + "[/I]";
@@ -553,7 +496,7 @@ void EditorDialog::on_italicButton_clicked()
 /*
  * Добавление жирного текста
  */
-void EditorDialog::on_boldButton_clicked()
+void EditorForm::on_boldButton_clicked()
 {
     QString result =
             "[B]" + ui->descriptionEdit->textCursor().selectedText() + "[/B]";
@@ -565,7 +508,7 @@ void EditorDialog::on_boldButton_clicked()
 /*
  * Добавление подчеркнутного текста
  */
-void EditorDialog::on_understrikeButton_clicked()
+void EditorForm::on_understrikeButton_clicked()
 {
     QString result =
             "[U]" + ui->descriptionEdit->textCursor().selectedText() + "[/U]";
@@ -577,7 +520,7 @@ void EditorDialog::on_understrikeButton_clicked()
 /*
  * Добавление не отформатированного текста
  */
-void EditorDialog::on_preButton_clicked()
+void EditorForm::on_preButton_clicked()
 {
     QString result =
             "[PRE]" + ui->descriptionEdit->textCursor().selectedText() + "[/PRE]";
@@ -589,7 +532,7 @@ void EditorDialog::on_preButton_clicked()
 /*
  * Добавление заголовка
  */
-void EditorDialog::on_titlesBox_currentTextChanged(const QString &arg1)
+void EditorForm::on_titlesBox_currentTextChanged(const QString &arg1)
 {
 Q_UNUSED(arg1)
 }
@@ -597,7 +540,7 @@ Q_UNUSED(arg1)
 /*
  * Вставить перечисление.
  */
-void EditorDialog::on_enumButton_clicked()
+void EditorForm::on_enumButton_clicked()
 {
     QString result =
             "[UL] \n \t[LI] [/LI] \n \t[LI] [/LI] \n \t[LI] [/LI] \n[/UL] \n";
@@ -608,7 +551,7 @@ void EditorDialog::on_enumButton_clicked()
 /*
  *
  */
-void EditorDialog::on_picturesList_clicked(const QModelIndex &index)
+void EditorForm::on_picturesList_clicked(const QModelIndex &index)
 {
     Q_UNUSED(index)
     QString imageName = (ui->picturesList->currentItem()->text().split("||")).at(1);
@@ -620,7 +563,7 @@ void EditorDialog::on_picturesList_clicked(const QModelIndex &index)
 /*
  *
  */
-void EditorDialog::on_editNameButton_clicked()
+void EditorForm::on_editNameButton_clicked()
 {
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -698,7 +641,7 @@ void EditorDialog::on_editNameButton_clicked()
 /*
  *
  */
-void EditorDialog::on_titlesBox_activated(const QString &arg1)
+void EditorForm::on_titlesBox_activated(const QString &arg1)
 {
     if (arg1 == "Заголовок 1") {
         QString result =
@@ -733,7 +676,7 @@ void EditorDialog::on_titlesBox_activated(const QString &arg1)
 /*
  *
  */
-void EditorDialog::on_paragraphBox_activated(const QString &arg1)
+void EditorForm::on_paragraphBox_activated(const QString &arg1)
 {
     if (arg1 == "Пункт уровня 1") {
         QString result =
@@ -768,7 +711,7 @@ void EditorDialog::on_paragraphBox_activated(const QString &arg1)
 /*
  *
  */
-void EditorDialog::on_tableButton_clicked()
+void EditorForm::on_tableButton_clicked()
 {
     QString result =
             "[TABLE] \n\n\t[TR HEADER]\n\t\t[TD][/TD]\n\t[/TR] "
@@ -781,7 +724,7 @@ void EditorDialog::on_tableButton_clicked()
 /*
  *
  */
-void EditorDialog::on_codeButton_clicked()
+void EditorForm::on_codeButton_clicked()
 {
     QString result =
             "[CODE]" + ui->descriptionEdit->textCursor().selectedText() + "[/CODE]";
@@ -793,7 +736,7 @@ void EditorDialog::on_codeButton_clicked()
 /*
  *
  */
-void EditorDialog::on_noteButton_clicked()
+void EditorForm::on_noteButton_clicked()
 {
     QString result =
             "[NOTE]" + ui->descriptionEdit->textCursor().selectedText() + "[/NOTE]";
@@ -804,14 +747,14 @@ void EditorDialog::on_noteButton_clicked()
 
 
 
-void EditorDialog::on_terminBox_activated(const QString &arg1)
+void EditorForm::on_terminBox_activated(const QString &arg1)
 {
     QString result = "[TERM]" + arg1 + "[/TERM]";
 
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_pasteTemplateButton_clicked()
+void EditorForm::on_pasteTemplateButton_clicked()
 {
     QString result = "";
     if (ui->nameEdit->text() == "Спецификация требований") {
@@ -994,7 +937,7 @@ void EditorDialog::on_pasteTemplateButton_clicked()
 
 
 
-void EditorDialog::on_appendixBox_activated(const QString &arg1)
+void EditorForm::on_appendixBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
     QString result = "";
@@ -1005,12 +948,15 @@ void EditorDialog::on_appendixBox_activated(const QString &arg1)
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_frBox_activated(const QString &arg1)
+void EditorForm::on_frBox_activated(const QString &arg1)
 {
 Q_UNUSED(arg1)
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;
@@ -1062,7 +1008,7 @@ Q_UNUSED(arg1)
     m_db.close();
 }
 
-void EditorDialog::on_crBox_activated(const QString &arg1)
+void EditorForm::on_crBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
     QString result = "";
@@ -1086,12 +1032,15 @@ void EditorDialog::on_crBox_activated(const QString &arg1)
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_nfrBox_activated(const QString &arg1)
+void EditorForm::on_nfrBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
+//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
+    m_db.setUserName("sa");
+    m_db.setPassword("commp123");
+
     if (!m_db.open()) {
         messageLibrary msg;
         QString text;
@@ -1143,7 +1092,7 @@ void EditorDialog::on_nfrBox_activated(const QString &arg1)
     m_db.close();
 }
 
-void EditorDialog::on_brBox_activated(const QString &arg1)
+void EditorForm::on_brBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
     QString result = "";
@@ -1154,7 +1103,7 @@ void EditorDialog::on_brBox_activated(const QString &arg1)
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_infoBox_activated(const QString &arg1)
+void EditorForm::on_infoBox_activated(const QString &arg1)
 {
     QString result = "";
 
@@ -1164,14 +1113,14 @@ void EditorDialog::on_infoBox_activated(const QString &arg1)
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_glossaryBox_activated(const QString &arg1)
+void EditorForm::on_glossaryBox_activated(const QString &arg1)
 {
     QString result = "[GLOSSARY_TERM]" + arg1 + "[/GLOSSARY_TERM]";
 
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_scanTermsButton_clicked()
+void EditorForm::on_scanTermsButton_clicked()
 {
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -1234,7 +1183,7 @@ void EditorDialog::on_scanTermsButton_clicked()
 
 }
 
-void EditorDialog::on_scanGlossaryButton_clicked()
+void EditorForm::on_scanGlossaryButton_clicked()
 {
     QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
     QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
@@ -1296,7 +1245,7 @@ void EditorDialog::on_scanGlossaryButton_clicked()
     m_db.close();
 }
 
-void EditorDialog::on_anchorButton_clicked()
+void EditorForm::on_anchorButton_clicked()
 {
     QString result = "";
 
@@ -1305,10 +1254,74 @@ void EditorDialog::on_anchorButton_clicked()
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-void EditorDialog::on_gotoAnchorButton_clicked()
+void EditorForm::on_gotoAnchorButton_clicked()
 {
     QString result =
                 "[GOTO_ANCHR] \n \t{Текст ссылки}, \n \t{anchor_tag} \n[/GOTO_ANCHR] \n";
 
     ui->descriptionEdit->textCursor().insertText(result);
+}
+
+
+
+void EditorForm::on_saveButton_clicked()
+{
+    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
+    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+
+        msg.createErrorMessage("Ошибка", text);
+
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<DocElement>();
+        QDjango::createTables();
+
+        QDjangoQuerySet<DocElement> someDocElements;
+        someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
+
+        if (someDocElements.count() > 1) {
+            QMessageBox msgBox;
+             msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
+                            "Должен быть только один элемент!");
+             msgBox.exec();
+        }
+        else if (someDocElements.count() == 1) {
+            // Находим нужный элемент и меняем его.
+            DocElement de;
+            for (int i = 0; i < someDocElements.size(); ++i) {
+                if (someDocElements.at(i, &de)) {
+                    if (de.name() == ui->nameEdit->text()) {
+                        de.setName(ui->nameEdit->text());
+                        de.setType(ui->docTypeLabel->text());
+                        de.setDescription(ui->descriptionEdit->toPlainText());
+                        de.save();
+                    }
+                }
+            }
+        }
+        else {
+            DocElement de;
+            de.setName(ui->nameEdit->text());
+            de.setType(ui->docTypeLabel->text());
+            de.setDescription(ui->descriptionEdit->toPlainText());
+            de.save();
+        }
+
+    }
+
+    m_db.close();
+
+    ui->saveButton->setEnabled(false);
+}
+
+void EditorForm::on_descriptionEdit_textChanged()
+{
+    ui->saveButton->setEnabled(true);
 }

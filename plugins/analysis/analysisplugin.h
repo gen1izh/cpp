@@ -18,6 +18,8 @@ class analysisPlugin : public QObject, public PluginInterface {
 
     QAction *m_BF_AnalizeForm;
 
+    QAction *m_TextEditorOpen;
+
 public:
 
     analysisPlugin();
@@ -51,7 +53,7 @@ public:
     /*!
    * brief Созданией коннекторов
    */
-    void createConnectors() {}
+    void createConnectors();
 
     /*!
    * brief Информация о плагине

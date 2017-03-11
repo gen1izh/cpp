@@ -24,6 +24,10 @@ public:
 
 protected:
     void showEvent(QShowEvent *event);
+
+signals:
+    void openTexteditor();
+
 private slots:
     void on_editArchitectElementButton_clicked();
 
@@ -33,8 +37,6 @@ private slots:
 
     void openArchitect();
     void on_architectTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
-
-    void on_resetButton_clicked();
 
     void on_setLinkButton_clicked();
 
@@ -49,6 +51,14 @@ private slots:
     void on_saveAliasButton_clicked();
 
     void on_editorButton_clicked();
+
+    void on_resetLinkBButton_clicked();
+
+    void on_resetLinkAButton_clicked();
+
+    void on_setLinkAButton_clicked();
+
+    void on_setLinkBButton_clicked();
 
 private:
     Ui::BF_ArchitectForm *ui;
