@@ -5,7 +5,7 @@
 
 #include <library/orm/db/QDjangoQuerySet.h>
 #include "models/promissionqdjangomodel.h"
-
+#include <frameWork/base.h>
 #include <QMessageBox>
 #include <library/message/messagelibrary.h>
 #include <QtSql/QSqlDatabase>
@@ -34,38 +34,17 @@ void AddRoleDialog::showEvent(QShowEvent *) {
 
     ui->roleEdit->setValidator(validator);
 
-    ui->promissionBox->clear();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    // Заполнение раскрывающегося списка групп всеми возможными группами
+    QDjangoQuerySet<Group> groups;
+    ui->groupBox->addItem("");
+    QList<QVariantMap> propertyMaps = groups.values(QStringList() << "name");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        ui->groupBox->addItem(propertyMap["name"].toString());
     }
-
-    QString path = QString("%1/%2")
-            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Promission> proms;
-        ui->promissionBox->addItem("");
-        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "signature");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            ui->promissionBox->addItem(propertyMap["signature"].toString());
-        }
-    }
-
-    m_db.close();
 }
 
 AddRoleDialog::~AddRoleDialog()
@@ -78,81 +57,28 @@ QString AddRoleDialog::name() const
     return ui->roleEdit->text();
 }
 
-QString AddRoleDialog::promissions() const
-{
-    return ui->promissionEdit->text();
-}
-
-void AddRoleDialog::on_addButton_clicked()
-{
-    QString txt = ui->promissionEdit->text();
-
-    if (txt.isEmpty()) {
-        txt = ui->promissionBox->currentText();
-    }
-    else {
-        QStringList promsList;
-        promsList = txt.split(",");
-
-        bool isFind = false;
-
-        foreach (QString t, promsList) {
-            if (t == ui->promissionBox->currentText()) {
-                isFind = true;
-                break;
-            }
-        }
-        if (!isFind) {
-            txt += QString("%1%2").arg(",").arg(ui->promissionBox->currentText());
-        }
-    }
-
-    ui->promissionEdit->setText(txt);
-
-}
-
 void AddRoleDialog::on_buttonBox_accepted()
 {
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Role>();
+    QDjango::createTables();
+    QDjangoQuerySet<Role> roles;
+    bool isFind = false;
+
+    QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if (propertyMap["name"].toString() == ui->roleEdit->text()) {
+            isFind = true;
+        }
     }
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
+    if (!isFind) {
+        m_modelRoles->addRole(ui->roleEdit->text());
+        m_modelRoles->updateModel();
     }
     else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Role>();
-        QDjango::createTables();
-        QDjangoQuerySet<Role> roles;
-        bool isFind = false;
-
-        QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name" << "promission");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["name"].toString() == ui->roleEdit->text()) {
-                isFind = true;
-            }
-        }
-
-        if (!isFind) {
-            m_modelRoles->addRole(ui->roleEdit->text(), ui->promissionEdit->text());
-            m_modelRoles->updateModel();
-        }
-        else {
-            QMessageBox msgBox;
-            msgBox.setText(tr("Роль с таким названием уже существует!"));
-            msgBox.exec();
-        }
+        QMessageBox msgBox;
+        msgBox.setText(tr("Роль с таким названием уже существует!"));
+        msgBox.exec();
     }
-
-    m_db.close();
-
 }

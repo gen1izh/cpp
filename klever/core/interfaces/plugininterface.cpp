@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include <library/message/messagelibrary.h>
+#include <frameWork/base.h>
 
 PluginInterface::PluginInterface()
 {
@@ -47,24 +48,23 @@ QString PluginInterface::textName() const
 
 void PluginInterface::checkManagerState()
 {
+//    {
+//    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "loadplugins");
+//    m_db.setDatabaseName("DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PLUGINS;Trusted_Connection=yes;");
+//    m_db.setUserName("sa");
+//    ;
 
-    m_db = QSqlDatabase::database("plugininterface");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "plugininterface");
-    }
+//    if (!m_db.open()) {
+//        messageLibrary msg;
+//        QString text;
+//        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+//        msg.createErrorMessage("Ошибка", text);
+//    }
+//    else {
 
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
+//        QDjango::setDatabase(m_db);
+        QDjango::setDatabase(*Core::Base::instance().database());
         QDjango::registerModel<PluginsQDjangoModel>();
 
         QDjango::createTables();
@@ -87,8 +87,10 @@ void PluginInterface::checkManagerState()
 
         }
 
-    }
-    m_db.close();
+//    }
+//    m_db.close();
+//    }
+//    QSqlDatabase::removeDatabase("loadplugins");
 }
 
 QHash<QString, QPair<QWidget *, QAction *> > PluginInterface::widgetActionList() const

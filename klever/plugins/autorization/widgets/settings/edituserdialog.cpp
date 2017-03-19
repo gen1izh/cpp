@@ -11,6 +11,9 @@ EditUserDialog::EditUserDialog(QWidget *parent, QString username) :
   ui(new Ui::EditUserDialog)
 {
     ui->setupUi(this);
+}
+
+void EditUserDialog::showEvent(QShowEvent *) {
 
     QRegExp rx("^(\\w+\\s+)$");
     QValidator *validator = new QRegExpValidator(rx, this);
@@ -19,7 +22,7 @@ EditUserDialog::EditUserDialog(QWidget *parent, QString username) :
 
     ui->passwordEdit->setValidator(validator);
 
-    if (!username.isEmpty()) {
+    if (!username().isEmpty()) {
 
         QDjangoQuerySet<Group> groups;
         ui->groupBox->addItem("");
@@ -34,7 +37,7 @@ EditUserDialog::EditUserDialog(QWidget *parent, QString username) :
 
         propertyMaps = users.values(QStringList() << "username" << "password" << "group");
         foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["username"].toString() == username) {
+            if (propertyMap["username"].toString() == username()) {
                 m_username = propertyMap["username"].toString();
                 m_password = propertyMap["password"].toString();
                 m_group = propertyMap["group"].toString();
@@ -54,8 +57,8 @@ EditUserDialog::EditUserDialog(QWidget *parent, QString username) :
             ui->deleteButton->setEnabled(true);
         }
     }
-
 }
+
 
 EditUserDialog::~EditUserDialog()
 {
@@ -67,9 +70,18 @@ QString EditUserDialog::username() const
     return ui->usernameEdit->text();
 }
 
-QString EditUserDialog::group() const
+Group *EditUserDialog::group() const
 {
-    return ui->groupsEdit->text();
+    QDjangoQuerySet<Group> groups;
+    Group *gr;
+    for (int i = 0; i < groups.size(); ++i) {
+        if (groups.at(i, gr)) {
+            if (ui->groupsEdit->text() == gr->name()) {
+                return gr;
+            }
+        }
+    }
+    return NULL;
 }
 
 QString EditUserDialog::password() const

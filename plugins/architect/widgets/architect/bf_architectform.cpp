@@ -100,43 +100,29 @@ void BF_ArchitectForm::on_deleteArchitectElementButton_clicked()
             delete ui->architectTreeWidget->takeTopLevelItem(index);
         }
 
-        QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-        QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-        m_db.setDatabaseName(path);
-        if (!m_db.open()) {
-            messageLibrary msg;
-            QString text;
-            text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+        QDjango::setDatabase(*Core::Base::instance().database());
+        QDjango::registerModel<ArchitectElement>();
+        QDjango::createTables();
+        QDjangoQuerySet<ArchitectElement> someArchitectElements;
+        ArchitectElement ae;
+        article1 = article1.trimmed();
 
-            msg.createErrorMessage("Ошибка", text);
+        for (int i = 0; i < someArchitectElements.size(); ++i) {
+            if (someArchitectElements.at(i, &ae)) {
 
-        }
-        else {
+                QString article2 = ae.article().trimmed();
 
-            QDjango::setDatabase(m_db);
-            QDjango::registerModel<ArchitectElement>();
-            QDjango::createTables();
-            QDjangoQuerySet<ArchitectElement> someArchitectElements;
-            ArchitectElement ae;
-            article1 = article1.trimmed();
+                if (article1 == article2) {
+                    ae.remove();
 
-            for (int i = 0; i < someArchitectElements.size(); ++i) {
-                if (someArchitectElements.at(i, &ae)) {
+                    ui->architectTreeWidget->clear();
+                    openArchitect();
 
-                    QString article2 = ae.article().trimmed();
-
-                    if (article1 == article2) {
-                        ae.remove();
-
-                        ui->architectTreeWidget->clear();
-                        openArchitect();
-
-                        break;
-                    }
+                    break;
                 }
             }
         }
-        m_db.close();
+
     }
 
     m_currentArchitectTreeItem = NULL;
@@ -184,156 +170,140 @@ void BF_ArchitectForm::openArchitect()
 
     ui->architectTreeWidget->clear();
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectElement>();
+    QDjango::createTables();
+    ArchitectElement ae;
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
 
-        msg.createErrorMessage("Ошибка", text);
+    bool isSystem = false;
 
+    QTreeWidgetItem *unusedElementsItem = new QTreeWidgetItem(ui->architectTreeWidget);
+    unusedElementsItem->setIcon(0, QIcon(":/img/img/unused.png"));
+    unusedElementsItem->setText(0, "Не используемые");
+
+    QList<int> usedElements;
+
+    // Поиск системы
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
+
+            QString parentType = ae.parentElementType();
+            QString type = ae.type();
+            if ((parentType == "") && (type == "Система")) {
+
+                QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
+                newItem->setIcon(0, QIcon(":/img/img/system.png"));
+                newItem->setText(0, "Система | " + ae.article());
+                newItem->setExpanded(true);
+                isSystem = true;
+
+                usedElements.append(i);
+
+                break;
+            }
+        }
     }
-    else {
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectElement>();
-        QDjango::createTables();
-        ArchitectElement ae;
-        QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    // Если система не найдена, то создаем ее сами
+    // имя сессии = имя системы
+    if (!isSystem) {
+        ae.setArticle(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
+        ae.setName("");
+        ae.setDescription("");
+        ae.setType("Система");
+        ae.setParentElementType("");
+        ae.setParentElementArticle("");
+        ae.save();
 
-        bool isSystem = false;
-
-        QTreeWidgetItem *unusedElementsItem = new QTreeWidgetItem(ui->architectTreeWidget);
-        unusedElementsItem->setIcon(0, QIcon(":/img/img/unused.png"));
-        unusedElementsItem->setText(0, "Не используемые");
-
-        QList<int> usedElements;
-
-        // Поиск системы
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-
-                QString parentType = ae.parentElementType();
-                QString type = ae.type();
-                if ((parentType == "") && (type == "Система")) {
-
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
-                    newItem->setIcon(0, QIcon(":/img/img/system.png"));
-                    newItem->setText(0, "Система | " + ae.article());
-                    newItem->setExpanded(true);
-                    isSystem = true;
-
-                    usedElements.append(i);
-
-                    break;
-                }
-            }
-        }
-
-        // Если система не найдена, то создаем ее сами
-        // имя сессии = имя системы
-        if (!isSystem) {
-            ae.setArticle(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
-            ae.setName("");
-            ae.setDescription("");
-            ae.setType("Система");
-            ae.setParentElementType("");
-            ae.setParentElementArticle("");
-            ae.save();
-
-            QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
-            newItem->setIcon(0, QIcon(":/img/img/system.png"));
-            newItem->setText(0, "Система | " + ae.article());
-            newItem->setExpanded(true);
-        }
+        QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
+        newItem->setIcon(0, QIcon(":/img/img/system.png"));
+        newItem->setText(0, "Система | " + ae.article());
+        newItem->setExpanded(true);
+    }
 
 
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
 
-                QString text = ae.parentElementType();
-                if (text == "Система") {
-                    if (findItemByTypeAndOrArticle(QString("Система"))) {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(QString("Система")),
-                                                                       ui->architectTreeWidget->currentItem());
-                        newItem->setIcon(0, QIcon(":/img/img/subsystem.png"));
-                        newItem->setText(0, "Подсистема | " + ae.article());
-                        newItem->setExpanded(true);
-                        usedElements.append(i);
-                    }
-                    else {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                        newItem->setText(0, " | " + ae.article());
-                        newItem->setExpanded(true);
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-                QString text = ae.parentElementType();
-                if (text == "Подсистема") {
-                    if (findItemByTypeAndOrArticle(QString("Подсистема"), ae.parentElementArticle())) {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(
-                                    findItemByTypeAndOrArticle(QString("Подсистема"),
-                                                               ae.parentElementArticle()),
-                                                               ui->architectTreeWidget->currentItem());
-                        newItem->setIcon(0, QIcon(":/img/img/component.png"));
-                        newItem->setText(0, "Компонент | " + ae.article());
-                        newItem->setExpanded(true);
-                        usedElements.append(i);
-                    }
-                    else {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                        newItem->setText(0, " | " + ae.article());
-                        newItem->setExpanded(true);
-                    }
-                }
-            }
-        }
-
-
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-                QString text = ae.parentElementType();
-                if (text == "Компонент") {
-                    if (findItemByTypeAndOrArticle(QString("Компонент"), ae.parentElementArticle())) {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(
-                                                                           QString("Компонент"),
-                                                                           ae.parentElementArticle()),
-                                                                       ui->architectTreeWidget->currentItem());
-                        newItem->setIcon(0, QIcon(":/img/img/module.png"));
-                        newItem->setText(0, "Модуль | " + ae.article());
-                        newItem->setExpanded(true);
-                        usedElements.append(i);
-                    }
-                    else {
-                        QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                        newItem->setText(0, " | " + ae.article());
-                        newItem->setExpanded(true);
-                    }
-                }
-            }
-        }
-
-
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-                if (!usedElements.contains(i)) {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(unusedElementsItem,
+            QString text = ae.parentElementType();
+            if (text == "Система") {
+                if (findItemByTypeAndOrArticle(QString("Система"))) {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(QString("Система")),
                                                                    ui->architectTreeWidget->currentItem());
-                    newItem->setIcon(0, QIcon(":/img/img/unused.png"));
-                    newItem->setText(0, ae.type() + " | " + ae.article());
+                    newItem->setIcon(0, QIcon(":/img/img/subsystem.png"));
+                    newItem->setText(0, "Подсистема | " + ae.article());
+                    newItem->setExpanded(true);
+                    usedElements.append(i);
+                }
+                else {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
+                    newItem->setText(0, " | " + ae.article());
                     newItem->setExpanded(true);
                 }
             }
         }
     }
 
-    m_db.close();
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
+            QString text = ae.parentElementType();
+            if (text == "Подсистема") {
+                if (findItemByTypeAndOrArticle(QString("Подсистема"), ae.parentElementArticle())) {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(
+                                findItemByTypeAndOrArticle(QString("Подсистема"),
+                                                           ae.parentElementArticle()),
+                                                           ui->architectTreeWidget->currentItem());
+                    newItem->setIcon(0, QIcon(":/img/img/component.png"));
+                    newItem->setText(0, "Компонент | " + ae.article());
+                    newItem->setExpanded(true);
+                    usedElements.append(i);
+                }
+                else {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
+                    newItem->setText(0, " | " + ae.article());
+                    newItem->setExpanded(true);
+                }
+            }
+        }
+    }
+
+
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
+            QString text = ae.parentElementType();
+            if (text == "Компонент") {
+                if (findItemByTypeAndOrArticle(QString("Компонент"), ae.parentElementArticle())) {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(
+                                                                       QString("Компонент"),
+                                                                       ae.parentElementArticle()),
+                                                                   ui->architectTreeWidget->currentItem());
+                    newItem->setIcon(0, QIcon(":/img/img/module.png"));
+                    newItem->setText(0, "Модуль | " + ae.article());
+                    newItem->setExpanded(true);
+                    usedElements.append(i);
+                }
+                else {
+                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
+                    newItem->setText(0, " | " + ae.article());
+                    newItem->setExpanded(true);
+                }
+            }
+        }
+    }
+
+
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
+            if (!usedElements.contains(i)) {
+                QTreeWidgetItem *newItem = new QTreeWidgetItem(unusedElementsItem,
+                                                               ui->architectTreeWidget->currentItem());
+                newItem->setIcon(0, QIcon(":/img/img/unused.png"));
+                newItem->setText(0, ae.type() + " | " + ae.article());
+                newItem->setExpanded(true);
+            }
+        }
+    }
 }
 
 void BF_ArchitectForm::on_architectTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
@@ -350,33 +320,19 @@ void BF_ArchitectForm::on_architectTreeWidget_itemClicked(QTreeWidgetItem *item,
 
 void BF_ArchitectForm::on_setLinkButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectLinks>();
-        QDjango::createTables();
-        ArchitectLinks al;
-        al.setDescription(ui->linkDescriptionEdit->toPlainText());
-        al.setLinkA(ui->linkAEdit->text());
-        al.setLinkACount(QString("%1").arg(ui->linkACountBox->currentText()));
-        al.setLinkB(ui->linkBEdit->text());
-        al.setLinkBCount(QString("%1").arg(ui->linkBCountBox->currentText()));
-        al.setName(ui->nameLineEdit->text());
-        al.setType(ui->linkTypeBox->currentText());
-        al.save();
-    }
-    m_db.close();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectLinks>();
+    QDjango::createTables();
+    ArchitectLinks al;
+    al.setDescription(ui->linkDescriptionEdit->toPlainText());
+    al.setLinkA(ui->linkAEdit->text());
+    al.setLinkACount(QString("%1").arg(ui->linkACountBox->currentText()));
+    al.setLinkB(ui->linkBEdit->text());
+    al.setLinkBCount(QString("%1").arg(ui->linkBCountBox->currentText()));
+    al.setName(ui->nameLineEdit->text());
+    al.setType(ui->linkTypeBox->currentText());
+    al.save();
 
     on_resetLinkBButton_clicked();
     on_resetLinkBButton_clicked();
@@ -393,40 +349,25 @@ void BF_ArchitectForm::on_updateButton_clicked()
 
     ui->linkListWidget->clear();
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectLinks>();
+    QDjango::createTables();
+    QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
 
-        msg.createErrorMessage("Ошибка", text);
 
+    QList<QVariantMap> propertyMaps = someArchitectLinksElements.values(QStringList() << "id"
+                                                                        << "name"
+                                                                        << "type"
+                                                                        << "linkA"
+                                                                        << "linkB");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        ui->linkListWidget->addItem(QString("%1 | Название=%2 Тип=%3 A=%4 B=%5")
+                                  .arg(propertyMap["id"].toString())
+                                  .arg(propertyMap["name"].toString())
+                                  .arg(propertyMap["type"].toString())
+                                  .arg(propertyMap["linkA"].toString())
+                                  .arg(propertyMap["linkB"].toString()));
     }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectLinks>();
-        QDjango::createTables();
-        QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
-
-
-        QList<QVariantMap> propertyMaps = someArchitectLinksElements.values(QStringList() << "id"
-                                                                            << "name"
-                                                                            << "type"
-                                                                            << "linkA"
-                                                                            << "linkB");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            ui->linkListWidget->addItem(QString("%1 | Название=%2 Тип=%3 A=%4 B=%5")
-                                      .arg(propertyMap["id"].toString())
-                                      .arg(propertyMap["name"].toString())
-                                      .arg(propertyMap["type"].toString())
-                                      .arg(propertyMap["linkA"].toString())
-                                      .arg(propertyMap["linkB"].toString()));
-        }
-    }
-    m_db.close();
 }
 
 void BF_ArchitectForm::on_linkListWidget_currentTextChanged(const QString &currentText)
@@ -439,30 +380,15 @@ void BF_ArchitectForm::on_deleteLinkButton_clicked()
     bool ok;
     int id = ui->idLabel->text().toInt(&ok,10);
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectLinks>();
+    QDjango::createTables();
+    QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
+    someArchitectLinksElements = someArchitectLinksElements.filter(
+                QDjangoWhere("id", QDjangoWhere::Equals, id));
 
-        msg.createErrorMessage("Ошибка", text);
+    someArchitectLinksElements.remove();
 
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectLinks>();
-        QDjango::createTables();
-        QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
-        someArchitectLinksElements = someArchitectLinksElements.filter(
-                    QDjangoWhere("id", QDjangoWhere::Equals, id));
-
-        someArchitectLinksElements.remove();
-    }
-
-    m_db.close();
 
     on_updateButton_clicked();
 }
@@ -471,78 +397,48 @@ void BF_ArchitectForm::on_deleteLinkButton_clicked()
 
 void BF_ArchitectForm::on_changeButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectElement>();
+    QDjango::createTables();
+    ArchitectElement ae;
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
 
-        msg.createErrorMessage("Ошибка", text);
+    // Поиск системы
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
 
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectElement>();
-        QDjango::createTables();
-        ArchitectElement ae;
-        QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-        // Поиск системы
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-
-                QString parentType = ae.parentElementType();
-                QString type = ae.type();
-                if ((parentType == "") && (type == "Система")) {
-                    ae.setArticle(ui->sysNameEdit->text());
-                    ae.save();
-                    break;
-                }
+            QString parentType = ae.parentElementType();
+            QString type = ae.type();
+            if ((parentType == "") && (type == "Система")) {
+                ae.setArticle(ui->sysNameEdit->text());
+                ae.save();
+                break;
             }
         }
     }
-    m_db.close();
 }
 
 void BF_ArchitectForm::on_saveAliasButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectTypeAlias>();
+    QDjango::createTables();
+    QDjangoQuerySet<ArchitectTypeAlias> someArchitectElements;
 
-        msg.createErrorMessage("Ошибка", text);
+    someArchitectElements.remove();
 
-    }
-    else {
+    ArchitectTypeAlias ae;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectTypeAlias>();
-        QDjango::createTables();
-        QDjangoQuerySet<ArchitectTypeAlias> someArchitectElements;
+    ae.setType("Система");
+    ae.setAlias(ui->systemAliasEdit->text());
+    ae.setType("Подсистема");
+    ae.setAlias(ui->subsystemAliasEdit->text());
+    ae.setType("Компонент");
+    ae.setAlias(ui->componentAliasEdit->text());
+    ae.setType("Модуль");
+    ae.setAlias(ui->moduleAliasEdit->text());
 
-        someArchitectElements.remove();
-
-        ArchitectTypeAlias ae;
-
-        ae.setType("Система");
-        ae.setAlias(ui->systemAliasEdit->text());
-        ae.setType("Подсистема");
-        ae.setAlias(ui->subsystemAliasEdit->text());
-        ae.setType("Компонент");
-        ae.setAlias(ui->componentAliasEdit->text());
-        ae.setType("Модуль");
-        ae.setAlias(ui->moduleAliasEdit->text());
-
-        ae.save();
-    }
-    m_db.close();
+    ae.save();
 }
 
 void BF_ArchitectForm::on_editorButton_clicked()

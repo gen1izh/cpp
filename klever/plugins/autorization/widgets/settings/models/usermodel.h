@@ -2,6 +2,8 @@
 #define USERMODEL_H
 #include <QStringListModel>
 #include <QtSql/QSqlDatabase>
+#include "groupqdjangomodel.h"
+#include "roleqdjangomodel.h"
 
 class UserModel : public QStringListModel
 {
@@ -12,7 +14,7 @@ public:
 
   QStringList selectAllUsers();
 
-  void addUser(QString username, QString password, QString group);
+  void addUser(QString username, QString password, Group *group);
 
   void updateModel();
 

@@ -31,12 +31,6 @@ Q_UNUSED(event)
 
     UserModel userModel;
 
-    if (userModel.selectAllUsers().isEmpty()) {
-        userModel.addUser(QString("Administrator"),
-                          QString("admin"),
-                          QString("Administrators"));
-    }
-
     ui->usersBox->addItems(userModel.selectAllUsers());
 
 }

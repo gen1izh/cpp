@@ -41,7 +41,7 @@ public:
     bool removeRows(int position, int rows,
                     const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
-    void addGroup(QString name, QString parent, QString role, QString description);
+    void addGroup(QString name, QString parent, QString description);
 
     void deleteRecursiveGroup(const QModelIndex &index);
 

@@ -5,7 +5,7 @@
 #include "groupitem.h"
 #include "groupmodel.h"
 #include "groupqdjangomodel.h"
-
+#include <frameWork/base.h>
 #include <QDebug>
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
@@ -15,29 +15,28 @@ GroupModel::GroupModel(const QStringList &headers, QObject *parent)
     : QAbstractItemModel(parent)
 {
     QVector<QVariant> rootData;
-    foreach (QString header, headers)
+    foreach (QString header, headers) {
         rootData << header;
+    }
 
     m_rootItem = new GroupItem(rootData);
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Group>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    // Создаем группу по-умолчанию
+    QDjangoQuerySet<Group> groups;
+    groups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, "Administrators"));
 
+    if (groups.count()==0) {
+        Group _group;
+        _group.setName("Administrators");
+        _group.setDescription("admins");
+        _group.setParent("");
+        _group.save();
     }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Group>();
-        QDjango::createTables();
-    }
 
-    m_db.close();
 
     setupModelData(m_rootItem);
 }
@@ -158,33 +157,16 @@ bool GroupModel::removeRows(int position, int rows, const QModelIndex &parent)
     return success;
 }
 
-void GroupModel::addGroup(QString name, QString parent, QString role, QString description)
+void GroupModel::addGroup(QString name, QString parent, QString description)
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Group>();
-        QDjango::createTables();
-        Group *group = new Group;
-        group->setName(name);
-        group->setDescription(description);
-        group->setRole(role);
-        group->setParent(parent);
-        group->save();
-    }
-
-    m_db.close();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Group>();
+    QDjango::createTables();
+    Group *group = new Group;
+    group->setName(name);
+    group->setDescription(description);
+    group->setParent(parent);
+    group->save();
 }
 
 void GroupModel::deleteRecursiveGroup(const QModelIndex &index)
@@ -198,48 +180,33 @@ void GroupModel::deleteRecursiveGroup(const QModelIndex &index)
         removeRows(0, getItem(index)->childCount(), index);
     }
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Group>();
+    QDjango::createTables();
+    QDjangoQuerySet<Group> groups;
+    QDjangoQuerySet<Group> someGroups;
+    someGroups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    someGroups.remove();
 
-        msg.createErrorMessage("Ошибка", text);
+    groupsList << name;
 
-    }
-    else {
+    bool isDeleteProceed = true;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Group>();
-        QDjango::createTables();
-        QDjangoQuerySet<Group> groups;
-        QDjangoQuerySet<Group> someGroups;
-        someGroups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    while (isDeleteProceed) {
+        someGroups = groups.filter(QDjangoWhere("parent", QDjangoWhere::Equals, groupsList.first()));
+
+        foreach (const Group &group, someGroups) {
+            groupsList << group.name();
+        }
+
         someGroups.remove();
+        groupsList.pop_front();
 
-        groupsList << name;
-
-        bool isDeleteProceed = true;
-
-        while (isDeleteProceed) {
-            someGroups = groups.filter(QDjangoWhere("parent", QDjangoWhere::Equals, groupsList.first()));
-
-            foreach (const Group &group, someGroups) {
-                groupsList << group.name();
-            }
-
-            someGroups.remove();
-            groupsList.pop_front();
-
-            if (groupsList.isEmpty()) {
-                isDeleteProceed = false;
-            }
+        if (groupsList.isEmpty()) {
+            isDeleteProceed = false;
         }
     }
 
-    m_db.close();
 }
 
 void GroupModel::deleteGroup(const QModelIndex &index)
@@ -253,30 +220,14 @@ void GroupModel::deleteGroup(const QModelIndex &index)
         removeRows(0, 1, index);
     }
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Group>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Group>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Group> groups;
-        QDjangoQuerySet<Group> someGroups;
-        someGroups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-        someGroups.remove();
-    }
-
-    m_db.close();
+    QDjangoQuerySet<Group> groups;
+    QDjangoQuerySet<Group> someGroups;
+    someGroups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    someGroups.remove();
 }
 
 void GroupModel::updateModel()
@@ -348,59 +299,44 @@ void GroupModel::setupModelData(GroupItem *parent) {
     item->setIdentify(0);
     items << item;
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Group>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    bool isNeedScan = true;
+    while (isNeedScan) {
 
-    }
-    else {
+        QDjangoQuerySet<Group> groups;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Group>();
-        QDjango::createTables();
+        QDjangoQuerySet<Group> filtredGroup;
+        filtredGroup = groups.filter(QDjangoWhere("parent", QDjangoWhere::Equals, parents.first()));
 
-        bool isNeedScan = true;
-        while (isNeedScan) {
-
-            QDjangoQuerySet<Group> groups;
-
-            QDjangoQuerySet<Group> filtredGroup;
-            filtredGroup = groups.filter(QDjangoWhere("parent", QDjangoWhere::Equals, parents.first()));
-
-            foreach(GroupItem *_item, items) {
-                if (_item->data(0/*column name*/).toString() == parents.first()) {
-                    item = _item;
-                    break;
-                }
-            }
-
-            QList<QVariantMap> propertyMaps = filtredGroup.values(QStringList() << "name" << "description" << "id");
-            foreach (const QVariantMap &propertyMap, propertyMaps) {
-                item->insertChildren(item->childCount(), 1, m_rootItem->columnCount());
-                item->child(item->childCount() - 1)->setData(0, propertyMap["name"]);
-                item->child(item->childCount() - 1)->setData(1, propertyMap["description"]);
-
-                bool ok;
-                parents << propertyMap["name"].toString();
-                item->child(item->childCount() - 1)->setIdentify(propertyMap["id"].toInt(&ok));
-
-                items << (item->child(item->childCount() - 1));
-            }
-
-            parents.pop_front();
-
-            if (parents.isEmpty()) {
-                isNeedScan = false;
+        foreach(GroupItem *_item, items) {
+            if (_item->data(0/*column name*/).toString() == parents.first()) {
+                item = _item;
+                break;
             }
         }
+
+        QList<QVariantMap> propertyMaps = filtredGroup.values(QStringList() << "name" << "description" << "id");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            item->insertChildren(item->childCount(), 1, m_rootItem->columnCount());
+            item->child(item->childCount() - 1)->setData(0, propertyMap["name"]);
+            item->child(item->childCount() - 1)->setData(1, propertyMap["description"]);
+
+            bool ok;
+            parents << propertyMap["name"].toString();
+            item->child(item->childCount() - 1)->setIdentify(propertyMap["id"].toInt(&ok));
+
+            items << (item->child(item->childCount() - 1));
+        }
+
+        parents.pop_front();
+
+        if (parents.isEmpty()) {
+            isNeedScan = false;
+        }
     }
-    m_db.close();
 }
 
 

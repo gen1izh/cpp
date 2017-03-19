@@ -1,7 +1,7 @@
 #include "promissionmodel.h"
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
-
+#include <frameWork/base.h>
 #include "promissionqdjangomodel.h"
 
 #include <QMessageBox>
@@ -11,50 +11,40 @@
 
 PromissionModel::PromissionModel()
 {
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+    // Создаем роль по-умолчанию
+    QDjangoQuerySet<Role> roles;
+    roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, "Admin"));
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
+    if (roles.count()==0) {
         messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
+        msg.createInfoMessage("Информация",
+                              "Роль администратора отсутствует, разрешения по-умолчанию создать не могу!");
     }
     else {
+        addPromission( tr("Возможность смотреть документацию приложения"),    "CAN_SEE_APP_DOCS",          "CONST", roles.at(0) );
+        addPromission( tr("Возможность смотреть настройки приложения"),       "CAN_SEE_APP_SETTINGS",      "CONST", roles.at(0) );
+        addPromission( tr("Возможность смотреть меню плагинов приложения"), "CAN_SEE_MANAGERS_MENU",     "CONST", roles.at(0) );
+        addPromission( tr("Возможность управлять настройками плагинов"),    "CAN_SEE_MANAGERS_SETTINGS", "CONST", roles.at(0) );
+        addPromission( tr("Возможность работать с панелями плагинов"),      "CAN_SEE_MANAGERS_TOOLBAR",  "CONST", roles.at(0) );
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MANAGER_CONROLS_LEVEL_0",     "CONST", roles.at(0) );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MANAGER_CONROLS_LEVEL_1",     "CONST", roles.at(0) );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MANAGER_CONROLS_LEVEL_2",     "CONST", roles.at(0) );
 
-        QDjango::createTables();
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MODULES_CONROLS_LEVEL_0",     "CONST", roles.at(0) );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MODULES_CONROLS_LEVEL_1",     "CONST", roles.at(0) );
+        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MODULES_CONROLS_LEVEL_2",     "CONST", roles.at(0) );
 
-        addPromission( tr("Возможность смотреть документацию приложения"),    "CAN_SEE_APP_DOCS",          "CONST" );
-        addPromission( tr("Возможность смотреть настройки приложения"),       "CAN_SEE_APP_SETTINGS",      "CONST" );
-        addPromission( tr("Возможность смотреть меню плагинов приложения"), "CAN_SEE_MANAGERS_MENU",     "CONST" );
-        addPromission( tr("Возможность управлять настройками плагинов"),    "CAN_SEE_MANAGERS_SETTINGS", "CONST" );
-        addPromission( tr("Возможность работать с панелями плагинов"),      "CAN_SEE_MANAGERS_TOOLBAR",  "CONST" );
+        addPromission( tr("Возможность смотреть меню модулей приложения"),      "CAN_SEE_MODULES_MENU",            "CONST", roles.at(0) );
+        addPromission( tr("Возможность смотреть настройки модулей приложения"), "CAN_SEE_MODULES_SETTINGS",        "CONST", roles.at(0) );
+        addPromission( tr("Возможность смотреть панели модулей приложения"),    "CAN_SEE_MODULES_TOOLBAR",         "CONST", roles.at(0) );
 
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MANAGER_CONROLS_LEVEL_0",     "CONST" );
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MANAGER_CONROLS_LEVEL_1",     "CONST" );
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MANAGER_CONROLS_LEVEL_2",     "CONST" );
-
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 0"), "CAN_SEE_MODULES_CONROLS_LEVEL_0",     "CONST" );
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 1"), "CAN_SEE_MODULES_CONROLS_LEVEL_1",     "CONST" );
-        addPromission( tr("Возможность работать с элементами управления плагина на уровне 2"), "CAN_SEE_MODULES_CONROLS_LEVEL_2",     "CONST" );
-
-        addPromission( tr("Возможность смотреть меню модулей приложения"),      "CAN_SEE_MODULES_MENU",            "CONST" );
-        addPromission( tr("Возможность смотреть настройки модулей приложения"), "CAN_SEE_MODULES_SETTINGS",        "CONST" );
-        addPromission( tr("Возможность смотреть панели модулей приложения"),    "CAN_SEE_MODULES_TOOLBAR",         "CONST" );
-
-        addPromission( tr("Возможность работать в отладочном режиме"), "DEBUG_MODE",                    "CONST" );
+        addPromission( tr("Возможность работать в отладочном режиме"), "DEBUG_MODE", "CONST", roles.at(0) );
     }
-
-    m_db.close();
 }
 
 PromissionModel::~PromissionModel()
@@ -66,88 +56,48 @@ QStringList PromissionModel::selectAllPromission()
     QStringList tmp;
     tmp.clear();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
+
+    QDjangoQuerySet<Promission> proms;
+
+    QList<QVariantMap> propertyMaps =
+            proms.values(QStringList() << "name" << "signature" << "constant");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        tmp.append(propertyMap["name"].toString());
     }
-
-    QString path = QString("%1/%2")
-            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Promission> proms;
-
-        QList<QVariantMap> propertyMaps =
-                proms.values(QStringList() << "name" << "signature" << "constant");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            tmp.append(propertyMap["name"].toString());
-        }
-    }
-
-    m_db.close();
 
     return tmp;
 }
 
-void PromissionModel::addPromission(QString name, QString signature, QString constant) {
+void PromissionModel::addPromission(QString name, QString signature, QString constant, Role *role) {
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
 
-    QString path = QString("%1/%2")
-            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjangoQuerySet<Promission> proms;
+    bool isFind = false;
 
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-
-        QDjangoQuerySet<Promission> proms;
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
-        QDjango::createTables();
-
-        bool isFind = false;
-
-        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if ((propertyMap["signature"].toString() == signature) &&
-                    (propertyMap["constant"].toString() == "CONST") &&
-                    (constant == "CONST")) {
-                isFind = true;
-            }
-        }
-
-        if (!isFind) {
-            Promission *proms = new Promission;
-            proms->setName(name);
-            proms->setSignature(signature);
-            proms->setConstant(constant);
-
-            proms->save();
+    QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if ((propertyMap["signature"].toString() == signature) &&
+                (propertyMap["constant"].toString() == "CONST") &&
+                (constant == "CONST")) {
+            isFind = true;
         }
     }
 
-    m_db.close();
+    if (!isFind) {
+        Promission *proms = new Promission;
+        proms->setName(name);
+        proms->setSignature(signature);
+        proms->setConstant(constant);
+        proms->setRole(role);
+
+        proms->save();
+    }
 }
 
 void PromissionModel::updateModel()
@@ -163,44 +113,24 @@ void PromissionModel::deletePromission(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
 
-    QString path = QString("%1/%2")
-            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjangoQuerySet<Promission> proms;
+    QDjangoQuerySet<Promission> someProms;
+    someProms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
 
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Promission> proms;
-        QDjangoQuerySet<Promission> someProms;
-        someProms = proms.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-
-        QList<QVariantMap> propertyMaps = someProms.values(QStringList() << "name" << "signature" << "constant");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["constant"].toString() != "CONST") {
-                someProms.remove();
-            }
-            else {
-                QMessageBox msgBox;
-                msgBox.setText(tr("Вы пытаетесь удалить системное разрешение!"));
-                msgBox.exec();
-            }
+    QList<QVariantMap> propertyMaps = someProms.values(QStringList() << "name" << "signature" << "constant");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if (propertyMap["constant"].toString() != "CONST") {
+            someProms.remove();
+        }
+        else {
+            QMessageBox msgBox;
+            msgBox.setText(tr("Вы пытаетесь удалить системное разрешение!"));
+            msgBox.exec();
         }
     }
-
-    m_db.close();
 
 }

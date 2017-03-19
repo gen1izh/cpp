@@ -1,5 +1,22 @@
 #include "userqdjangomodel.h"
 
+
+User::User(QObject *parent)
+    : QDjangoModel(parent)
+{
+    setForeignKey("group", new Group(this));
+}
+
+Group *User::group() const
+{
+    return qobject_cast<Group *>(foreignKey("group"));
+}
+
+void User::setGroup(Group *group)
+{
+     setForeignKey("group", group);
+}
+
 QString User::username() const
 {
     return m_username;
@@ -18,15 +35,6 @@ QString User::password() const
 void User::setPassword(const QString &password)
 {
     m_password = password;
-}
-QString User::group() const
-{
-  return m_group;
-}
-
-void User::setGroup(const QString &group)
-{
-  m_group = group;
 }
 
 

@@ -6,6 +6,8 @@
 #include "models/promissionqdjangomodel.h"
 #include "models/promissionmodel.h"
 
+#include "models/roleqdjangomodel.h"
+
 namespace Ui {
 class AddPromissionDialog;
 }
@@ -31,6 +33,9 @@ private slots:
 
 private:
     Ui::AddPromissionDialog *ui;
+
+protected:
+    void showEvent(QShowEvent *);
 };
 
 #endif // ADD_PROMISSION_DIALOG_H

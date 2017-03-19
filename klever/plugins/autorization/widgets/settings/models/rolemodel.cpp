@@ -4,33 +4,33 @@
 #include <QDebug>
 #include <QCoreApplication>
 #include <library/message/messagelibrary.h>
+#include <frameWork/base.h>
 
 RoleModel::RoleModel()
 {
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Role>();
+    QDjango::createTables();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+    QDjangoQuerySet<Group> groups;
+    groups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, "Administrators"));
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
+    if (groups.count()==0) {
         messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
+        msg.createInfoMessage("Информация", "Группы администраторов нет, роль создать не могу!");
     }
     else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Role>();
-        QDjango::createTables();
+        // Создаем роль по-умолчанию
+        QDjangoQuerySet<Role> roles;
+        roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, "Admin"));
+
+        if (roles.count()==0) {
+            Role _role;
+            _role.setName("Admin");
+            _role.setGroup(groups.at(0));
+            _role.save();
+        }
     }
-
-    m_db.close();
-
 }
 
 RoleModel::~RoleModel(){}
@@ -40,65 +40,27 @@ QStringList RoleModel::selectAllRoles()
     QStringList tmp;
     tmp.clear();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Role>();
+    QDjango::createTables();
+    QDjangoQuerySet<Role> roles;
+
+    QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        tmp.append(propertyMap["name"].toString());
     }
-
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Role>();
-        QDjango::createTables();
-        QDjangoQuerySet<Role> roles;
-
-
-        QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name" << "promission");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            tmp.append(propertyMap["name"].toString());
-        }
-    }
-
-    m_db.close();
 
     return tmp;
 }
 
-void RoleModel::addRole(QString name, QString promission) {
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+void RoleModel::addRole(QString name) {
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Role>();
-        QDjango::createTables();
-        Role *role = new Role;
-        role->setName(name);
-        role->setPromission(promission);
-        role->save();
-    }
-    m_db.close();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Role>();
+    QDjango::createTables();
+    Role *role = new Role;
+    role->setName(name);
+    role->save();
 }
 
 void RoleModel::updateModel()
@@ -114,43 +76,12 @@ void RoleModel::deleteRole(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Role>();
+    QDjango::createTables();
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Role>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Role> roles;
-        roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
-        roles.remove();
-
-
-        QDjangoQuerySet<Group> groups;
-        groups = groups.filter(QDjangoWhere("role", QDjangoWhere::Equals, name));
-
-        Group group;
-        for (int i = 0; i < groups.size(); ++i) {
-            if (groups.at(i, &group)) {
-                group.setRole(QString(""));
-                group.save();
-            }
-        }
-    }
-
-    m_db.close();
+    QDjangoQuerySet<Role> roles;
+    roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, name));
+    roles.remove();
 
 }

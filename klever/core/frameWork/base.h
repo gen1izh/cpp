@@ -51,6 +51,8 @@ namespace Core {
       QScriptEngine  *_scriptEvaluteEngine;
 
 
+
+
       Base();
       Base(const Base& root);
       Base& operator=(const Base&);
@@ -77,8 +79,15 @@ namespace Core {
        */
       void startApp(QString exeName, QString arguments);
 
-    public:
+      QSqlDatabase *m_db;
 
+      void closeDatabase();
+    public:
+      /*!
+       * \brief Инициализация базы данных
+       * \return
+       */
+      int initializeDatabase();
       /*!
        * \brief Инстанцирование объекта Cve
        * \return
@@ -144,6 +153,11 @@ namespace Core {
         emit parameterValueChanged(key, value);
       }
 
+      template <typename T>
+      void registerModel() {
+          QDjango::registerModel<T>();
+      }
+
       /*!
        * \brief Возвращает хеш параметров
        * \return
@@ -200,10 +214,12 @@ namespace Core {
       int load();
 
       /*!
-       * \brief Удаление объектов модулей устройств
+       * \brief Завершаем работу всех плагинов
        */
       int finalize();
 
+      void createTables();
+      QSqlDatabase *database();
     signals:
       /*!
        * \brief Сигнал изменения значения параметра

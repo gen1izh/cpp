@@ -67,34 +67,16 @@ QStringList Core::Plugins::LoadListFromDatabase() {
 
     QStringList list;
 
-    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<PluginsQDjangoModel>();
+    QDjango::createTables();
+    QDjangoQuerySet<PluginsQDjangoModel> plugins;
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<PluginsQDjangoModel>();
-        QDjango::createTables();
-        QDjangoQuerySet<PluginsQDjangoModel> plugins;
-
-        foreach (const PluginsQDjangoModel &plugin, plugins) {
-            if (!plugin.name().trimmed().isEmpty()) {
-                list << plugin.name();
-            }
+    foreach (const PluginsQDjangoModel &plugin, plugins) {
+        if (!plugin.name().trimmed().isEmpty()) {
+            list << plugin.name();
         }
-
     }
-    m_db.close();
 
     return list;
 }
@@ -102,77 +84,42 @@ QStringList Core::Plugins::LoadListFromDatabase() {
 // Удаляем плагин из списка плагинов
 void Core::Plugins::DeletePluginFromDatabase(const QString &plugin_name) {
 
-    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<PluginsQDjangoModel>();
+    QDjango::createTables();
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjangoQuerySet<PluginsQDjangoModel> plugins;
+    plugins = plugins.filter(QDjangoWhere("name", QDjangoWhere::Equals, plugin_name) );
+    plugins.remove();
 
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<PluginsQDjangoModel>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<PluginsQDjangoModel> plugins;
-        plugins = plugins.filter(QDjangoWhere("name", QDjangoWhere::Equals, plugin_name) );
-        plugins.remove();
-
-    }
-    m_db.close();
 }
 
 // Добавляем в список плагинов новый плагин
 void Core::Plugins::AddNewPluginDatabase(const QString &plugin_name) {
 
-    QSqlDatabase m_db = QSqlDatabase::database("loadplugins");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "loadplugins");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<PluginsQDjangoModel>();
+    QDjango::createTables();
+
+    QDjangoQuerySet<PluginsQDjangoModel> plugins;
+
+    bool isFind = false;
+    foreach (const PluginsQDjangoModel &plugin, plugins) {
+
+            if (plugin.name() == plugin_name) {
+                isFind = true;
+                break;
+            }
     }
 
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__plugins");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
+    if (!isFind) {
+        QScopedPointer<PluginsQDjangoModel> newPlugin(new PluginsQDjangoModel());
+        newPlugin.data()->setName(plugin_name);
+        newPlugin.data()->save();
     }
     else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<PluginsQDjangoModel>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<PluginsQDjangoModel> plugins;
-
-        bool isFind = false;
-        foreach (const PluginsQDjangoModel &plugin, plugins) {
-
-                if (plugin.name() == plugin_name) {
-                    isFind = true;
-                    break;
-                }
-        }
-
-        if (!isFind) {
-            QScopedPointer<PluginsQDjangoModel> newPlugin(new PluginsQDjangoModel());
-            newPlugin.data()->setName(plugin_name);
-            newPlugin.data()->save();
-        }
-        else {
-            // TODO... message
-        }
+        // TODO... message
     }
-    m_db.close();
-
 }
 
 

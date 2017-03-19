@@ -20,7 +20,6 @@ public:
     ~AddRoleDialog();
 
     QString name() const;
-    QString promissions() const;
 
     RoleModel *modelRoles() const;
     void setModelRoles(RoleModel *modelRoles);
@@ -29,7 +28,6 @@ protected:
     void showEvent(QShowEvent *);
 
 private slots:
-    void on_addButton_clicked();
 
     void on_buttonBox_accepted();
 

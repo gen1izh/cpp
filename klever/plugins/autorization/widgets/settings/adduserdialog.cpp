@@ -3,8 +3,7 @@
 #include <QRegExp>
 #include <QRegExpValidator>
 #include <library/orm/db/QDjangoQuerySet.h>
-#include "models/userqdjangomodel.h"
-#include "models/groupqdjangomodel.h"
+#include <frameWork/base.h>
 #include <library/message/messagelibrary.h>
 
 AddUserDialog::AddUserDialog(QWidget *parent) :
@@ -16,44 +15,24 @@ AddUserDialog::AddUserDialog(QWidget *parent) :
 
 
 void AddUserDialog::showEvent(QShowEvent *) {
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
+    QRegExp rx("^(\\w+\\s+)$");
+    QValidator *validator = new QRegExpValidator(rx, this);
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    ui->usernameEdit->setValidator(validator);
+
+    ui->passwordEdit->setValidator(validator);
+
+    QDjangoQuerySet<Group> groups;
+
+    ui->groupBox->addItem("");
+
+    QList<QVariantMap> propertyMaps = groups.values(QStringList() << "name");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        ui->groupBox->addItem(propertyMap["name"].toString());
     }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
-        QDjango::createTables();
-        QRegExp rx("^(\\w+\\s+)$");
-        QValidator *validator = new QRegExpValidator(rx, this);
-
-        ui->usernameEdit->setValidator(validator);
-
-        ui->passwordEdit->setValidator(validator);
-
-        QDjangoQuerySet<Group> groups;
-
-        ui->groupBox->addItem("");
-
-        QList<QVariantMap> propertyMaps = groups.values(QStringList() << "name");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            ui->groupBox->addItem(propertyMap["name"].toString());
-        }
-    }
-
-    m_db.close();
 }
 
 AddUserDialog::~AddUserDialog()
@@ -66,9 +45,18 @@ QString AddUserDialog::username() const
     return ui->usernameEdit->text();
 }
 
-QString AddUserDialog::group() const
+Group *AddUserDialog::group() const
 {
-    return ui->groupsEdit->text();
+    QDjangoQuerySet<Group> groups;
+    Group *gr;
+    for (int i = 0; i < groups.size(); ++i) {
+        if (groups.at(i, gr)) {
+            if (ui->groupsEdit->text() == gr->name()) {
+                return gr;
+            }
+        }
+    }
+    return NULL;
 }
 
 QString AddUserDialog::password() const

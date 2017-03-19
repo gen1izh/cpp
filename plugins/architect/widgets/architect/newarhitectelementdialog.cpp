@@ -72,50 +72,35 @@ void NewArhitectElementDialog::on_buttonBox_accepted()
  */
 int NewArhitectElementDialog::addNewElement()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectElement>();
+    QDjango::createTables();
 
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("article",
+                                                                      QDjangoWhere::Equals,
+                                                                      ui->smallTextEdit->text()));
+
+    if (someArchitectElements.size()>0) {
+        QMessageBox msgBox;
+         msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
+                        "Должен быть только один элемент c идентификатором!");
+         msgBox.exec();
+         return false;
     }
     else {
+        ArchitectElement ae;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectElement>();
-        QDjango::createTables();
+        ae.setArticle(ui->smallTextEdit->text());
+        ae.setName(ui->nameEdit->text());
+        ae.setDescription(ui->descriptionArchitectEdit->toPlainText());
+        ae.setType(ui->archElementBox->currentText().trimmed());
+        ae.setParentElementType(ui->parentTypeLabel->text().trimmed());
+        ae.setParentElementArticle(ui->parentNameLabel->text().trimmed());
 
-        QDjangoQuerySet<ArchitectElement> someArchitectElements;
-        someArchitectElements = someArchitectElements.filter(QDjangoWhere("article",
-                                                                          QDjangoWhere::Equals,
-                                                                          ui->smallTextEdit->text()));
-
-        if (someArchitectElements.size()>0) {
-            QMessageBox msgBox;
-             msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
-                            "Должен быть только один элемент c идентификатором!");
-             msgBox.exec();
-             return false;
-        }
-        else {
-            ArchitectElement ae;
-
-            ae.setArticle(ui->smallTextEdit->text());
-            ae.setName(ui->nameEdit->text());
-            ae.setDescription(ui->descriptionArchitectEdit->toPlainText());
-            ae.setType(ui->archElementBox->currentText().trimmed());
-            ae.setParentElementType(ui->parentTypeLabel->text().trimmed());
-            ae.setParentElementArticle(ui->parentNameLabel->text().trimmed());
-
-            ae.save();
-        }
+        ae.save();
     }
-
-    m_db.close();
 
     return true;
 }
@@ -125,45 +110,28 @@ int NewArhitectElementDialog::addNewElement()
  */
 void NewArhitectElementDialog::on_checkButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ArchitectElement>();
+    QDjango::createTables();
+    ArchitectElement ae;
 
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ArchitectElement>();
-        QDjango::createTables();
-        ArchitectElement ae;
-
-        QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
 
 
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-                QString text = ae.article();
-                if (text==ui->smallTextEdit->text()) {
-                     QMessageBox msgBox;
-                     msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
-                                    "Должен быть только один элемент c идентификатором!");
-                     msgBox.exec();
-                     return;
-                }
+    for (int i = 0; i < someArchitectElements.size(); ++i) {
+        if (someArchitectElements.at(i, &ae)) {
+            QString text = ae.article();
+            if (text==ui->smallTextEdit->text()) {
+                 QMessageBox msgBox;
+                 msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
+                                "Должен быть только один элемент c идентификатором!");
+                 msgBox.exec();
+                 return;
             }
         }
-
-        QMessageBox msgBox;
-        msgBox.setText("Идентификатор уникален, используйте!");
-        msgBox.exec();
-
     }
 
-    m_db.close();
+    QMessageBox msgBox;
+    msgBox.setText("Идентификатор уникален, используйте!");
+    msgBox.exec();
 }

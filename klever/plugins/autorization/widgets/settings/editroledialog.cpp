@@ -30,7 +30,7 @@ EditRoleDialog::EditRoleDialog(QWidget *parent, QString name) :
 
       QDjangoQuerySet<Role> roles;
 
-      propertyMaps = roles.values(QStringList() << "name" << "promission");
+      propertyMaps = roles.values(QStringList() << "name");
       foreach (const QVariantMap &propertyMap, propertyMaps) {
           if (propertyMap["name"].toString() == name) {
               m_name = propertyMap["name"].toString();

@@ -20,7 +20,6 @@ public:
 
   QString name() const;
   QString parent() const;
-  QString role() const;
   QString description() const;
 
 protected:

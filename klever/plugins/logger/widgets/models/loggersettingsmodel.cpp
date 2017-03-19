@@ -10,10 +10,6 @@
 
 LoggerSettingsModel::LoggerSettingsModel()
 {
-    m_db = QSqlDatabase::database("loggerSettings");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "loggerSettings");
-    }
 
     QString path = Core::Base::instance().getParameterValue(QString("[Session]Folder"), QString(""));
     path += "/logs";
@@ -27,25 +23,14 @@ LoggerSettingsModel::LoggerSettingsModel()
 
     path = QString("%1/%2").arg(path).arg("__logger");
 
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<LoggerSettingsQDjangoModel>();
-        QDjango::createTables();
-    }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<LoggerSettingsQDjangoModel>();
+    QDjango::createTables();
 }
 
 LoggerSettingsModel::~LoggerSettingsModel()
 {
-    m_db.close();
+//    m_db.close();
 }
 
 /*

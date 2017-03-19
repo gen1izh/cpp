@@ -24,7 +24,7 @@ class MainQDjangoModel : public QDjangoModel
     Q_CLASSINFO("mainTitleApp", "max_length=255")
 
     Q_PROPERTY(QString changelog READ changelog WRITE setChangelog)
-    Q_CLASSINFO("changelog", "max_length=8192")
+    Q_CLASSINFO("changelog", "")
 
     Q_PROPERTY(QString style READ style WRITE setStyle)
     Q_CLASSINFO("style", "max_length=32")

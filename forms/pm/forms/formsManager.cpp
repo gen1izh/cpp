@@ -133,10 +133,16 @@ void FormsManager::createToolBar() {
         pluginsBar->addAction(getManagerAction_FromWAPair(tr("logger"), tr("(Logger)Watcher")));
     }
 
-    if (Core::Plugins::instance().isPluginExist(tr("project_manager"))) {
+    if (Core::Plugins::instance().isPluginExist(tr("analysis"))) {
         pluginsBar->addAction(getManagerAction_FromWAPair(tr("analysis"), tr("(PM)BF_AnalizeForm")));
+    }
+    if (Core::Plugins::instance().isPluginExist(tr("architect"))) {
         pluginsBar->addAction(getManagerAction_FromWAPair(tr("architect"), tr("(PM)BF_ArchitectForm")));
+    }
+    if (Core::Plugins::instance().isPluginExist(tr("deploy"))) {
         // pluginsBar->addAction(getManagerAction_FromWAPair(tr("deploy"), tr("(PM)BF_DeployBuildForm")));
+    }
+    if (Core::Plugins::instance().isPluginExist(tr("document"))) {
         pluginsBar->addAction(getManagerAction_FromWAPair(tr("document"), tr("(PM)BF_DocumentsForm")));
     }
 }

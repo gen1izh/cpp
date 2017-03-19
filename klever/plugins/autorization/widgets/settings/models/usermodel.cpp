@@ -4,36 +4,37 @@
 #include <QDebug>
 #include "userqdjangomodel.h"
 #include <QCoreApplication>
-
+#include <frameWork/base.h>
 #include <library/message/messagelibrary.h>
 
 UserModel::UserModel()
 {
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
+    QDjangoQuerySet<Group> groups;
+    groups = groups.filter(QDjangoWhere("name", QDjangoWhere::Equals, "Administrators"));
+
+    if (groups.count()==0) {
         messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
+        msg.createInfoMessage("Информация", "Группы администраторов нет, пользователя создать не могу!");
     }
     else {
+        // Создаем пользователя по-умолчанию
+        QDjangoQuerySet<User> users;
+        users = users.filter(QDjangoWhere("username", QDjangoWhere::Equals, "Administrator"));
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
+        qDebug() << users.count();
 
-        QDjango::createTables();
+        if (users.count()==0) {
+            User _user;
+            _user.setUsername("Administrator");
+            _user.setPassword("admin");
+            _user.setGroup(groups.at(0));
+            _user.save();
+        }
     }
-
-    m_db.close();
-
 }
 
 UserModel::~UserModel()
@@ -42,113 +43,50 @@ UserModel::~UserModel()
 
 QStringList UserModel::selectAllUsers()
 {
-
     QStringList tmp;
     tmp.clear();
 
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QDjangoQuerySet<User> users;
+
+    QList<QVariantMap> propertyMaps = users.values(QStringList() << "username" << "password");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        tmp.append(propertyMap["username"].toString());
     }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
-
-        QDjango::createTables();
-        QDjangoQuerySet<User> users;
-
-
-        QList<QVariantMap> propertyMaps = users.values(QStringList() << "username" << "password" << "group");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            tmp.append(propertyMap["username"].toString());
-        }
-
-    }
-
-    m_db.close();
 
     return tmp;
 }
 
-void UserModel::addUser(QString username, QString password, QString group) {
+void UserModel::addUser(QString username, QString password, Group *group) {
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
-
-        QDjango::createTables();
-        User *user = new User;
-        user->setUsername(username);
-        user->setPassword(password);
-        user->setGroup(group);
-        user->save();
-    }
-
-    m_db.close();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
+    User *user = new User;
+    user->setUsername(username);
+    user->setPassword(password);
+    user->setGroup(group);
+    user->save();
 }
 
 QString UserModel::getUserPasswordByName(QString username) {
     QStringList tmp;
     tmp.clear();
 
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
+    QDjangoQuerySet<User> users;
 
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
-
-        QDjango::createTables();
-        QDjangoQuerySet<User> users;
-
-        QList<QVariantMap> propertyMaps = users.values(QStringList() << "username" << "password" << "group");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["username"].toString() == username) {
-                return propertyMap["password"].toString();
-            }
+    QList<QVariantMap> propertyMaps = users.values(QStringList() << "username" << "password" );
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if (propertyMap["username"].toString() == username) {
+            return propertyMap["password"].toString();
         }
     }
-
-    m_db.close();
 
     return QString("");
 }
@@ -160,39 +98,16 @@ void UserModel::updateModel()
 
 void UserModel::deleteUser(const QModelIndex &index)
 {
-
     QStringList usersList;
     usersList.clear();
 
     QString username = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<User>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<User> users;
-        QDjangoQuerySet<User> someUsers;
-        someUsers = users.filter(QDjangoWhere("username", QDjangoWhere::Equals, username));
-        someUsers.remove();
-    }
-
-    m_db.close();
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<User>();
+    QDjango::createTables();
+    QDjangoQuerySet<User> users;
+    users = users.filter(QDjangoWhere("username", QDjangoWhere::Equals, username));
+    users.remove();
 }

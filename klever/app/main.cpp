@@ -26,11 +26,6 @@ int main(int argc, char *argv[]) {
     // Настройка кодировки приложения.
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
 
-    // Чтение информации о приложении.
-    // Компания, название программы, автор и тд.
-    // Инициализирует объект information этими данными.
-    KApplication::readInformation();
-
     // Инициализация путей к плагинам приложения.
     KApplication::initPluginsPath();
 

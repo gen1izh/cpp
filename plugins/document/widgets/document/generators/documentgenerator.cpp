@@ -112,7 +112,10 @@ DocumentGenerator::DocumentGenerator()
 QString DocumentGenerator::generate()
 {
 
-    QString path = QString("%1%2").arg(QDir::currentPath()).arg("/document/doc/document.html");
+    QString path = QString("%1%2")
+            .arg(Core::Base::instance().getParameterValue(QString("[Session]Folder"), QString("")))
+            .arg("/document/doc/document.html");
+
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return QString("None");

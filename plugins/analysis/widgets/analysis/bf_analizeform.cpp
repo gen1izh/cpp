@@ -131,63 +131,46 @@ bool BF_AnalizeForm::fillRequirements(const QString &rtype,
 
     bool isFind;
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
-//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
-    m_db.setUserName("sa");
-    m_db.setPassword("commp123");
 
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<RequirementElement>();
+    QDjango::createTables();
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    someRequirementElements = someRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, rtype));
 
-        msg.createErrorMessage("Ошибка", text);
+    RequirementElement re;
+    isFind = false;
+    bool ok; // TODO: Сделать проверку.
+    for (int i = 0; i < someRequirementElements.size(); ++i) {
+        if (someRequirementElements.at(i, &re)) {
 
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<RequirementElement>();
-        QDjango::createTables();
-        QDjangoQuerySet<RequirementElement> someRequirementElements;
-        someRequirementElements = someRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, rtype));
-
-        RequirementElement re;
-        isFind = false;
-        bool ok; // TODO: Сделать проверку.
-        for (int i = 0; i < someRequirementElements.size(); ++i) {
-            if (someRequirementElements.at(i, &re)) {
-
-                for (int j = 0; j < reqItem->childCount(); j++) {
-                    // ФТ001.Компонент.Модуль - Название
-                    QString rid = QString(reqItem->child(j)->text(0).split(".").at(0)).right(3);
-                    if (re.identificator() == rid.toInt(&ok,10)) {
-                        isFind = true;
-                        break;
-                    }
+            for (int j = 0; j < reqItem->childCount(); j++) {
+                // ФТ001.Компонент.Модуль - Название
+                QString rid = QString(reqItem->child(j)->text(0).split(".").at(0)).right(3);
+                if (re.identificator() == rid.toInt(&ok,10)) {
+                    isFind = true;
+                    break;
                 }
-
-                if (!isFind) {
-                    QTreeWidgetItem *item = new QTreeWidgetItem();
-                    QString tmp = QString("%1%2.%3.%4 - %5")
-                            .arg(rtype)
-                            .arg(re.identificator(), 3, 10, QLatin1Char('0'))
-                            .arg(re.component())
-                            .arg(re.module())
-                            .arg(re.name());
-                    item->setText(0, tmp);
-
-                    reqItem->addChild(item);
-                }
-
-                isFind = false;
             }
+
+            if (!isFind) {
+                QTreeWidgetItem *item = new QTreeWidgetItem();
+                QString tmp = QString("%1%2.%3.%4 - %5")
+                        .arg(rtype)
+                        .arg(re.identificator(), 3, 10, QLatin1Char('0'))
+                        .arg(re.component())
+                        .arg(re.module())
+                        .arg(re.name());
+                item->setText(0, tmp);
+
+                reqItem->addChild(item);
+            }
+
+            isFind = false;
         }
     }
 
-    m_db.close();
     return isFind;
 }
 
@@ -370,43 +353,24 @@ void BF_AnalizeForm::on_deleteButton_clicked()
     int rid   = (QString(tmp).right(3)).toInt(&ok, 10);
     QString rtype = QString(tmp).left(2);
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
-//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
-    m_db.setUserName("sa");
-    m_db.setPassword("commp123");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<RequirementElement>();
+    QDjango::createTables();
 
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    someRequirementElements = someRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, rtype));
 
-        msg.createErrorMessage("Ошибка", text);
+    RequirementElement m_re;
 
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<RequirementElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<RequirementElement> someRequirementElements;
-        someRequirementElements = someRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, rtype));
-
-        RequirementElement m_re;
-
-        for (int i = 0; i < someRequirementElements.size(); ++i) {
-            if (someRequirementElements.at(i, &m_re)) {
-                if (m_re.identificator() == rid) {
-                    m_re.remove();
-                    break;
-                }
+    for (int i = 0; i < someRequirementElements.size(); ++i) {
+        if (someRequirementElements.at(i, &m_re)) {
+            if (m_re.identificator() == rid) {
+                m_re.remove();
+                break;
             }
         }
     }
-
-    m_db.close();
 
     QList<QTreeWidgetItem*> reqItem;
 

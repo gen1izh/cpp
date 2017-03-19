@@ -66,6 +66,14 @@ void KApplication::instanceTopManagers()
     // Инициализация базового компонента
     Core::Base::instance();
 
+    // Инициализация БД
+    Core::Base::instance().initializeDatabase();
+
+    // Чтение информации о приложении.
+    // Компания, название программы, автор и тд.
+    // Инициализирует объект information этими данными.
+    readInformation();
+
     // Инстанцирование главного плагина
     Core::Plugins::instance();
 

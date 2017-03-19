@@ -19,6 +19,7 @@
 #include "models/promissionqdjangomodel.h"
 #include "models/roleqdjangomodel.h"
 
+#include <library/message/messagelibrary.h>
 
 #include <QMessageBox>
 #include <QDebug>
@@ -39,6 +40,11 @@ PersonalData::PersonalData(QWidget *parent) :
     ui->groupsView->setColumnWidth(0, 150);
     ui->groupsView->setSelectionMode(QAbstractItemView::SingleSelection);
 
+    // Создание модели ролей
+    m_modelRoles = new RoleModel();
+    m_modelRoles->setStringList(m_modelRoles->selectAllRoles());
+    ui->rolesView->setModel(m_modelRoles);
+
     // Создание модели пользователей
     m_modelUsers = new UserModel();
     m_modelUsers->setStringList(m_modelUsers->selectAllUsers());
@@ -48,11 +54,6 @@ PersonalData::PersonalData(QWidget *parent) :
     m_modelPromissions = new PromissionModel();
     m_modelPromissions->setStringList(m_modelPromissions->selectAllPromission());
     ui->promissionsView->setModel(m_modelPromissions);
-
-    // Создание модели ролей
-    m_modelRoles = new RoleModel();
-    m_modelRoles->setStringList(m_modelRoles->selectAllRoles());
-    ui->rolesView->setModel(m_modelRoles);
 
 }
 
@@ -108,7 +109,7 @@ void PersonalData::on_addGroupButton_clicked()
         }
 
         if (!isFind) {
-            m_modelGroups->addGroup(dial->name(), dial->parent(), dial->role(), dial->description());
+            m_modelGroups->addGroup(dial->name(), dial->parent(), dial->description());
             m_modelGroups->updateModel();
             ui->groupsView->expandAll();
         }
@@ -134,7 +135,7 @@ void PersonalData::on_editGroupButton_clicked()
     if (!name.isEmpty()) {
         if ( dial->exec() == QDialog::Accepted ) {
             m_modelGroups->deleteGroup(tmp);
-            m_modelGroups->addGroup(dial->name(), dial->parent(), dial->role(), dial->description());
+            m_modelGroups->addGroup(dial->name(), dial->parent(), dial->description());
             m_modelGroups->updateModel();
             ui->groupsView->expandAll();
         }
@@ -180,9 +181,9 @@ void PersonalData::on_editUserButton_clicked()
             m_modelUsers->addUser(dial->username(), dial->password(), dial->group());
             m_modelUsers->updateModel();
         } else {
-            QMessageBox msgBox;
-            msgBox.setText(tr("Пользователь с таким названием уже существует!"));
-            msgBox.exec();
+            messageLibrary msg;
+            msg.createInfoMessage(tr("Информация"),
+                                  tr("Пользователь с таким именем уже существует!"));
         }
     }
 
@@ -224,36 +225,25 @@ void PersonalData::on_addRoleButton_clicked()
 void PersonalData::on_editRoleButton_clicked()
 {
 
-    QString oldRoleName = m_modelRoles->data(ui->rolesView->currentIndex(), Qt::DisplayRole).toString();
+    QString oldRoleName =
+            m_modelRoles->data(ui->rolesView->currentIndex(), Qt::DisplayRole).toString();
 
     EditRoleDialog *dial = new EditRoleDialog(NULL, oldRoleName);
 
-    if ( dial->exec() == QDialog::Accepted ) {
+    if (dial->exec() == QDialog::Accepted) {
 
         QDjangoQuerySet<Role> roles;
 
         roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, dial->name()));
 
-        // Если подобных записей нет, то создаем...
+        // Если роли с таким именем нет(отредактированное имя!), то создаем...
         if (roles.size() == 0) {
             QDjangoQuerySet<Role> roles;
             Role role;
             roles = roles.filter(QDjangoWhere("name", QDjangoWhere::Equals, oldRoleName));
             roles.at(0, &role);
             role.setName(dial->name());
-            role.setPromission(dial->promission());
             role.save();
-
-            QDjangoQuerySet<Group> groups;
-            groups = groups.filter(QDjangoWhere("role", QDjangoWhere::Equals, oldRoleName));
-
-            Group group;
-            for (int i = 0; i < groups.size(); ++i) {
-              if (groups.at(i, &group)) {
-                group.setRole(dial->name());
-                group.save();
-              }
-            }
 
             m_modelRoles->updateModel();
         }

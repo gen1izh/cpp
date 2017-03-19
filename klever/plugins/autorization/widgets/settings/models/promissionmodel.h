@@ -2,6 +2,7 @@
 #define PROMISSION_MODEL_H
 #include <QStringListModel>
 #include <QtSql/QSqlDatabase>
+#include "roleqdjangomodel.h"
 
 class PromissionModel : public QStringListModel
 {
@@ -12,7 +13,7 @@ public:
 
   QStringList selectAllPromission();
 
-  void addPromission(QString name, QString signature, QString constant);
+  void addPromission(QString name, QString signature, QString constant, Role *role);
 
   void updateModel();
 

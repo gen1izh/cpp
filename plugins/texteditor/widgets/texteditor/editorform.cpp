@@ -36,49 +36,34 @@ EditorForm::~EditorForm()
  */
 void EditorForm::loadDescription() {
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<DocElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjangoQuerySet<DocElement> someDocElements;
 
+    someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
+
+    if (someDocElements.count() > 1) {
+        QMessageBox msgBox;
+         msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
+                        "Должен быть только один элемент!");
+         msgBox.exec();
     }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<DocElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<DocElement> someDocElements;
-
-        someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
-
-        if (someDocElements.count() > 1) {
-            QMessageBox msgBox;
-             msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
-                            "Должен быть только один элемент!");
-             msgBox.exec();
-        }
-        else if (someDocElements.count() == 1) {
-            // Находим нужный элемент и меняем его.
-            DocElement de;
-            for (int i = 0; i < someDocElements.size(); ++i) {
-                if (someDocElements.at(i, &de)) {
-                    if (de.name() == ui->nameEdit->text()) {
-                        ui->descriptionEdit->setText(de.description());
-                    }
+    else if (someDocElements.count() == 1) {
+        // Находим нужный элемент и меняем его.
+        DocElement de;
+        for (int i = 0; i < someDocElements.size(); ++i) {
+            if (someDocElements.at(i, &de)) {
+                if (de.name() == ui->nameEdit->text()) {
+                    ui->descriptionEdit->setText(de.description());
                 }
             }
         }
-        else {
-            ui->descriptionEdit->setText("");
-        }
     }
-    m_db.close();
+    else {
+        ui->descriptionEdit->setText("");
+    }
 
 }
 
@@ -140,38 +125,22 @@ void EditorForm::refreshImagesList(){
 
     ui->picturesList->clear();
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ImagesElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjangoQuerySet<ImagesElement> someImagesElements;
 
-    }
-    else {
+    ImagesElement ie;
+    for (int i = 0; i < someImagesElements.size(); ++i) {
+        if (someImagesElements.at(i, &ie)) {
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ImagesElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<ImagesElement> someImagesElements;
-
-        ImagesElement ie;
-        for (int i = 0; i < someImagesElements.size(); ++i) {
-            if (someImagesElements.at(i, &ie)) {
-
-                ui->picturesList->addItem(
-                            QString("%1 || %2").arg(ie.filename())
-                                           .arg(ie.name()));
-            }
+            ui->picturesList->addItem(
+                        QString("%1 || %2").arg(ie.filename())
+                                       .arg(ie.name()));
         }
-
     }
 
-    m_db.close();
 }
 
 /*
@@ -193,93 +162,74 @@ void EditorForm::showEvent(QShowEvent *event)
     ui->frBox->clear();
     ui->nfrBox->clear();
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
-//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
-    m_db.setUserName("sa");
-    m_db.setPassword("commp123");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<TermsElement>();
+    QDjango::createTables();
 
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjangoQuerySet<TermsElement> someTermsElements;
 
-        msg.createErrorMessage("Ошибка", text);
-
+    TermsElement m_re;
+    for (int i = 0; i < someTermsElements.size(); ++i) {
+        if (someTermsElements.at(i, &m_re)) {
+            ui->terminBox->addItem(m_re.name());
+        }
     }
-    else {
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<TermsElement>();
-        QDjango::createTables();
+    QDjangoQuerySet<GlossaryElement> someGlossaryElementElements;
 
-        QDjangoQuerySet<TermsElement> someTermsElements;
-
-        TermsElement m_re;
-        for (int i = 0; i < someTermsElements.size(); ++i) {
-            if (someTermsElements.at(i, &m_re)) {
-                ui->terminBox->addItem(m_re.name());
-            }
+    GlossaryElement m_ge;
+    for (int i = 0; i < someGlossaryElementElements.size(); ++i) {
+        if (someGlossaryElementElements.at(i, &m_ge)) {
+            ui->glossaryBox->addItem(m_ge.name());
         }
-
-        QDjangoQuerySet<GlossaryElement> someGlossaryElementElements;
-
-        GlossaryElement m_ge;
-        for (int i = 0; i < someGlossaryElementElements.size(); ++i) {
-            if (someGlossaryElementElements.at(i, &m_ge)) {
-                ui->glossaryBox->addItem(m_ge.name());
-            }
-        }
-
-
-        QDjangoQuerySet<RequirementElement> someRequirementElements;
-        someRequirementElements = someRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, QString("ФТ")));
-
-        RequirementElement re;
-        for (int i = 0; i < someRequirementElements.size(); ++i) {
-            if (someRequirementElements.at(i, &re)) {
-
-                QString tmp = QString("%1%2")
-                        .arg(re.rtype())
-                        .arg(re.identificator(), 3, 10, QLatin1Char('0'));
-
-                ui->frBox->addItem(tmp);
-            }
-        }
-
-
-        QDjangoQuerySet<RequirementElement> someNoFunctionalRequirementElements;
-        someNoFunctionalRequirementElements = someNoFunctionalRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, QString("НФТ")));
-
-        RequirementElement nfre;
-        for (int i = 0; i < someNoFunctionalRequirementElements.size(); ++i) {
-            if (someNoFunctionalRequirementElements.at(i, &nfre)) {
-
-                QString tmp = QString("%1%2")
-                        .arg(nfre.rtype())
-                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
-
-                ui->nfrBox->addItem(tmp);
-            }
-        }
-
-
-
-        QDjangoQuerySet<DocElement> someDocElements;
-
-        DocElement de;
-        for (int i = 0; i < someDocElements.size(); ++i) {
-            if (someDocElements.at(i, &de)) {
-                if (de.type() == QString("ПРИЛОЖЕНИЕ")) {
-                    ui->appendixBox->addItem(de.name());
-                }
-            }
-        }
-
     }
-    m_db.close();
+
+
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    someRequirementElements = someRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("ФТ")));
+
+    RequirementElement re;
+    for (int i = 0; i < someRequirementElements.size(); ++i) {
+        if (someRequirementElements.at(i, &re)) {
+
+            QString tmp = QString("%1%2")
+                    .arg(re.rtype())
+                    .arg(re.identificator(), 3, 10, QLatin1Char('0'));
+
+            ui->frBox->addItem(tmp);
+        }
+    }
+
+
+    QDjangoQuerySet<RequirementElement> someNoFunctionalRequirementElements;
+    someNoFunctionalRequirementElements = someNoFunctionalRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("НФТ")));
+
+    RequirementElement nfre;
+    for (int i = 0; i < someNoFunctionalRequirementElements.size(); ++i) {
+        if (someNoFunctionalRequirementElements.at(i, &nfre)) {
+
+            QString tmp = QString("%1%2")
+                    .arg(nfre.rtype())
+                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
+
+            ui->nfrBox->addItem(tmp);
+        }
+    }
+
+
+
+    QDjangoQuerySet<DocElement> someDocElements;
+
+    DocElement de;
+    for (int i = 0; i < someDocElements.size(); ++i) {
+        if (someDocElements.at(i, &de)) {
+            if (de.type() == QString("ПРИЛОЖЕНИЕ")) {
+                ui->appendixBox->addItem(de.name());
+            }
+        }
+    }
 
 }
 
@@ -304,83 +254,67 @@ void EditorForm::on_browselButton_clicked()
  */
 void EditorForm::on_addImageButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ImagesElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    if (ui->nameImageEdit->text().isEmpty()) {
+        QMessageBox msgBox;
+         msgBox.setText("Введите название!");
+         msgBox.exec();
+         return;
+    }
 
+    if (ui->pathEdit->text().isEmpty()) {
+        QMessageBox msgBox;
+         msgBox.setText("Выберите файл!");
+         msgBox.exec();
+         return;
+    }
+
+    QFileInfo file(ui->pathEdit->text());
+
+    QString filename = file.fileName();
+
+
+    QDjangoQuerySet<ImagesElement> someImagesElements;
+    someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
+                                                                QDjangoWhere::Equals,
+                                                                filename));
+
+    if (someImagesElements.count() > 1) {
+        QMessageBox msgBox;
+         msgBox.setText("Картинка с именем " +  ui->pathEdit->text() + " создана несколько раз!"\
+                        "Должен быть только один элемент картинки с таким именем!");
+         msgBox.exec();
+         return;
+    }
+    else if (someImagesElements.count() == 1) {
+        QMessageBox msgBox;
+         msgBox.setText("Картинка с именем " +  ui->pathEdit->text() + " уже создана!"\
+                        "Должен быть только один элемент картинки с таким именем!"\
+                        "Если хотите заменить картинку, то сначала удалите старую, а затем закачайте новую.");
+         msgBox.exec();
+         return;
     }
     else {
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ImagesElement>();
-        QDjango::createTables();
+        //
+        // Картинки до этого момента с таким именем не существовало.
+        //
 
-        if (ui->nameImageEdit->text().isEmpty()) {
-            QMessageBox msgBox;
-             msgBox.setText("Введите название!");
-             msgBox.exec();
-             return;
+        // Проверяем загружена ли картинка.
+        if (loadImage(ui->pathEdit->text(), filename) == true) {
+
+            ImagesElement ie;
+            ie.setName(ui->nameImageEdit->text());
+            ie.setFilename(filename);
+            ie.save();
         }
-
-        if (ui->pathEdit->text().isEmpty()) {
-            QMessageBox msgBox;
-             msgBox.setText("Выберите файл!");
-             msgBox.exec();
-             return;
-        }
-
-        QFileInfo file(ui->pathEdit->text());
-
-        QString filename = file.fileName();
-
-
-        QDjangoQuerySet<ImagesElement> someImagesElements;
-        someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
-                                                                    QDjangoWhere::Equals,
-                                                                    filename));
-
-        if (someImagesElements.count() > 1) {
-            QMessageBox msgBox;
-             msgBox.setText("Картинка с именем " +  ui->pathEdit->text() + " создана несколько раз!"\
-                            "Должен быть только один элемент картинки с таким именем!");
-             msgBox.exec();
-             return;
-        }
-        else if (someImagesElements.count() == 1) {
-            QMessageBox msgBox;
-             msgBox.setText("Картинка с именем " +  ui->pathEdit->text() + " уже создана!"\
-                            "Должен быть только один элемент картинки с таким именем!"\
-                            "Если хотите заменить картинку, то сначала удалите старую, а затем закачайте новую.");
-             msgBox.exec();
-             return;
-        }
-        else {
-
-            //
-            // Картинки до этого момента с таким именем не существовало.
-            //
-
-            // Проверяем загружена ли картинка.
-            if (loadImage(ui->pathEdit->text(), filename) == true) {
-
-                ImagesElement ie;
-                ie.setName(ui->nameImageEdit->text());
-                ie.setFilename(filename);
-                ie.save();
-            }
-        }
-
-        // Обновить список картинок в редакторе.
-        refreshImagesList();
     }
 
-    m_db.close();
+    // Обновить список картинок в редакторе.
+    refreshImagesList();
 }
 
 /*
@@ -388,21 +322,7 @@ void EditorForm::on_addImageButton_clicked()
  */
 void EditorForm::on_deleteImageButton_clicked()
 {
-
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
+        QDjango::setDatabase(*Core::Base::instance().database());
         QDjango::registerModel<ImagesElement>();
         QDjango::createTables();
 
@@ -453,9 +373,6 @@ void EditorForm::on_deleteImageButton_clicked()
             msgBox.setText("Картинка с именем " +  imageName + " отсутствует!");
             msgBox.exec();
         }
-    }
-    m_db.close();
-
 }
 
 /*
@@ -565,77 +482,60 @@ void EditorForm::on_picturesList_clicked(const QModelIndex &index)
  */
 void EditorForm::on_editNameButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<ImagesElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
-
+    if (ui->editNameButton->isChecked()) {
+        ui->newNameEdit->setEnabled(true);
     }
     else {
+                QString imageFileName = (ui->picturesList->currentItem()->text().split("||")).at(0);
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<ImagesElement>();
-        QDjango::createTables();
+                imageFileName = imageFileName.trimmed(); // удаляем пробелы вначале строки в конце.
 
-        if (ui->editNameButton->isChecked()) {
-            ui->newNameEdit->setEnabled(true);
-        }
-        else {
-                    QString imageFileName = (ui->picturesList->currentItem()->text().split("||")).at(0);
+                QDjangoQuerySet<ImagesElement> someImagesElements;
+                someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
+                                                                            QDjangoWhere::Equals,
+                                                                            imageFileName));
 
-                    imageFileName = imageFileName.trimmed(); // удаляем пробелы вначале строки в конце.
+                if (someImagesElements.count() > 1) {
+                    QMessageBox msgBox;
+                    msgBox.setText("Картинок " +  imageFileName + " создано больше одной."\
+                                   "Должен быть только один элемент картинки с таким именем!");
+                    msgBox.exec();
+
+                    ui->newNameEdit->setEnabled(false);
+                    return;
+                }
+                else if (someImagesElements.count() == 1) {
 
                     QDjangoQuerySet<ImagesElement> someImagesElements;
-                    someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
-                                                                                QDjangoWhere::Equals,
-                                                                                imageFileName));
 
-                    if (someImagesElements.count() > 1) {
-                        QMessageBox msgBox;
-                        msgBox.setText("Картинок " +  imageFileName + " создано больше одной."\
-                                       "Должен быть только один элемент картинки с таким именем!");
-                        msgBox.exec();
-
-                        ui->newNameEdit->setEnabled(false);
-                        return;
-                    }
-                    else if (someImagesElements.count() == 1) {
-
-                        QDjangoQuerySet<ImagesElement> someImagesElements;
-
-                        ImagesElement ie;
-                        for (int i = 0; i < someImagesElements.size(); ++i) {
-                            if (someImagesElements.at(i, &ie)->filename() == imageFileName) {
-                                ie.setName(ui->newNameEdit->text());
-                                ie.save();
-                            }
+                    ImagesElement ie;
+                    for (int i = 0; i < someImagesElements.size(); ++i) {
+                        if (someImagesElements.at(i, &ie)->filename() == imageFileName) {
+                            ie.setName(ui->newNameEdit->text());
+                            ie.save();
                         }
-
-                        // Обновить список картинок в редакторе.
-                        refreshImagesList();
-
-                        ui->newNameEdit->setEnabled(false);
-
-                        return;
-                    }
-                    else {
-                        QMessageBox msgBox;
-                        msgBox.setText("Картинка с именем " +  imageFileName + " отсутствует!");
-                        msgBox.exec();
                     }
 
-            ui->newNameEdit->setEnabled(false);
+                    // Обновить список картинок в редакторе.
+                    refreshImagesList();
 
-        }
+                    ui->newNameEdit->setEnabled(false);
+
+                    return;
+                }
+                else {
+                    QMessageBox msgBox;
+                    msgBox.setText("Картинка с именем " +  imageFileName + " отсутствует!");
+                    msgBox.exec();
+                }
+
+        ui->newNameEdit->setEnabled(false);
+
     }
-
-    m_db.close();
-
 }
 
 /*
@@ -951,61 +851,44 @@ void EditorForm::on_appendixBox_activated(const QString &arg1)
 void EditorForm::on_frBox_activated(const QString &arg1)
 {
 Q_UNUSED(arg1)
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
-//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
-    m_db.setUserName("sa");
-    m_db.setPassword("commp123");
 
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<RequirementElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QString result = "";
 
-    }
-    else {
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    someRequirementElements = someRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("ФТ")));
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<RequirementElement>();
-        QDjango::createTables();
+    QString name;
 
-        QString result = "";
+    RequirementElement nfre;
+    for (int i = 0; i < someRequirementElements.size(); ++i) {
+        if (someRequirementElements.at(i, &nfre)) {
 
-        QDjangoQuerySet<RequirementElement> someRequirementElements;
-        someRequirementElements = someRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, QString("ФТ")));
+            QString tmp = QString("%1%2")
+                    .arg(nfre.rtype())
+                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
 
-        QString name;
-
-        RequirementElement nfre;
-        for (int i = 0; i < someRequirementElements.size(); ++i) {
-            if (someRequirementElements.at(i, &nfre)) {
-
-                QString tmp = QString("%1%2")
+            if ( ui->frBox->currentText() == tmp) {
+                name =  QString("%1%2.%3.%5 - %6")
                         .arg(nfre.rtype())
-                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
-
-                if ( ui->frBox->currentText() == tmp) {
-                    name =  QString("%1%2.%3.%5 - %6")
-                            .arg(nfre.rtype())
-                            .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
-                            .arg(nfre.component())
-                            .arg(nfre.module())
-                            .arg(nfre.name());
-                    break;
-                }
+                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
+                        .arg(nfre.component())
+                        .arg(nfre.module())
+                        .arg(nfre.name());
+                break;
             }
         }
-
-        result = "[H2]" + name + "[/H2] \n";
-        result += "[BODY_FR:"+ ui->frBox->currentText()+"]\n";
-
-        ui->descriptionEdit->textCursor().insertText(result);
     }
 
-    m_db.close();
+    result = "[H2]" + name + "[/H2] \n";
+    result += "[BODY_FR:"+ ui->frBox->currentText()+"]\n";
+
+    ui->descriptionEdit->textCursor().insertText(result);
+
 }
 
 void EditorForm::on_crBox_activated(const QString &arg1)
@@ -1035,61 +918,44 @@ void EditorForm::on_crBox_activated(const QString &arg1)
 void EditorForm::on_nfrBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "pm");
-//    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(/*path*/ "DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__PM;Trusted_Connection=yes;");
-    m_db.setUserName("sa");
-    m_db.setPassword("commp123");
 
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<RequirementElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QString result = "";
 
-    }
-    else {
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    someRequirementElements = someRequirementElements.filter(
+                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("НФТ")));
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<RequirementElement>();
-        QDjango::createTables();
+    QString name;
 
-        QString result = "";
+    RequirementElement nfre;
+    for (int i = 0; i < someRequirementElements.size(); ++i) {
+        if (someRequirementElements.at(i, &nfre)) {
 
-        QDjangoQuerySet<RequirementElement> someRequirementElements;
-        someRequirementElements = someRequirementElements.filter(
-                    QDjangoWhere("rtype", QDjangoWhere::Equals, QString("НФТ")));
+            QString tmp = QString("%1%2")
+                    .arg(nfre.rtype())
+                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
 
-        QString name;
-
-        RequirementElement nfre;
-        for (int i = 0; i < someRequirementElements.size(); ++i) {
-            if (someRequirementElements.at(i, &nfre)) {
-
-                QString tmp = QString("%1%2")
+            if ( ui->nfrBox->currentText() == tmp) {
+                name =  QString("%1%2.%3.%5 - %6")
                         .arg(nfre.rtype())
-                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
-
-                if ( ui->nfrBox->currentText() == tmp) {
-                    name =  QString("%1%2.%3.%5 - %6")
-                            .arg(nfre.rtype())
-                            .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
-                            .arg(nfre.component())
-                            .arg(nfre.module())
-                            .arg(nfre.name());
-                    break;
-                }
+                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
+                        .arg(nfre.component())
+                        .arg(nfre.module())
+                        .arg(nfre.name());
+                break;
             }
         }
-
-        result = "[H2]" + name + "[/H2] \n";
-        result += "[BODY_NFR:"+ ui->nfrBox->currentText()+"]\n";
-
-        ui->descriptionEdit->textCursor().insertText(result);
     }
 
-    m_db.close();
+    result = "[H2]" + name + "[/H2] \n";
+    result += "[BODY_NFR:"+ ui->nfrBox->currentText()+"]\n";
+
+    ui->descriptionEdit->textCursor().insertText(result);
+
 }
 
 void EditorForm::on_brBox_activated(const QString &arg1)
@@ -1122,127 +988,96 @@ void EditorForm::on_glossaryBox_activated(const QString &arg1)
 
 void EditorForm::on_scanTermsButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<TermsElement>();
+    QDjango::createTables();
 
-    }
-    else {
+    QDjangoQuerySet<TermsElement> someTermsElements;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<TermsElement>();
-        QDjango::createTables();
+    QList<QString> abbrList;
 
-        QDjangoQuerySet<TermsElement> someTermsElements;
-
-        QList<QString> abbrList;
-
-        TermsElement m_re;
-        for (int i = 0; i < someTermsElements.size(); ++i) {
-            if (someTermsElements.at(i, &m_re)) {
-                abbrList.append(m_re.name());
-            }
+    TermsElement m_re;
+    for (int i = 0; i < someTermsElements.size(); ++i) {
+        if (someTermsElements.at(i, &m_re)) {
+            abbrList.append(m_re.name());
         }
+    }
 
-        QString tmp = ui->descriptionEdit->toPlainText();
+    QString tmp = ui->descriptionEdit->toPlainText();
 
-        foreach(const QString& abbr, abbrList) {
+    foreach(const QString& abbr, abbrList) {
 
-            int result = tmp.indexOf(abbr);
-            if (result!=-1) {
-                QChar chStart;
-                QChar chEnd;
+        int result = tmp.indexOf(abbr);
+        if (result!=-1) {
+            QChar chStart;
+            QChar chEnd;
 
-                chStart = chEnd = QChar(0);
+            chStart = chEnd = QChar(0);
 
-                if (result>0) {
-                    chStart = tmp.at(result-1);
-                }
+            if (result>0) {
+                chStart = tmp.at(result-1);
+            }
 
-                if (abbr.length()+result < tmp.length()) {
-                    chEnd = tmp.at(result+abbr.length());
-                }
+            if (abbr.length()+result < tmp.length()) {
+                chEnd = tmp.at(result+abbr.length());
+            }
 
-                if ((!chStart.isLetterOrNumber()) && (!chEnd.isLetterOrNumber())) {
-                    if ((chEnd!='[') && (chStart!=']') ) {
-                        tmp.replace(abbr, QString("[TERM]%1[/TERM]").arg(abbr));
-                    }
+            if ((!chStart.isLetterOrNumber()) && (!chEnd.isLetterOrNumber())) {
+                if ((chEnd!='[') && (chStart!=']') ) {
+                    tmp.replace(abbr, QString("[TERM]%1[/TERM]").arg(abbr));
                 }
             }
         }
-        ui->descriptionEdit->setText(tmp);
     }
-
-    m_db.close();
+    ui->descriptionEdit->setText(tmp);
 
 }
 
 void EditorForm::on_scanGlossaryButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<GlossaryElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjangoQuerySet<GlossaryElement> someGlossaryElements;
 
-    }
-    else {
+    QList<QString> abbrList;
 
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<GlossaryElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<GlossaryElement> someGlossaryElements;
-
-        QList<QString> abbrList;
-
-        GlossaryElement m_re;
-        for (int i = 0; i < someGlossaryElements.size(); ++i) {
-            if (someGlossaryElements.at(i, &m_re)) {
-                abbrList.append(m_re.name());
-            }
+    GlossaryElement m_re;
+    for (int i = 0; i < someGlossaryElements.size(); ++i) {
+        if (someGlossaryElements.at(i, &m_re)) {
+            abbrList.append(m_re.name());
         }
+    }
 
-        QString tmp = ui->descriptionEdit->toPlainText();
+    QString tmp = ui->descriptionEdit->toPlainText();
 
-        foreach(const QString& abbr, abbrList) {
+    foreach(const QString& abbr, abbrList) {
 
-            int result = tmp.indexOf(abbr);
-            if (result!=-1) {
-                QChar chStart;
-                QChar chEnd;
+        int result = tmp.indexOf(abbr);
+        if (result!=-1) {
+            QChar chStart;
+            QChar chEnd;
 
-                chStart = chEnd = QChar(0);
+            chStart = chEnd = QChar(0);
 
-                if (result>0) {
-                    chStart = tmp.at(result-1);
-                }
+            if (result>0) {
+                chStart = tmp.at(result-1);
+            }
 
-                if (abbr.length()+result < tmp.length()) {
-                    chEnd = tmp.at(result+abbr.length());
-                }
+            if (abbr.length()+result < tmp.length()) {
+                chEnd = tmp.at(result+abbr.length());
+            }
 
-                if ((!chStart.isLetterOrNumber()) && (!chEnd.isLetterOrNumber())) {
-                    if ((chEnd!='[') && (chStart!=']') ) {
-                        tmp.replace(abbr, QString("[DEFINE]%1[/DEFINE]").arg(abbr));
-                    }
+            if ((!chStart.isLetterOrNumber()) && (!chEnd.isLetterOrNumber())) {
+                if ((chEnd!='[') && (chStart!=']') ) {
+                    tmp.replace(abbr, QString("[DEFINE]%1[/DEFINE]").arg(abbr));
                 }
             }
         }
-        ui->descriptionEdit->setText(tmp);
     }
-
-    m_db.close();
+    ui->descriptionEdit->setText(tmp);
 }
 
 void EditorForm::on_anchorButton_clicked()
@@ -1266,57 +1101,40 @@ void EditorForm::on_gotoAnchorButton_clicked()
 
 void EditorForm::on_saveButton_clicked()
 {
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<DocElement>();
+    QDjango::createTables();
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjangoQuerySet<DocElement> someDocElements;
+    someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
 
+    if (someDocElements.count() > 1) {
+        QMessageBox msgBox;
+         msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
+                        "Должен быть только один элемент!");
+         msgBox.exec();
     }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<DocElement>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<DocElement> someDocElements;
-        someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
-
-        if (someDocElements.count() > 1) {
-            QMessageBox msgBox;
-             msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
-                            "Должен быть только один элемент!");
-             msgBox.exec();
-        }
-        else if (someDocElements.count() == 1) {
-            // Находим нужный элемент и меняем его.
-            DocElement de;
-            for (int i = 0; i < someDocElements.size(); ++i) {
-                if (someDocElements.at(i, &de)) {
-                    if (de.name() == ui->nameEdit->text()) {
-                        de.setName(ui->nameEdit->text());
-                        de.setType(ui->docTypeLabel->text());
-                        de.setDescription(ui->descriptionEdit->toPlainText());
-                        de.save();
-                    }
+    else if (someDocElements.count() == 1) {
+        // Находим нужный элемент и меняем его.
+        DocElement de;
+        for (int i = 0; i < someDocElements.size(); ++i) {
+            if (someDocElements.at(i, &de)) {
+                if (de.name() == ui->nameEdit->text()) {
+                    de.setName(ui->nameEdit->text());
+                    de.setType(ui->docTypeLabel->text());
+                    de.setDescription(ui->descriptionEdit->toPlainText());
+                    de.save();
                 }
             }
         }
-        else {
-            DocElement de;
-            de.setName(ui->nameEdit->text());
-            de.setType(ui->docTypeLabel->text());
-            de.setDescription(ui->descriptionEdit->toPlainText());
-            de.save();
-        }
-
     }
-
-    m_db.close();
+    else {
+        DocElement de;
+        de.setName(ui->nameEdit->text());
+        de.setType(ui->docTypeLabel->text());
+        de.setDescription(ui->descriptionEdit->toPlainText());
+        de.save();
+    }
 
     ui->saveButton->setEnabled(false);
 }

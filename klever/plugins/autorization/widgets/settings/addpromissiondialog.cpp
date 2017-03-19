@@ -2,7 +2,7 @@
 #include "ui_addpromissiondialog.h"
 #include <QRegExp>
 #include <QRegExpValidator>
-
+#include <frameWork/base.h>
 #include <library/orm/db/QDjango.h>
 #include <library/orm/db/QDjangoQuerySet.h>
 
@@ -55,49 +55,55 @@ QString AddPromissionDialog::signature() const
 
 void AddPromissionDialog::on_buttonBox_accepted()
 {
-    QSqlDatabase m_db = QSqlDatabase::database("autorization");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "autorization");
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
+
+    QDjangoQuerySet<Promission> proms;
+
+    bool isFind = false;
+
+    QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        if (propertyMap["signature"].toString() == ui->signatureEdit->text()) {
+            isFind = true;
+        }
     }
 
-    QString path = QString("%1/%2")
-            .arg(QCoreApplication::applicationDirPath()).arg("__autorization");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    if (!isFind) {
 
-        msg.createErrorMessage("Ошибка", text);
+        QDjangoQuerySet<Role> roles;
+        Role role;
+        for (int i = 0; i < roles.size(); ++i) {
+          if (roles.at(i, &role)) {
+              if (role.name() == ui->rolesBox->currentText()) {
+                  m_modelPromissions->addPromission(ui->promissionEdit->text(),
+                                                    ui->signatureEdit->text(), "",
+                                                    &role);
+                  m_modelPromissions->updateModel();
+                  break;
+              }
+          }
+        }
     }
     else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<Promission>();
-        QDjango::createTables();
-
-        QDjangoQuerySet<Promission> proms;
-
-        bool isFind = false;
-
-        QList<QVariantMap> propertyMaps = proms.values(QStringList() << "name" << "signature" << "constant");
-        foreach (const QVariantMap &propertyMap, propertyMaps) {
-            if (propertyMap["signature"].toString() == ui->signatureEdit->text()) {
-                isFind = true;
-            }
-        }
-
-        if (!isFind) {
-            m_modelPromissions->addPromission(ui->promissionEdit->text(), ui->signatureEdit->text(), "");
-            m_modelPromissions->updateModel();
-        }
-        else {
-            QMessageBox msgBox;
-            msgBox.setText(tr("Разрешение с таким названием уже существует!"));
-            msgBox.exec();
-        }
+        QMessageBox msgBox;
+        msgBox.setText(tr("Разрешение с таким названием уже существует!"));
+        msgBox.exec();
     }
 
-    m_db.close();
+}
 
+void AddPromissionDialog::showEvent(QShowEvent *)
+{
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<Promission>();
+    QDjango::createTables();
+
+    QDjangoQuerySet<Role> roles;
+
+    QList<QVariantMap> propertyMaps = roles.values(QStringList() << "name" );
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        ui->rolesBox->addItem(propertyMap["name"].toString());
+    }
 }

@@ -35,127 +35,108 @@
    <property name="bottomMargin">
     <number>2</number>
    </property>
-   <item row="1" column="5">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Управление приложениями</string>
+   <item row="1" column="3">
+    <widget class="QPushButton" name="terminButton">
+     <property name="enabled">
+      <bool>true</bool>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="leftMargin">
-       <number>2</number>
-      </property>
-      <property name="topMargin">
-       <number>2</number>
-      </property>
-      <property name="rightMargin">
-       <number>2</number>
-      </property>
-      <property name="bottomMargin">
-       <number>2</number>
-      </property>
-      <item>
-       <widget class="QLineEdit" name="appendixNameEdit">
-        <property name="minimumSize">
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Введите название нового приложения...</string>
-        </property>
-        <property name="placeholderText">
-         <string>Введите название нового приложения...</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="createAppendixButton">
-        <property name="minimumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="toolTip">
-         <string>Добавить новое приложение</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-          <normaloff>:/images/raznoe31/raznoe31/48x48/8.png</normaloff>:/images/raznoe31/raznoe31/48x48/8.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="deleteAppendixButton">
-        <property name="minimumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="cursor">
-         <cursorShape>PointingHandCursor</cursorShape>
-        </property>
-        <property name="toolTip">
-         <string>Удалить выбранное приложение</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-          <normaloff>:/images/raznoe31/raznoe31/48x48/9.png</normaloff>:/images/raznoe31/raznoe31/48x48/9.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>48</width>
-          <height>48</height>
-         </size>
-        </property>
-        <property name="flat">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string>Термины</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/5.png</normaloff>:/images/raznoe31/raznoe31/48x48/5.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="1" column="1">
+    <widget class="QPushButton" name="generateDocumentsButton">
+     <property name="minimumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string>Генерация документации</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/43.png</normaloff>:/images/raznoe31/raznoe31/48x48/43.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
     <spacer name="horizontalSpacer">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -167,26 +148,95 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0" colspan="7">
-    <widget class="QPlainTextEdit" name="logEdit">
+   <item row="1" column="2">
+    <widget class="QPushButton" name="glossaryButton">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="minimumSize">
       <size>
-       <width>0</width>
-       <height>150</height>
+       <width>48</width>
+       <height>48</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>16777215</width>
-       <height>150</height>
+       <width>48</width>
+       <height>48</height>
       </size>
      </property>
-     <property name="textInteractionFlags">
-      <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string>Глоссарий</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/29.png</normaloff>:/images/raznoe31/raznoe31/48x48/29.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="7">
+   <item row="3" column="0" rowspan="4" colspan="6">
+    <widget class="QListWidget" name="documentsListWidget">
+     <property name="editTriggers">
+      <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+     </property>
+     <property name="sortingEnabled">
+      <bool>false</bool>
+     </property>
+     <item>
+      <property name="text">
+       <string>Спецификация требований</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Описание ПО</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Руководство пользователя</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="2" column="7">
+    <widget class="QLabel" name="label_3">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Дополнительно</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="7" rowspan="4">
     <widget class="QTreeWidget" name="documentTreeWidget">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -196,8 +246,8 @@
      </property>
      <property name="font">
       <font>
-       <family>MS Shell Dlg 2</family>
-       <pointsize>12</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <column>
@@ -205,33 +255,6 @@
        <string>Название документа</string>
       </property>
      </column>
-     <item>
-      <property name="text">
-       <string>Спецификация требований</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Описание ПО</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Руководство пользователя</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>:/img/img/document_item.png</normaloff>:/img/img/document_item.png</iconset>
-      </property>
-     </item>
      <item>
       <property name="text">
        <string>Информация о ПО</string>
@@ -309,41 +332,64 @@
      </item>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QPushButton" name="generateDocumentsButton">
+   <item row="5" column="6">
+    <widget class="QPushButton" name="deleteDocumentButton">
      <property name="minimumSize">
       <size>
-       <width>48</width>
-       <height>48</height>
+       <width>32</width>
+       <height>32</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>48</width>
-       <height>48</height>
+       <width>32</width>
+       <height>32</height>
       </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="toolTip">
-      <string>Генерация документации</string>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/raznoe31/raznoe31/48x48/43.png</normaloff>:/images/raznoe31/raznoe31/48x48/43.png</iconset>
+       <normaloff>:/images/raznoe31/raznoe31/48x48/118.png</normaloff>:/images/raznoe31/raznoe31/48x48/118.png</iconset>
      </property>
      <property name="iconSize">
       <size>
-       <width>48</width>
-       <height>48</height>
+       <width>32</width>
+       <height>32</height>
       </size>
      </property>
-     <property name="default">
-      <bool>false</bool>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <widget class="QPushButton" name="addDocumentButton">
+     <property name="minimumSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+       <normaloff>:/images/raznoe31/raznoe31/48x48/112.png</normaloff>:/images/raznoe31/raznoe31/48x48/112.png</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>32</width>
+       <height>32</height>
+      </size>
      </property>
      <property name="flat">
       <bool>true</bool>
@@ -366,7 +412,8 @@
      </property>
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
       </font>
      </property>
      <property name="cursor">
@@ -393,92 +440,178 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Результат генерации:</string>
+   <item row="6" column="6">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="7">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>Управление приложениями</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="QLineEdit" name="appendixNameEdit">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="toolTip">
+         <string>Введите название нового приложения...</string>
+        </property>
+        <property name="placeholderText">
+         <string>Введите название нового приложения...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="createAppendixButton">
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string>Добавить новое приложение</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+          <normaloff>:/images/raznoe31/raznoe31/48x48/8.png</normaloff>:/images/raznoe31/raznoe31/48x48/8.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="deleteAppendixButton">
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="toolTip">
+         <string>Удалить выбранное приложение</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
+          <normaloff>:/images/raznoe31/raznoe31/48x48/9.png</normaloff>:/images/raznoe31/raznoe31/48x48/9.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="flat">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="1" column="4">
-    <widget class="QPushButton" name="terminButton">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="toolTip">
-      <string>Термины</string>
+   <item row="2" column="0" colspan="6">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="text">
-      <string/>
+      <string>Документы</string>
      </property>
-     <property name="icon">
-      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/raznoe31/raznoe31/48x48/5.png</normaloff>:/images/raznoe31/raznoe31/48x48/5.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QPushButton" name="glossaryButton">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="cursor">
-      <cursorShape>PointingHandCursor</cursorShape>
-     </property>
-     <property name="toolTip">
-      <string>Глоссарий</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="icon">
-      <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/raznoe31/raznoe31/48x48/29.png</normaloff>:/images/raznoe31/raznoe31/48x48/29.png</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>48</width>
-       <height>48</height>
-      </size>
-     </property>
-     <property name="flat">
-      <bool>true</bool>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>

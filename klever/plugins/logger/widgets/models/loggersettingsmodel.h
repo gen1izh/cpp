@@ -11,7 +11,7 @@ class LoggerSettingsModel : public QObject
 {
     Q_OBJECT
 
-    QSqlDatabase m_db;
+//    QSqlDatabase m_db;
 
 public:
     LoggerSettingsModel();

@@ -1,20 +1,9 @@
 #include "groupqdjangomodel.h"
 
+Group::Group(QObject *parent)
+    : QDjangoModel(parent) {
 
-//Group::Group(QObject *parent)
-//{
-//    setForeignKey("role", new Role());
-//}
-
-//Role *Group::role() const
-//{
-//    return qobject_cast<Role *>(foreignKey("role"));
-//}
-
-//void Group::setRole(Role *role)
-//{
-//     setForeignKey("role", role);
-//}
+}
 
 QString Group::name() const
 {
@@ -24,16 +13,6 @@ QString Group::name() const
 void Group::setName(const QString &name)
 {
     m_name = name;
-}
-
-QString Group::role() const
-{
-    return m_role;
-}
-
-void Group::setRole(const QString &role)
-{
-    m_role = role;
 }
 
 void Group::setDescription(const QString &description)

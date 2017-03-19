@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "models/groupqdjangomodel.h"
+
 namespace Ui {
 class EditUserDialog;
 }
@@ -20,9 +22,11 @@ public:
     ~EditUserDialog();
 
     QString username() const;
-    QString group() const;
+    Group *group() const;
     QString password() const;
 
+protected:
+    void showEvent(QShowEvent *);
 private slots:
     void on_addButton_clicked();
 

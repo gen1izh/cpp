@@ -37,6 +37,14 @@ private slots:
     void on_documentTreeWidget_doubleClicked(const QModelIndex &index);
 
 
+    void on_addDocumentButton_clicked();
+
+    void on_deleteDocumentButton_clicked();
+
+    void on_documentTreeWidget_clicked(const QModelIndex &index);
+
+    void on_documentsListWidget_clicked(const QModelIndex &index);
+
 signals:
     void openTexteditor();
 

@@ -3,6 +3,9 @@
 
 #include <QDialog>
 
+#include "models/userqdjangomodel.h"
+#include "models/groupqdjangomodel.h"
+
 namespace Ui {
 class AddUserDialog;
 }
@@ -16,7 +19,7 @@ public:
   ~AddUserDialog();
 
   QString username() const;
-  QString group() const;
+  Group *group() const;
   QString password() const;
 
 protected:

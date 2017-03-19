@@ -1,6 +1,6 @@
 #include "termsdialog.h"
 #include "ui_termsdialog.h"
-
+#include <frameWork/base.h>
 #include <library/orm/db/QDjangoQuerySet.h>
 #include "../../../_shared/db/models/termselement.h"
 
@@ -48,89 +48,56 @@ TermsDialog::~TermsDialog()
  */
 void TermsDialog::showEvent(QShowEvent *) {
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
-
-        msg.createErrorMessage("Ошибка", text);
-
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<TermsElement>();
-        QDjango::createTables();
-        for (int i = 0; i < ui->termsTable->rowCount(); i++) {
-            for (int j = 0; j < ui->termsTable->columnCount(); j++) {
-                ui->termsTable->item(i, j)->setText("");
-            }
-        }
-
-        QStringList keys;
-        keys << "name";
-
-        QDjangoQuerySet<TermsElement> someTermsElements;
-
-        someTermsElements = someTermsElements.orderBy(keys);
-
-        TermsElement m_re;
-        int count = 0;
-        for (int i = 0; i < someTermsElements.size(); ++i) {
-            if (someTermsElements.at(i, &m_re)) {
-                ui->termsTable->item(count, 0)->setText(m_re.name());
-                ui->termsTable->item(count, 1)->setText(m_re.description());
-                count++;
-            }
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<TermsElement>();
+    QDjango::createTables();
+    for (int i = 0; i < ui->termsTable->rowCount(); i++) {
+        for (int j = 0; j < ui->termsTable->columnCount(); j++) {
+            ui->termsTable->item(i, j)->setText("");
         }
     }
 
-    m_db.close();
+    QStringList keys;
+    keys << "name";
+
+    QDjangoQuerySet<TermsElement> someTermsElements;
+
+    someTermsElements = someTermsElements.orderBy(keys);
+
+    TermsElement m_re;
+    int count = 0;
+    for (int i = 0; i < someTermsElements.size(); ++i) {
+        if (someTermsElements.at(i, &m_re)) {
+            ui->termsTable->item(count, 0)->setText(m_re.name());
+            ui->termsTable->item(count, 1)->setText(m_re.description());
+            count++;
+        }
+    }
 
 }
 
 void TermsDialog::on_buttonBox_accepted()
 {
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<TermsElement>();
+    QDjango::createTables();
+    QDjangoQuerySet<TermsElement> someTermsElements;
 
-    QSqlDatabase m_db = QSqlDatabase::addDatabase("QSQLITE", "pm");
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__pm");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    someTermsElements.remove();
 
-        msg.createErrorMessage("Ошибка", text);
+    for (int i = 0; i < ui->termsTable->rowCount(); i++ ) {
+        if ((ui->termsTable->item(i, 0)!=NULL) &&
+                (ui->termsTable->item(i, 1)!=NULL)) {
 
-    }
-    else {
-
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<TermsElement>();
-        QDjango::createTables();
-        QDjangoQuerySet<TermsElement> someTermsElements;
-
-        someTermsElements.remove();
-
-        for (int i = 0; i < ui->termsTable->rowCount(); i++ ) {
-            if ((ui->termsTable->item(i, 0)!=NULL) &&
-                    (ui->termsTable->item(i, 1)!=NULL)) {
-
-                if ((!ui->termsTable->item(i, 0)->text().isEmpty()) &&
-                    (!ui->termsTable->item(i, 1)->text().isEmpty())) {
-                    TermsElement re;
-                    re.setName(ui->termsTable->item(i, 0)->text().trimmed());
-                    re.setDescription(ui->termsTable->item(i, 1)->text().trimmed());
-                    re.save();
-                }
+            if ((!ui->termsTable->item(i, 0)->text().isEmpty()) &&
+                (!ui->termsTable->item(i, 1)->text().isEmpty())) {
+                TermsElement re;
+                re.setName(ui->termsTable->item(i, 0)->text().trimmed());
+                re.setDescription(ui->termsTable->item(i, 1)->text().trimmed());
+                re.save();
             }
         }
     }
-
-    m_db.close();
 }
 
 void TermsDialog::on_termsTable_cellClicked(int row, int column)

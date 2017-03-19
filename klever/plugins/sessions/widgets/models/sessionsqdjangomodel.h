@@ -11,7 +11,7 @@ class Sessions : public QDjangoModel
     Q_PROPERTY(QString information READ information WRITE setInformation)
 
     Q_CLASSINFO("name", "max_length=255")
-    Q_CLASSINFO("parameters", "max_length=8192")
+    Q_CLASSINFO("parameters", "")
     Q_CLASSINFO("information", "max_length=1024")
 
 public:

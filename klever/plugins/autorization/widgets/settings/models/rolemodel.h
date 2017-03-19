@@ -15,7 +15,7 @@ public:
 
   QStringList selectAllRoles();
 
-  void addRole(QString name, QString promission);
+  void addRole(QString name);
 
   void updateModel();
 

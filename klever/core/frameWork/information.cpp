@@ -4,6 +4,7 @@
 #include <library/orm/models/mainqdjangomodel.h>
 
 #include <library/message/messagelibrary.h>
+#include <frameWork/base.h>
 
 #include <QDebug>
 #include <QCoreApplication>
@@ -50,84 +51,67 @@ void Information::setIsDataReaded(bool isDataReaded)
 
 bool Information::readApplicationInformation()
 {
-    QSqlDatabase m_db = QSqlDatabase::database("information");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::registerModel<MainQDjangoModel>();
+    QDjango::createTables();
+    QDjango::setDebugEnabled(false);
 
-        msg.createErrorMessage("Ошибка", text);
+    QDjangoQuerySet<MainQDjangoModel> _info;
 
-        return false;
+    // Если запись 1 одна есть,значит настройки записаны и их нужно считать,
+    // иначе нужно создать запись с настройками.
+    if (_info.count() == 1) {
+        QList<QVariantMap> propertyMaps = _info.values( QStringList() << "company"
+                                                                  << "softwareNamePrefix"
+                                                                  << "softwareNameSuffix"
+                                                                  << "version"
+                                                                  << "mainTitleApp"
+                                                                  << "changelog"
+                                                                  << "aboutMessageTitle"
+                                                                  << "aboutMessageTop"
+                                                                  << "aboutMessageBottom"
+                                                                  << "style"
+                                                                  << "logo");
+        foreach (const QVariantMap &propertyMap, propertyMaps) {
+            setCompany(propertyMap["company"].toString());
+            setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
+            setSoftwareNameSuffix(propertyMap["softwareNameSuffix"].toString());
+            setVersion(propertyMap["version"].toString());
+            setMainTitleApp(propertyMap["mainTitleApp"].toString());
+            setChangelog(propertyMap["changelog"].toString());
+            setStyle(propertyMap["style"].toString());
+            setAboutMessageTitle(propertyMap["aboutMessageTitle"].toString());
+            setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
+            setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
+            setIsDataReaded(true);
+            setLogo(propertyMap["logo"].toString());
+            return true;
+        }
     }
     else {
-        QDjango::setDatabase(m_db);
-        QDjango::registerModel<MainQDjangoModel>();
-        QDjango::createTables();
-        QDjangoQuerySet<MainQDjangoModel> allModelRecords;
-
-        // Если запись 1 одна есть,значит настройки записаны и их нужно считать,
-        // иначе нужно создать запись с настройками.
-        if (allModelRecords.size() == 1) {
-            QList<QVariantMap> propertyMaps = allModelRecords.values( QStringList() << "company"
-                                                                      << "softwareNamePrefix"
-                                                                      << "softwareNameSuffix"
-                                                                      << "version"
-                                                                      << "mainTitleApp"
-                                                                      << "changelog"
-                                                                      << "aboutMessageTitle"
-                                                                      << "aboutMessageTop"
-                                                                      << "aboutMessageBottom"
-                                                                      << "style"
-                                                                      << "logo");
-            foreach (const QVariantMap &propertyMap, propertyMaps) {
-                setCompany(propertyMap["company"].toString());
-                setSoftwareNamePrefix(propertyMap["softwareNamePrefix"].toString());
-                setSoftwareNameSuffix(propertyMap["softwareNameSuffix"].toString());
-                setVersion(propertyMap["version"].toString());
-                setMainTitleApp(propertyMap["mainTitleApp"].toString());
-                setChangelog(propertyMap["changelog"].toString());
-                setStyle(propertyMap["style"].toString());
-                setAboutMessageTitle(propertyMap["aboutMessageTitle"].toString());
-                setAboutMessageTop(propertyMap["aboutMessageTop"].toString());
-                setAboutMessageBottom(propertyMap["aboutMessageBottom"].toString());
-                setIsDataReaded(true);
-                setLogo(propertyMap["logo"].toString());
-                return true;
-            }
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 
-    m_db.close();
     return true;
 }
 
 void Information::saveApplicationInformation()
 {
-    QSqlDatabase m_db = QSqlDatabase::database("information");
-    if (m_db.driverName()!="QSQLITE") {
-        m_db = QSqlDatabase::addDatabase("QSQLITE", "information");
-    }
-    QString path = QString("%1/%2").arg(QCoreApplication::applicationDirPath()).arg("__information");
-    m_db.setDatabaseName(path);
-    if (!m_db.open()) {
-        messageLibrary msg;
-        QString text;
-        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
+//    QSqlDatabase m_db = QSqlDatabase::addDatabase("QODBC", "information");
+//    m_db.setDatabaseName("DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=__INFORMATION;Trusted_Connection=yes;");
+//    m_db.setUserName("sa");
+//    ;
+//    if (!m_db.open()) {
+//        messageLibrary msg;
+//        QString text;
+//        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-        msg.createErrorMessage("Ошибка", text);
-    }
-    else {
+//        msg.createErrorMessage("Ошибка", text);
+//    }
+//    else {
 
-        QDjango::setDatabase(m_db);
+//        QDjango::setDatabase(m_db);
+        QDjango::setDatabase(*Core::Base::instance().database());
         QDjango::registerModel<MainQDjangoModel>();
 
         QDjango::dropTables();
@@ -146,8 +130,8 @@ void Information::saveApplicationInformation()
         information->setAboutMessageBottom(m_aboutMessageBottom);
         information->setLogo(m_logo);
         information->save();
-    }
-    m_db.close();
+//    }
+//    m_db.close();
 }
 
 QString Information::company()
