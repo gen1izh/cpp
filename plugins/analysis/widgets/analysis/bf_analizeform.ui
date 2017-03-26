@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>994</width>
-    <height>549</height>
+    <width>1040</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="font">
@@ -36,7 +36,7 @@
     <number>2</number>
    </property>
    <item row="0" column="4">
-    <widget class="QPushButton" name="deleteButton">
+    <widget class="QPushButton" name="editButton">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -55,12 +55,15 @@
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="toolTip">
+      <string>Редактировать элемент требования</string>
+     </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/raznoe31/raznoe31/48x48/118.png</normaloff>:/images/raznoe31/raznoe31/48x48/118.png</iconset>
+       <normaloff>:/images/raznoe31/raznoe31/48x48/42.png</normaloff>:/images/raznoe31/raznoe31/48x48/42.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -93,6 +96,9 @@
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="toolTip">
+      <string>Обновить все  требования</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -111,8 +117,8 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3">
-    <widget class="QPushButton" name="editButton">
+   <item row="0" column="5">
+    <widget class="QPushButton" name="deleteButton">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -131,12 +137,15 @@
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="toolTip">
+      <string>Удалить элемент требования</string>
+     </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-       <normaloff>:/images/raznoe31/raznoe31/48x48/42.png</normaloff>:/images/raznoe31/raznoe31/48x48/42.png</iconset>
+       <normaloff>:/images/raznoe31/raznoe31/48x48/118.png</normaloff>:/images/raznoe31/raznoe31/48x48/118.png</iconset>
      </property>
      <property name="iconSize">
       <size>
@@ -148,19 +157,6 @@
       <bool>true</bool>
      </property>
     </widget>
-   </item>
-   <item row="0" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item row="0" column="0">
     <widget class="QPushButton" name="onEditorButton">
@@ -175,6 +171,9 @@
      </property>
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="toolTip">
+      <string>Открыть редактор</string>
      </property>
      <property name="text">
       <string/>
@@ -200,7 +199,154 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="5">
+   <item row="0" column="2">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="7">
+    <widget class="QTabWidget" name="requirementsTab">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Видение</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListWidget" name="visionListWidget">
+         <item>
+          <property name="text">
+           <string>Видение системы</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Предметная область</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_3">
+      <attribute name="title">
+       <string>Пользовательские требования</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QListWidget" name="userRequirementListWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Функциональные требования</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <widget class="QListWidget" name="funcRequirementListWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_4">
+      <attribute name="title">
+       <string>Нефункциональные требования</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QListWidget" name="nofuncRequirementListWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_5">
+      <attribute name="title">
+       <string>Общие требования</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QListWidget" name="commonRequirementListWidget">
+         <item>
+          <property name="text">
+           <string>Бизнес-правила</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Системные требования</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к документированию</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к дизаину ГИП</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к безопасности и надежности</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к производительности</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к устойчивости к сбоям</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к эксплуатации и персоналу</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к внутреннему состоянию</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к отладке</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования использования ПО</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к аппаратуре</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Требования к стороннему ПО</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item row="0" column="3">
     <widget class="QPushButton" name="addButton">
      <property name="enabled">
       <bool>false</bool>
@@ -220,6 +366,9 @@
      <property name="cursor">
       <cursorShape>PointingHandCursor</cursorShape>
      </property>
+     <property name="toolTip">
+      <string>Добавить элемент требования</string>
+     </property>
      <property name="text">
       <string/>
      </property>
@@ -238,166 +387,11 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="7">
-    <widget class="QTreeWidget" name="analyzeTreeWidget">
-     <property name="font">
-      <font>
-       <family>MS Shell Dlg 2</family>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="selectionBehavior">
-      <enum>QAbstractItemView::SelectRows</enum>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>24</width>
-       <height>24</height>
-      </size>
-     </property>
-     <property name="textElideMode">
-      <enum>Qt::ElideRight</enum>
-     </property>
-     <attribute name="headerCascadingSectionResizes">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="headerDefaultSectionSize">
-      <number>350</number>
-     </attribute>
-     <attribute name="headerMinimumSectionSize">
-      <number>350</number>
-     </attribute>
-     <attribute name="headerShowSortIndicator" stdset="0">
-      <bool>false</bool>
-     </attribute>
-     <attribute name="headerStretchLastSection">
-      <bool>false</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Название</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Компонент</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Модуль</string>
-      </property>
-     </column>
-     <item>
-      <property name="text">
-       <string>Бизнес-требования</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>Видение</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Предметная область</string>
-       </property>
-      </item>
-     </item>
-     <item>
-      <property name="text">
-       <string>Пользовательские требования</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Функциональные требования</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Нефункциональные требования</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Общие требования</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>Бизнес-правила</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Системные требования</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к документированию</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к дизаину ГИП</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к безопасности и надежности</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к производительности</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к устойчивости к сбоям</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к эксплуатации и персоналу</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к внутреннему состоянию</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к отладке</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования использования ПО</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к аппаратуре</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Требования к стороннему ПО</string>
-       </property>
-      </item>
-     </item>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources>
-  <include location="../../analysis_resources.qrc"/>
   <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
+  <include location="../../analysis_resources.qrc"/>
  </resources>
  <connections/>
 </ui>

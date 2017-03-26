@@ -16,6 +16,10 @@ AutorizationManager::~AutorizationManager()
  */
 bool AutorizationManager::execute()
 {
+    // Инициализация моделей происходит после подключения к сессии
+    if (m_settings!=NULL) {
+        m_settings->d->InitializeModels();
+    }
 
     if (m_autorizationDialog->exec() == QDialog::Accepted) {
 
@@ -49,8 +53,8 @@ void AutorizationManager::createWidgets() {
     m_autorizationDialog = new AutorizationDialog();
 
     // Создание виджета настроек
-    if (_settings==NULL) {
-        _settings = new autorizationSettings(NULL);
+    if (m_settings==NULL) {
+        m_settings = new autorizationSettings(NULL);
     }
 
 }
@@ -67,7 +71,7 @@ void AutorizationManager::finalize() {
  * Возвращает виджет настроек плагина
  */
 QWidget *AutorizationManager::settingPage() {
-    QWidget* wgt=static_cast<QWidget *>(_settings);
+    QWidget* wgt=static_cast<QWidget *>(m_settings);
     return wgt;
 }
 

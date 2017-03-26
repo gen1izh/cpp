@@ -100,6 +100,11 @@ class PluginInterface {
          */
         virtual QString information() = 0;
 
+        /*!
+         * \brief Подготовка плагина к работе
+         */
+        virtual void prepare(){}
+
 
     private:
 

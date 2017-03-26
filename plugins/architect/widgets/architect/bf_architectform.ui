@@ -46,6 +46,9 @@
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="2" column="1">
         <widget class="QPushButton" name="setLinkButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -83,7 +86,7 @@
        <item row="0" column="0" colspan="2">
         <widget class="QTabWidget" name="tabWidget_2">
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="tab_5">
           <attribute name="title">
@@ -93,7 +96,7 @@
            <item row="2" column="1">
             <widget class="QLabel" name="label_6">
              <property name="text">
-              <string>Описание:</string>
+              <string>Описание связи:</string>
              </property>
             </widget>
            </item>
@@ -103,7 +106,7 @@
            <item row="0" column="1">
             <widget class="QLabel" name="label_7">
              <property name="text">
-              <string>Название:</string>
+              <string>Название связи:</string>
              </property>
             </widget>
            </item>
@@ -404,6 +407,9 @@
        </item>
        <item row="0" column="2">
         <widget class="QPushButton" name="updateButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="minimumSize">
           <size>
            <width>32</width>
@@ -442,6 +448,9 @@
        </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="deleteLinkButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -495,196 +504,6 @@
         <widget class="QLabel" name="label">
          <property name="text">
           <string>Идетификатор</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_3">
-      <attribute name="icon">
-       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-        <normaloff>:/images/raznoe31/raznoe31/48x48/64.png</normaloff>:/images/raznoe31/raznoe31/48x48/64.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Генерация диаграммы</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_5">
-       <item row="6" column="0">
-        <spacer name="horizontalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="7" column="1">
-        <spacer name="verticalSpacer_3">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="0">
-        <widget class="QCheckBox" name="recursiveCheck">
-         <property name="text">
-          <string>Рекурсивный обход на</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Элемент:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="3">
-        <widget class="QLineEdit" name="elementEdit">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0" colspan="2">
-        <widget class="QSpinBox" name="levelBox">
-         <property name="maximum">
-          <number>3</number>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2">
-        <widget class="QLabel" name="label_9">
-         <property name="text">
-          <string>уровень</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1" colspan="2">
-        <widget class="QPushButton" name="generateComponenDiagrammButton">
-         <property name="text">
-          <string>Генерировать</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="tab_4">
-      <attribute name="icon">
-       <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-        <normaloff>:/images/raznoe31/raznoe31/48x48/44.png</normaloff>:/images/raznoe31/raznoe31/48x48/44.png</iconset>
-      </attribute>
-      <attribute name="title">
-       <string>Управление именами</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_6">
-       <item row="3" column="3">
-        <widget class="QLineEdit" name="systemAliasEdit">
-         <property name="text">
-          <string>Система</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="3">
-        <widget class="QLineEdit" name="sysNameEdit"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="text">
-          <string>Название корня</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="4">
-        <widget class="QPushButton" name="changeButton">
-         <property name="text">
-          <string>Изменить</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="3">
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="4" column="3">
-        <widget class="QLineEdit" name="subsystemAliasEdit">
-         <property name="text">
-          <string>Подсистема</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>3 уровень</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_15">
-         <property name="text">
-          <string>4 уровень</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_13">
-         <property name="text">
-          <string>2 уровень</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="4">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="3">
-        <widget class="QLineEdit" name="componentAliasEdit">
-         <property name="text">
-          <string>Компонент</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="3">
-        <widget class="QLineEdit" name="moduleAliasEdit">
-         <property name="text">
-          <string>Модуль</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>1 уровень</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="4">
-        <widget class="QPushButton" name="saveAliasButton">
-         <property name="text">
-          <string>Сохранить</string>
          </property>
         </widget>
        </item>
@@ -834,9 +653,18 @@
      <property name="allColumnsShowFocus">
       <bool>false</bool>
      </property>
+     <attribute name="headerVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="headerDefaultSectionSize">
+      <number>600</number>
+     </attribute>
+     <attribute name="headerMinimumSectionSize">
+      <number>600</number>
+     </attribute>
      <column>
       <property name="text">
-       <string>Структура</string>
+       <string>Структура программы</string>
       </property>
      </column>
     </widget>
@@ -926,8 +754,8 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
   <include location="../../architect_resources.qrc"/>
+  <include location="../../../../klever/core/frameWork/resources/framework_resources.qrc"/>
  </resources>
  <connections/>
 </ui>

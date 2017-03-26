@@ -7,6 +7,10 @@ texteditorPlugin::texteditorPlugin() {
     createWidgets();
 }
 
+void texteditorPlugin::prepare() {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+}
+
 void texteditorPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)TextEditor")].first  = new EditorForm();

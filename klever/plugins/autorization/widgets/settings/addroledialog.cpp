@@ -34,7 +34,7 @@ void AddRoleDialog::showEvent(QShowEvent *) {
 
     ui->roleEdit->setValidator(validator);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 
@@ -59,7 +59,7 @@ QString AddRoleDialog::name() const
 
 void AddRoleDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Role>();
     QDjango::createTables();
     QDjangoQuerySet<Role> roles;

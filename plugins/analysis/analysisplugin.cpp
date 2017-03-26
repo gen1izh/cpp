@@ -8,6 +8,10 @@ analysisPlugin::analysisPlugin() {
     createConnectors();
 }
 
+void analysisPlugin::prepare() {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+}
+
 void analysisPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)BF_AnalizeForm")].first  = new BF_AnalizeForm();

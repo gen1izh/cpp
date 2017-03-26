@@ -9,7 +9,7 @@
 
 UserModel::UserModel()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
 
@@ -46,7 +46,7 @@ QStringList UserModel::selectAllUsers()
     QStringList tmp;
     tmp.clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
 
@@ -62,7 +62,7 @@ QStringList UserModel::selectAllUsers()
 
 void UserModel::addUser(QString username, QString password, Group *group) {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
     User *user = new User;
@@ -76,7 +76,7 @@ QString UserModel::getUserPasswordByName(QString username) {
     QStringList tmp;
     tmp.clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
     QDjangoQuerySet<User> users;
@@ -104,7 +104,7 @@ void UserModel::deleteUser(const QModelIndex &index)
     QString username = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
     QDjangoQuerySet<User> users;

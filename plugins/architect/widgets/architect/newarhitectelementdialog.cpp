@@ -15,123 +15,46 @@ NewArhitectElementDialog::NewArhitectElementDialog(QWidget *parent) :
     ui->setupUi(this);
 }
 
-/*
- *
- */
+
 NewArhitectElementDialog::~NewArhitectElementDialog()
 {
     delete ui;
 }
 
-/*
- *
- */
+
 void NewArhitectElementDialog::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
-    ui->parentNameLabel->setText(
-                Core::Base::instance().getParameterValue(QString("Architect_ParentName"), QString("")));
-    ui->parentTypeLabel->setText(
-                    Core::Base::instance().getParameterValue(QString("Architect_ParentSmallText"), QString("")));
-
-    ui->archElementBox->clear();
-    QString architectLevel = ui->parentTypeLabel->text().trimmed();
-
-    if (architectLevel == "Система") {
-        ui->archElementBox->addItem("Подсистема");
-        ui->elementTypeLabel->setText("Подсистема");
-    }
-    else if (architectLevel == "Подсистема") {
-        ui->archElementBox->addItem("Компонент");
-        ui->elementTypeLabel->setText("Компонент");
-    }
-    else if (architectLevel == "Компонент") {
-        ui->archElementBox->addItem("Модуль");
-        ui->elementTypeLabel->setText("Модуль");
-    }
+    ui->parentIdLabel->setText(
+                Core::Base::instance().getParameterValue(QString("ArchitectElement_ParentId"), QString("")));
 }
 
 /*
- *
+ * Нажать на кнопку Ok
  */
 void NewArhitectElementDialog::on_buttonBox_accepted()
 {
-    Core::Base::instance().setParameterValue(QString("Arhitect_Name"), ui->nameEdit->text());
-    Core::Base::instance().setParameterValue(QString("Arhitect_SmallName"), ui->smallTextEdit->text());
-    Core::Base::instance().setParameterValue(QString("Arhitect_Type"), ui->elementTypeLabel->text());
-
-    if (!addNewElement()) {
-        reject();
-    }
-
-}
-
-
-/*
- *
- */
-int NewArhitectElementDialog::addNewElement()
-{
-
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<ArchitectElement> someArchitectElements;
-    someArchitectElements = someArchitectElements.filter(QDjangoWhere("article",
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("name",
                                                                       QDjangoWhere::Equals,
-                                                                      ui->smallTextEdit->text()));
+                                                                      ui->nameEdit->text()));
 
     if (someArchitectElements.size()>0) {
-        QMessageBox msgBox;
-         msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
-                        "Должен быть только один элемент c идентификатором!");
-         msgBox.exec();
-         return false;
+         messageLibrary msg;
+         msg.createWarnMessage("Предупреждение",
+                               "Элемент с идентификатором " +  ui->nameEdit->text() + " уже есть!"\
+                                "Должен быть только один элемент c таким именем!");
     }
     else {
         ArchitectElement ae;
-
-        ae.setArticle(ui->smallTextEdit->text());
+        bool ok;
         ae.setName(ui->nameEdit->text());
-        ae.setDescription(ui->descriptionArchitectEdit->toPlainText());
-        ae.setType(ui->archElementBox->currentText().trimmed());
-        ae.setParentElementType(ui->parentTypeLabel->text().trimmed());
-        ae.setParentElementArticle(ui->parentNameLabel->text().trimmed());
-
+        ae.setType(ui->typeEdit->text());
+        ae.setParentId(ui->parentIdLabel->text().toInt(&ok, 10));
         ae.save();
     }
-
-    return true;
 }
 
-/*
- *
- */
-void NewArhitectElementDialog::on_checkButton_clicked()
-{
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ArchitectElement ae;
 
-    QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            QString text = ae.article();
-            if (text==ui->smallTextEdit->text()) {
-                 QMessageBox msgBox;
-                 msgBox.setText("Элемент с идентификатором " +  ui->smallTextEdit->text() + " уже есть!"\
-                                "Должен быть только один элемент c идентификатором!");
-                 msgBox.exec();
-                 return;
-            }
-        }
-    }
-
-    QMessageBox msgBox;
-    msgBox.setText("Идентификатор уникален, используйте!");
-    msgBox.exec();
-}

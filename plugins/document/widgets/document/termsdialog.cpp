@@ -48,9 +48,9 @@ TermsDialog::~TermsDialog()
  */
 void TermsDialog::showEvent(QShowEvent *) {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<TermsElement>();
-    QDjango::createTables();
+//    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+//    QDjango::registerModel<TermsElement>();
+//    QDjango::createTables();
     for (int i = 0; i < ui->termsTable->rowCount(); i++) {
         for (int j = 0; j < ui->termsTable->columnCount(); j++) {
             ui->termsTable->item(i, j)->setText("");
@@ -59,7 +59,7 @@ void TermsDialog::showEvent(QShowEvent *) {
 
     QStringList keys;
     keys << "name";
-
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<TermsElement> someTermsElements;
 
     someTermsElements = someTermsElements.orderBy(keys);
@@ -78,9 +78,7 @@ void TermsDialog::showEvent(QShowEvent *) {
 
 void TermsDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<TermsElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<TermsElement> someTermsElements;
 
     someTermsElements.remove();

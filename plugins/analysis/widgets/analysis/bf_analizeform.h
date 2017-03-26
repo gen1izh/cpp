@@ -1,6 +1,7 @@
 #ifndef BF_ANALIZEFORM_H
 #define BF_ANALIZEFORM_H
 
+#include <QListWidget>
 #include <QTreeWidget>
 #include <QWidget>
 
@@ -18,7 +19,6 @@ class BF_AnalizeForm : public QWidget
 
     enum ANALYZE_TYPE {
         DEFAULT = -1,
-        DOMAIN_AREA,
         VISION,
         USER_REQUIREMENTS,
         FUNC_REQUIREMENTS,
@@ -44,27 +44,33 @@ public:
 private:
     Ui::BF_AnalizeForm *ui;
 
-
     void createConnectors();
     void createActions();
     void createDialogs();
 
     void controlAccess(ANALYZE_TYPE val);
+    void readRequirements();
 private slots:
-    void onContextAnalyzeTreeMenuRequest(QPoint point);
     void on_updateButton_clicked();
     void openRequirementDialog();
-    bool fillRequirements(const QString &rtype, QTreeWidgetItem *reqItem);
+    void fillRequirements(const QString &type, QListWidget *lwgt);
     void on_onEditorButton_clicked();
 
-    void on_analyzeTreeWidget_clicked(const QModelIndex &index);
     void on_addButton_clicked();
     void on_deleteButton_clicked();
     void on_editButton_clicked();
+    void on_requirementsTab_currentChanged(int index);
+    void on_visionListWidget_clicked(const QModelIndex &index);
+    void on_userRequirementListWidget_clicked(const QModelIndex &index);
+    void on_funcRequirementListWidget_clicked(const QModelIndex &index);
+    void on_nofuncRequirementListWidget_clicked(const QModelIndex &index);
+    void on_commonRequirementListWidget_clicked(const QModelIndex &index);
 
 signals:
     void openTexteditor();
 
+protected:
+    void showEvent(QShowEvent *event);
 };
 
 #endif // BF_ANALIZEFORM_H

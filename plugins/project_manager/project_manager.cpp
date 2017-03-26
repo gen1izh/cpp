@@ -1,5 +1,15 @@
 #include "project_manager.h"
 
+#include "../_shared/db/models/architectelement.h"
+#include "../_shared/db/models/architectlinks.h"
+#include "../_shared/db/models/architecttypealias.h"
+#include "../_shared/db/models/comment.h"
+#include "../_shared/db/models/docelement.h"
+#include "../_shared/db/models/glossaryelement.h"
+#include "../_shared/db/models/imageselement.h"
+#include "../_shared/db/models/requirementelement.h"
+#include "../_shared/db/models/termselement.h"
+
 ProjectManager::ProjectManager() {
     setName("ProjectManager");         // Установка имени плагина (внутреннее)
     setTextName("Менеджер проектов");  // Установка имени плагина (внешнее)
@@ -8,24 +18,25 @@ ProjectManager::ProjectManager() {
     createWidgets();
 }
 
+void ProjectManager::prepare() {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+    QDjango::registerModel<RequirementElement>();
+    QDjango::registerModel<ArchitectElement>();
+    QDjango::registerModel<ArchitectLinks>();
+    QDjango::registerModel<ArchitectTypeAlias>();
+    QDjango::registerModel<Comment>();
+    QDjango::registerModel<DocElement>();
+    QDjango::registerModel<GlossaryElement>();
+    QDjango::registerModel<ImagesElement>();
+    QDjango::registerModel<TermsElement>();
+
+    QDjango::createTables();
+}
+
 /*
  * Создание виджетов модуля
  */
 void ProjectManager::createWidgets() {
-
-//    _widgetActionList[tr("(PM)BF_AnalizeForm")].first  = new BF_AnalizeForm();
-//    _widgetActionList[tr("(PM)BF_AnalizeForm")].second = m_BF_AnalizeForm;
-
-//    _widgetActionList[tr("(PM)BF_ArchitectForm")].first  = new BF_ArchitectForm();
-//    _widgetActionList[tr("(PM)BF_ArchitectForm")].second = m_BF_ArchitectForm;
-
-//    _widgetActionList[tr("(PM)BF_DeployBuildForm")].first  = new BF_DeployBuildForm();
-//    _widgetActionList[tr("(PM)BF_DeployBuildForm")].second = m_BF_DeployBuildForm;
-
-//    _widgetActionList[tr("(PM)BF_DocumentsForm")].first  = new BF_DocumentsForm();
-//    _widgetActionList[tr("(PM)BF_DocumentsForm")].second = m_BF_DocumentsForm;
-
-
     // Создание виджета настроек
     if (m_settings==NULL) {
         m_settings = new SettingsForm(NULL);
@@ -57,16 +68,11 @@ QIcon ProjectManager::settingIcon() {
 
 void ProjectManager::createActions()
 {
-//    m_BF_AnalizeForm     = new QAction(QIcon(":/img/img/analyze.png"), tr("&Анализ требований"), this);
-//    m_BF_ArchitectForm   = new QAction(QIcon(":/img/img/architect.png"), tr("&Структура системы"), this);
-//    m_BF_DeployBuildForm = new QAction(QIcon(":/img/img/build.png"), tr("&Сборка установщика"), this);
-//    m_BF_DocumentsForm   = new QAction(QIcon(":/img/img/documentation.png"), tr("&Документация"), this);
 }
 
 QString ProjectManager::information()
 {
     QString msg = "project_manager";
-
     return msg;
 }
 

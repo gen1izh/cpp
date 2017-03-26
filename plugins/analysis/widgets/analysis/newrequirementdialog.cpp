@@ -32,92 +32,53 @@ void NewRequirementDialog::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ui->requirementComboBox->setCurrentText(
-                Core::Base::instance().getParameterValue(QString("RTYPE"),QString("")));
+//    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+//    QDjango::registerModel<ArchitectElement>();
+//    QDjango::createTables();
 
     ui->componentBox->clear();
-    ArchitectElement ae;
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<ArchitectElement> someArchitectElements;
 
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            if (ae.type() == "Компонент") {
-                ui->componentBox->addItem(ae.article());
-            }
-        }
+    ui->componentBox->clear();
+    // retrieve usernames and passwords for matching users as maps
+    QList<QVariantMap> propertyMaps = someArchitectElements.values(QStringList() << "id" << "type" << "name");
+    foreach (const QVariantMap &propertyList, propertyMaps) {
+        QString tmp = QString("%1:%2%3-%4").arg(propertyList["id"].toString())
+                .arg(propertyList["type"].toString())
+                .arg(propertyList["id"].toString())
+                .arg(propertyList["name"].toString());
+        ui->componentBox->addItem(tmp);
     }
-
 }
 
 void NewRequirementDialog::on_componentBox_currentTextChanged(const QString &arg1)
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ui->moduleBox->clear();
-
-    ArchitectElement ae;
-    QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            if (ae.type() == "Модуль") {
-                if (ae.parentElementArticle()== arg1) {
-                    ui->moduleBox->addItem(ae.article());
-                }
-            }
-        }
-    }
 }
 
 /*
- *
+ * Создание нового требования
  */
 void NewRequirementDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<RequirementElement>();
-    QDjango::createTables();
-    QDjangoQuerySet<RequirementElement> someRequirementElements;
+    // Получаем идентификатор элемента архитектуры
+    QString architectElementId = ui->componentBox->currentText().split(":").at(0);
 
-    QVector<bool> identify(MAX_REQUIREMENT_COUNT, false);
-
-    int rid = -1;
-
-    RequirementElement m_re;
-    for (int i = 0; i < someRequirementElements.size(); ++i) {
-        if (someRequirementElements.at(i, &m_re)) {
-            if (m_re.rtype() == ui->requirementComboBox->currentText()) {
-                identify[m_re.identificator()] = true;
-            }
-        }
+    bool ok;
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("id", QDjangoWhere::Equals, architectElementId.toInt(&ok,10)));
+    ArchitectElement architectElementCurrent;
+    if (someArchitectElements.size()>0) {
+        someArchitectElements.at(0, &architectElementCurrent);
     }
 
-    for (int i = 0; i < identify.size(); i++) {
-        if (!identify.value(i, false)) {
-            rid = i;
-            break;
-        }
-    }
+    RequirementElement requirementElement;
+    requirementElement.setType(ui->requirementComboBox->currentText());
+    requirementElement.setName(ui->nameEdit->text());
+    requirementElement.setComponent(&architectElementCurrent);
 
-    if (rid == -1) {
-        rid = identify.size() + 1;
-    }
-
-    RequirementElement re;
-    re.setRType(ui->requirementComboBox->currentText());
-    re.setName(ui->nameEdit->text());
-    re.setComponent(ui->componentBox->currentText());
-    re.setModule(ui->moduleBox->currentText());
-    re.setIdentificator(rid);
-
-    re.save();
+    requirementElement.save();
 }
 
 

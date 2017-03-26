@@ -202,6 +202,15 @@ void Core::Plugins::createActions() {
     }
 }
 
+// Подготовка плагинов
+void Core::Plugins::prepare() {
+    QHashIterator<QString, PluginInterface *>  i(m_plugins);
+    while (i.hasNext()) {
+        i.next();
+        i.value()->prepare();
+    }
+}
+
 // Проверка наличия плагина
 bool Core::Plugins::isPluginExist(QString name) {
     QHashIterator<QString, PluginInterface *>  i(m_plugins);

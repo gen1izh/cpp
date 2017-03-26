@@ -66,6 +66,7 @@ public:
    */
     void finalize();
 
+    void prepare();
 public slots:
 
 };

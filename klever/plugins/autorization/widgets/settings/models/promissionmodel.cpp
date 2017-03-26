@@ -11,7 +11,7 @@
 
 PromissionModel::PromissionModel()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 
@@ -56,7 +56,7 @@ QStringList PromissionModel::selectAllPromission()
     QStringList tmp;
     tmp.clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 
@@ -73,7 +73,7 @@ QStringList PromissionModel::selectAllPromission()
 
 void PromissionModel::addPromission(QString name, QString signature, QString constant, Role *role) {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 
@@ -113,7 +113,7 @@ void PromissionModel::deletePromission(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 

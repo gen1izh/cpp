@@ -15,7 +15,7 @@ AddUserDialog::AddUserDialog(QWidget *parent) :
 
 
 void AddUserDialog::showEvent(QShowEvent *) {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<User>();
     QDjango::createTables();
     QRegExp rx("^(\\w+\\s+)$");

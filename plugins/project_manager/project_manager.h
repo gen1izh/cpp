@@ -22,11 +22,6 @@ class ProjectManager : public QObject, public PluginInterface {
    */
   SettingsForm *m_settings;
 
-//  QAction *m_BF_AnalizeForm;
-//  QAction *m_BF_ArchitectForm;
-//  QAction *m_BF_DeployBuildForm;
-//  QAction *m_BF_DocumentsForm;
-
 public:
 
   ProjectManager();
@@ -71,6 +66,8 @@ public:
    * brief Деинициализация элементов плагина
    */
   void finalize();
+
+  void prepare();
 
 public slots:
 

@@ -2,6 +2,7 @@
 #define autorization_SETTINGS_H
 
 #include <QWidget>
+#include "personaldata.h"
 
 class autorizationSettings : public QWidget
 {
@@ -11,6 +12,8 @@ class autorizationSettings : public QWidget
 
 public:
   explicit autorizationSettings(QWidget *parent = 0);
+
+  PersonalData *d;
 
 signals:
 

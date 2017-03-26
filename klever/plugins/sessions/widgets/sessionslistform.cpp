@@ -39,7 +39,10 @@ void SessionsListForm::on_openButton_clicked()
     }
 
     Core::Base::instance().setParameterValue(QString("[Session]Name"),
-                                             ui->sessionsView->currentIndex().data());
+                                             ui->sessionsView->currentIndex().data().toString());
+
+    Core::Base::instance().initializeSessionDatabase(ui->sessionsView->currentIndex().data().toString());
+
     accept();
 }
 

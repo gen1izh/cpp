@@ -142,15 +142,16 @@ QString DocumentGenerator::createDocContent()
 
 QString DocumentGenerator::loadText(const QString &txt)
 {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<DocElement> someDocElements;
 
     someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, txt));
 
-    DocElement de;
+    DocElement documentElement;
     for (int i = 0; i < someDocElements.size(); ++i) {
-        if (someDocElements.at(i, &de)) {
-            if (de.name() == txt) {
-                return de.description();
+        if (someDocElements.at(i, &documentElement)) {
+            if (documentElement.name() == txt) {
+                return documentElement.content();
             }
         }
     }
@@ -292,7 +293,7 @@ QString DocumentGenerator::parse(const QString &txt)
 
 
     /// Термины проставляем
-
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<TermsElement> someTermsElements;
 
 
@@ -314,7 +315,7 @@ QString DocumentGenerator::parse(const QString &txt)
                         QString("<abbr title=\"%1\">%2</abbr>  ").arg(descList.at(i)).arg(abbrList.at(i)));
         }
     }
-
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<GlossaryElement> someGlossaryElements;
     GlossaryElement m_ge;
     for (int i = 0; i < someGlossaryElements.size(); ++i) {
@@ -335,7 +336,7 @@ QString DocumentGenerator::parse(const QString &txt)
     ///
 
     if (tmp.indexOf("[GLOSSARY]Глоссарий[/GLOSSARY]")!=-1) {
-
+        QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
         QString table = "<h1>Глоссарий</h1><br/><dl>";
         QDjangoQuerySet<GlossaryElement> someGlossaryElements;
         GlossaryElement m_re;
@@ -350,7 +351,7 @@ QString DocumentGenerator::parse(const QString &txt)
     }
 
     if (tmp.indexOf("[TERMINS]Термины[/TERMINS]")!=-1) {
-
+        QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
         QString table = "<h1>Термины</h1><br/><dl class=\"dl-horizontal\">";
         QDjangoQuerySet<TermsElement> someTerminsElements;
 

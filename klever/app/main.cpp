@@ -46,7 +46,6 @@ int main(int argc, char *argv[]) {
     // Запуск загрузчика.
     // Если загрузчик выполнился с ошибкой, то прекращает работу с приложением.
     if (!Core::Plugins::instance().boot()->execute()) {
-
         int kCode = KApplication::finalize();
         return kCode;
     }
@@ -57,7 +56,6 @@ int main(int argc, char *argv[]) {
         int kCode = KApplication::finalize();
         return kCode;
     }
-
 
     // Подготовка. Стадия 1.
     KApplication::prepareStage1();

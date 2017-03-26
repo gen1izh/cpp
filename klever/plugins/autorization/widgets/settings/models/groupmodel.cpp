@@ -21,7 +21,7 @@ GroupModel::GroupModel(const QStringList &headers, QObject *parent)
 
     m_rootItem = new GroupItem(rootData);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
 
@@ -159,7 +159,7 @@ bool GroupModel::removeRows(int position, int rows, const QModelIndex &parent)
 
 void GroupModel::addGroup(QString name, QString parent, QString description)
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
     Group *group = new Group;
@@ -180,7 +180,7 @@ void GroupModel::deleteRecursiveGroup(const QModelIndex &index)
         removeRows(0, getItem(index)->childCount(), index);
     }
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
     QDjangoQuerySet<Group> groups;
@@ -220,7 +220,7 @@ void GroupModel::deleteGroup(const QModelIndex &index)
         removeRows(0, 1, index);
     }
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
 
@@ -299,7 +299,7 @@ void GroupModel::setupModelData(GroupItem *parent) {
     item->setIdentify(0);
     items << item;
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
 

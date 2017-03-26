@@ -8,7 +8,7 @@
 
 RoleModel::RoleModel()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Role>();
     QDjango::createTables();
 
@@ -40,7 +40,7 @@ QStringList RoleModel::selectAllRoles()
     QStringList tmp;
     tmp.clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Role>();
     QDjango::createTables();
     QDjangoQuerySet<Role> roles;
@@ -55,7 +55,7 @@ QStringList RoleModel::selectAllRoles()
 
 void RoleModel::addRole(QString name) {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Role>();
     QDjango::createTables();
     Role *role = new Role;
@@ -76,7 +76,7 @@ void RoleModel::deleteRole(const QModelIndex &index)
     QString name = data(index, Qt::DisplayRole).toString();
     removeRows(0, 1, index);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Role>();
     QDjango::createTables();
 

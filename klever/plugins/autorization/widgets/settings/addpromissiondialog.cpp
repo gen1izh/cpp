@@ -55,7 +55,7 @@ QString AddPromissionDialog::signature() const
 
 void AddPromissionDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 
@@ -96,7 +96,7 @@ void AddPromissionDialog::on_buttonBox_accepted()
 
 void AddPromissionDialog::showEvent(QShowEvent *)
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Promission>();
     QDjango::createTables();
 

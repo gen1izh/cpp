@@ -1,24 +1,20 @@
 #include "requirementelement.h"
 
 
-QString RequirementElement::rtype() const
+RequirementElement::RequirementElement(QObject *parent)
+    : QDjangoModel(parent)
 {
-    return m_rtype;
+    setForeignKey("component", new ArchitectElement(this));
 }
 
-void RequirementElement::setRType(const QString &rtype)
+QString RequirementElement::type() const
 {
-    m_rtype = rtype;
+    return m_type;
 }
 
-int RequirementElement::identificator() const
+void RequirementElement::setType(const QString &type)
 {
-    return m_identificator;
-}
-
-void RequirementElement::setIdentificator(const int &identificator)
-{
-    m_identificator = identificator;
+    m_type = type;
 }
 
 QString RequirementElement::name() const
@@ -31,22 +27,12 @@ void RequirementElement::setName(const QString &name)
     m_name = name;
 }
 
-QString RequirementElement::component() const
+ArchitectElement *RequirementElement::component() const
 {
-    return m_component;
+    return qobject_cast<ArchitectElement *>(foreignKey("component"));
 }
 
-void RequirementElement::setComponent(const QString &component)
+void RequirementElement::setComponent(ArchitectElement *component)
 {
-    m_component = component;
-}
-
-QString RequirementElement::module() const
-{
-    return m_module;
-}
-
-void RequirementElement::setModule(const QString &module)
-{
-    m_module = module;
+     setForeignKey("component", component);
 }

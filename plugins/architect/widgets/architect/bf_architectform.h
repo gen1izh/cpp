@@ -11,6 +11,14 @@ namespace Ui {
 class BF_ArchitectForm;
 }
 
+struct architectElementListItem{
+    int id;
+    int parentId;
+    QString name;
+    QString type;
+};
+
+
 class BF_ArchitectForm : public QWidget
 {
     Q_OBJECT
@@ -30,40 +38,24 @@ signals:
 
 private slots:
     void on_editArchitectElementButton_clicked();
-
     void on_addArchitectElementButton_clicked();
-
     void on_deleteArchitectElementButton_clicked();
-
-    void openArchitect();
+    void readArchitecture();
     void on_architectTreeWidget_itemClicked(QTreeWidgetItem *item, int column);
-
     void on_setLinkButton_clicked();
-
     void on_updateButton_clicked();
-
     void on_linkListWidget_currentTextChanged(const QString &currentText);
-
     void on_deleteLinkButton_clicked();
-
-    void on_changeButton_clicked();
-
-    void on_saveAliasButton_clicked();
-
     void on_editorButton_clicked();
-
     void on_resetLinkBButton_clicked();
-
     void on_resetLinkAButton_clicked();
-
     void on_setLinkAButton_clicked();
-
     void on_setLinkBButton_clicked();
 
 private:
     Ui::BF_ArchitectForm *ui;
 
-    QTreeWidgetItem *findItemByTypeAndOrArticle(const QString &type, const QString &article = QString());
+    void recursiveDeleteElements(QTreeWidgetItem *item, int id);
 };
 
 #endif // BF_ARCHITECTFORM_H

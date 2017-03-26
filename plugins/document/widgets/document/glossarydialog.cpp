@@ -47,9 +47,9 @@ GlossaryDialog::~GlossaryDialog()
  */
 void GlossaryDialog::showEvent(QShowEvent *) {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<GlossaryElement>();
-    QDjango::createTables();
+//    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+//    QDjango::registerModel<GlossaryElement>();
+//    QDjango::createTables();
 
     for (int i = 0; i < ui->glossaryTable->rowCount(); i++) {
         for (int j = 0; j < ui->glossaryTable->columnCount(); j++) {
@@ -59,7 +59,7 @@ void GlossaryDialog::showEvent(QShowEvent *) {
 
     QStringList keys;
     keys << "name";
-
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<GlossaryElement> someGlossaryElements;
     someGlossaryElements = someGlossaryElements.orderBy(keys);
 
@@ -78,9 +78,7 @@ void GlossaryDialog::showEvent(QShowEvent *) {
 
 void GlossaryDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<GlossaryElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<GlossaryElement> someGlossaryElements;
 
     someGlossaryElements.remove();

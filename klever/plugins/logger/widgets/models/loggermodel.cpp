@@ -117,7 +117,12 @@ QStringList LoggerModel::getSources()
  * Добавить запись в журнал
  */
 void LoggerModel::addMessage(const QString &source, const QString &datetime, const QString &txt, const QString &type)
-{
+{ 
+    QSqlDatabase m_db = QSqlDatabase::database("logger");
+    if (m_db.driverName()!="QSQLITE") {
+        m_db = QSqlDatabase::addDatabase("QSQLITE", "logger");
+    }
+
     QString path = Core::Base::instance().getParameterValue(QString("[Session]Folder"), QString(""));
     path += "/logs";
 
@@ -130,17 +135,32 @@ void LoggerModel::addMessage(const QString &source, const QString &datetime, con
 
     path = QString("%1/%2").arg(path).arg("__logger");
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<LoggerQDjangoModel>();
-    QDjango::createTables();
+    m_db.setDatabaseName(path);
+    if (!m_db.open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_db.lastError().text());
 
-    LoggerQDjangoModel *log = new LoggerQDjangoModel;
-    log->setSource(source);
-    log->setDatetime(datetime);
-    log->setTxt(txt);
-    log->setType(type);
-    log->save();
+        msg.createErrorMessage("Ошибка", text);
 
+    }
+    else {
+
+        QDjango::setDatabase(m_db);
+        QDjango::registerModel<LoggerQDjangoModel>();
+
+        QDjango::createTables();
+
+        LoggerQDjangoModel *log = new LoggerQDjangoModel;
+        log->setSource(source);
+        log->setDatetime(datetime);
+        log->setTxt(txt);
+        log->setType(type);
+        log->save();
+
+    }
+
+    m_db.close();
 }
 
 

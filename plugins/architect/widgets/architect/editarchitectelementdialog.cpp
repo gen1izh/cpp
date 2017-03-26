@@ -24,86 +24,42 @@ EditArchitectElementDialog::~EditArchitectElementDialog()
 void EditArchitectElementDialog::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
-    ui->articleEdit->setText(Core::Base::instance().getParameterValue("Architect_Edit_Article", QString()));
+    ui->articleEdit->setText(Core::Base::instance().getParameterValue("ArchitectElement_Id",
+                                                                      QString()));
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
-    // Проходим по БД и ищем нужный элемент по его идентификатору article
     QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("id",
+                                                                      QDjangoWhere::Equals,
+                                                                      ui->articleEdit->text()));
 
-    QString parentType;
-    ArchitectElement ae;
-    QString excludeParentArticle = "";
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            QString text = ae.article();
-
-            // Если нашли текущий элемент для редактирования в БД
-            if (text ==  ui->articleEdit->text().trimmed()) {
-                ui->nameEdit->setText(ae.name().trimmed());            // Имя элемента (н-р MSDOS)
-                ui->descriptionEdit->setText(ae.description());        // Описание элемента
-                ui->parentTypeBox->addItem(ae.parentElementType());    // Тип родительского элемента (н-р Подсистема)
-                ui->elementTypeLabel->setText(ae.type().trimmed());    // Тип самого компонента
-
-                parentType = ae.parentElementType().trimmed();
-                excludeParentArticle = ae.parentElementArticle().trimmed();
-                break;
-            }
-        }
-    }
-
-    // Заполняем список идентификаторов следующим уровнем элементов архитекутры.
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            QString type = ae.type().trimmed();
-            QString article = ae.article().trimmed();
-
-
-            if ((type == parentType) && (excludeParentArticle != article)) {
-                ui->parentNameBox->addItem(ae.article());
-            }
-        }
+    ArchitectElement architectElement;
+    if (someArchitectElements.size()>0) {
+         someArchitectElements.at(0, &architectElement);
+         ui->nameEdit->setText(architectElement.name());
+         ui->typeEdit->setText(architectElement.type());
     }
 }
 
 /*
- * Обработчик кнопки Accept диалогового окна.
+ * Обработчик кнопки Ok
  */
 void EditArchitectElementDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
+
+    Core::Base::instance().sessionDatabase()->transaction();
 
     QDjangoQuerySet<ArchitectElement> someArchitectElements;
-    ArchitectElement ae;
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("id",
+                                                                      QDjangoWhere::Equals,
+                                                                      ui->articleEdit->text()));
 
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            QString article1 = Core::Base::instance().getParameterValue("Architect_Edit_Article", QString(""));
-            QString article2 = ae.article().trimmed();
-
-            // Нашли элемент, который редактируем и удаляем его.
-            if (article1 == article2) {
-                ae.remove();
-                break;
-            }
-        }
+    ArchitectElement architectElement;
+    if (someArchitectElements.size()>0) {
+         someArchitectElements.at(0, &architectElement);
+         architectElement.setName(ui->nameEdit->text());
+         architectElement.setType(ui->typeEdit->text());
+         architectElement.save();
     }
-
-    // Добавить новый элемент
-    ae.setArticle(ui->articleEdit->text().trimmed());
-    ae.setName(ui->nameEdit->text().trimmed());
-    ae.setDescription(ui->descriptionEdit->toPlainText());
-    ae.setType(ui->elementTypeLabel->text().trimmed());
-    ae.setParentElementType(ui->parentTypeBox->currentText());
-    ae.setParentElementArticle(ui->parentNameBox->currentText());
-
-    ae.save();
-
 }

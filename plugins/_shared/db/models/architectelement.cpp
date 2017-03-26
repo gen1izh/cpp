@@ -1,55 +1,19 @@
 #include "architectelement.h"
 
 
+ArchitectElement::ArchitectElement(QObject *parent)
+    : QDjangoModel(parent) {
 
-QString ArchitectElement::article() const
-{
-    return m_article;
 }
 
-void ArchitectElement::setArticle(const QString &article)
+int ArchitectElement::parentId() const
 {
-    m_article = article;
+    return m_parentId;
 }
 
-QString ArchitectElement::name() const
+void ArchitectElement::setParentId(int parentId)
 {
-    return m_name;
-}
-
-void ArchitectElement::setName(const QString &name)
-{
-    m_name = name;
-}
-
-QString ArchitectElement::description() const
-{
-    return m_description;
-}
-
-void ArchitectElement::setDescription(const QString &description)
-{
-    m_description = description;
-}
-
-QString ArchitectElement::parentElementType() const
-{
-    return m_parentElementType;
-}
-
-void ArchitectElement::setParentElementType(const QString &parentElementType)
-{
-    m_parentElementType = parentElementType;
-}
-
-QString ArchitectElement::parentElementArticle() const
-{
-    return m_parentElementArticle;
-}
-
-void ArchitectElement::setParentElementArticle(const QString &parentElementArticle)
-{
-    m_parentElementArticle = parentElementArticle;
+    m_parentId = parentId;
 }
 
 QString ArchitectElement::type() const
@@ -60,4 +24,14 @@ QString ArchitectElement::type() const
 void ArchitectElement::setType(const QString &type)
 {
     m_type = type;
+}
+
+QString ArchitectElement::name() const
+{
+    return m_name;
+}
+
+void ArchitectElement::setName(const QString &name)
+{
+    m_name = name;
 }

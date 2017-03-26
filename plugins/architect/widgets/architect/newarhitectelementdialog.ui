@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>459</width>
-    <height>298</height>
+    <width>463</width>
+    <height>155</height>
    </rect>
   </property>
   <property name="font">
@@ -23,64 +23,41 @@
     <normaloff>:/images/raznoe31/raznoe31/48x48/112.png</normaloff>:/images/raznoe31/raznoe31/48x48/112.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="1" colspan="3">
-    <widget class="QComboBox" name="archElementBox">
-     <item>
-      <property name="text">
-       <string>Подсистема</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Компонент</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Модуль</string>
-      </property>
-     </item>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Элемент:</string>
+   <item row="2" column="1" colspan="4">
+    <widget class="QLineEdit" name="typeEdit">
+     <property name="toolTip">
+      <string>Введите название элемента. Н-р компонент, система, модуль...</string>
+     </property>
+     <property name="placeholderText">
+      <string>Введите тип элемента...</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Сокращение</string>
+   <item row="1" column="1" colspan="4">
+    <widget class="QLineEdit" name="nameEdit">
+     <property name="toolTip">
+      <string>Введите название элемента...</string>
+     </property>
+     <property name="placeholderText">
+      <string>Введите название элемента...</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Тип родителя</string>
+      <string>Название</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="4">
-    <widget class="QPushButton" name="checkButton">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Проверить</string>
+      <string>Тип</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1" colspan="3">
-    <widget class="QTextEdit" name="descriptionArchitectEdit"/>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Название родителя</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
+   <item row="3" column="1">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -93,55 +70,21 @@
      </property>
     </spacer>
    </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Название</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1" colspan="3">
-    <widget class="QLineEdit" name="nameEdit"/>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Описание</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1" colspan="3">
-    <widget class="QLineEdit" name="smallTextEdit"/>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Тип элемента</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLabel" name="elementTypeLabel">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="parentTypeLabel">
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="2">
-    <widget class="QLabel" name="parentNameLabel">
+    <widget class="QLabel" name="parentIdLabel">
      <property name="text">
       <string>TextLabel</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="0" colspan="5">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Идентификатор родителя</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="5">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>

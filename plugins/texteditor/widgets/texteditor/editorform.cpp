@@ -36,9 +36,7 @@ EditorForm::~EditorForm()
  */
 void EditorForm::loadDescription() {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<DocElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<DocElement> someDocElements;
 
@@ -52,11 +50,11 @@ void EditorForm::loadDescription() {
     }
     else if (someDocElements.count() == 1) {
         // Находим нужный элемент и меняем его.
-        DocElement de;
+        DocElement documentElement;
         for (int i = 0; i < someDocElements.size(); ++i) {
-            if (someDocElements.at(i, &de)) {
-                if (de.name() == ui->nameEdit->text()) {
-                    ui->descriptionEdit->setText(de.description());
+            if (someDocElements.at(i, &documentElement)) {
+                if (documentElement.name() == ui->nameEdit->text()) {
+                    ui->descriptionEdit->setText(documentElement.content());
                 }
             }
         }
@@ -125,9 +123,7 @@ void EditorForm::refreshImagesList(){
 
     ui->picturesList->clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ImagesElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<ImagesElement> someImagesElements;
 
@@ -162,9 +158,7 @@ void EditorForm::showEvent(QShowEvent *event)
     ui->frBox->clear();
     ui->nfrBox->clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<TermsElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<TermsElement> someTermsElements;
 
@@ -185,43 +179,23 @@ void EditorForm::showEvent(QShowEvent *event)
     }
 
 
+
+    // Заполнение списков ФТ и НФТ
     QDjangoQuerySet<RequirementElement> someRequirementElements;
-    someRequirementElements = someRequirementElements.filter(
-                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("ФТ")));
-
-    RequirementElement re;
-    for (int i = 0; i < someRequirementElements.size(); ++i) {
-        if (someRequirementElements.at(i, &re)) {
-
-            QString tmp = QString("%1%2")
-                    .arg(re.rtype())
-                    .arg(re.identificator(), 3, 10, QLatin1Char('0'));
-
-            ui->frBox->addItem(tmp);
-        }
+    QList<QVariantMap> propertyMaps = someRequirementElements.values(QStringList() << "id" << "type" );
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+      if (propertyMap["type"].toString()=="FR")  {
+          ui->frBox->addItem(propertyMap["id"].toString());
+      }
+      if (propertyMap["type"].toString()=="NFR")  {
+          ui->nfrBox->addItem(propertyMap["id"].toString());
+      }
     }
-
-
-    QDjangoQuerySet<RequirementElement> someNoFunctionalRequirementElements;
-    someNoFunctionalRequirementElements = someNoFunctionalRequirementElements.filter(
-                QDjangoWhere("rtype", QDjangoWhere::Equals, QString("НФТ")));
-
-    RequirementElement nfre;
-    for (int i = 0; i < someNoFunctionalRequirementElements.size(); ++i) {
-        if (someNoFunctionalRequirementElements.at(i, &nfre)) {
-
-            QString tmp = QString("%1%2")
-                    .arg(nfre.rtype())
-                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
-
-            ui->nfrBox->addItem(tmp);
-        }
-    }
-
 
 
     QDjangoQuerySet<DocElement> someDocElements;
 
+    ui->appendixBox->clear();
     DocElement de;
     for (int i = 0; i < someDocElements.size(); ++i) {
         if (someDocElements.at(i, &de)) {
@@ -240,12 +214,24 @@ void EditorForm::showEvent(QShowEvent *event)
  */
 void EditorForm::on_browselButton_clicked()
 {
-    ui->pathEdit->setText(
-                QFileDialog::getOpenFileName(this,
-                                             tr("Выбрать картинку"),
-                                             "",
-                                             tr("Image Files (*.png)"))
-                );
+
+    QString filename = QFileDialog::getOpenFileName(this,
+                                                    tr("Выбрать картинку"),
+                                                    "",
+                                                    tr("Files (*.png *.jpg *.bmp *.qmodel)"));
+
+    QFileInfo f(filename);
+
+    ui->pathEdit->setText(filename);
+
+    QString codedString = QString("%1%2").arg(filename)
+            .arg(QDateTime::currentDateTime().toString("hh:mm:ss.zzz dd.MM.yyyy"));
+
+    QString hash = QString(QCryptographicHash::hash(codedString.toUtf8(),
+                                                    QCryptographicHash::Sha1).toHex());
+
+
+    ui->nameFileEdit->setText(QString("%1.%2").arg(hash).arg(f.completeSuffix()));
 }
 
 
@@ -254,11 +240,9 @@ void EditorForm::on_browselButton_clicked()
  */
 void EditorForm::on_addImageButton_clicked()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ImagesElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
-    if (ui->nameImageEdit->text().isEmpty()) {
+    if (ui->nameFileEdit->text().isEmpty()) {
         QMessageBox msgBox;
          msgBox.setText("Введите название!");
          msgBox.exec();
@@ -307,7 +291,7 @@ void EditorForm::on_addImageButton_clicked()
         if (loadImage(ui->pathEdit->text(), filename) == true) {
 
             ImagesElement ie;
-            ie.setName(ui->nameImageEdit->text());
+            ie.setName(ui->nameFileEdit->text());
             ie.setFilename(filename);
             ie.save();
         }
@@ -322,10 +306,7 @@ void EditorForm::on_addImageButton_clicked()
  */
 void EditorForm::on_deleteImageButton_clicked()
 {
-        QDjango::setDatabase(*Core::Base::instance().database());
-        QDjango::registerModel<ImagesElement>();
-        QDjango::createTables();
-
+        QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
         QString imageName = (ui->picturesList->currentItem()->text().split("||")).at(0);
 
@@ -465,78 +446,65 @@ void EditorForm::on_enumButton_clicked()
     ui->descriptionEdit->textCursor().insertText(result);
 }
 
-/*
- *
- */
-void EditorForm::on_picturesList_clicked(const QModelIndex &index)
-{
-    Q_UNUSED(index)
-    QString imageName = (ui->picturesList->currentItem()->text().split("||")).at(1);
-    imageName = imageName.trimmed(); // удаляем пробелы вначале строки в конце.
 
-    ui->newNameEdit->setText(imageName);
-}
+///*
+// *
+// */
+//void EditorForm::on_editNameButton_clicked()
+//{
+//    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
-/*
- *
- */
-void EditorForm::on_editNameButton_clicked()
-{
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ImagesElement>();
-    QDjango::createTables();
+//    if (ui->editNameButton->isChecked()) {
+//        ui->newNameEdit->setEnabled(true);
+//    }
+//    else {
+//                QString imageFileName = (ui->picturesList->currentItem()->text().split("||")).at(0);
 
-    if (ui->editNameButton->isChecked()) {
-        ui->newNameEdit->setEnabled(true);
-    }
-    else {
-                QString imageFileName = (ui->picturesList->currentItem()->text().split("||")).at(0);
+//                imageFileName = imageFileName.trimmed(); // удаляем пробелы вначале строки в конце.
 
-                imageFileName = imageFileName.trimmed(); // удаляем пробелы вначале строки в конце.
+//                QDjangoQuerySet<ImagesElement> someImagesElements;
+//                someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
+//                                                                            QDjangoWhere::Equals,
+//                                                                            imageFileName));
 
-                QDjangoQuerySet<ImagesElement> someImagesElements;
-                someImagesElements = someImagesElements.filter(QDjangoWhere("filename",
-                                                                            QDjangoWhere::Equals,
-                                                                            imageFileName));
+//                if (someImagesElements.count() > 1) {
+//                    QMessageBox msgBox;
+//                    msgBox.setText("Картинок " +  imageFileName + " создано больше одной."\
+//                                   "Должен быть только один элемент картинки с таким именем!");
+//                    msgBox.exec();
 
-                if (someImagesElements.count() > 1) {
-                    QMessageBox msgBox;
-                    msgBox.setText("Картинок " +  imageFileName + " создано больше одной."\
-                                   "Должен быть только один элемент картинки с таким именем!");
-                    msgBox.exec();
+//                    ui->newNameEdit->setEnabled(false);
+//                    return;
+//                }
+//                else if (someImagesElements.count() == 1) {
 
-                    ui->newNameEdit->setEnabled(false);
-                    return;
-                }
-                else if (someImagesElements.count() == 1) {
+//                    QDjangoQuerySet<ImagesElement> someImagesElements;
 
-                    QDjangoQuerySet<ImagesElement> someImagesElements;
+//                    ImagesElement ie;
+//                    for (int i = 0; i < someImagesElements.size(); ++i) {
+//                        if (someImagesElements.at(i, &ie)->filename() == imageFileName) {
+//                            ie.setName(ui->newNameEdit->text());
+//                            ie.save();
+//                        }
+//                    }
 
-                    ImagesElement ie;
-                    for (int i = 0; i < someImagesElements.size(); ++i) {
-                        if (someImagesElements.at(i, &ie)->filename() == imageFileName) {
-                            ie.setName(ui->newNameEdit->text());
-                            ie.save();
-                        }
-                    }
+//                    // Обновить список картинок в редакторе.
+//                    refreshImagesList();
 
-                    // Обновить список картинок в редакторе.
-                    refreshImagesList();
+//                    ui->newNameEdit->setEnabled(false);
 
-                    ui->newNameEdit->setEnabled(false);
+//                    return;
+//                }
+//                else {
+//                    QMessageBox msgBox;
+//                    msgBox.setText("Картинка с именем " +  imageFileName + " отсутствует!");
+//                    msgBox.exec();
+//                }
 
-                    return;
-                }
-                else {
-                    QMessageBox msgBox;
-                    msgBox.setText("Картинка с именем " +  imageFileName + " отсутствует!");
-                    msgBox.exec();
-                }
+//        ui->newNameEdit->setEnabled(false);
 
-        ui->newNameEdit->setEnabled(false);
-
-    }
-}
+//    }
+//}
 
 /*
  *
@@ -852,9 +820,7 @@ void EditorForm::on_frBox_activated(const QString &arg1)
 {
 Q_UNUSED(arg1)
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<RequirementElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QString result = "";
 
@@ -864,25 +830,27 @@ Q_UNUSED(arg1)
 
     QString name;
 
-    RequirementElement nfre;
-    for (int i = 0; i < someRequirementElements.size(); ++i) {
-        if (someRequirementElements.at(i, &nfre)) {
+    // TODO: ПЕРЕДЕЛАТЬ ВСТАВКУ ТРЕБОВАНИЯ
 
-            QString tmp = QString("%1%2")
-                    .arg(nfre.rtype())
-                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
+//    RequirementElement nfre;
+//    for (int i = 0; i < someRequirementElements.size(); ++i) {
+//        if (someRequirementElements.at(i, &nfre)) {
 
-            if ( ui->frBox->currentText() == tmp) {
-                name =  QString("%1%2.%3.%5 - %6")
-                        .arg(nfre.rtype())
-                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
-                        .arg(nfre.component())
-                        .arg(nfre.module())
-                        .arg(nfre.name());
-                break;
-            }
-        }
-    }
+//            QString tmp = QString("%1%2")
+//                    .arg(nfre.rtype())
+//                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
+
+//            if ( ui->frBox->currentText() == tmp) {
+//                name =  QString("%1%2.%3.%5 - %6")
+//                        .arg(nfre.rtype())
+//                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
+//                        .arg(nfre.component())
+//                        .arg(nfre.module())
+//                        .arg(nfre.name());
+//                break;
+//            }
+//        }
+//    }
 
     result = "[H2]" + name + "[/H2] \n";
     result += "[BODY_FR:"+ ui->frBox->currentText()+"]\n";
@@ -919,9 +887,7 @@ void EditorForm::on_nfrBox_activated(const QString &arg1)
 {
     Q_UNUSED(arg1)
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<RequirementElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QString result = "";
 
@@ -931,25 +897,27 @@ void EditorForm::on_nfrBox_activated(const QString &arg1)
 
     QString name;
 
-    RequirementElement nfre;
-    for (int i = 0; i < someRequirementElements.size(); ++i) {
-        if (someRequirementElements.at(i, &nfre)) {
+        // TODO: ПЕРЕДЕЛАТЬ ВСТАВКУ ТРЕБОВАНИЯ
 
-            QString tmp = QString("%1%2")
-                    .arg(nfre.rtype())
-                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
+//    RequirementElement nfre;
+//    for (int i = 0; i < someRequirementElements.size(); ++i) {
+//        if (someRequirementElements.at(i, &nfre)) {
 
-            if ( ui->nfrBox->currentText() == tmp) {
-                name =  QString("%1%2.%3.%5 - %6")
-                        .arg(nfre.rtype())
-                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
-                        .arg(nfre.component())
-                        .arg(nfre.module())
-                        .arg(nfre.name());
-                break;
-            }
-        }
-    }
+//            QString tmp = QString("%1%2")
+//                    .arg(nfre.rtype())
+//                    .arg(nfre.identificator(), 3, 10, QLatin1Char('0'));
+
+//            if ( ui->nfrBox->currentText() == tmp) {
+//                name =  QString("%1%2.%3.%5 - %6")
+//                        .arg(nfre.rtype())
+//                        .arg(nfre.identificator(), 3, 10, QLatin1Char('0'))
+//                        .arg(nfre.component())
+//                        .arg(nfre.module())
+//                        .arg(nfre.name());
+//                break;
+//            }
+//        }
+//    }
 
     result = "[H2]" + name + "[/H2] \n";
     result += "[BODY_NFR:"+ ui->nfrBox->currentText()+"]\n";
@@ -989,9 +957,7 @@ void EditorForm::on_glossaryBox_activated(const QString &arg1)
 void EditorForm::on_scanTermsButton_clicked()
 {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<TermsElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<TermsElement> someTermsElements;
 
@@ -1036,9 +1002,7 @@ void EditorForm::on_scanTermsButton_clicked()
 
 void EditorForm::on_scanGlossaryButton_clicked()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<GlossaryElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     QDjangoQuerySet<GlossaryElement> someGlossaryElements;
 
@@ -1101,40 +1065,31 @@ void EditorForm::on_gotoAnchorButton_clicked()
 
 void EditorForm::on_saveButton_clicked()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<DocElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
-    QDjangoQuerySet<DocElement> someDocElements;
-    someDocElements = someDocElements.filter(QDjangoWhere("name", QDjangoWhere::Equals, ui->nameEdit->text()));
+    QDjangoQuerySet<DocElement> someDocumentElements;
+    someDocumentElements = someDocumentElements.filter(QDjangoWhere("uid", QDjangoWhere::Equals,
+                                                          Core::Base::instance().getParameterValue("UID", QString(""))));
 
-    if (someDocElements.count() > 1) {
-        QMessageBox msgBox;
-         msgBox.setText("Элемент с именем " +  ui->nameEdit->text() + " создан несколько раз!"\
-                        "Должен быть только один элемент!");
-         msgBox.exec();
-    }
-    else if (someDocElements.count() == 1) {
-        // Находим нужный элемент и меняем его.
-        DocElement de;
-        for (int i = 0; i < someDocElements.size(); ++i) {
-            if (someDocElements.at(i, &de)) {
-                if (de.name() == ui->nameEdit->text()) {
-                    de.setName(ui->nameEdit->text());
-                    de.setType(ui->docTypeLabel->text());
-                    de.setDescription(ui->descriptionEdit->toPlainText());
-                    de.save();
-                }
-            }
+    DocElement documentElement;
+    int version = 0;
+    for (int i = 0; i < someDocumentElements.size(); ++i) {
+        if (someDocumentElements.at(i, &documentElement)) {
+            if (documentElement.version()>version)
+                version = documentElement.version();
         }
     }
-    else {
-        DocElement de;
-        de.setName(ui->nameEdit->text());
-        de.setType(ui->docTypeLabel->text());
-        de.setDescription(ui->descriptionEdit->toPlainText());
-        de.save();
-    }
+
+    DocElement de;
+    de.setName(ui->nameEdit->text());
+    de.setType(ui->docTypeLabel->text());
+    de.setContent(ui->descriptionEdit->toPlainText());
+    de.setAuthor(Core::Base::instance().getParameterValue(QString("[Autorization]User"), QString("")));
+    de.setComment("");
+    de.setDatetime(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss.zzz"));
+    de.setUid(Core::Base::instance().getParameterValue("UID", QString("")));
+    de.setVersion(++version);
+    de.save();
 
     ui->saveButton->setEnabled(false);
 }

@@ -105,6 +105,15 @@ void SessionsModel::addSession(QString name, QString parameters) {
         session->setInformation("");
         session->save();
     }
+
+    // Создаем специальную БД сессии
+    QSqlQuery query(QString("CREATE DATABASE %1").arg(name), *Core::Base::instance().database());
+
+//    if (!query.isValid()) {
+//        messageLibrary msg;
+//        msg.createErrorMessage("Ошибка", "Не удаллось создать БД");
+//    }
+
 }
 
 void SessionsModel::updateModel()

@@ -20,12 +20,8 @@ protected:
 private slots:
     void on_buttonBox_accepted();
 
-    void on_checkButton_clicked();
-
 private:
     Ui::NewArhitectElementDialog *ui;
-
-    int addNewElement();
 
 };
 

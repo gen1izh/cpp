@@ -8,6 +8,11 @@ documentPlugin::documentPlugin() {
     createConnectors();
 }
 
+void documentPlugin::prepare() {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+}
+
+
 void documentPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)BF_DocumentsForm")].first  = new BF_DocumentsForm();

@@ -11,10 +11,6 @@ class EditRequirementDialog : public QDialog
 {
     Q_OBJECT
 
-    enum {
-        MAX_REQUIREMENT_COUNT = 2000
-    };
-
 public:
     explicit EditRequirementDialog(QWidget *parent = 0);
     ~EditRequirementDialog();

@@ -8,6 +8,10 @@ architectPlugin::architectPlugin() {
     createConnectors();
 }
 
+void architectPlugin::prepare() {
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+}
+
 void architectPlugin::createWidgets() {
 
     _widgetActionList[tr("(PM)BF_ArchitectForm")].first  = new BF_ArchitectForm();

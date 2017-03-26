@@ -35,8 +35,8 @@ private slots:
     void on_preButton_clicked();
     void on_titlesBox_currentTextChanged(const QString &arg1);
     void on_enumButton_clicked();
-    void on_picturesList_clicked(const QModelIndex &index);
-    void on_editNameButton_clicked();
+
+//    void on_editNameButton_clicked();
     void on_titlesBox_activated(const QString &arg1);
     void on_paragraphBox_activated(const QString &arg1);
     void on_tableButton_clicked();

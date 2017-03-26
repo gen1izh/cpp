@@ -31,6 +31,11 @@ PersonalData::PersonalData(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
+
+}
+
+void PersonalData::InitializeModels() {
     // Создание модели групп
     QStringList headers;
     headers << tr("Группа")<< tr("Описание");
@@ -54,7 +59,6 @@ PersonalData::PersonalData(QWidget *parent) :
     m_modelPromissions = new PromissionModel();
     m_modelPromissions->setStringList(m_modelPromissions->selectAllPromission());
     ui->promissionsView->setModel(m_modelPromissions);
-
 }
 
 PersonalData::~PersonalData()

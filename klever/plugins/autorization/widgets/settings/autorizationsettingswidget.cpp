@@ -2,15 +2,12 @@
 #include "autorizationmanager.h"
 #include <frameWork/plugins.h>
 
-#include "personaldata.h"
-
 autorizationSettings::autorizationSettings(QWidget *parent) : QWidget(parent)
 {
   // Установка элементов на layout
   QGridLayout *mainLayout = new QGridLayout;
 
-
-  PersonalData *d = new PersonalData();
+  d = new PersonalData();
 
   mainLayout->addWidget( d, 0, 0, 1, 2);
 

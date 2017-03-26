@@ -80,6 +80,7 @@ namespace Core {
       void startApp(QString exeName, QString arguments);
 
       QSqlDatabase *m_db;
+      QSqlDatabase *m_session_db;
 
       void closeDatabase();
     public:
@@ -153,11 +154,6 @@ namespace Core {
         emit parameterValueChanged(key, value);
       }
 
-      template <typename T>
-      void registerModel() {
-          QDjango::registerModel<T>();
-      }
-
       /*!
        * \brief Возвращает хеш параметров
        * \return
@@ -220,6 +216,9 @@ namespace Core {
 
       void createTables();
       QSqlDatabase *database();
+      int initializeSessionDatabase(const QString &name);
+      QSqlDatabase *sessionDatabase();
+      void closeSessionDatabase();
     signals:
       /*!
        * \brief Сигнал изменения значения параметра

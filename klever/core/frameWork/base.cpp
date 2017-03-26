@@ -30,9 +30,36 @@ void Core::Base::closeDatabase() {
 }
 
 
-void Core::Base::createTables() {
-    QDjango::createTables();
+
+int Core::Base::initializeSessionDatabase(const QString &name)
+{
+    m_session_db = new QSqlDatabase( QSqlDatabase::addDatabase("QODBC", name) );
+    m_session_db->setDatabaseName(QString("DRIVER={SQL Server};SERVER=.\\SQLEXPRESS;DATABASE=%1;Trusted_Connection=yes;").arg(name));
+    m_session_db->setUserName("sa");
+    m_session_db->setPassword("111");
+
+    if (!m_session_db->open()) {
+        messageLibrary msg;
+        QString text;
+        text = QString("%1. %2").arg("Не удалось открыть БД").arg(m_session_db->lastError().text());
+        msg.createErrorMessage("Ошибка", text);
+        return -1;
+    }
+    return 1;
 }
+
+QSqlDatabase *Core::Base::sessionDatabase() {
+    return m_session_db;
+}
+
+void Core::Base::closeSessionDatabase() {
+    QString name = m_session_db->databaseName();
+    m_session_db->close();
+    QSqlDatabase::removeDatabase(name);
+}
+
+
+
 
 Core::Base::Base()
 {

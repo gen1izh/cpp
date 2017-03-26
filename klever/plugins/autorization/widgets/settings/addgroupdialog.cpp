@@ -23,7 +23,7 @@ void AddGroupDialog::showEvent(QShowEvent *) {
     // Заполнение раскрывающегося списка групп всеми возможными группами
     ui->parentBox->clear();
 
-    QDjango::setDatabase(*Core::Base::instance().database());
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjango::registerModel<Group>();
     QDjango::createTables();
     QDjangoQuerySet<Group> groups;

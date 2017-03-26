@@ -108,15 +108,14 @@ void KApplication::prepareStage1()
     // Создание коннекторов
     Core::Plugins::instance().createConnectors();
 
+     Core::Plugins::instance().prepare();
+
     // Инициализация mainwindow и mdi
     Core::KleverGui::instance().initializeMainwindowAndMdi();
 }
 
 void KApplication::prepareStage2()
 {
-    // Обновление информации о модулях
-    //Core::ModulesManager::instance().updateModulesList();
-
     // Инициализация плагина форм.
     // INFO: Инициализация должна происходить после загрузки всех модулей.
     Core::KleverGui::instance().initializeFormManager();
@@ -126,9 +125,6 @@ void KApplication::prepareStage2()
 
     // Инициализация настроек
     Core::Base::instance().initializeSettings();
-
-    // Отложенный запуск модулей
-    //Core::Base::instance().startModulesBy100ms();
 
     // При открытии окно будет максимального размера
     Core::KleverGui::instance().showMaximized();

@@ -34,14 +34,27 @@ void BF_DocumentsForm::on_editButton_clicked()
 {
 
     if (!ui->documentsListWidget->selectedItems().isEmpty()) {
-        Core::Base::instance().setParameterValue("NAME",
-                        ui->documentsListWidget->selectedItems().at(0)->text());
+
+        QByteArray ba;
+        ba.append(ui->documentsListWidget->selectedItems().at(0)->text());
+        QString hash = QString(QCryptographicHash::hash(ba,
+                               QCryptographicHash::Sha1).toHex());
+
+        Core::Base::instance().setParameterValue("UID", hash);
+        Core::Base::instance().setParameterValue("NAME", ui->documentsListWidget->selectedItems().at(0)->text());
         Core::Base::instance().setParameterValue("DOCTYPE", "ДОКУМЕНТ");
 
     }
     else {
-        Core::Base::instance().setParameterValue("NAME",
-                        ui->documentTreeWidget->selectedItems().at(0)->text(0));
+
+        QByteArray ba;
+        ba.append(ui->documentTreeWidget->selectedItems().at(0)->text(0));
+        QString hash = QString(QCryptographicHash::hash(ba,
+                               QCryptographicHash::Sha1).toHex());
+
+        Core::Base::instance().setParameterValue("UID", hash);
+        Core::Base::instance().setParameterValue("NAME", ui->documentTreeWidget->selectedItems().at(0)->text(0));
+
         if (!ui->documentTreeWidget->selectedItems().isEmpty()) {
 
             if (ui->documentTreeWidget->currentItem()->parent() != NULL) {
@@ -72,9 +85,7 @@ void BF_DocumentsForm::createDialogs()
 void BF_DocumentsForm::showEvent(QShowEvent *event) {
     Q_UNUSED(event)
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<DocElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<DocElement> someDocElements;
 
     QList<QTreeWidgetItem*> appendixItem;
@@ -98,9 +109,7 @@ void BF_DocumentsForm::showEvent(QShowEvent *event) {
  */
 void BF_DocumentsForm::on_createAppendixButton_clicked()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<DocElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<DocElement> someDocElements;
 
     DocElement de;
@@ -118,9 +127,18 @@ void BF_DocumentsForm::on_createAppendixButton_clicked()
     }
 
     DocElement de2;
-    de2.setType(QString("ПРИЛОЖЕНИЕ"));
     de2.setName(ui->appendixNameEdit->text());
+    de2.setType(QString("ПРИЛОЖЕНИЕ"));
+    de2.setContent("");
+    de2.setAuthor(Core::Base::instance().getParameterValue(QString("[Autorization]User"), QString("")));
+    de2.setComment("");
+    de2.setDatetime(QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm:ss.zzz"));
+    QByteArray ba;
+    ba.append(ui->appendixNameEdit->text());
+    de2.setUid(QString(QCryptographicHash::hash(ba, QCryptographicHash::Sha1).toHex()));
+    de2.setVersion(0); /*ноль потому что только создали, не редактировали еще*/
     de2.save();
+
 
     QList<QTreeWidgetItem*> appendixItem;
     appendixItem = ui->documentTreeWidget->findItems("Приложения",
@@ -135,9 +153,7 @@ void BF_DocumentsForm::on_createAppendixButton_clicked()
 
 void BF_DocumentsForm::on_deleteAppendixButton_clicked()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<DocElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<DocElement> someDocElements;
 
     DocElement de;

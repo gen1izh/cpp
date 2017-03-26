@@ -3,45 +3,38 @@
 
 #include <library/orm/db/QDjangoModel.h>
 
+#include "architectelement.h"
+
 class RequirementElement : public QDjangoModel
 {
     Q_OBJECT
     // тип требования ФТ, ПТ
-    Q_PROPERTY(QString rtype READ rtype WRITE setRType)
-    Q_PROPERTY(int identificator READ identificator WRITE setIdentificator)
+    Q_PROPERTY(QString type READ type WRITE setType)
     Q_PROPERTY(QString name READ name WRITE setName)
-    Q_PROPERTY(QString component READ component WRITE setComponent)
-    Q_PROPERTY(QString module READ module WRITE setModule)
+    Q_PROPERTY(ArchitectElement *component READ component WRITE setComponent)
 
-    Q_CLASSINFO("rtype", "max_length=255")
-    Q_CLASSINFO("identificator", "")
+    Q_CLASSINFO("type", "max_length=255")
     Q_CLASSINFO("name", "max_length=255")
-    Q_CLASSINFO("component", "max_length=255")
-    Q_CLASSINFO("module", "max_length=255")
+    Q_CLASSINFO("component", "on_delete=cascade")
 
 public:
 
-    QString rtype() const;
-    void setRType(const QString &rtype);
+    RequirementElement(QObject *parent = 0);
 
-    int identificator() const;
-    void setIdentificator(const int &identificator);
+    QString type() const;
+    void setType(const QString &type);
 
     QString name() const;
     void setName(const QString &name);
 
-    QString component() const;
-    void setComponent(const QString &component);
-
-    QString module() const;
-    void setModule(const QString &module);
+    ArchitectElement *component() const;
+    void setComponent(ArchitectElement *component);
 
 private:
-    int m_identificator;
-    QString m_rtype;
+
+    QString m_type;
     QString m_name;
-    QString m_component;
-    QString m_module;
+
 };
 
 #endif // REQUIREMENTELEMENT_H

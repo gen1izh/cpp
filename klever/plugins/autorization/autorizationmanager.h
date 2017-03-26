@@ -26,7 +26,7 @@ class AutorizationManager : public QObject, public IAutorizationManager {
     /*!
      * \brief Виджет настроек
      */
-    autorizationSettings *_settings = NULL;
+    autorizationSettings *m_settings = NULL;
 
     AutorizationDialog   *m_autorizationDialog;
 

@@ -3,6 +3,7 @@
 
 #include <QTimer>
 #include <QDebug>
+#include <QList>
 
 #include <library/orm/db/QDjangoQuerySet.h>
 #include "../../../_shared/db/models/architectelement.h"
@@ -16,315 +17,231 @@ BF_ArchitectForm::BF_ArchitectForm(QWidget *parent) :
     ui(new Ui::BF_ArchitectForm)
 {
     ui->setupUi(this);
-
     m_currentArchitectTreeItem   = NULL;
-    // TODO: Заменить на название сессии
-    ui->sysNameEdit->setText(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
-    on_updateButton_clicked();
-
 }
-
-void BF_ArchitectForm::showEvent(QShowEvent *event) {
-    Q_UNUSED(event)
-    openArchitect();
-}
-
 
 BF_ArchitectForm::~BF_ArchitectForm()
 {
     delete ui;
 }
 
+
+void BF_ArchitectForm::showEvent(QShowEvent *event) {
+    Q_UNUSED(event)
+    readArchitecture();
+    on_updateButton_clicked();
+}
+
+/*
+ * Открыть структуру системы
+ */
+void BF_ArchitectForm::readArchitecture()
+{
+    // Очищаем все дерево
+    ui->architectTreeWidget->clear();
+
+    // Устанавливаем корневой элемент
+    QTreeWidgetItem *rootItem = new QTreeWidgetItem(ui->architectTreeWidget);
+    //rootItem->setIcon(0, QIcon(":/img/img/system.png"));
+    rootItem->setText(0, QString("0:Корень"));
+    rootItem->setExpanded(true);
+
+
+    // Заполняем список архитектурных элементов
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    QList<architectElementListItem> _architectElementListItem;
+
+    // retrieve usernames and passwords for matching users as maps
+    QList<QVariantMap> propertyMaps = someArchitectElements.values(QStringList() << "id"
+                                                                   << "type" << "name" << "parentId");
+    foreach (const QVariantMap &propertyList, propertyMaps) {
+      architectElementListItem tmp;
+      tmp.id = propertyList["id"].toInt();
+      tmp.name = propertyList["name"].toString();
+      tmp.type = propertyList["type"].toString();
+      tmp.parentId = propertyList["parentId"].toInt();
+
+      _architectElementListItem.append(tmp);
+    }
+
+    int searchParentId = 0;
+    QList<QPair<int,QTreeWidgetItem *> > ids;
+
+    QTreeWidgetItem *searchItem = rootItem;
+    // Заполняем дерево архитектуры
+    while(!_architectElementListItem.isEmpty()) {
+
+        if (!ids.isEmpty()) {
+            QPair<int,QTreeWidgetItem *> t = ids.takeAt(0);
+            searchParentId = t.first;
+            searchItem = t.second;
+        }
+
+        for(int i = 0; i < _architectElementListItem.size(); i++) {
+
+            // Находим первый элемент
+            if (_architectElementListItem.at(i).parentId == searchParentId) {
+                QTreeWidgetItem *newItem = new QTreeWidgetItem(searchItem);
+                //newItem->setIcon(0, QIcon(":/img/img/system.png"));
+                newItem->setText(0, QString("%1:%2 - %3").arg(_architectElementListItem.at(i).id)
+                                               .arg(_architectElementListItem.at(i).type)
+                                               .arg(_architectElementListItem.at(i).name));
+                newItem->setExpanded(true);
+                // Ищем новые элементы по новому идентификатору и продолжаем заполнять дерево
+                QPair<int,QTreeWidgetItem *> t;
+                t.first  = _architectElementListItem.at(i).id;
+                t.second =  newItem;
+                ids.append(t);
+
+                _architectElementListItem.takeAt(i);
+                i = -1;
+            }
+        }
+
+    }
+}
+
+
+/*
+ * Обновить связи
+ */
+void BF_ArchitectForm::on_updateButton_clicked()
+{
+    ui->linkListWidget->clear();
+
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+    QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
+
+
+    QList<QVariantMap> propertyMaps = someArchitectLinksElements.values(QStringList() << "id"
+                                                                        << "name"
+                                                                        << "type"
+                                                                        << "linkA"
+                                                                        << "linkB");
+    foreach (const QVariantMap &propertyMap, propertyMaps) {
+        ui->linkListWidget->addItem(QString("%1 | Название=%2 Тип=%3 A=%4 B=%5")
+                                  .arg(propertyMap["id"].toString())
+                                  .arg(propertyMap["name"].toString())
+                                  .arg(propertyMap["type"].toString())
+                                  .arg(propertyMap["linkA"].toString())
+                                  .arg(propertyMap["linkB"].toString()));
+    }
+}
+
+/*
+ * Редактирование архитектурного элемента
+ */
 void BF_ArchitectForm::on_editArchitectElementButton_clicked()
 {
-    EditArchitectElementDialog editArchitectElementDialog;
-    Core::Base::instance().setParameterValue("Architect_Edit_Article",
-            QString(m_currentArchitectTreeItem->text(0).split("|").at(1)).trimmed());
+    if (m_currentArchitectTreeItem) {
+        // Получаем идентификатор элемента
+        Core::Base::instance().setParameterValue("ArchitectElement_Id",
+                QString(m_currentArchitectTreeItem->text(0).split(":").at(0)).trimmed());
 
-
-    if (editArchitectElementDialog.exec() == QDialog::Accepted) {
-        ui->architectTreeWidget->clear();
-        openArchitect();
+        // Открываем окно редактирования
+        EditArchitectElementDialog editArchitectElementDialog;
+        if (editArchitectElementDialog.exec() == QDialog::Accepted) {
+            readArchitecture();
+            m_currentArchitectTreeItem = NULL;
+        }
+    }
+    else {
+        messageLibrary msg;
+        msg.createInfoMessage("Информация", "Не выбран никакой элемент структуры системы.");
     }
 }
 
+/*
+ * Добавляем новый элемент
+ */
 void BF_ArchitectForm::on_addArchitectElementButton_clicked()
 {
-    NewArhitectElementDialog newArchitectDialog;
-    Core::Base::instance().setParameterValue("Architect_ParentName", m_currentArchitectTreeItem->text(0).split("|").at(1));
-    Core::Base::instance().setParameterValue("Architect_ParentSmallText", m_currentArchitectTreeItem->text(0).split("|").at(0));
+    if (m_currentArchitectTreeItem) {
+        // Получение идентификатора элемента
+        Core::Base::instance().setParameterValue("ArchitectElement_ParentId",
+                                                 m_currentArchitectTreeItem->text(0).split(":").at(0));
 
-    if (newArchitectDialog.exec() == QDialog::Accepted) {
-
-        if (m_currentArchitectTreeItem) {
-            QString word = Core::Base::instance().getParameterValue("Arhitect_Type",QString(""));
-            QTreeWidgetItem *newItem = new QTreeWidgetItem(m_currentArchitectTreeItem,
-                                                           ui->architectTreeWidget->currentItem());
-
-            if (word == "Подсистема") {
-                newItem->setIcon(0, QIcon(":/img/img/subsystem.png"));
-            }
-            else if (word == "Компонент") {
-                newItem->setIcon(0, QIcon(":/img/img/component.png"));
-            }
-            else if (word == "Модуль") {
-                newItem->setIcon(0, QIcon(":/img/img/module.png"));
-            }
-
-            newItem->setText(m_currentArchitectTreeColumn, word + " | " +
-                             Core::Base::instance().getParameterValue("Arhitect_SmallName", QString("")));
-            newItem->setExpanded(true);
+        NewArhitectElementDialog newArchitectDialog;
+        if (newArchitectDialog.exec() == QDialog::Accepted) {
+            readArchitecture();
+            m_currentArchitectTreeItem = NULL;
         }
-        else {
-            QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-            newItem->setText(m_currentArchitectTreeColumn, " | " +
-                             Core::Base::instance().getParameterValue("Arhitect_SmallName", QString("")));
-            newItem->setExpanded(true);
-        }
-
+    }
+    else {
+        messageLibrary msg;
+        msg.createInfoMessage("Информация", "Не выбран никакой элемент структуры системы.");
     }
 }
-
-void BF_ArchitectForm::on_deleteArchitectElementButton_clicked()
-{
-    if (m_currentArchitectTreeItem)  {
-        QString article1 = m_currentArchitectTreeItem->text(0).split("|").at(1);
-        QTreeWidgetItem *parent = m_currentArchitectTreeItem->parent();
-        int index;
-        if (parent) {
-            index = parent->indexOfChild(ui->architectTreeWidget->currentItem());
-            delete parent->takeChild(index);
-        }
-        else {
-            index = ui->architectTreeWidget->indexOfTopLevelItem(ui->architectTreeWidget->currentItem());
-            delete ui->architectTreeWidget->takeTopLevelItem(index);
-        }
-
-        QDjango::setDatabase(*Core::Base::instance().database());
-        QDjango::registerModel<ArchitectElement>();
-        QDjango::createTables();
-        QDjangoQuerySet<ArchitectElement> someArchitectElements;
-        ArchitectElement ae;
-        article1 = article1.trimmed();
-
-        for (int i = 0; i < someArchitectElements.size(); ++i) {
-            if (someArchitectElements.at(i, &ae)) {
-
-                QString article2 = ae.article().trimmed();
-
-                if (article1 == article2) {
-                    ae.remove();
-
-                    ui->architectTreeWidget->clear();
-                    openArchitect();
-
-                    break;
-                }
-            }
-        }
-
-    }
-
-    m_currentArchitectTreeItem = NULL;
-}
-
-
 
 /*
  *
  */
-QTreeWidgetItem *BF_ArchitectForm::findItemByTypeAndOrArticle(const QString &type,
-                                                                   const QString &article) {
-    if (type == "Система") {
-        QList<QTreeWidgetItem *> lst = ui->architectTreeWidget->findItems(type + " | ",
-                                                                         Qt::MatchContains);
-        if (lst.size()>0) {
-            return lst.at(0);
-        }
-        else {
-            return NULL;
-        }
-    }
-    else{
-        QString findText = type + " | " + article;
-        QList<QTreeWidgetItem *> lst = ui->architectTreeWidget->findItems(findText,
-                                                                          Qt::MatchRecursive);
-        if (lst.size()>0) {
-            return lst.at(0);
-        }
-        else {
-            return NULL;
+void BF_ArchitectForm::recursiveDeleteElements(QTreeWidgetItem *item, int id)
+{
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
+    QDjangoQuerySet<ArchitectElement> someArchitectElements;
+    ArchitectElement architectElement;
+    bool ok;
+
+    someArchitectElements = someArchitectElements.filter(QDjangoWhere("id", QDjangoWhere::Equals, id));
+    if (someArchitectElements.size()>0) {
+        someArchitectElements.at(0, &architectElement);
+        architectElement.remove();
+
+        for (int i=0; i <item->childCount(); i++) {
+            QString id = item->child(i)->text(0).split(":").at(0);
+            recursiveDeleteElements(item->child(i), id.toInt(&ok, 10));
         }
     }
 
-    return NULL;
+    // TODO Сделать удаление связей
+}
+
+/*
+ * Удаляем элемент
+ */
+void BF_ArchitectForm::on_deleteArchitectElementButton_clicked()
+{
+    if (m_currentArchitectTreeItem) {
+        bool ok;
+        QString id = m_currentArchitectTreeItem->text(0).split(":").at(0);
+        recursiveDeleteElements(m_currentArchitectTreeItem, id.toInt(&ok, 10));
+        readArchitecture();
+        m_currentArchitectTreeItem = NULL;
+    }
+    else {
+        messageLibrary msg;
+        msg.createInfoMessage("Информация", "Не выбран никакой элемент структуры системы.");
+    }
 }
 
 
 /*
- * Открыть архитектуру
+ * Обработчик нажатия на элемент структуры дерева.
  */
-void BF_ArchitectForm::openArchitect()
-{
-    ui->architectTreeWidget->selectAll();
-
-    ui->architectTreeWidget->clear();
-
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ArchitectElement ae;
-    QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-    bool isSystem = false;
-
-    QTreeWidgetItem *unusedElementsItem = new QTreeWidgetItem(ui->architectTreeWidget);
-    unusedElementsItem->setIcon(0, QIcon(":/img/img/unused.png"));
-    unusedElementsItem->setText(0, "Не используемые");
-
-    QList<int> usedElements;
-
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            QString parentType = ae.parentElementType();
-            QString type = ae.type();
-            if ((parentType == "") && (type == "Система")) {
-
-                QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
-                newItem->setIcon(0, QIcon(":/img/img/system.png"));
-                newItem->setText(0, "Система | " + ae.article());
-                newItem->setExpanded(true);
-                isSystem = true;
-
-                usedElements.append(i);
-
-                break;
-            }
-        }
-    }
-
-    // Если система не найдена, то создаем ее сами
-    // имя сессии = имя системы
-    if (!isSystem) {
-        ae.setArticle(Core::Base::instance().getParameterValue("[Session]Name", QString("")));
-        ae.setName("");
-        ae.setDescription("");
-        ae.setType("Система");
-        ae.setParentElementType("");
-        ae.setParentElementArticle("");
-        ae.save();
-
-        QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget);
-        newItem->setIcon(0, QIcon(":/img/img/system.png"));
-        newItem->setText(0, "Система | " + ae.article());
-        newItem->setExpanded(true);
-    }
-
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            QString text = ae.parentElementType();
-            if (text == "Система") {
-                if (findItemByTypeAndOrArticle(QString("Система"))) {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(QString("Система")),
-                                                                   ui->architectTreeWidget->currentItem());
-                    newItem->setIcon(0, QIcon(":/img/img/subsystem.png"));
-                    newItem->setText(0, "Подсистема | " + ae.article());
-                    newItem->setExpanded(true);
-                    usedElements.append(i);
-                }
-                else {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                    newItem->setText(0, " | " + ae.article());
-                    newItem->setExpanded(true);
-                }
-            }
-        }
-    }
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            QString text = ae.parentElementType();
-            if (text == "Подсистема") {
-                if (findItemByTypeAndOrArticle(QString("Подсистема"), ae.parentElementArticle())) {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(
-                                findItemByTypeAndOrArticle(QString("Подсистема"),
-                                                           ae.parentElementArticle()),
-                                                           ui->architectTreeWidget->currentItem());
-                    newItem->setIcon(0, QIcon(":/img/img/component.png"));
-                    newItem->setText(0, "Компонент | " + ae.article());
-                    newItem->setExpanded(true);
-                    usedElements.append(i);
-                }
-                else {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                    newItem->setText(0, " | " + ae.article());
-                    newItem->setExpanded(true);
-                }
-            }
-        }
-    }
-
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            QString text = ae.parentElementType();
-            if (text == "Компонент") {
-                if (findItemByTypeAndOrArticle(QString("Компонент"), ae.parentElementArticle())) {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(findItemByTypeAndOrArticle(
-                                                                       QString("Компонент"),
-                                                                       ae.parentElementArticle()),
-                                                                   ui->architectTreeWidget->currentItem());
-                    newItem->setIcon(0, QIcon(":/img/img/module.png"));
-                    newItem->setText(0, "Модуль | " + ae.article());
-                    newItem->setExpanded(true);
-                    usedElements.append(i);
-                }
-                else {
-                    QTreeWidgetItem *newItem = new QTreeWidgetItem(ui->architectTreeWidget->currentItem());
-                    newItem->setText(0, " | " + ae.article());
-                    newItem->setExpanded(true);
-                }
-            }
-        }
-    }
-
-
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            if (!usedElements.contains(i)) {
-                QTreeWidgetItem *newItem = new QTreeWidgetItem(unusedElementsItem,
-                                                               ui->architectTreeWidget->currentItem());
-                newItem->setIcon(0, QIcon(":/img/img/unused.png"));
-                newItem->setText(0, ae.type() + " | " + ae.article());
-                newItem->setExpanded(true);
-            }
-        }
-    }
-}
-
 void BF_ArchitectForm::on_architectTreeWidget_itemClicked(QTreeWidgetItem *item, int column)
 {
     m_currentArchitectTreeItem   = item;
     m_currentArchitectTreeColumn = column;
 
+    ui->editorButton->setEnabled(true);
     ui->addArchitectElementButton->setEnabled(true);
     ui->deleteArchitectElementButton->setEnabled(true);
     ui->editArchitectElementButton->setEnabled(true);
 
 }
 
-
+/*
+ * Установка связи
+ */
 void BF_ArchitectForm::on_setLinkButton_clicked()
 {
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectLinks>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     ArchitectLinks al;
+
     al.setDescription(ui->linkDescriptionEdit->toPlainText());
     al.setLinkA(ui->linkAEdit->text());
     al.setLinkACount(QString("%1").arg(ui->linkACountBox->currentText()));
@@ -344,109 +261,47 @@ void BF_ArchitectForm::on_setLinkButton_clicked()
     on_updateButton_clicked();
 }
 
-void BF_ArchitectForm::on_updateButton_clicked()
-{
-
-    ui->linkListWidget->clear();
-
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectLinks>();
-    QDjango::createTables();
-    QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
-
-
-    QList<QVariantMap> propertyMaps = someArchitectLinksElements.values(QStringList() << "id"
-                                                                        << "name"
-                                                                        << "type"
-                                                                        << "linkA"
-                                                                        << "linkB");
-    foreach (const QVariantMap &propertyMap, propertyMaps) {
-        ui->linkListWidget->addItem(QString("%1 | Название=%2 Тип=%3 A=%4 B=%5")
-                                  .arg(propertyMap["id"].toString())
-                                  .arg(propertyMap["name"].toString())
-                                  .arg(propertyMap["type"].toString())
-                                  .arg(propertyMap["linkA"].toString())
-                                  .arg(propertyMap["linkB"].toString()));
-    }
-}
-
+/*
+ *  Установка ID
+ */
 void BF_ArchitectForm::on_linkListWidget_currentTextChanged(const QString &currentText)
 {
-    ui->idLabel->setText(QString(currentText.split("|").at(0)).trimmed());
+    ui->idLabel->setText(QString(currentText.split(":").at(0)).trimmed());
 }
 
+
+/*
+ * Удаление связи
+ */
 void BF_ArchitectForm::on_deleteLinkButton_clicked()
 {
     bool ok;
     int id = ui->idLabel->text().toInt(&ok,10);
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectLinks>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<ArchitectLinks> someArchitectLinksElements;
     someArchitectLinksElements = someArchitectLinksElements.filter(
                 QDjangoWhere("id", QDjangoWhere::Equals, id));
 
     someArchitectLinksElements.remove();
-
-
     on_updateButton_clicked();
 }
 
-
-
-void BF_ArchitectForm::on_changeButton_clicked()
-{
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ArchitectElement ae;
-    QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-
-            QString parentType = ae.parentElementType();
-            QString type = ae.type();
-            if ((parentType == "") && (type == "Система")) {
-                ae.setArticle(ui->sysNameEdit->text());
-                ae.save();
-                break;
-            }
-        }
-    }
-}
-
-void BF_ArchitectForm::on_saveAliasButton_clicked()
-{
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectTypeAlias>();
-    QDjango::createTables();
-    QDjangoQuerySet<ArchitectTypeAlias> someArchitectElements;
-
-    someArchitectElements.remove();
-
-    ArchitectTypeAlias ae;
-
-    ae.setType("Система");
-    ae.setAlias(ui->systemAliasEdit->text());
-    ae.setType("Подсистема");
-    ae.setAlias(ui->subsystemAliasEdit->text());
-    ae.setType("Компонент");
-    ae.setAlias(ui->componentAliasEdit->text());
-    ae.setType("Модуль");
-    ae.setAlias(ui->moduleAliasEdit->text());
-
-    ae.save();
-}
-
+/*
+ *  Открытие текстового редактора
+ */
 void BF_ArchitectForm::on_editorButton_clicked()
 {
     if (ui->architectTreeWidget->selectedItems().count() > 0 ) {
-        QString s = ui->architectTreeWidget->selectedItems().at(0)->text(0);
-        Core::Base::instance().setParameterValue("NAME", s.split(".").at(0));
-        Core::Base::instance().setParameterValue("DOCTYPE", "КОМПОНЕНТ");
+        QByteArray ba;
+        ba.append(ui->architectTreeWidget->selectedItems().at(0)->text(0));
+        QString hash = QString(QCryptographicHash::hash(ba,
+                               QCryptographicHash::Sha1).toHex());
+
+        Core::Base::instance().setParameterValue("UID", hash);
+        Core::Base::instance().setParameterValue("NAME", ui->architectTreeWidget->selectedItems().at(0)->text(0));
+
+        Core::Base::instance().setParameterValue("DOCTYPE", "АРХИТЕКТУРА");
     }
 
     emit openTexteditor();
@@ -466,10 +321,11 @@ void BF_ArchitectForm::on_resetLinkAButton_clicked()
 
 void BF_ArchitectForm::on_setLinkAButton_clicked()
 {
-    ui->linkAEdit->setText(ui->architectTreeWidget->currentItem()->text(0));
+    ui->linkAEdit->setText(ui->architectTreeWidget->currentItem()->text(0).split(":").at(0));
 }
 
 void BF_ArchitectForm::on_setLinkBButton_clicked()
 {
-    ui->linkBEdit->setText(ui->architectTreeWidget->currentItem()->text(0));
+    ui->linkBEdit->setText(ui->architectTreeWidget->currentItem()->text(0).split(":").at(0));
 }
+

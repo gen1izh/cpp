@@ -114,6 +114,11 @@ namespace Core {
         void createActions();
 
         /*!
+         * \brief Подготовка плагинов
+         */
+        void prepare();
+
+        /*!
          * \brief Создание коннекторов
          */
         void createConnectors();

@@ -1027,61 +1027,13 @@
        </rect>
       </property>
       <attribute name="label">
-       <string>Управление картинками</string>
+       <string>Управление файлами</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="2" column="3">
-        <widget class="QPushButton" name="deleteImageButton">
-         <property name="minimumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="toolTip">
-          <string>Удалить</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-           <normaloff>:/images/raznoe31/raznoe31/48x48/118.png</normaloff>:/images/raznoe31/raznoe31/48x48/118.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Имя</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1" colspan="15">
-        <widget class="QListWidget" name="picturesList">
-         <property name="font">
-          <font>
-           <family>MS Shell Dlg 2</family>
-           <pointsize>12</pointsize>
-          </font>
          </property>
         </widget>
        </item>
@@ -1092,7 +1044,10 @@
          </property>
         </widget>
        </item>
-       <item row="9" column="13">
+       <item row="0" column="1" colspan="9">
+        <widget class="QLineEdit" name="nameFileEdit"/>
+       </item>
+       <item row="8" column="9">
         <widget class="QLabel" name="infoLabel2">
          <property name="font">
           <font>
@@ -1100,22 +1055,28 @@
           </font>
          </property>
          <property name="text">
-          <string>Картинки должны быть только в формате Png!
- Щелкните 2 раза по картинке и Тег скопируется в буффер.</string>
+          <string> Щелкните 2 раза по файлу и Тег скопируется в буффер.</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="13">
-        <widget class="QLineEdit" name="nameImageEdit"/>
-       </item>
-       <item row="1" column="1" colspan="13">
+       <item row="1" column="1" colspan="9">
         <widget class="QLineEdit" name="pathEdit">
          <property name="enabled">
           <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="15">
+       <item row="4" column="1" colspan="11">
+        <widget class="QListWidget" name="picturesList">
+         <property name="font">
+          <font>
+           <family>MS Shell Dlg 2</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="11">
         <widget class="QToolButton" name="browselButton">
          <property name="minimumSize">
           <size>
@@ -1143,14 +1104,14 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="picturesListLabel">
          <property name="text">
-          <string>Список  картинок:</string>
+          <string>Список  файлов:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="16">
+       <item row="1" column="12">
         <widget class="QPushButton" name="addImageButton">
          <property name="minimumSize">
           <size>
@@ -1185,61 +1146,6 @@
          </property>
          <property name="flat">
           <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2">
-        <widget class="QPushButton" name="editNameButton">
-         <property name="minimumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="cursor">
-          <cursorShape>PointingHandCursor</cursorShape>
-         </property>
-         <property name="toolTip">
-          <string>Редактировать</string>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../klever/core/frameWork/resources/framework_resources.qrc">
-           <normaloff>:/images/raznoe31/raznoe31/48x48/13.png</normaloff>:/images/raznoe31/raznoe31/48x48/13.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="flat">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="7">
-        <widget class="QLabel" name="newNameLabel">
-         <property name="text">
-          <string>Новое имя</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="12">
-        <widget class="QLineEdit" name="newNameEdit">
-         <property name="enabled">
-          <bool>false</bool>
          </property>
         </widget>
        </item>

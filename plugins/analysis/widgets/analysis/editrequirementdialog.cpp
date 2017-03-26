@@ -26,28 +26,38 @@ void EditRequirementDialog::showEvent(QShowEvent *event)
 {
     Q_UNUSED(event)
 
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
+    QString id = Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_ID",QString(""));
 
-    ui->requirementComboBox->setCurrentText(
-                Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_TYPE",QString("")));
-    ui->requirementComboBox->setEnabled(false);
-    ui->nameEdit->setText(
-                Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_ARTICLE",QString("")));
+    bool ok;
+
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
 
     ui->componentBox->clear();
-    ArchitectElement ae;
     QDjangoQuerySet<ArchitectElement> someArchitectElements;
 
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
+    ui->componentBox->clear();
+    // retrieve usernames and passwords for matching users as maps
+    QList<QVariantMap> propertyMaps = someArchitectElements.values(QStringList() << "id" << "type" << "name");
+    foreach (const QVariantMap &propertyList, propertyMaps) {
+        QString tmp = QString("%1:%2%3-%4").arg(propertyList["id"].toString())
+                .arg(propertyList["type"].toString())
+                .arg(propertyList["id"].toString())
+                .arg(propertyList["name"].toString());
+        ui->componentBox->addItem(tmp);
+    }
 
-            if (ae.type() == "Компонент") {
-                ui->componentBox->addItem(ae.article());
-            }
-        }
+
+    QDjangoQuerySet<RequirementElement> someRequirementElements;
+
+    someRequirementElements = someRequirementElements.filter(QDjangoWhere("id", QDjangoWhere::Equals,
+                                                                          id.toInt(&ok,10)));
+    RequirementElement requirementElementCurrent;
+    if (someRequirementElements.size()>0) {
+        someRequirementElements.at(0, &requirementElementCurrent);
+
+        ui->requirementComboBox->setCurrentText(requirementElementCurrent.type());
+        ui->requirementComboBox->setEnabled(false);
+        ui->nameEdit->setText(requirementElementCurrent.name());
     }
 
 }
@@ -58,28 +68,22 @@ void EditRequirementDialog::showEvent(QShowEvent *event)
  */
 void EditRequirementDialog::on_buttonBox_accepted()
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<RequirementElement>();
-    QDjango::createTables();
+    QDjango::setDatabase(*Core::Base::instance().sessionDatabase());
     QDjangoQuerySet<RequirementElement> someRequirementElements;
-
+    QString id = Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_ID",QString(""));
     bool ok;
-    int value = QString(Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_ID",QString("0"))).toInt(&ok,10);
+    someRequirementElements = someRequirementElements.filter(QDjangoWhere("id", QDjangoWhere::Equals,
+                                                                          id.toInt(&ok,10)));
+    RequirementElement requirementElementCurrent;
+    if (someRequirementElements.size()>0) {
+        someRequirementElements.at(0, &requirementElementCurrent);
 
-    RequirementElement m_re;
-    for (int i = 0; i < someRequirementElements.size(); ++i) {
-        if (someRequirementElements.at(i, &m_re)) {
-            if (m_re.rtype() == Core::Base::instance().getParameterValue("EDIT_REQUIEREMENT_TYPE",QString(""))) {
-                if (m_re.identificator() == value) {
-                    m_re.setName(ui->nameEdit->text());
-                    m_re.setComponent(ui->componentBox->currentText());
-                    m_re.setModule(ui->moduleBox->currentText());
+        requirementElementCurrent.setType(ui->requirementComboBox->currentText());
+        requirementElementCurrent.setName(ui->nameEdit->text());
+        requirementElementCurrent.setComponent(NULL); // TODOЖ Сделать поиск
 
-                    m_re.save();
-                    break;
-                }
-            }
-        }
+        requirementElementCurrent.save();
+
     }
 
 }
@@ -91,22 +95,4 @@ void EditRequirementDialog::on_buttonBox_rejected()
 
 void EditRequirementDialog::on_componentBox_currentTextChanged(const QString &arg1)
 {
-    QDjango::setDatabase(*Core::Base::instance().database());
-    QDjango::registerModel<ArchitectElement>();
-    QDjango::createTables();
-    ui->moduleBox->clear();
-
-    ArchitectElement ae;
-    QDjangoQuerySet<ArchitectElement> someArchitectElements;
-
-    // Поиск системы
-    for (int i = 0; i < someArchitectElements.size(); ++i) {
-        if (someArchitectElements.at(i, &ae)) {
-            if (ae.type() == "Модуль") {
-                if (ae.parentElementArticle()== arg1) {
-                    ui->moduleBox->addItem(ae.article());
-                }
-            }
-        }
-    }
 }
